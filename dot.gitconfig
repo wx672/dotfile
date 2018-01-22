@@ -1,0 +1,28 @@
+[user]
+	name = Wang Xiaolin
+	email = wx672ster@gmail.com
+[color]
+	status = auto
+	diff = auto
+	branch = auto
+    interactive = auto
+[alias]
+    st = status
+    ci = commit
+    co = checkout
+[core]
+	excludesfile = /home/wx672/.gitignore
+	autocrlf = input
+[push]
+	default = simple
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = wx672ster@gmail.com
+	smtpserverport = 587
+[http]
+ 	sslVerify = false
+# 	proxy = socks5://127.0.0.1:1080
+[https]
+ 	sslVerify = false
+# 	proxy = socks5://127.0.0.1:1080

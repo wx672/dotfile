@@ -1,0 +1,5 @@
+#name : # (setq org-export-html-use-infojs )
+# --
+# (setq org-export-html-use-infojs ${1:nil})
+# (setq org-export-html-style ${2:nil})
+$0

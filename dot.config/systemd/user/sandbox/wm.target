@@ -1,0 +1,8 @@
+[Unit]
+Description=window manager
+Requires=sawfish.service
+Before=tools.target
+AllowIsolate=yes
+
+[Install]
+Alias=default.target

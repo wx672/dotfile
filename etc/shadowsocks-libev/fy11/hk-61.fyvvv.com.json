@@ -1,0 +1,8 @@
+{
+    "server":"hk-61.fyvvv.com",
+    "server_port":55549,
+    "local_port":1080,
+    "password":"wx672.fy",
+    "timeout":600,
+    "method":"rc4-md5"
+}

@@ -1,0 +1,2 @@
+ACTION=="add", SUBSYSTEMS=="usb", ENV{ID_SERIAL_SHORT}=="52192efc", TAG+="systemd", ENV{SYSTEMD_WANTS}+="android-backup@$env{ID_SERIAL_SHORT}.service"
+#ACTION=="add", SUBSYSTEMS=="usb", ENV{ID_SERIAL_SHORT}=="4df9e09c25e75f63", TAG+="systemd", #ENV{SYSTEMD_WANTS}+="android-backup@$env{ID_SERIAL_SHORT}.service"

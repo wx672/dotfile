@@ -1,0 +1,5 @@
+#name : #+BEGIN_SRC ... #+END_SRC
+# --
+#+BEGIN_SRC dot :file $1.png :cmdline -Kdot -Tpng
+$0
+#+END_SRC

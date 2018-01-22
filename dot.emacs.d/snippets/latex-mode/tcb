@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : \begin{frame}\frametitle{} ... \end{frame}
+# --
+\begin{tcolorbox}[breakable,title=$1]
+$0
+\end{tcolorbox}

@@ -1,0 +1,2 @@
+# wget -qO - https://repo.fdzh.org/chrome/linux_signing_key.pub | sudo apt-key add -
+#deb [arch=amd64] http://repo.fdzh.org/chrome/deb/ stable main

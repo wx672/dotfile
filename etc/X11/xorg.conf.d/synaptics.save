@@ -1,0 +1,31 @@
+Section "InputClass"
+        Identifier      "Touchpad"                      # required
+        MatchIsTouchpad "yes"                           # required
+        Driver          "synaptics"                     # required
+        Option          "MinSpeed"              "0.5"
+        Option          "MaxSpeed"              "1.0"
+        Option          "AccelFactor"           "0.075"
+        Option          "TapButton1"            "1"
+        Option          "TapButton2"            "2"     # multitouch
+        Option          "TapButton3"            "3"     # multitouch
+        Option          "VertTwoFingerScroll"   "1"     # multitouch
+        Option          "HorizTwoFingerScroll"  "1"     # multitouch
+        Option          "VertEdgeScroll"        "1"
+        Option          "CoastingSpeed"         "8"
+        Option          "CornerCoasting"        "1"
+        Option          "CircularScrolling"     "1"
+        Option          "CircScrollTrigger"     "7"
+        Option          "EdgeMotionUseAlways"   "1"
+        Option          "LBCornerButton"        "8"     # browser "back" btn
+        Option          "RBCornerButton"        "9"     # browser "forward" btn
+#	Option 		"SHMConfig"	"true"
+Option		"LeftEdge"		"900"
+Option		"RightEdge"		"5800"
+Option		"TopEdge"		"700"
+Option		"BottomEdge"		"5000"
+Option   "FingerLow" "25"
+Option   "FingerHigh" "30"
+Option   "MaxTapTime" "180"
+Option   "MaxTapMove" "220"
+Option   "VertScrollDelta" "100"
+EndSection

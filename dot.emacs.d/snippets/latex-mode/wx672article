@@ -1,0 +1,34 @@
+# -*- mode: snippet -*-
+#name : wx672article template
+# --
+\documentclass{wx672article} % $HOME/texmf/tex/latex/wx672article.cls
+
+%wx672{common,fonts,bib} loaded in wx672a.sty
+%\usepackage{wx672cjk}
+
+\title{$1}
+\author{${2:WANG Xiaolin}}
+
+\begin{document}
+
+\maketitle{}
+
+%\renewcommand{\abstractname}{Abstract}
+\begin{abstract}
+$3
+\end{abstract}
+
+\clearpage
+
+\pagenumbering{roman}
+\tableofcontents
+%\listoffigures{}
+%\listoftables{}
+
+\clearpage
+
+\pagenumbering{arabic}
+
+$0
+
+\end{document}

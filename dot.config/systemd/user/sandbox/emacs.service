@@ -1,0 +1,15 @@
+[Unit]
+Description=Emacs
+Documentation=http://www.emacswiki.org/emacs/EmacsAsDaemon#toc8
+
+[Service]
+Type=forking
+Environment="LC_CTYPE=zh_CN.UTF-8"
+ExecStart=/usr/bin/dbus-launch --sh-syntax /usr/bin/emacs --daemon
+ExecStop=/usr/bin/pkill --signal SIGKILL emacs
+Restart=no
+User=%i
+WorkingDirectory=%h
+
+[Install]
+WantedBy=default.target

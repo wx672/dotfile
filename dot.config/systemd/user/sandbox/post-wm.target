@@ -1,0 +1,8 @@
+[Unit]
+Description=stuffs after wm (chrome)
+After=wm.target
+AllowIsolate=yes
+
+[Install]
+Alias=default.target
+

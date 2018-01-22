@@ -1,0 +1,117 @@
+#!/bin/bash
+
+# [[ -n "$3" ]] || {
+# }
+do_usage(){
+    cat <<EOF
+Usage: $0 '<background> <signature> <g|ng> [x,y] [scale]'
+
+background - the paper you want to sign
+ signature - your signature file
+      g|ng - show grid or not
+       x,y - coordinate, e.g. '.5,.6'
+     scale - scale to your signature (.2 looks good)
+EOF
+    exit 4;
+}
+
+do_check(){
+	[[ -f "$1" ]] || { echo $1: 'Missing background PDF file!'; exit 1; }
+}
+
+do_init(){
+	BG=$1
+	SIG=$2
+	XY='.6,.2'
+	[[ -n "$3" ]] && XY=$3
+	SCALE='.2'
+	[[ -n "$4" ]] && SCALE=$4
+
+	TEX="$(basename $BG .pdf)"-signed.tex
+	PDF="`basename $TEX .tex`.pdf"
+	LOG="`basename $TEX .tex`.log"
+	AUX="`basename $TEX .tex`.aux"
+
+	rm -f $PDF
+	rm -f $TEX
+}
+
+do_grid(){
+	cat <<EOF >> $TEX
+\documentclass[tikz]{standalone}
+\usetikzlibrary{backgrounds}
+\usepackage{wx672fonts}
+\usepackage{wx672cjk}
+\begin{document}
+\begin{tikzpicture}[inner sep=0]
+    \node (bg) at (0,0) [anchor=south west]
+		 {\includegraphics[width=\paperwidth]{$BG}};
+
+	\begin{scope}[x={(bg.south east)},y={(bg.north west)}]%
+	%%% grid
+	\draw[help lines,xstep=.1,ystep=.1] (0,0) grid (1,1);%
+    \foreach \x in {0,1,...,9} { \node [anchor=south west] at (\x/10,0) {0.\x}; }%
+    \foreach \y in {0,1,...,9} { \node [anchor=south west] at (0,\y/10) {0.\y}; }%
+EOF
+	if [[ -f "$SIG" ]]
+	then
+		echo "\node at ($XY) [scale=$SCALE,anchor=west] { \includegraphics{$SIG}};" >> $TEX
+	else
+		echo "\node at ($XY) [scale=$SCALE,anchor=west] {{\purisa $SIG}};" >> $TEX
+	fi
+	cat <<EOF >> $TEX
+    \end{scope}
+	\end{tikzpicture}
+\end{document}
+EOF
+}
+
+do_nogrid(){
+	cat <<EOF >> $TEX
+\documentclass[tikz]{standalone}
+\usetikzlibrary{backgrounds}
+\usepackage{wx672fonts}
+\usepackage{wx672cjk}
+\begin{document}
+\begin{tikzpicture}[inner sep=0]
+    \node (bg) at (0,0) [anchor=south west] {\includegraphics[width=\paperwidth]{$BG}};
+	\begin{scope}[x={(bg.south east)},y={(bg.north west)}]%
+EOF
+	if [[ -f "$SIG" ]]
+	then
+		echo "\node at ($XY) [scale=$SCALE,anchor=west] { \includegraphics{$SIG}};" >> $TEX
+	else
+		echo "\node at ($XY) [scale=$SCALE,anchor=west] {{\purisa $SIG}};" >> $TEX
+	fi
+	cat <<EOF >> $TEX
+    \end{scope}
+	\end{tikzpicture}
+\end{document}
+EOF
+}
+
+case "$3" in
+	g|grid)
+		do_check $1 $2
+		do_init $1 $2 $4 $5
+		do_grid
+		;;
+	n|ng|nogrid)
+		do_check $1 $2
+		do_init $1 $2 $4 $5
+		do_nogrid
+		;;
+	*)
+		echo '$3': invalid option!
+		do_usage
+		;;
+esac
+
+echo -n Signing...
+xelatex $TEX 1>/dev/null
+
+[[ -f "$PDF" ]] || { echo Sorry! Failed to generate PDF file. Please check the $LOG file for details; ls -l $LOG; exit 5; }
+
+{ echo 'DONE!'; ls -l $PDF; }
+
+rm -f $AUX $LOG $TEX

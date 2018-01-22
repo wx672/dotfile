@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+#name : lstlisting
+# --
+\lstset{language=$1, basicstyle=\scriptsize, stringstyle=\ttfamily,
+        backgroundcolor=\color{white}, breaklines=true, frame=single,
+	numbers=$2,numberstyle=\scriptsize, numbersep=.5em,
+	emph={$3}, emphstyle=\color{red},
+	morekeywords={$4},keywordstyle=\color{red}}
+\begin{lstlisting}
+$0
+\end{lstlisting}

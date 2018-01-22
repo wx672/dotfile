@@ -1,0 +1,38 @@
+# colors
+set default-bg "#f7f4ef"
+set statusbar-bg "#f7f4ef"
+set statusbar-fg black
+set font "monospace normal 12"
+
+# settings
+set adjust-open width
+set zoom-step 20
+
+#   scroll-full-overlap
+#        Defines  the  proportion  of the current viewing area that should be visible after scrolling a
+#        full page.
+# 
+#        · Value type: Float
+# 
+#        · Default value: 0
+set scroll-full-overlap .1
+set window-icon "/usr/share/openclipart/png/computer/icons/lemon-theme/mimetypes/pdf.png"
+set page-padding 0
+set page-thumbnail-size 0
+
+# key bindings
+map W adjust_window width
+map H adjust_window best-fit
+#map b jumplist
+map <BackSpace> scroll full-up
+#map d scroll half-down
+map u scroll half-up
+#map p navigate previous
+#map n navigate next
+map = zoom in
+map - zoom out
+#map r reload
+#map <C-r> rotate
+#map <C-f> toggle_fullscreen
+#map <C-s> toggle_statusbar
+#map <C-n> search forward

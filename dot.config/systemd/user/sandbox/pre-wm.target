@@ -1,0 +1,7 @@
+[Unit]
+Description=stuffs before wm (fcitx)
+Before=wm.target
+AllowIsolate=yes
+
+[Install]
+Alias=default.target

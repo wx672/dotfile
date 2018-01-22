@@ -1,0 +1,4 @@
+Section "Device"
+	Option "RegistryDwords" "EnableBrightnessControl=1"
+	Identifier	"Intel"
+EndSection

@@ -1,0 +1,25 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+iface home inet dhcp
+dns-search	baidu.com
+dns-nameservers 114.114.114.114 114.114.115.115
+wireless-essid wx672
+wpa-ssid wx672
+wpa-psk wx672piggy
+
+iface d327 inet dhcp
+wireless-essid D327
+wpa-ssid D327
+wpa-psk dgz3863323
+
+iface csap1 inet dhcp
+wireless-essid CS-AP-2.4G-1
+

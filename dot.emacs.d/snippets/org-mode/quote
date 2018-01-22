@@ -1,0 +1,5 @@
+#name : #+BEGIN_QUOTE ... #+END_QUOTE
+# --
+#+BEGIN_QUOTE
+$0
+#+END_QUOTE

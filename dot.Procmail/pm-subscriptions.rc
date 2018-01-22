@@ -1,0 +1,43 @@
+:0:
+* ^Subject:.*coreboot.*
+coreboot
+
+:0:
+* ^Return-Path.*jobs@jobs-mail-l1.eduserv.org.uk
+jobsbyemail
+
+:0:
+* ^Resent-Sender.*debian-java-request@lists.debian.org
+debian-java
+
+:0:
+* ^To.*daily-article-l@mail.wikimedia.org
+wiki-daily
+
+:0:
+* ^From.*bounce-debian-ipv6=wx672=cisd-mail.swfc.edu.cn@lists.debian.org
+/dev/null
+
+:0:
+* ^From.*debian-user-digest-request@lists.debian.org
+debian-user
+
+:0:
+* ^Resent-Sender.*debian-ipv6-request@lists.debian.org
+debian-ipv6
+
+:0:
+* ^From.*tetex@dbs.uni-hannover.de
+list-tetex
+
+:0:
+* ^Cc.*sawfish-list@gnome.org
+list-sawfish
+
+## :0:
+## * ^TO_procmail@informatik.rwth-aachen.de
+## IN-S-procmail
+## 
+## :0:
+## * ^TO_vim@vim.org
+## IN-S-vim

@@ -1,0 +1,124 @@
+#!/bin/bash
+
+# http://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal
+
+# function countdown(){
+# 	START=$(date +%s) watch -tpn1 echo $(($START - $(date +%s) + $1))
+# }
+
+function countdown(){
+    [ -n "$1" ] || {
+	echo "Usage: countdown <seconds>"
+	return 1
+    }
+    date1=$((`date +%s` + $1)); 
+    while [ "$date1" -ne `date +%s` ]; do 
+	echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+	sleep 1
+    done && aplay -q /usr/share/sawfish/sounds/move-viewport.wav
+}
+
+function stopwatch(){
+    date1=`date +%s`; 
+    while true; do 
+	echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"; 
+	sleep 1
+    done
+}
+
+ec(){
+    /usr/bin/env emacsclient -t -a "" $*
+}
+
+ecw(){
+    /usr/bin/env emacsclient -n -a "" $*
+}
+
+# viewing markdown file in lynx
+mdview(){
+	pandoc "$1" | lynx -stdin
+}
+
+osa(){
+	zathura /home/wx672/lecture_notes/os/slides/os-a.pdf
+}
+
+osb(){
+	zathura /home/wx672/lecture_notes/os/slides/os-b.pdf
+}
+
+pdf2gray(){
+	gs -sOutputFile=gray.pdf -sDEVICE=pdfwrite -sColorConversionStrategy=Gray -dProcessColorModel=/DeviceGray -dCompatibiltyLevel=1.4 -dNOPAUSE -dBATCH $@
+}
+
+speak(){
+	/usr/bin/espeak -s 140 -v mb-en1 "$*";
+	sleep 1;
+	/usr/bin/espeak -s 140 -v mb-us1 "$*";
+	sleep 1;
+	/usr/bin/espeak -s 140 -v mb-us2 "$*";
+}
+
+srtplay(){
+	mplayer /dev/zero -demuxer rawvideo -rawvideo w=1024:h=128 -utf8 -sub "$*";
+}
+
+ssh() {
+    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+        tmux rename-window "$(echo $* | cut -d . -f 1)"
+        command ssh -X "$@"
+        tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+        command ssh -X "$@"
+    fi
+}
+
+mosh() {
+    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+        tmux rename-window "$(echo $* | cut -d . -f 1)"
+        command mosh "$@"
+        tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+        command mosh "$@"
+    fi
+}
+
+gdstock(){
+	cd $HOME/.wine/drive_c/Program\ Files\ \(x86\)/光大证券金阳光智胜版
+	wine ./HAPPYSTAR.exe &
+}
+
+# dingding(){
+# 	cd $HOME/.wine/drive_c/Program\ Files\ \(x86\)/DingDing/main/current
+# 	wine ./DingTalk.exe &
+# }
+
+propstring () {
+  echo -n 'Property '
+  xprop WM_CLASS | sed 's/.*"\(.*\)", "\(.*\)".*/= "\1,\2" {/g'
+  echo '}'
+}
+
+booksearch () {
+	LIBPATH=/home/local/Calibre
+	[[ -n "$1" ]] || { echo Usage: '$0 <keywords>'; exit 0; }
+	calibredb list -s "$@" --with-library=$LIBPATH/Calibre1
+	calibredb list -s "$@" --with-library=$LIBPATH/Calibre2
+	calibredb list -s "$@" --with-library=$LIBPATH/Calibre3
+}
+
+searchbook () {
+    booksearch "$1"
+}
+
+technotes () {
+	less ~/git/org/tech.org
+}
+
+netnotes () {
+	less ~/lecture_notes/network_basics/net-tools/net-tools.org
+}
+
+update-calibre () {
+	sudo -v && wget --no-check-certificate -nv -O- https://download.calibre-ebook.com/linux-installer.py | sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main('/home/local')"
+}

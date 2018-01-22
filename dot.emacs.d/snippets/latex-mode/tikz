@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+#name : \begin{tikzpicture} ... \end{tikzpicture}
+# --
+\begin{tikzpicture}[auto,
+    line/.style ={color=blue!50,ultra thick},
+    my node/.style ={rounded corners,fill=red!30,inner sep=4pt,minimum size=4mm,
+    node distance=1cm,text width=7em, text badly centered}]
+    \tikzstyle{every node}=[draw,fill=red!20,rounded corners,inner sep=1pt,
+    node distance=1cm,minimum size=2em,text badly centered]
+    \tikzstyle{every pin}=[pin edge={to-,thin,black},pin distance=1mm]
+
+    $0
+\end{tikzpicture}

@@ -1,0 +1,3 @@
+Section "Extensions"
+        Option          "Composite"     "Enable"
+EndSection

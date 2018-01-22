@@ -1,0 +1,99 @@
+# -*- mode: snippet -*-
+#name : \documentclass{report}
+# --
+\documentclass[12pt,oneside]{report}
+
+\usepackage[top=3cm,bottom=3cm,left=3cm,right=3cm]{geometry}
+
+\usepackage{graphicx}
+\graphicspath{{./figs/}{../figs/}{./}{../}} %note that the trailing “/” is required
+
+\usepackage{latexsym,pifont,units,amsmath,amsfonts,amssymb,marvosym}
+%\usepackage{pdfsync,comment}
+\usepackage{indentfirst}
+\usepackage[indentafter,pagestyles]{titlesec}
+\usepackage{xcolor}
+
+\usepackage{multicol,rotating,soul}
+\setul{1.5pt}{.4pt}% 1.5pt below contents
+
+\usepackage[backend=biber,style=authoryear]{biblatex}
+\addbibresource{os.bib}
+
+\usepackage{xltxtra} %fontspec,xunicode are loaded here.
+\defaultfontfeatures{Mapping=tex-text}
+\setsansfont{DejaVu Sans}
+\setmainfont{DejaVu Serif}
+%\usepackage{xeCJK}
+%\setCJKmainfont[BoldFont={WenQuanYi Zen Hei}, ItalicFont={WenQuanYi Zen Hei}]{SimSun}
+%\setCJKfamilyfont{hei}{WenQuanYi Zen Hei}
+%\setCJKfamilyfont{song}{SimSun}
+%\newcommand{\ziju}[1]{\renewcommand{\CJKglue}{\hskip #1}}
+
+% use snippet 'im', 'minted', 'mint' to input code blocks
+\usepackage{minted}
+%\usemintedstyle{trac}
+\renewcommand{\theFancyVerbLine}{
+  \textcolor{lightgray}{\scriptsize \arabic{FancyVerbLine}}}
+
+\newminted{c}{ linenos=true,numbersep=2pt,fontsize=\footnotesize,
+  frame=leftline,framesep=3pt,rulecolor=\color{lightgray}, xleftmargin=10pt }
+\newminted{gas}{ linenos=true,numbersep=2pt,fontsize=\footnotesize,
+  frame=leftline,framesep=3pt,rulecolor=\color{lightgray}, xleftmargin=10pt }
+\newminted{python}{ linenos=true,numbersep=2pt,fontsize=\footnotesize,
+  frame=leftline,framesep=3pt,rulecolor=\color{lightgray}, xleftmargin=10pt }
+
+\usepackage{hyperref}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\chead{}
+%\lhead{}
+
+\renewcommand{\bibname}{参考文献} % report.cls
+\renewcommand{\contentsname}{目录}
+\renewcommand{\listfigurename}{插图目录}
+\renewcommand{\listtablename}{表格目录}
+\renewcommand{\abstractname}{摘要}
+\renewcommand{\appendixname}{附录}
+\renewcommand{\indexname}{索引}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+
+\renewcommand{\chaptername}{}
+\titleformat{\chapter}{\centering\LARGE\bfseries}{\thechapter}{1em}{}
+\titlespacing{\chapter}{0pt}{*0}{*4}
+
+\newcommand{\code}[1]{\texttt{\textcolor{violet}{#1}}}
+
+\newcommand{\cfbox}[2]{%
+  \colorlet{currentcolor}{.}%
+  {\color{#1}\fbox{\color{currentcolor}#2}}%
+}
+
+\title{$1}
+\author{${2:王晓林}}
+
+\begin{document}
+
+\maketitle{}
+
+\begin{abstract}
+$3
+\end{abstract}
+
+\clearpage
+
+\pagenumbering{roman}
+\tableofcontents
+\listoffigures{}
+%\listoftables{}
+
+\clearpage
+
+\pagenumbering{arabic}
+
+$0
+
+\end{document}
+% (setq-default TeX-master nil)

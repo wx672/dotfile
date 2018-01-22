@@ -1,0 +1,41 @@
+set envelope_from=yes
+set sendmail="/usr/sbin/exim4"
+#set from=your@email.address
+set realname="Your Name"
+set use_from=yes
+set folder=~/Mail
+set alias_file=~/.mutt/alias
+set postponed=~/Mail/postponed
+set record=~/Mail/sent
+set signature=~/.signature
+set charset="utf-8"
+set send_charset=us-ascii:iso-8859-1:gbk:utf-8
+set assumed_charset="gb2312:big5:utf-8"
+set wait_key=yes
+set noconfirmappend
+set move=no
+set ascii_chars=yes
+set include
+set pager_stop
+set resolve=yes
+set rfc2047_parameters=yes
+#set create_rfc2047_parameters=yes
+charset-hook !utf-8 gbk
+#my_hdr Reply-To: your@email.address
+#my_hdr From: Your Name <your@email.address>
+source ~/.mutt/alias
+source ~/.mutt/colors.angdraug
+#source = ~/Mail/.mutt.macros
+#source = ~/Mail/.gnupgp.mutt
+
+#set pop_authenticators=""
+#set pop_user="username"
+#set pop_pass="top secret"
+#set pop_checkinterval=600
+#set pop_host="cs2.swfu.edu.cn"
+
+auto_view text/html application/msword
+
+macro index S "|/usr/bin/razor-report"
+
+subscribe debian-chinese-gb@lists.debian.org debian-laptop@lists.debian.org debian-user@lists.debian.org debian-emacsen@lists.debian.org list-tetex@lists.debian.org

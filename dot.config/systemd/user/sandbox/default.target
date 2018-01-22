@@ -1,0 +1,4 @@
+[Unit]
+Description=user services
+Wants=emacs.service 
+AllowIsolate=yes

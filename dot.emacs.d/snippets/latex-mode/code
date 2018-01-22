@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+#name : code listing
+# --
+\documentclass[varwidth,crop]{standalone}
+
+\usepackage{wx672minted}
+
+\begin{document}
+%\inputminted{c}{filename}
+\begin{$1code}
+$0
+\end{$1code}
+\end{document}

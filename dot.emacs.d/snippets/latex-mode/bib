@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : \begin{thebibliography} ... \end{thebibliography}
+# --
+\begin{thebibliography}{$1}
+\bibitem[$2]{$3}$0
+\end{thebibliography}

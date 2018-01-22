@@ -1,0 +1,82 @@
+# This color scheme aims to highlight as much useful information as
+# possible without spoiling user's visual experience by irritating
+# contrasts.
+# --Dmitry Borodaenko <angdraug@mail.ru>
+
+color	attachment      green		black
+color   signature	blue	black
+color   tilde		brightblue	black
+
+color	quoted  	green	black
+color	quoted1 	cyan	black
+color	quoted2 	yellow	black
+color	quoted3		red	black
+
+color body brightred black "[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+" # email
+color body brightblue black "(http|ftp)://[\-\.\,/%~_:?\#a-zA-Z0-9]+" # URL
+color body brightgreen black "(^| |[[:alnum:].]+:+)~?\(/[-_.[:alnum:]]+\)+/?" # Unix file path
+color body brightgreen	black "(^| +)[[:alpha:]]:[-_.[:alnum:]\]+" # DOS file path
+color body brightmagenta black "(^|[ '\"]+)\\$[[:alpha:]][-_[:alpha:]]+" # variable
+color body brightred black "[*/_]+[-&[:alnum:]]+[*/_]+" # bold/underline
+color body yellow black "(^| )[;:8ö][-^o]?[)>(|/\\]+" # smiley
+color body red black "[!?]{3,}" # exclamation
+color body green black "^ *[-+*o] +" # list item
+
+# date formats
+color body brightcyan black "[0-9]{1,2}:[0-9]{2}(:[0-9]{2})?( ?(AM|PM|am|pm))?( +[+-][0-9]{4})?"
+color body brightcyan black "(\(19|20\)?[0-9]{2}/[01]?[0-9]/[0123]?[0-9]|[0123]?[0-9][/.][01]?[0-9][/.]\(19|20\)?[0-9]{2})(( at)? +[0-9]{1,2}:[0-9]{2}(:[0-9]{2})?( ?(AM|PM|am|pm))?( +[+-][0-9]{4})?)?"
+color body brightcyan black "((Sun(day)?|Mon(day)?|Tue(sday)?|Wed(nesday)?|Thu(sday)?|Fri(day)?|Sat(urday)?),? +)?(Jan(uary)?|Feb(rary)?|Mar(ch)?|Apr(il)?|May|June?|July?|Aug(ust)?|Sep(ember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?) +[0-9]{1,2}(st|nd|rd|th)?,?( +(19|20)[0-9]{2}(,?( at)? [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?( ?(AM|PM|am|pm))?( +[+-][0-9]{4})?)?)?"
+color body brightcyan black "((Sun(day)?|Mon(day)?|Tue(sday)?|Wed(nesday)?|Thu(sday)?|Fri(day)?|Sat(urday)?),? +)?[0-9]{1,2}(st|nd|rd|th)? (Jan(uary)?|Feb(rary)?|Mar(ch)?|Apr(il)?|May|June?|July?|Aug(ust)?|Sep(ember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?),?( +(19|20)[0-9]{2})?(( at)? [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?( ?(AM|PM|am|pm))?( +[+-][0-9]{4})?)?"
+
+color header   brightgreen black ^From:
+color header   brightcyan black ^To:
+color header   brightcyan black ^Reply-To:
+color header   brightcyan black ^Cc:
+color header   brightyellow black ^Subject:
+
+color	header	brightcyan	black "^newsgroups: "
+color   header  yellow  black "^Delivered-To: "
+color   header  green   black "^sender: "
+color   header  green   black "^organi[sz]ation: "
+color   header  green   black "x-editor: "
+color   header  green   black "(x-mailer|user-agent): "
+color   header  green   black "X-Operating-System: "
+color   header  green   black "X-MimeOLE: "
+color   header  green   black "X-Accept-Language: "
+color	header	red	black	"^message-id:"
+color	header	red	black	"^in-reply-to: "
+color	header	red	black	"^references: "
+color	header	cyan	black	"^followup-to: "
+color	header	cyan	black	"^mail-followup-to: "
+color	header	cyan	black	"^reply-to: "
+color	header	magenta	black	"MIME-Version: "
+color	header	magenta	black	"Content-Type: "
+color	header	magenta	black	"Content-Transfer-Encoding: "
+color	header	magenta	black	"Content-Disposition: "
+color	header	magenta	black	"Content-Encoding: "
+color	header	magenta	black	"Content-Language: "
+
+color status brightwhite blue
+
+color index brightblue black '~P' # from me
+color index cyan black '~p' # personal
+color index brightyellow black '~G' # PGP
+color index red yellow '~F' # flagged
+color index green black '~Q' # replied
+color index brightred black '~N' # new
+color index blue black '~D' # deleted
+
+# threads
+#color index brightyellow black  "~h 'References: +<.+>'"
+#color index yellow       black  "~h 'References: +<.+> +<.+>'"
+#color index brightred    black  "~h 'References: +<.+> +<.+> +<.+>'"
+#color index red          black  "~h 'References: +<.+> +<.+> +<.+> +<.+>'"
+#color index blue         black  "~h 'References: +<.+> +<.+> +<.+> +<.+> +<.+>'"
+#color index green        black  "~h 'References: +<.+> +<.+> +<.+> +<.+> +<.+> +<.+>'"
+
+# spam
+color index magenta black "\(Resent-\)?Message-Id: <>"
+color index magenta black "\(Resent-\)?Message-Id: '<.* .*>'"
+color index magenta black "\(Resent-\)?Message-Id: localhost"
+color index magenta black "! \(Resent-\)?Message-Id: @"
+color index magenta black '~C Undisclosed.*Recipients'

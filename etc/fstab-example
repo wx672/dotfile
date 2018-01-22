@@ -1,0 +1,24 @@
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/sda1 during installation
+UUID=d6a937e5-bd1e-44a4-b48e-4a60dac65b5c /               ext4    errors=remount-ro 0       1
+# /home was on /dev/sda6 during installation
+UUID=8b45b68d-1a07-479d-ae01-db62605f6ce1 /home           ext4    defaults        0       2
+# swap was on /dev/sda5 during installation
+# UUID=ac64d67e-8e78-4756-94a6-747f0a764c13 none            swap    sw              0       0
+/dev/sda5	none            swap    sw	0       0
+/dev/sr0        /media/cdrom0   udf,iso9660 user,noauto     0       0
+/dev/sda2	/sda2	ext4	defaults	0	0
+tmpfs /home/wx672/.cache/google-chrome tmpfs uid=1000,gid=1000,user,noatime	0 0
+#
+# https://ddumont.wordpress.com/2016/04/24/automount-usb-devices-with-systemd/
+UUID=30b40b38-eca0-4cb6-862b-7d6ecdfea44a /mnt/64g	auto user,uid=1000,gid=1000,auto,nofail,x-systemd.device-timeout=1 0 2
+UUID=0d707295-5c2c-4486-b74a-0dec22716807 /mnt/1t	auto user,uid=1000,gid=1000,auto,nofail,x-systemd.device-timeout=1 0 2
+UUID=19DC-5991 /mnt/16g	auto	user,uid=1000,gid=1000,umask=000,noatime,auto,nofail,x-systemd.device-timeout=1 0 2
+UUID=6747b787-e5b8-4455-bfe2-c0cc2135b9b3 /mnt/8g	auto user,uid=1000,gid=1000,umask=000,noatime,auto,nofail,x-systemd.device-timeout=1 0 2
+UUID=0000-0003 /mnt/kindle auto	user,uid=1000,gid=1000,umask=000,noatime,auto,nofail,x-systemd.device-timeout=1 0 2

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: beamer handouts
+# --
+\documentclass{wx672handouts} 
+\input{$1.tex}
+$0

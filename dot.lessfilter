@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case "$1" in
+    *.bin|*.raw|*.img|*.iso)
+	if [ file "$1" | grep -q "ext2 filesystem data" ]; then
+	    hd "$1" | less
+	fi
+        ;;
+    *)
+                 # We don't handle this format.
+        exit 1
+esac
+
+         # No further processing by lesspipe necessary
+exit 0

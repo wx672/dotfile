@@ -1,0 +1,5 @@
+#name : #+BEGIN_ditaa ... #+END_ditaa
+# --
+#+BEGIN_ditaa ./figs/$1.png -r -S
+$0
+#+END_ditaa

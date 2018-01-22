@@ -1,0 +1,18 @@
+* Problem
+  It's good to start emacs and google-chrome within systemd. The only problem is they
+  cannot use fcitx.
+
+  I tried checking fcitx is started before start emacs. It apparently doesn't help.
+
+  It seems that if started within systemd, emacs or google-chrome don't aware of fcitx's
+  existence. Or fcitx doesn't know emacs/google-chrome is started?
+
+  How to make fcitx and systemd services known to each other?
+
+  Tried dbus-launch in emacs.service. Not working.
+  
+* Dependency tree
+  Dependencies are typically placed on services and not on targets. For example,
+  network.target is pulled in by whatever service configures your network interfaces,
+  therefore ordering your custom unit after it is sufficient since network.target is
+  started anyway. [https://wiki.archlinux.org/index.php/systemd]

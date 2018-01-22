@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : absolute positioning image
+# --
+\tikz[baseline,overlay]{
+  \node [xshift=0cm, yshift=0cm] at (0,0) {
+    \includegraphics[scale=0.5]{$0}}}

@@ -1,0 +1,3 @@
+#name : # #+MATHJAX: align:"left" mathml:t path:"./MathJax/MathJax.js"
+# --
+#+MATHJAX: scale:"133" align:"left" mathml:t path:"./MathJax/MathJax.js"

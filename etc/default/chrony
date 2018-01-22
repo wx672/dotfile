@@ -1,0 +1,5 @@
+# This is a configuration file for /etc/init.d/chrony; it allows you to
+# pass various options to the chrony daemon without editing the init script.
+
+# Options to pass to chrony.
+DAEMON_OPTS=""

@@ -1,0 +1,31 @@
+include /etc/xpdf/xpdfrc
+unbind h any
+bind h any scrollLeft(16)
+unbind l any
+bind l any scrollRight(16)
+unbind k any
+bind k any scrollUp(16)
+unbind j any
+bind j any scrollDown(48)
+unbind d any
+bind d any scrollDown(400)
+unbind u any
+bind u any scrollUp(400)
+unbind down any
+bind down any scrollDown(16)
+unbind up any
+bind up any scrollUp(16)
+unbind space any
+bind space any scrollDownNextPage(600)
+unbind backspace any
+bind backspace any scrollUpPrevPage(600)
+unbind ctrl-f any
+bind ctrl-f any toggleFullScreenMode
+unbind s any
+bind s any toggleOutline
+initialZoom width
+fontDir  /home/wx672/.fonts
+
+# Local Variables:
+# mode: conf-space
+# End:

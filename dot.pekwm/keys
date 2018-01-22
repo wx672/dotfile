@@ -1,0 +1,57 @@
+INCLUDE = "vars"
+
+Global {
+    KeyPress = "Mod4 Tab" { Actions = "ShowMenu GotoClient" }
+	KeyPress = "Mod4 F4" { Actions = "Kill" }
+	Chain = "Mod4 R" {
+        KeyPress = "R" { Actions = "Reload" }
+        KeyPress = "S" { Actions = "Restart" }
+	}
+
+	KeyPress = "Mod4 X" { Actions = "Exec /usr/bin/xterm" }
+	KeyPress = "Mod4 C" { Actions = "Exec /usr/bin/x-www-browser" }
+	KeyPress = "Mod4 E" { Actions = "Exec /usr/bin/emacsclient -c -n" }
+	KeyPress = "Mod4 O" { Actions = "Exec /usr/bin/libreoffice" }
+#	KeyPress = "Mod4 F1" { Actions = "Exec /usr/bin/qiv -s -C -d120 ~/.keys.png" }
+
+#	KeyPress = "Mod1 Tab" { Actions = "ActivateClientRel 1" }
+#	KeyPress = "Mod4 Return" { Actions = "Toggle Maximized True True" }
+
+    KeyPress = "Mod4 Shift Return" { Actions = "Toggle Iconified" }
+	KeyPress = "Mod4 Shift I" { Actions = "ShowMenu Icon" }
+
+    KeyPress = "Mod4 M" { Actions = "Toggle Marked" }
+    KeyPress = "Mod4 A" { Actions = "AttachMarked" }
+    KeyPress = "Mod4 D" { Actions = "Detach" }
+ 
+ 	KeyPress = "Mod4 Shift T" { Actions = "Set Tagged" }
+
+	KeyPress = "Mod4 L" { Actions = "Exec xset dpms force off" }
+	KeyPress = "Mod4 P" { Actions = "Exec synclient TouchpadOff=1" }
+	KeyPress = "Mod4 Shift P" { Actions = "Exec synclient TouchpadOff=0" }
+
+	KeyPress = "XF86AudioMute" { Actions = "Exec amixer set Master toggle && amixer set PCM toggle" }
+	KeyPress = "XF86AudioLowerVolume" { Actions = "Exec amixer set Master 3%- && amixer set PCM 3%-" }
+	KeyPress = "XF86AudioRaiseVolume" { Actions = "Exec amixer set Master 3%+ && amixer set PCM 3%+" }
+
+	KeyPress = "Mod4 1" { Actions = "GotoWorkspace 1" }
+    KeyPress = "Mod4 2" { Actions = "GotoWorkspace 2" }
+    KeyPress = "Mod4 3" { Actions = "GotoWorkspace 3" }
+    KeyPress = "Mod4 4" { Actions = "GotoWorkspace 4" }
+
+	KeyPress = "Mod4 Shift 1" { Actions = "SendToWorkspace 1" }
+    KeyPress = "Mod4 Shift 2" { Actions = "SendToWorkspace 2" }
+    KeyPress = "Mod4 Shift 3" { Actions = "SendToWorkspace 3" }
+    KeyPress = "Mod4 Shift 4" { Actions = "SendToWorkspace 4" }
+}
+
+Menu {
+	KeyPress = "Mod4 Tab" { Actions = "NextItem" }
+	KeyPress = "Tab" { Actions = "NextItem" }
+	KeyPress = "J" { Actions = "NextItem" }
+	KeyPress = "K" { Actions = "PrevItem" }
+	KeyPress = "L" { Actions = "EnterSubmenu" }
+	KeyPress = "H" { Actions = "LeaveSubmenu" }
+	KeyPress = "Return" { Actions = "Select" }
+	KeyPress = "Escape" { Actions = "Close" }
+}

@@ -1,0 +1,13 @@
+[Unit]
+Description=sawfish window manager
+After=graphical.target
+Requires=graphical.target
+Before=tools.target
+
+[Service]
+ExecStart=/usr/bin/sawfish
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=wm.target

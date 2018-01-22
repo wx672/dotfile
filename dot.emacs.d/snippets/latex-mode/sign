@@ -1,0 +1,41 @@
+# -*- mode: snippet -*-
+#name : Signing PDF
+# --
+\documentclass[tikz]{standalone}
+
+\usepackage{wx672tikz}
+
+\usetikzlibrary{backgrounds}
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{pgfonlayer}{background}
+    \node [inner sep=0] at (current page.center) {
+      \includegraphics[width=\paperwidth,height=\paperheight]{${1:background}}
+    };
+  \end{pgfonlayer}
+%%%%% 签名
+  \node [inner sep=0mm,xshift=0cm,yshift=0cm] at (current page.center) {
+    \includegraphics[scale=0.1]{${2:signature}}
+  };
+%%%%% 多页成绩单（首页）
+  \node [inner sep=0mm,xshift=2cm,yshift=2.5cm] at (current page.south) {
+    \includegraphics[scale=0.1]{signature}
+  };
+%%%%% 多页成绩单（末页）。需调整yshift
+%  \node [inner sep=0mm,xshift=-4.5cm,yshift=4.5cm] at (current page.south) {
+%    \includegraphics[scale=0.1]{signature}
+%  };
+%  \node [inner sep=0mm,xshift=1cm,yshift=4.3cm] at (current page.south) {2014};
+%  \node [inner sep=0mm,xshift=2cm,yshift=4.3cm] at (current page.south) {4};
+%  \node [inner sep=0mm,xshift=3cm,yshift=4.3cm] at (current page.south) {26};
+%%%%% 试卷分析
+%  \node [inner sep=0mm,xshift=-2cm,yshift=-2cm,scale=2] at (current page.center) {
+%    \begin{tabular}{l}
+%      试卷知识覆盖合理，难度适中；\\\\
+%      考试结果准确地反映了学生的学习状况。  
+%    \end{tabular}
+%  };
+%  \node [inner sep=0mm,xshift=-7cm,yshift=-8cm,scale=2] at (current page.center) {无};
+\end{tikzpicture}
+\end{document}

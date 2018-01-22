@@ -1,0 +1,707 @@
+#!/bin/bash
+
+## The iPod Audiobook Encoder for Linux.
+## Version 1.0.6
+## Created by Jaroslaw Czarniak, 21 May, 2006.
+## Updated on 01/06/2006
+## Released under the GPL.
+##
+##
+## Changes:
+## 1.0.2 
+## + Files split function added
+##
+## 1.0.3
+## e mpg123 (was changed to madplay due some errors)
+## d madplay
+##
+## 1.0.4
+## + other types support
+## r wavmerge required
+## r mplayer required
+## + automatic batches execution
+## + output files are numbered
+## + input files type detection
+##
+## 1.0.5
+## + remove merged files
+## + sort files
+## f decode none-mp3 files
+##
+## 1.0.6
+## + encode to mp3
+## d lame
+## d normalize-audio
+## d imagemagick
+## + waves normalization
+## f minor bug fixes
+## + apt-get deps instalation
+## + generation of cover arts for an iPod and roxbox
+## + hints
+##
+## To DO:
+##
+##
+##
+##
+##
+
+########################################################
+# Functions
+
+function deps()
+{
+echo "======================"
+echo ""
+check1=`which faac`
+if [ "$check1" = "" ]
+then
+    echo "* faac is missing...."
+    echo "Check on http://www.audiocoding.com/"
+    echo ""
+    cont="n"
+fi
+check2=`which id3info`
+if [ "$check2" = "" ]
+then
+    echo "* id3info is missing...."
+    echo "Check on http://tangent.org/index.pl?node=libID3"
+    echo ""
+    cont="n"
+fi
+check3=`which mp3wrap`
+if [ "$check3" = "" ]
+then
+    echo "* mp3wrap is missing...."
+    echo "Check on http://mp3wrap.sourceforge.net/"
+    echo ""
+    cont="n"
+fi
+check4=`which madplay`
+if [ "$check4" = "" ]
+then
+    echo "* madplay is missing...."
+    echo "Check on http://www.underbit.com/products/mad/"
+    echo ""
+    cont="n"
+fi
+check5=`which id3v2`
+if [ "$check5" = "" ]
+then
+    echo "id3v2 is missing...."
+    echo "Check on http://id3v2.sourceforge.net/"
+    cont="n"
+fi
+check1=`which wavmerge`
+if [ "$check1" = "" ]
+then
+    echo "* wavmerge is missing...."
+    echo "Check on http://huli.org/wavbreaker/"
+    echo ""
+    cont="n"
+    nowavmerge="t"
+fi
+check1=`which mplayer`
+if [ "$check1" = "" ]
+then
+    echo "* mplayer is missing...."
+    echo "Check on http://www.mplayerhq.hu/"
+    echo ""
+    cont="n"
+fi
+check1=`which lame`
+if [ "$check1" = "" ]
+then
+    echo "* lame is missing...."
+    echo "Check on http://lame.sourceforge.net/"
+    echo ""
+    cont="n"
+fi
+check1=`which normalize-audio`
+if [ "$check1" = "" ]
+then
+    echo "* normalize is missing...."
+    echo "Check on http://normalize.nongnu.org/"
+    echo ""
+    cont="n"
+fi
+check1=`which convert`
+if [ "$check1" = "" ]
+then
+    echo "* convert (imagemagick) is missing...."
+    echo "Check on http://www.imagemagick.org/script/index.php"
+    echo ""
+    cont="n"
+fi
+
+if [ "$cont" = "n" ]
+then
+	space
+	echo "If you use Ubuntu (instalation process is Drake optimized) or any other deb "
+	echo "distribution script can _TRY_ to install required programs for you."
+	space
+	echo "Script will ask you about root password at least once"
+	space
+	echo "Do you want to proceed? (y) [y/n]"
+	read odpowiedz
+	if [ "$odpowiedz" = "y" ]
+	then
+		instaldeps
+	fi
+fi
+
+if [ "$cont" = "n" ]
+then
+    space
+    echo "Missing dependencies..."
+    echo "Can't continue..."
+    exit 0
+fi
+}
+
+function instaldeps()
+{
+echo "Executing: \"sudo apt-get install wget faac libid3-dev mp3wrap madplay id3v2 mplayer lame normalize-audio imagemagick\""
+sudo apt-get install wget faac libid3-dev mp3wrap madplay id3v2 mplayer lame normalize-audio imagemagick
+if [ "$nowavmerge" = "t" ]
+then
+	echo "Executing: \"wget --output-document=/tmp/wavbreaker_0.7-1_i386.deb http://yaro.gdi.pl/deb/wavbreaker_0.7-1_i386.deb\""
+	wget --output-document=/tmp/wavbreaker_0.7-1_i386.deb http://yaro.gdi.pl/deb/wavbreaker_0.7-1_i386.deb
+	echo "Executing: \"sudo dpkg -i /tmp/wavbreaker_0.7-1_i386.deb\""
+	sudo dpkg -i /tmp/wavbreaker_0.7-1_i386.deb
+fi
+cont="y"
+deps	
+clear
+}
+
+function clearmeta()
+{
+ALBUM=""
+ARTIST=""
+COMMENT=""
+YEAR=""
+TITLE=""
+GENRE=""
+TRACKNUMBER=""
+}
+
+function space()
+{
+echo ""
+echo ""	
+}
+
+function getmetamp3()
+{
+clearmeta
+test -z "$(which id3info)" && return
+echo "Getting metadata from MP3"
+ALBUM="$(id3info "$1" |grep ^===\ TALB|head -1|sed 's/.*:\ //g')"
+ARTIST="$(id3info "$1" |grep ^===\ TPE1|head -1|sed 's/.*:\ //g')"
+COMMENT="$(id3info "$1" |grep ^===\ COMM|head -1|sed 's/.*:\ //g')"
+YEAR="$(id3info "$1" |grep ^===\ TYER|head -1|sed 's/.*:\ //g')"
+TITLE="$(id3info "$1" |grep ^===\ TIT2|head -1|sed 's/.*:\ //g')"
+GENRE="$(id3info "$1" |grep ^===\ TCON|head -1|sed 's/.*:\ //g')"
+TRACKNUMBER="$(id3info "$1" |grep ^===\ TRCK|head -1|sed 's/.*:\ //g')"
+}
+
+function countall()
+{
+if [ "$typ" != "o" ]
+then
+	for pliki in *
+	do
+	rozmiarpl=`du -b "$pliki" |tr -cs '[a-zA-Z0-9._()]' '[\n*]'|head -n 1`
+	total=$[total + rozmiarpl]
+	done
+else
+#count waves only
+	for pliki in *.wav
+	do
+	rozmiarpl=`du -b "$pliki" |tr -cs '[a-zA-Z0-9._()]' '[\n*]'|head -n 1`
+	total=$[total + rozmiarpl]
+	done
+fi
+echo "Total files size in this directory is $total bytes"
+}
+
+function getdata()
+{
+space
+sugestia=`pwd | mawk '{ print test[split($0,test,"/")];}'|tr -cs '[a-zA-Z0-9\n*]' '.'`
+echo "Enter output file name (without extension) ($sugestia)"
+read plik
+echo "Enter title                       (`echo $sugestia|tr -cs '[a-zA-Z0-9\n*]' ' '`)"
+read tytul
+echo "Enter artist"
+read autor
+album="$tytul"
+echo "Enter year"
+
+read rok
+coment="From Sir_Yaro2006 Collection"
+}
+
+function splitfiles()
+{
+splitval="150000000"
+if [ "$typ" = "o" ]
+then
+	splitval="1850000000"
+	if [ "$format" = "mp3" ]
+	then
+	splitval="1950000000"
+	fi
+fi
+echo "Default split value for mp3 is about 150MB (150000000 bytes)"
+echo "and for other files is 1.85GB (1850000000 bytes) because they're"
+echo "decoded to wav format and its up limit is 2048MB."
+countall
+echo ""
+echo "(current split value is $splitval bytes)"
+echo ""
+echo "Would you like to change it? (y/n) [n]"
+read question
+
+    if [ "$question" = "y" ]
+    then 
+	echo "Enter new value in bytes and press enter"
+	read splitval
+    fi
+# 
+# Split start
+#
+
+licznik="1"
+suma="0"
+mkdir "batch_1"
+echo ""
+echo "Batch no 1 created"
+if [ "$typ" = "m" ]
+then
+	for file in *.mp3
+	do
+		rozmiar=`du -b "$file" |tr -cs '[a-zA-Z0-9.()_]' '[\n*]'|head -n 1`
+		suma=$[suma + rozmiar]
+		
+		if [ "$suma" -gt "$((splitval-5000000))" ]
+		then
+			licznik=$[licznik + 1]
+			echo "Batch no $licznik created"
+			mkdir "batch_$licznik"
+			suma=0
+			suma=$[suma + rozmiar]
+		fi
+		mv "$file" "batch_$licznik"
+	done
+else
+	for file in *.wav
+	do
+		rozmiar=`du -b "$file" |tr -cs '[a-zA-Z0-9.()_]' '[\n*]'|head -n 1`
+		suma=$[suma + rozmiar]
+		
+		if [ "$suma" -gt "$((splitval-50000000))" ]
+		then
+			licznik=$[licznik + 1]
+			echo "Batch no $licznik created"
+			mkdir "batch_$licznik"
+			suma=0
+			suma=$[suma + rozmiar]
+		fi
+		mv "$file" "batch_$licznik"
+	done
+fi
+
+echo ""
+echo "$licznik batches created."
+space
+echo "Done."
+
+#
+# Split end
+#
+
+#
+# Encode loop
+#
+for batch in `seq 1 $licznik`;
+do
+    space
+    echo "======================"
+    echo "Batch no $batch in progress"
+    echo "======================"
+
+
+    cd "batch_$batch"
+    checktype "$batch" "$licznik"
+    cd ..
+    rmdir "batch_$batch"
+done
+}
+
+function checktype()
+{
+#getdata
+space
+if [ "$typ" = "m" ]
+then
+    encodemp3 $1 $2
+else
+    encodeothers $1 $2
+fi
+}
+
+function encodemp3()
+{
+outputfile=${plik}_MP3WRAP.mp3
+if [ `ls -1 *mp3| wc -l` -gt "1" ]
+then
+	mp3wrap "$plik.mp3" *mp3
+else
+	echo "Only one file found! Making file copy"
+	cp *mp3 "$outputfile"
+fi
+space	
+
+id3v2 -D "$outputfile"
+track="$1/$2"
+if [ "$track" = "/" ]
+then
+	track="1/1"
+fi
+id3v2 --artist "$autor" --album "$album" --song "$tytul" --comment "":"$coment":"PL" --genre 101 --year "$rok" --track "$track" "$outputfile"
+
+space
+m4bname="$plik.cz.$1.m4b"
+getmetamp3 "$outputfile"
+space
+
+echo "================================="
+id3v2 --list "$outputfile"
+echo "================================="
+
+if [ "$format" = "m4b" ]
+then
+	wielkosc=`du -b "$outputfile" |tr -cs '[a-zA-Z0-9._()]' '[\n*]'|head -n 1`
+	
+	sprawdzwielkosc
+
+	space
+	nice -10 madplay -q -o wave:- "$outputfile" | nice -10 faac -w --artist "${ARTIST}" --title "${TITLE} cz.$track" --album "${ALBUM}" --year "${YEAR}" --comment "${COMMENT}" --genre "Speech" --track "${TRACKNUMBER}" -q 80 -o "$m4bname" -
+
+	# nice -10 mpg123 --rate 44100 -m -w - "$outputfile" | nice -10 faac -w --artist "${ARTIST}" --title "${TITLE} cz.$track" --album "${ALBUM}" --year "${YEAR}" --comment "${COMMENT}" --genre "Speech" --track "${TRACKNUMBER}" -q 80 -o "$m4bname" -
+	# --cover-art "../cover/cover.jpg" 
+
+	# m4b - audiobook
+	if [ "$split" = "y" ]
+	then
+		rm -f "$outputfile"
+		echo "File \"$outputfile\" deleted"
+		mv "$m4bname" ../Audiobook
+		echo "File \"$m4bname\" moved to \"../Audiobook\" located in parent directory"
+		mv *mp3 ..
+		echo "Source mp3 files moved to parent directory"
+		space
+	else
+		rm -f "$outputfile"
+		echo "File \"$outputfile\" deleted"
+		mv "$m4bname" Audiobook
+		echo "File \"$m4bname\" moved to \"Audiobook\" directory"
+		space
+	fi
+else
+	# mp3 - audiobook
+	if [ "$split" = "y" ]
+	then
+		nazwapliku=`basename "$outputfile" ".mp3"`
+		mv "$outputfile" "../Audiobook/$nazwapliku.cz.$1.mp3"
+		echo "File \"$outputfile\" moved to \"../Audiobook\" located in parent directory"
+		mv *mp3 ..
+		echo "Source mp3 file(s) moved to parent directory"
+		space
+	else
+		mv "$outputfile" "Audiobook/$outputfile"
+		echo "File \"$outputfile\" moved to \"Audiobook\" directory"
+		space
+	fi
+fi
+
+
+
+echo "Batch $1 done"
+space
+}
+
+function encodeothers()
+{
+for file in *.wav
+do
+	rozmiar=`du -b "$file" |tr -cs '[a-zA-Z0-9.()_]' '[\n*]'|head -n 1`
+	wielkosc=$[wielkosc + rozmiar]
+done
+sprawdzwielkosc
+
+echo "Merging wave files"
+echo "Please wait..."
+echo ""
+if [ `ls -1 *wav| wc -l` -gt "1" ]
+then
+	wavmerge -o "merged.wav" *wav
+else
+	echo "Only one file found! Renaming source..."
+	mv *wav "merged.wav"
+fi
+
+ls -l "merged.wav"
+echo "Merge done"
+
+m4bname="$plik.cz.$1.m4b"
+mp3name="$plik.cz.$1.mp3"
+track="$1/$2"
+if [ "$track" = "/" ]
+then
+	track="1/1"
+fi
+
+if [ "$format" = "m4b" ]
+then
+	faac -w --artist "$autor" --title "$tytul cz.$track" --album "$album" --year "$rok" --comment "$coment" --genre "Speech" --track "$track" -q 80 -o "$m4bname" "merged.wav"
+	
+	if [ "$split" = "y" ]
+	then
+		mv "$m4bname" ../Audiobook
+		echo "File \"$m4bname\" moved to \"../Audiobook\" located in parent directory"
+	else
+		mv "$m4bname" Audiobook
+		echo "File \"$m4bname\" moved to \"Audiobook\" directory"
+	fi
+	rm -f *wav
+	echo "Wav file(s) deleted"
+	space
+
+else
+	lame -b 32 -m m -q 5 --vbr-new -p -o -c -V4 -B 160 --nspsytune --vbr-mtrh --tt "$tytul cz.$track" --ta "$autor" --tl "$album" --ty "$rok" --tc "$coment" --tg 101 --add-id3v2 "merged.wav" "$mp3name"
+	id3v2 --track "$track" "$mp3name"
+
+	echo "================================="
+	id3v2 --list "$mp3name"
+	echo "================================="
+
+	if [ "$split" = "y" ]
+	then
+		mv "$mp3name" ../Audiobook
+		echo "File \"$mp3name\" moved to \"../Audiobook\" located in parent directory"
+		rm -f *wav
+		echo "Wav files deleted"
+	else
+		mv "$mp3name" Audiobook
+		echo "File \"$mp3name\" moved to \"Audiobook\" directory"
+		rm -f *wav
+		echo "Wav files deleted"
+		space
+	fi
+
+fi
+space
+echo "Batch $1 done"
+space
+}
+
+function decode()
+{
+for file in *.*
+do
+echo "================================="
+echo "Processing $file file"
+echo "================================="
+echo ""
+mplayer -really-quiet -channels 1 -nojoystick -nolirc -nortc -vo null -vc dummy -af resample=44100 -ao pcm:waveheader:file=$file.wav "$file"
+done
+space
+
+echo "Normalize wave files"
+echo "Please wait..."
+normalize-audio -b *.wav
+
+echo "================================="
+echo "             Done"
+echo "================================="
+space
+}
+
+function wybierztyp()
+{
+echo "Encode to audiobook format (m4b) or mp3? (m4b/mp3) [m4b]"
+read format
+if [ "$format" != "mp3" ]
+then
+format="m4b"
+fi
+echo "You choose $format"
+}
+
+function sprawdzwielkosc()
+{
+echo "size is $wielkosc"
+if [ "$typ" = "mp3" ]
+then
+	if [ "$wielkosc" -gt "160000000" ]
+	then
+		echo "$outputfile seems to be to large to convert it to wav file."
+		echo "Due header size limitation wav file can't be bigger than 2048MB."
+		echo ""
+		wielkosc2=`du -h "$outputfile"|tr -cs '[a-zA-Z0-9.()_]' '[\n*]'|head -n 1`
+		wielkosc3=`du -h "$outputfile"|tr -cs '[a-ln-zA-LN-Z0-9.()_]' '[\n*]'|head -n 1`
+		echo "Your mp3 file size is $wielkosc2, and wav size will be approximately"
+		echo "11x bigger, which is ~$(($wielkosc3*11))MB"
+		echo ""
+		echo "I recommend you split your files into few batches and convert then separately"
+		space
+		echo "Continue anyway? (y/n)  [n]"
+		read odp
+		
+		if [ "$odp" != "y" ]
+		then 
+		echo "Aborted"
+		exit 0
+		fi
+	fi
+fi
+
+if [ "$typ" != "mp3" ]
+then
+	if [ "$wielkosc" -gt "2000000000" ]
+	then
+		echo "Files seems to be to large to merge them into 1 wav file."
+		echo "Due header size limitation wav file can't be bigger than 2048MB."
+		echo ""
+		echo "I recommend you split your files into few batches and convert then separately"
+		space
+		echo "Continue anyway? (y/n)  [n]"
+		read odp
+		
+		if [ "$odp" != "y" ]
+		then 
+		echo "Aborted"
+		exit 0
+		fi
+	fi
+fi
+
+}
+
+function tworzokladke()
+{
+GENERATE="y"
+COVER_SIZE="100x100"
+COVER_NAME1="cover.bmp"
+COVER_NAME2="cover.jpg"
+
+if [ `ls -1 *[jpg][pin][gf]|grep -E '*przod*|*front*'|wc -l` -lt "1" ]
+then
+	# if there is no *przod* or *front* pictures
+	if [ `ls -1 *[jpg][pin][gf]|wc -l` -lt "1" ]
+	then
+		echo "No pictures detected, can't create cover art"
+		GENERATE="n"
+	else
+		FILE_NAME=`ls -1 *[jpg][pin][gf]|head -n 1`
+	fi
+else
+	# first file selected
+	FILE_NAME=`ls -1 *[jpg][pni][gf]|grep -E '*przod*|*front*'|head -n 1`
+fi
+
+if [ "$GENERATE" = "y" ]
+then
+	echo "Scaling bmp roxbox's cover to $COVER_SIZE..."
+	convert "$FILE_NAME" -geometry $COVER_SIZE "Audiobook/$COVER_NAME1"
+	echo "Scaling jpg cover to $COVER_SIZE..."
+	convert "$FILE_NAME" -geometry $COVER_SIZE "Audiobook/$COVER_NAME2"
+fi
+}
+
+########################################################
+## Functions end
+
+
+########################################################
+# Variables
+
+odp="y"
+cont="y"
+
+########################################################
+# Start
+
+deps
+clear
+alias ls='ls'
+echo "Welcome to the iPod Audiobook Encoder for Linux"
+echo "Version 1.0.6"
+echo "Created by Jaroslaw Czarniak, 21 May, 2006."
+echo "Released under the GPL."
+space
+
+wybierztyp
+
+rename 'y/MP /mp./' *
+getdata
+space
+typ=`ls -1 *.* | grep -o '\.[^.]*$'|head -n 1`
+
+if [ "$1" = "o" ]
+then
+	typ=".other"
+	echo "Files type forced!"
+	space
+elif [ "$1" = "m" ]
+then
+	typ=".mp3"
+	echo "Files type forced!"
+	space
+fi
+
+if [ "$typ" = ".mp3" ]
+then 
+	typ="m"
+	echo "Mp3 files detected."
+	echo "You may force to encode files as none mp3"
+	echo "by adding \"o\" as a parameter of the script"
+	space
+else
+	typ="o"
+	echo "Files other than mp3 detected."
+	echo -e "You may need a \E[033;01;32m_LOT_\E[0m (gigabytes) of disk space"
+	echo -e "Decoding files... \E[033;01;32mPlease wait...\E[0m"
+	echo ""
+	echo -e "\E[033;01;32mYour interaction will be required shortly\E[0m"
+	echo ""
+	echo "Free space in curent directory is `df -h .|tr -cs '[a-zA-Z0-9/.,]' '[\n*]'|tail -n 3|head -n 1`"
+	space
+	sleep 2
+	decode
+	space
+	space
+fi
+
+echo "Split files to batches? (y/n) [y]"
+echo "If you're going to encode from mp3 to mp3"
+echo "(merge only) choose \"n\""
+read split
+mkdir "Audiobook"
+
+if [ "$split" != "n" ]
+then 
+	# split
+	split="y"
+	splitfiles
+else
+	# don't split
+	checktype
+fi
+	tworzokladke
+	space
+	echo "All done!"
+	space

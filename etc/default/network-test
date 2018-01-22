@@ -1,0 +1,33 @@
+# Defaults for ifupdown-extra testing scripts
+# sourced by scripts at /etc/network/if-{pre-,-}up.d
+# installed at /etc/default/network-test by the maintainer scripts
+# while respecting exported shell environment variables
+
+# Tells scripts to log to syslog the tests done before an interface
+# is configured. Set this to "no" if you just want to use stderr
+DO_SYSLOG=${DO_SYSLOG:-yes}
+
+# Abort scripts (do not continue) if the network link is not up
+ABORT_NO_LINK=${ABORT_NO_LINK:-no}
+
+# Additional options that are passed to ARPING scripts
+#
+# DO_ARPING tells the scripts to test if an IPv4 or IPv6 address is already
+# assigned in the network (using arping for IPv4 and ndisc6 for IPv6, if
+# available). The scripts provided will log this event to syslog and can be
+# used to detect network configuration errors.
+#
+# Please bear in mind that these type of network probes will introduce a delay
+# when configuring the interface (if everything is OK) since the scripts will
+# have to wait until the tool sends the probes and finishes before configuring
+# an interface. Set this to 'no' if you do not want this delay and want to skip
+# these tests.
+DO_ARPING=${DO_ARPING:-yes}
+#
+# These values control how many arp pings are sent when doing ARP tests
+# The higher the count (or timeout) the more time it will take for those
+# scripts to finish but it might make it more easy to detect faulty
+# counditions in overloaded networks.
+ARP_COUNT=${ARP_COUNT:-2}
+ARP_TIMEOUT=${ARP_TIMEOUT:-3}
+

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+data=("H" "a" "v" "e" " " "f" "u" "n" "!")
+
+trap 'exit 1' INT TERM
+
+tput civis
+
+while :; do
+	echo -en "\r"
+	for((i=0; i<${#data[@]}; i++)); do
+		tput setaf $(( ( RANDOM % 255 )  + 1 ))
+		echo -n "${data[i]}"
+	done
+	read -s -n1 -t 0.1
+	[ $? -eq 0 ] && break
+done

@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+#name : \inputminted[option]{lang}{filename}
+# --
+\inputminted{${1:language}}{${0:filename}}

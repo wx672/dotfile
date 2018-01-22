@@ -1,0 +1,22 @@
+# This file is sourced by /etc/init.d/dictd to obtain the values of
+# config variables to be passed to dictd on startup.
+
+# How should the dictd server run?
+# Possible values are "daemon" (default), "inetd" or "disabled".
+# Please note that any other value will be automatically
+# overwritten by the debconf script when the package 
+# is upgraded or when you run `dpkg-reconfigure dictd'
+
+RUN_MODE="daemon"
+
+
+# Options passed to dictd.
+# Uncomment appropriate lines, change the text if desired, and/or add
+# new lines using the format of the sample lines.  (They must be legal
+# options, as shown in dictd(8).)  If dictd is running in the inetd mode,
+# please run  `dpkg-reconfigure dictd' after changing the options.
+
+DICTD_ARGS=""
+#DICTD_ARGS="$DICTD_ARGS --locale=en_US.utf-8"
+#DICTD_ARGS="$DICTD_ARGS --facility=user"
+#DICTD_ARGS="$DICTD_ARGS --log=min"

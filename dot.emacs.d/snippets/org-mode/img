@@ -1,0 +1,6 @@
+#name : insert image
+# --
+#+CAPTION: $1
+#+LABEL: fig:$2
+#+ATTR_HTML: alt="$3" title="$4" align="${5:center}" width="${6:500}"
+[[$0]]

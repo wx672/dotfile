@@ -1,0 +1,93 @@
+;; -*- lisp -*-
+
+(require 'sawfish.wm)
+(require 'sawfish.wm.frames)
+(require 'sawfish.wm.menus)
+(require 'sawfish.wm.misc)
+(require 'sawfish.wm.windows)
+(require 'sawfish.wm.util.prompt)
+(require 'sawfish.wm.util.workarea)
+(require 'sawfish.wm.util.compat)
+(require 'sawfish.wm.commands.jump-or-exec)
+
+;(require 'native-focus-transparency)
+;(require 'smart-tile)
+;(bind-keys global-keymap "Super-F2" 'tile-windows)
+
+(defun tgl-no-frame (w)
+   (when (window-frame w)
+         (set-window-frame w nil)
+	 (let* ((workarea (calculate-workarea #:window w))
+		(posx (car workarea))
+		(posy (cadr workarea))
+		(dimx (- (caddr workarea) posx))
+		(dimy (- (cadddr workarea) posy)))
+	       (move-window-to w posx posy)
+	(resize-window-to w dimx dimy))))
+
+(defun tgl-frame (w)
+    (when (not (window-frame w))
+          (refresh-window w) ))
+
+(add-hook 'window-maximized-hook tgl-no-frame)
+(add-hook 'window-unmaximized-hook tgl-frame)
+
+(bind-keys global-keymap
+	"Super-t" '(system "xterm -e tmux &"))
+(bind-keys global-keymap
+ 	"Super-o" '(system "/usr/bin/libreoffice &"))
+(bind-keys global-keymap
+	   "Super-e" '(system "/usr/bin/emacsclient -c -n &"))
+(bind-keys global-keymap
+	   "Super-c" '(system "x-www-browser &"))
+(bind-keys global-keymap
+	   "Super-F1" '(system "/usr/bin/qiv -s -C -d120 ~/.keys.png &"))
+
+;; http://sawfish.wikia.com/wiki/Jump-or-exec_(adopted)
+;; load screen in a terminal
+;; or switch to it if it's already running,
+;; and load a new screen window (using custom c-q instead of c-a) if it's currently focused
+;; (bind-keys global-keymap
+;;            "Super-t" '(jump-or-exec
+;;                    '(lambda () (get-window-by-class-re "^XTerm/xterm$"))
+;;                    '(lambda () (system "xterm -e tmux &"))
+;;                    '(lambda (wind)
+;;                       (display-window wind)
+;;                       (synthesize-event "C-q" wind)
+;;                       (synthesize-event "c" wind))))
+
+;; no longer needed since libinput supports disable-w-typing
+;(bind-keys global-keymap
+;	   "Super-p" '(system "synclient TouchpadOff=1"))
+;(bind-keys global-keymap
+;	   "Super-P" '(system "synclient TouchpadOff=0"))
+
+(bind-keys global-keymap
+	   "Super-l" '(system "xset dpms force off"))
+
+;audio controls
+(bind-keys global-keymap
+	"XF86AudioMute" '(system "amixer set Master toggle && amixer set PCM toggle"))
+(bind-keys global-keymap
+ 	"XF86AudioLowerVolume" '(system "amixer set Master 3%- && amixer set PCM 3%-"))
+(bind-keys global-keymap
+ 	"XF86AudioRaiseVolume" '(system "amixer set Master 3%+ && amixer set PCM 3%+"))
+
+; (bind-keys global-keymap
+; 	   "XF86HomePage" '(system "/usr/bin/x-www-browser &"))
+; (bind-keys global-keymap
+; 	   "XF86Mail" '(system "/usr/bin/x-www-browser --app=https://mail.google.com/mail/u/0/#inbox"))
+; (bind-keys global-keymap
+; 	   "XF86Search" '(system "/usr/bin/x-www-browser &"))
+; (bind-keys global-keymap
+; 	   "XF86Tools" '(system "/usr/bin/x-www-browser --app=http://music.163.com/#/my/"))
+; (bind-keys global-keymap
+; 	   "Print" '(system "/usr/bin/import -window root /tmp/screen.png"))
+
+;(bind-keys global-keymap
+; 	"M-C-l" '(system "sudo /etc/acpi/sleepbtn.sh"))
+; 	"XF86Sleep" '(system "sudo /etc/acpi/sleepbtn.sh"))
+;(bind-keys global-keymap
+; 	"XF86MonBrightnessDown" '(system "xbacklight -dec 10"))
+;(bind-keys global-keymap
+;	"XF86MonBrightnessUp" '(system "xbacklight -inc 10"))

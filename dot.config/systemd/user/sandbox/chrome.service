@@ -1,0 +1,18 @@
+[Unit]
+Description=Google-chrome in background
+Documentation=man:google-chrome
+
+[Service]
+# !!! still cannot open display!!!
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/wx672/.Xauthority
+Environment=LC_CTYPE=zh_CN.UTF-8
+ExecStartPre=pgrep fcitx || /usr/bin/fcitx
+ExecStart=/usr/bin/google-chrome --no-startup-window
+ExecStop=/usr/bin/pkill --signal SIGKILL chrome
+Restart=no
+User=%i
+WorkingDirectory=%h
+
+[Install]
+WantedBy=default.target

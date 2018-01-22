@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+#name : ttyrec
+# --
+#!/bin/bash
+
+. ~/bin/func.sh
+
+clear; ttyplayhelp
+

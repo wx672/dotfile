@@ -1,0 +1,49 @@
+# Next may be needed if you invoke programs from your procmailrc, but
+# it should not be needed for the simple sorting recipes on this page.  
+# Details in Check Your $SHELL and $PATH in Troubleshooting below.
+## SHELL=/bin/sh
+
+# Directory for storing procmail configuration and log files
+# You can name this environment variable anything you like
+# (for example PROCMAILDIR) or, if you prefer, don't set it
+# (but then don't refer to it!)
+PMDIR=$HOME/.Procmail
+
+# Put ## before LOGFILE if you want no logging (not recommended)
+LOGFILE=$PMDIR/log
+   
+# To insert a blank line between each message's log entry,
+# uncomment next two lines (this is helpful for debugging)
+## LOG="
+## "
+
+# Set to yes when debugging
+VERBOSE=no         
+       
+# Remove ## when debugging; set to no if you want minimal logging
+LOGABSTRACT=all
+
+# Replace $HOME/Msgs with your mailbox directory
+# Mutt and elm use $HOME/Mail
+# Pine uses $HOME/mail
+# Netscape Messenger uses $HOME/nsmail
+# Some NNTP clients, such as slrn & nn, use $HOME/News
+# Mailboxes in maildir format are often put in $HOME/Maildir
+# NOTE: Upon reading the next line, Procmail does a chdir to $MAILDIR
+#       and relative paths are relative to $MAILDIR
+MAILDIR=$HOME/Mail       # Make sure this directory exists!
+
+## INCLUDERC=$PMDIR/pm-testing.rc
+INCLUDERC=$PMDIR/pm-root.rc
+INCLUDERC=$PMDIR/pm-subscriptions.rc
+
+# Messages that fall through all your procmail recipes are delivered
+# to your default INBOX (to find out yours, see step 2 above)
+
+#:0fw
+#| spamassassin -P
+
+:0:
+* ^X-Spam-Status: Yes
+caughtspam
+

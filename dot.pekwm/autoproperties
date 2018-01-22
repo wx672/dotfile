@@ -1,0 +1,74 @@
+Require {
+	Templates = "True"
+}
+
+Property = "xterm,XTerm" {
+	ApplyOn = "Start New"
+	Border = "False"
+	Titlebar = "False"
+	MaximizedHorizontal = "True"; MaximizedVertical = "True"
+# 	Group = "global" {
+# 		Size = "0"
+# 		FocusedFirst = "True"
+# 		Raise = "True"
+# 	}
+}
+Property = "emacs,Emacs" {
+	ApplyOn = "Start New"
+	Border = "False"; Titlebar = "False"
+	MaximizedHorizontal = "True"; MaximizedVertical = "True"
+# 	Group = "global" {
+# 		Size = "0"
+# 		FocusedFirst = "True"
+# 		Raise = "True"
+# 	}
+}
+Property = "^.*,google-chrome" {
+	ApplyOn = "Start New"
+	Border = "False" 
+	Titlebar = "False"
+	MaximizedHorizontal = "True"; MaximizedVertical = "True"
+# 	Group = "global" {
+# 		Size = "0"
+# 		FocusedFirst = "True"
+# 		Raise = "True"
+# 	}
+}
+Property = "zathura,Zathura" {
+	ApplyOn = "Start New"
+	Border = "False"
+	Titlebar = "False"
+	MaximizedHorizontal = "True"; MaximizedVertical = "True"
+#  	Group = "PDF" {
+#  		Size = "0"
+#  		FocusedFirst = "True"
+#  		Raise = "True"
+#  	}
+}
+Property = "mupdf,MuPDF" {
+	ApplyOn = "Start New"
+	Border = "False"
+	Titlebar = "False"
+	MaximizedHorizontal = "True"; MaximizedVertical = "True"
+#  	Group = "PDF" {
+#  		Size = "0"
+#  		FocusedFirst = "True"
+#  		Raise = "True"
+#  	}
+}
+Property = "libreoffice,libreoffice-startcenter" {
+	ApplyOn = "Start New"
+	Border = "False"
+	Titlebar = "False"
+	MaximizedHorizontal = "True"; MaximizedVertical = "True"
+# 	Group = "global" {
+# 		Size = "0"
+# 		FocusedFirst = "True"
+# 		Raise = "True"
+# 	}
+}
+
+TypeRules {
+	INCLUDE = "$_PEKWM_ETC_PATH/autoproperties_typerules"
+}
+

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Functions for ttyrec
+
+# Show a spinning bar on the screen
+waiting(){
+    echo # waiting in a new line
+    while true
+    do 
+	printf "\r-";  sleep 0.1 
+	printf "\r\\"; sleep 0.1 
+	printf "\r|";  sleep 0.1 
+	printf "\r/"
+	read -s -n1 -t 0.1
+	[ $? -eq 0 ] && break
+    done
+    echo -en "\r \r" #to wipe out the waiting -\|/
+}
+
+# emphasize bold
+emb(){
+    echo -en $(tput bold)$(tput setaf 3)"$*"$(tput sgr0)
+}
+
+# emph regular (non-bold)
+em(){
+    echo -en $(tput setaf 3)"$*"$(tput sgr0)
+}
+
+# Show a $ sign on the screen
+prompt(){
+    echo -en " \t$(tput setaf 2)$ $(tput setaf 7)"
+    sleep 1
+}
+
+# Slow down screen output
+PV(){
+    pv -qL15
+    sleep 1
+}
+
+# Show help message
+ttyplayhelp(){
+	cat | PV << ENDOFHELP
+While watching this tutorial, the following keys might help:
+	0 - pause	1 - play
+	f - faster	s - slower
+		C-c - quit
+ENDOFHELP
+    echo -e "\rLet's go..." | PV; sleep 1
+}
