@@ -10,6 +10,7 @@
     st = status
     ci = commit
     co = checkout
+	br = branch
 [core]
 	excludesfile = /home/wx672/.gitignore
 	autocrlf = input

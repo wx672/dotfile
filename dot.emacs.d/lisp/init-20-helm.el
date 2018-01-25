@@ -16,6 +16,7 @@
   (use-package helm-files)
   (use-package helm-command)
   (use-package helm-config)
+  
   ;; Changes the helm prefix key
   ;; (global-set-key (kbd "C-c h") 'helm-command-prefix-key)
   ;; (global-unset-key (kbd "C-x c"))

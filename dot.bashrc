@@ -13,6 +13,10 @@ test -f ~/.bin/docs.sh && . ~/.bin/docs.sh
 
 eval "$(lesspipe)"
 
+## add git info
+# PS1='${debian_chroot:+($debian_chroot)}\[\e[0;36m\]\w$(__git_ps1 "(%s)")\$\[\e[0m\] '
+PROMPT_COMMAND='__git_ps1 "\e[0;36m\w" "\\\$\e[0m "'
+
 if [ -f ~/.lscolors ]; then 
 	eval "$(tty -s && dircolors ~/.lscolors)"
 else 

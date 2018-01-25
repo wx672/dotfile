@@ -50,7 +50,7 @@
  '(mode-line-in-non-selected-windows t)
  '(package-selected-packages
    (quote
-	(buttercup async helm zenburn-theme auctex gscholar-bibtex diminish helm-config helm-command helm-files org-ref ascii-art-to-unicode pyim fontawesome cnfonts yatemplate wgrep-ag sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-flyspell helm-flycheck helm-c-yasnippet helm-ag exec-path-from-shell csv-nav csv-mode company-quickhelp cider-eval-sexp-fu anzu)))
+	(nasm-mode web-mode yasnippet-snippets buttercup async helm zenburn-theme auctex gscholar-bibtex diminish helm-config helm-command helm-files org-ref ascii-art-to-unicode pyim fontawesome cnfonts yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-flyspell helm-flycheck helm-c-yasnippet helm-ag exec-path-from-shell csv-nav csv-mode company-quickhelp cider-eval-sexp-fu)))
  '(read-mail-command (quote ignore))
  '(safe-local-variable-values
    (quote
