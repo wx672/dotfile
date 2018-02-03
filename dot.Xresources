@@ -62,5 +62,6 @@ XTerm*colorIT: #80d4aa
 XTerm*colorUL: #ccdc90
 XTerm*foreground: #dcdccc
 XTerm*background: black
+!XTerm*background: #3f3f3f
 !#1f1f1f
 XTerm*cursorColor: #8faf9f
