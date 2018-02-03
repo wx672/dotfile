@@ -72,6 +72,9 @@
  '(view-diary-entries-initially t)
  '(view-read-only t)
  '(visible-bell t)
+ '(warning-minimum-level :emergency)
+ '(warning-minimum-log-level :emergency)
+ '(warning-suppress-types (quote ((\(undo\ discard-info\)))))
  '(x-stretch-cursor t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

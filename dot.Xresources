@@ -2,48 +2,42 @@
 !!! https://wiki.archlinux.org/index.php/X_resources
 !!! run 'xrdb -merge .Xresources' after change
 
-xpdf.paperColor: #f7f4ef
-xpdf.matteColor: #f7f4ef
-xpdf*background: #f7f4ef
-
-xterm*loginShell: true
+XTerm*loginShell: true
 
 !!!font and locale
-xterm*faceName: Monospace:pixelsize=20
-xterm*boldFont: Monospace:pixelsize=20
-xterm*faceNameDoublesize: Noto Sans Mono CJK SC
+XTerm*faceName: Monospace:pixelsize=20
+XTerm*boldFont: Monospace:pixelsize=20
+XTerm*faceNameDoublesize: Noto Sans Mono CJK SC
 
 ! set 'cjkWidth' to true makes aptitude window messy.
-!xterm*cjkWidth: true
-xterm*locale: true
-xterm*utf8: true
-!xterm*utf8Title: true
-xterm*fontMenu*fontdefault*Label: Default
-xterm*xftAntialias: true
-xterm*selectToClipboard: true
+!XTerm*cjkWidth: true
+XTerm*locale: true
+XTerm*utf8: true
+XTerm*fontMenu*fontdefault*Label: Default
+XTerm*xftAntialias: true
+XTerm*selectToClipboard: true
 
 !!! make url selection better (seems not working)
-! http://www.debian-administration.org/article/66/Customizing_your_xterm
-xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+! http://www.debian-administration.org/article/66/Customizing_your_XTerm
+XTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
 
 !!!look and feel
-xterm*termName: xterm-256color
-xterm*ScrollBar: false
-xterm*visualBell: false
-xterm*fullscreen: never
-xterm*borderLess: true
-xterm*internalBorder: 0
-xterm*externalBorder: 0
-xterm*borderWidth: 0
+XTerm*termName: xterm-256color
+XTerm*ScrollBar: false
+XTerm*visualBell: false
+XTerm*fullscreen: never
+XTerm*borderLess: true
+XTerm*internalBorder: 0
+XTerm*externalBorder: 0
+XTerm*borderWidth: 0
 
+XTerm*omitTranslation: fullscreen
+! disable alt-enter in XTerm, and enable it in emacs.
+XTerm*metaSendsEscape: true
 
-xterm*omitTranslation: fullscreen
-! disable alt-enter in xterm, and enable it in emacs.
-xterm*metaSendsEscape: true
-
-xterm*allowSendEvents: True
-xterm*allowTitleOps: True
-xterm*sessionMgt: false
+XTerm*allowSendEvents: True
+XTerm*allowTitleOps: True
+XTerm*sessionMgt: false
 
 !!! http://sunaku.github.io/zenburn-terminal-color-scheme.html
 XTerm*color0: #000d18
