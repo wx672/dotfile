@@ -162,7 +162,7 @@ twitter(){
 }
 
 youtube(){
-  bash -c "$BROWSER https://youtube.com" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=https://youtube.com" 2>/dev/null &
 }
 
 zhifubao(){

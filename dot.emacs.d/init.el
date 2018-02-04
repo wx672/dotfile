@@ -135,8 +135,12 @@
 		  ("G" . pdf-view-last-page)
 		  ("g" . nil)
 		  ("gg" . pdf-view-first-page)
-	      ("C-c C-c" . image-toggle-display))
+	      ("C-c C-c" . image-toggle-display)
+		  ("C-s" . isearch-forward))
   :config
+  (setq yas-minor-mode nil
+		pdf-isearch-batch-mode t
+		pdf-annot-activate-created-annotations t)
   (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
 
 (use-package dict

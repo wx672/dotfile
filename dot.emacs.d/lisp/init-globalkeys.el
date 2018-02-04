@@ -60,10 +60,10 @@
   (let ((bread-crumb (buffer-name)))
     (next-buffer)
     (while
-        (and
-         (string-match-p "^\*" (buffer-name))
-;		 (not (string-match-p "*synctex.gz" (buffer-name)))
-         (not (equal bread-crumb (buffer-name))))
+		(and
+		 (string-match-p "^\*" (buffer-name))
+		 ;; (equal "*synctex.gz" (buffer-name))
+		 (not (equal bread-crumb (buffer-name))))
       (next-buffer))))
 
 (global-set-key [remap next-buffer] 'next-user-buffer)
@@ -74,10 +74,10 @@
   (let (( bread-crumb (buffer-name) ))
     (previous-buffer)
     (while
-        (and
-         (string-match-p "^\*" (buffer-name))
-;		 (not (string-match-p "*synctex.gz" (buffer-name)))
-         (not (equal bread-crumb (buffer-name))))
+		(and
+		 (string-match-p "^\*" (buffer-name))
+		 ;; (equal "*synctex.gz" (buffer-name))
+		 (not (equal bread-crumb (buffer-name))))
       (previous-buffer))))
 
 (global-set-key [remap previous-buffer] 'previous-user-buffer)

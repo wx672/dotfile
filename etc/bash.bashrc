@@ -16,14 +16,18 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # set a fancy prompt (non-color, overwrite the one in /etc/profile)
-# PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-PS1='${debian_chroot:+($debian_chroot)}\[\e[0;36m\]\w\$\[\e[0m\] '
+# but only if not SUDOing and have SUDO_PS1 set; then assume smart user.
+if ! [ -n "${SUDO_USER}" -a -n "${SUDO_PS1}" ]; then
+#  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\[\e[0;36m\]\w\$\[\e[0m\] '
+fi
 
 # Commented out, don't overwrite xterm -T "title" -n "icontitle" by default.
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-screen*|xterm*|rxvt*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+xterm*|rxvt*)
+#    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+	PROMPT_COMMAND='echo -ne "\033]0; ${PWD}\007"'
     ;;
 *)
     ;;

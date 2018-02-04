@@ -1,38 +1,36 @@
+set recolor-darkcolor "#93A1A1"
+set recolor-lightcolor "#002B36"
+set recolor true
+
 # colors
-set default-bg "#f7f4ef"
-set statusbar-bg "#f7f4ef"
-set statusbar-fg black
-set font "monospace normal 12"
+set default-fg "#dcdccc"
+set default-bg "#3f3f3f"
+#set statusbar-fg "93a1a1"
+#set statusbar-bg "#002b36"
+set font "monospace normal 14"
 
 # settings
 set adjust-open width
 set zoom-step 20
+set first-page-column 1:1
+set selection-clipboard clipboard
 
-#   scroll-full-overlap
-#        Defines  the  proportion  of the current viewing area that should be visible after scrolling a
-#        full page.
-# 
-#        · Value type: Float
-# 
-#        · Default value: 0
 set scroll-full-overlap .1
-set window-icon "/usr/share/openclipart/png/computer/icons/lemon-theme/mimetypes/pdf.png"
+set window-icon "~/.local/share/icons/pdf.png"
 set page-padding 0
 set page-thumbnail-size 0
 
 # key bindings
 map W adjust_window width
 map H adjust_window best-fit
-#map b jumplist
 map <BackSpace> scroll full-up
-#map d scroll half-down
 map u scroll half-up
-#map p navigate previous
-#map n navigate next
 map = zoom in
 map - zoom out
-#map r reload
-#map <C-r> rotate
-#map <C-f> toggle_fullscreen
-#map <C-s> toggle_statusbar
-#map <C-n> search forward
+
+map [fullscreen] H adjust_window best-fit
+map [fullscreen] W adjust_window width
+map [fullscreen] f follow
+map [fullscreen] <Tab> toggle_index
+map [fullscreen] j scroll down
+map [fullscreen] k scroll up
