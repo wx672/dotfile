@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+#name : sandbox
+# --
+\documentclass[a4paper]{article}
+
+\usepackage[showframe,showcrop, top=3cm,bottom=2.5cm,left=3cm,right=2.5cm,
+nomarginpar]{geometry}
+
+\usepackage{wx672cjk}
+
+\begin{document}
+
+$0
+
+\end{document}
