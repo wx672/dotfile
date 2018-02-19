@@ -112,7 +112,7 @@ searchbook () {
 }
 
 technotes () {
-	less ~/git/org/tech.org
+	ec ~/git/org/tech.org
 }
 
 netnotes () {

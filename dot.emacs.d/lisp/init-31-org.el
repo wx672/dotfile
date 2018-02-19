@@ -140,7 +140,7 @@
 	 org-capture-templates
 	 '(("e" "Error" entry (file "~/Errorlog.org")
 		"* ERROR %?\n%U\n%a\n  %i")
-	   ("t" "Todo" entry (file org-default-notes-file)
+	   ("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
 		"* TODO %?\n%U\n%a\n  %i" :clock-in t :clock-resume t)
 	   ("n" "Note" entry (file org-default-notes-file)
 		"* %? :NOTE:\n%U\n%a\n  %i")

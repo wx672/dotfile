@@ -15,7 +15,7 @@
 (global-set-key [f6] 'hexl-mode)
 (global-set-key [C-f6] 'hexl-find-file)
 (global-set-key [f9] 'switch-to-other-buffer)
-(global-set-key [f10] 'next-user-buffer)
+(global-set-key [S-f11] 'next-user-buffer)
 (global-set-key [f11] 'previous-user-buffer)
 (global-set-key (kbd "M-n") 'next-user-buffer)
 (global-set-key (kbd "M-p") 'previous-user-buffer)
@@ -60,10 +60,10 @@
   (let ((bread-crumb (buffer-name)))
     (next-buffer)
     (while
-		(and
+		(or
+		 (string-equal (substring (buffer-name) -3) ".gz")
 		 (string-match-p "^\*" (buffer-name))
-		 ;; (equal "*synctex.gz" (buffer-name))
-		 (not (equal bread-crumb (buffer-name))))
+		 (equal bread-crumb (buffer-name)))
       (next-buffer))))
 
 (global-set-key [remap next-buffer] 'next-user-buffer)
@@ -74,10 +74,10 @@
   (let (( bread-crumb (buffer-name) ))
     (previous-buffer)
     (while
-		(and
+		(or
 		 (string-match-p "^\*" (buffer-name))
-		 ;; (equal "*synctex.gz" (buffer-name))
-		 (not (equal bread-crumb (buffer-name))))
+		 (string-equal (substring (buffer-name) -3) ".gz")
+		 (equal bread-crumb (buffer-name)))
       (previous-buffer))))
 
 (global-set-key [remap previous-buffer] 'previous-user-buffer)

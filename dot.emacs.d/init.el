@@ -125,23 +125,28 @@
   (ps-extend-face '(font-lock-builtin-face "dark green" nil nil) 'MERGE)
   (ps-extend-face '(font-lock-constant-face "dark blue" nil nil) 'MERGE))
 
-(use-package pdf-view
+(use-package pdf-tools
+  :pin manual
   :init (pdf-tools-install)
   :bind (:map pdf-view-mode-map
-	      ("j" . image-next-line)
-	      ("k" . image-previous-line)
-	      ("l" . image-forward-hscroll)
-	      ("h" . image-backward-hscroll)
-		  ("G" . pdf-view-last-page)
-		  ("g" . nil)
-		  ("gg" . pdf-view-first-page)
-	      ("C-c C-c" . image-toggle-display)
-		  ("C-s" . isearch-forward))
+			  ("T" . pdf-annot-add-text-annotation)
+			  ("D" . pdf-annot-delete)
+			  ("t" . pdf-annot-add-highlight-markup-annotation)
+			  ("j" . image-next-line)
+			  ("k" . image-previous-line)
+			  ("l" . image-forward-hscroll)
+			  ("h" . image-backward-hscroll)
+			  ("G" . pdf-view-last-page)
+			  ("g" . nil)
+			  ("gg" . pdf-view-first-page)
+			  ("C-c C-c" . image-toggle-display)
+			  ("C-s" . isearch-forward))
   :config
+  (setq-default pdf-view-display-size 'fit-page)
   (setq yas-minor-mode nil
+		pdf-view-resize-factor 1.1
 		pdf-isearch-batch-mode t
-		pdf-annot-activate-created-annotations t)
-  (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
+		pdf-annot-activate-created-annotations t))
 
 (use-package dict
   :config
