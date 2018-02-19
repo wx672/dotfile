@@ -35,6 +35,8 @@
    
    TeX-view-program-selection '((output-pdf "PDF Tools") (output-html "xdg-open"))
    TeX-view-style nil
+   bibtex-maintain-sorted-entries t
+   bibtex-align-at-equal-sign t
    ) ; end of setq
 
   :config

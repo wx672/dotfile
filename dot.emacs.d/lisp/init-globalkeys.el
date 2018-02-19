@@ -15,7 +15,7 @@
 (global-set-key [f6] 'hexl-mode)
 (global-set-key [C-f6] 'hexl-find-file)
 (global-set-key [f9] 'switch-to-other-buffer)
-(global-set-key [f10] 'next-user-buffer)
+(global-set-key [S-f11] 'next-user-buffer)
 (global-set-key [f11] 'previous-user-buffer)
 (global-set-key (kbd "M-n") 'next-user-buffer)
 (global-set-key (kbd "M-p") 'previous-user-buffer)
@@ -53,33 +53,40 @@
 ;; If you want to hide the mode-line in every buffer by default
 ;; (add-hook 'after-change-major-mode-hook 'hidden-mode-line-mode)
 
-;http://stackoverflow.com/questions/14323516/make-emacs-next-buffer-skip-messages-buffer
-(defun next-user-buffer ()
-  "Skip non-user buffers."
+(defun user-buffer-q ()
+  "Return t if current buffer is a user buffer, else nil.
+http://ergoemacs.org/emacs/elisp_next_prev_user_buffer.html"
   (interactive)
-  (let ((bread-crumb (buffer-name)))
-    (next-buffer)
-    (while
-		(and
-		 (string-match-p "^\*" (buffer-name))
-		 ;; (equal "*synctex.gz" (buffer-name))
-		 (not (equal bread-crumb (buffer-name))))
-      (next-buffer))))
+  (if (or
+	   (string-match-p "^\*" (buffer-name))
+	   (string-equal (substring (buffer-name) -3) ".gz")
+	   (string-equal major-mode "dired-mode"))
+	  nil
+	t))
 
-(global-set-key [remap next-buffer] 'next-user-buffer)
+(defun next-user-buffer ()
+  "Switch to the next user buffer."
+  (interactive)
+  (next-buffer)
+  (let ((i 0))
+    (while (< i 20)
+      (if (not (user-buffer-q))
+          (progn (next-buffer)
+                 (setq i (1+ i)))
+        (progn (setq i 100))))))
 
 (defun previous-user-buffer ()
-  "Skip non-user buffers."
+  "Switch to the previous user buffer."
   (interactive)
-  (let (( bread-crumb (buffer-name) ))
-    (previous-buffer)
-    (while
-		(and
-		 (string-match-p "^\*" (buffer-name))
-		 ;; (equal "*synctex.gz" (buffer-name))
-		 (not (equal bread-crumb (buffer-name))))
-      (previous-buffer))))
+  (previous-buffer)
+  (let ((i 0))
+    (while (< i 20)
+      (if (not (user-buffer-q))
+          (progn (previous-buffer)
+                 (setq i (1+ i)))
+        (progn (setq i 100))))))
 
+(global-set-key [remap next-buffer] 'next-user-buffer)
 (global-set-key [remap previous-buffer] 'previous-user-buffer)
 
 (defun mode-line-hide ()

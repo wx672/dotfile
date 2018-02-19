@@ -39,6 +39,14 @@ mdview(){
 	pandoc "$1" | lynx -stdin
 }
 
+neta(){
+	zathura /home/wx672/lecture_notes/network_basics/net-a.pdf
+}
+
+netb(){
+	zathura /home/wx672/lecture_notes/network_basics/net-b.pdf
+}
+
 osa(){
 	zathura /home/wx672/lecture_notes/os/slides/os-a.pdf
 }
@@ -88,11 +96,6 @@ gdstock(){
 	wine ./HAPPYSTAR.exe &
 }
 
-# dingding(){
-# 	cd $HOME/.wine/drive_c/Program\ Files\ \(x86\)/DingDing/main/current
-# 	wine ./DingTalk.exe &
-# }
-
 propstring () {
   echo -n 'Property '
   xprop WM_CLASS | sed 's/.*"\(.*\)", "\(.*\)".*/= "\1,\2" {/g'
@@ -112,13 +115,21 @@ searchbook () {
 }
 
 technotes () {
-	less ~/git/org/tech.org
+	emacsclient -e '(progn (find-file-read-only-other-frame "~/git/org/tech.org"))'
 }
 
 netnotes () {
-	less ~/lecture_notes/network_basics/net-tools/net-tools.org
+	emacsclient -e '(progn (find-file-read-only-other-frame "~/lecture_notes/network_basics/net-tools/net-tools.org"))'
 }
 
 update-calibre () {
 	sudo -v && wget --no-check-certificate -nv -O- https://download.calibre-ebook.com/linux-installer.py | sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main('/home/local')"
+}
+
+w2pdf () {
+	libreoffice --nosplash --convert-to pdf:writer_pdf_Export "$1"
+}
+
+xpdf(){
+	/usr/bin/mupdf "$1" &
 }

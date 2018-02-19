@@ -1,10 +1,2 @@
-! https://stumpwm.github.io/0.9.7/stumpwm-0.9.7_2.html
-clear mod4
-add mod4 = Super_L
-
-!
-! Make Caps_Lock another Control
-!
-!remove Lock = Caps_Lock
-!keysym Caps_Lock = Control_L
-!add Lock = Caps_Lock
+keysym XF86WLAN = NoSymbol
+!keysym XF86Bluetooth = NoSymbol

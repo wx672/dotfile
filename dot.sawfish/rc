@@ -73,6 +73,10 @@
 (bind-keys global-keymap
  	"XF86AudioRaiseVolume" '(system "amixer set Master 3%+ && amixer set PCM 3%+"))
 
+; disable XF86WLAN
+(bind-keys global-keymap
+	"XF86WLAN" '(system "/bin/sleep 1"))
+
 ; (bind-keys global-keymap
 ; 	   "XF86HomePage" '(system "/usr/bin/x-www-browser &"))
 ; (bind-keys global-keymap
