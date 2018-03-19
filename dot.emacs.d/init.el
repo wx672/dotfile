@@ -17,7 +17,8 @@
 (setq package-archives
       (append package-archives
 			  '(("melpa" . "http://melpa.org/packages/")
-				("gnu" . "http://elpa.gnu.org/packages/"))))
+				("gnu" . "http://elpa.gnu.org/packages/")
+				("org" . "http://orgmode.org/elpa/"))))
 
 (package-initialize)
 
@@ -96,14 +97,18 @@
 	  :config
 	  (if (fboundp 'prog-mode)
 		  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-		(dolist (hook '(lisp-mode-hook emacs-lisp-mode-hook
-						scheme-mode-hook clojure-mode-hook
-						ruby-mode-hook yaml-mode python-mode-hook
-						shell-mode-hook php-mode-hook
-						css-mode-hook haskell-mode-hook
-						caml-mode-hook nxml-mode-hook
-						crontab-mode-hook perl-mode-hook
-						tcl-mode-hook javascript-mode-hook))
+		(dolist (hook '(c-mode-hook caml-mode-hook clojure-mode-hook crontab-mode-hook css-mode-hook
+						emacs-lisp-mode-hook
+						haskell-mode-hook
+						javascript-mode-hook
+						LaTeX-mode-hook lisp-mode-hook 
+						nxml-mode-hook
+						org-mode-hook
+						perl-mode-hook php-mode-hook python-mode-hook
+						ruby-mode-hook
+						scheme-mode-hook shell-mode-hook
+						tcl-mode-hook 
+						yaml-mode ))
 		  (add-hook hook 'flyspell-prog-mode)))
 	  (add-to-list 'flyspell-prog-text-faces 'nxml-text-face))))
 

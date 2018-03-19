@@ -127,7 +127,7 @@ update-calibre () {
 }
 
 w2pdf () {
-	libreoffice --nosplash --convert-to pdf:writer_pdf_Export "$1"
+	libreoffice --convert-to pdf:writer_pdf_Export "$1"
 }
 
 xpdf(){

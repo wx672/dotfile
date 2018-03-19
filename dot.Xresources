@@ -5,8 +5,9 @@
 XTerm*loginShell: true
 
 !!!font and locale
-XTerm*faceName: Monospace:pixelsize=20
-XTerm*boldFont: Monospace:pixelsize=20
+XTerm*faceName: Monospace
+XTerm*boldFont: Monospace
+XTerm*faceSize: 18
 XTerm*faceNameDoublesize: Noto Sans Mono CJK SC
 
 ! set 'cjkWidth' to true makes aptitude window messy.
@@ -30,6 +31,10 @@ XTerm*borderLess: true
 XTerm*internalBorder: 0
 XTerm*externalBorder: 0
 XTerm*borderWidth: 0
+
+XTerm.vt100.translations: #override \
+  Ctrl <Key> minus: smaller-vt-font() \n\
+  Ctrl <Key> plus: larger-vt-font() \n
 
 XTerm*omitTranslation: fullscreen
 ! disable alt-enter in XTerm, and enable it in emacs.

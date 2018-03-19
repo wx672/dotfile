@@ -7,6 +7,7 @@
 [ -f ~/.bash_aliases ] && . ~/.bash_aliases
 [ -f ~/.bin/bashmarks.sh ] && . ~/.bin/bashmarks.sh
 [ -f ~/.bin/bash_completion_tmux.sh ] && . ~/.bin/bash_completion_tmux.sh
+[ -f ~/.bin/git-prompt.sh ] && . ~/.bin/git-prompt.sh
 test -f ~/.bin/utils && . ~/.bin/utils
 test -f ~/.bin/web-apps && . ~/.bin/web-apps
 test -f ~/.bin/docs.sh && . ~/.bin/docs.sh

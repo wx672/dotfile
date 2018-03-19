@@ -51,11 +51,12 @@
  '(mode-line-in-non-selected-windows t)
  '(package-selected-packages
    (quote
-	(csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-flyspell helm-flycheck helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
+	(csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
  '(read-mail-command (quote ignore))
  '(safe-local-variable-values
    (quote
-	((eval when
+	((TeX-master . \.\./thesis\.tex)
+	 (eval when
 		   (require
 			(quote rainbow-mode)
 			nil t)

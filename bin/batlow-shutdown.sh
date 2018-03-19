@@ -7,4 +7,4 @@
 
 battery_level=`acpi -b | grep -P -o '[0-9]+(?=%)'`
 
-(acpi -a | grep -q 'on-line') || ( [[ $battery_level < 10 ]] && sudo halt )
+(acpi -a | grep -q 'on-line') || ( [[ $battery_level < 10 ]] && sudo poweroff )

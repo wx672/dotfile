@@ -2,7 +2,6 @@
 
 BROWSER="/usr/bin/x-www-browser"
 
-
 baidupan(){
     bash -c "$BROWSER https://pan.baidu.com" &>/dev/null &
 }
@@ -21,7 +20,7 @@ calibre3(){
 }
 
 dingding(){
-	bash -c "$BROWSER https://im.dingtalk.com" 2>/dev/null &
+	bash -c "$BROWSER --new-window --app=https://im.dingtalk.com" 2>/dev/null &
 }
 
 ff(){
@@ -29,7 +28,7 @@ ff(){
 }
 
 gcal(){
-  bash -c "$BROWSER https://www.google.com/calendar/render" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=https://www.google.com/calendar/render" 2>/dev/null &
 }
 
 gcontacts(){
@@ -49,11 +48,11 @@ github(){
 }
 
 gkeep(){
-  bash -c "$BROWSER https://keep.google.com" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=https://keep.google.com" 2>/dev/null &
 }
 
 gmail(){
-  bash -c "$BROWSER https://mail.google.com/mail/u/0/#inbox" 2>/dev/null &
+  bash -c "$BROWSER https://inbox.google.com" 2>/dev/null &
 }
 
 gmailoffline(){
@@ -65,7 +64,7 @@ gmaps(){
 	for WORD in $@; do
 		QUERY="$QUERY%20$WORD"
 	done
-	bash -c "$BROWSER https://www.google.com/maps/search/$QUERY" 2>/dev/null &
+	bash -c "$BROWSER --new-window --app=https://www.google.com/maps/search/$QUERY" 2>/dev/null &
 }
 
 google(){
@@ -78,11 +77,11 @@ google(){
 }
 
 gphotos(){
-	bash -c "$BROWSER https://photos.google.com" 2>/dev/null &
+	bash -c "$BROWSER --new-window --app=https://photos.google.com" 2>/dev/null &
 }
 
 gplus(){
-  bash -c "$BROWSER https://plus.google.com/" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=https://plus.google.com/" 2>/dev/null &
 }
 
 grammarly(){
@@ -90,7 +89,7 @@ grammarly(){
 }
 
 hangouts(){
-  bash -c "$BROWSER https://hangouts.google.com/" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=https://hangouts.google.com/" 2>/dev/null &
 }
 
 jd(){
@@ -106,11 +105,11 @@ lecturenotes(){
 }
 
 lizhifm(){
-  bash -c "$BROWSER http://www.lizhi.fm/label/24229953853202224/" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=http://www.lizhi.fm/label/24229953853202224/" 2>/dev/null &
 }
 
 lucidchart(){
-  bash -c "$BROWSER https://www.lucidchart.com/documents" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=https://www.lucidchart.com/documents" 2>/dev/null &
 }
 
 meituan(){
@@ -118,11 +117,11 @@ meituan(){
 }
 
 moodle(){
-  bash -c "$BROWSER http://cs6.swfu.edu.cn/moodle/" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=http://cs6.swfu.edu.cn/moodle/" 2>/dev/null &
 }
 
 music163(){
-  bash -c "$BROWSER http://music.163.com/#/my/" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=http://music.163.com/#/my/" 2>/dev/null &
 }
 
 pixlr(){
@@ -142,7 +141,7 @@ telegram(){
 }
 
 timeit(){
-	bash -c "$BROWSER http://202.203.132.29:5000/attendance/all" 2>/dev/null &
+	bash -c "$BROWSER --new-window --app=http://timeit.swfu.edu.cn/attendance/all" 2>/dev/null &
 }
 
 timer(){
@@ -154,11 +153,11 @@ travelogs(){
 }
 
 wechat(){
-  bash -c "$BROWSER https://wx2.qq.com/" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=https://wx2.qq.com/" 2>/dev/null &
 }
 
 twitter(){
-	bash -c "$BROWSER https://twitter.com" 2>/dev/null &
+	bash -c "$BROWSER --new-window --app=https://twitter.com" 2>/dev/null &
 }
 
 youtube(){
