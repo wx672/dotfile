@@ -1,0 +1,39 @@
+#/bin/bash
+
+[[ -n "$3" ]] || { cat <<EOF
+Usage: $0 '<Image> <Filter> <Threshold> [text] [x,y] [font size]'
+
+    Image - the image you want to tweak
+   Filter - man mkbitmap for details
+Threshold - man mkbitmap for details
+     text - text to be added into the image
+      x,y - coordinate, default to '300,30'
+font size - default to 22
+EOF
+				   exit 4;
+}
+
+[[ -f "$1" ]] || { echo $1: 'Image file not found!'; exit 1; }
+
+IMG="$1"
+F="$2"
+T="$3"
+TXT="$4"
+XY='300,30'
+[[ -n "$5" ]] && XY=$5
+FS='.2'
+[[ -n "$6" ]] && FS=$6
+
+PPM="$IMG.ppm"
+PBM="$IMG.pbm"
+TIF="$IMG.tif"
+PDF="$IMG.pdf"
+
+anytopnm $IMG > $PPM 2>/dev/null
+
+# convert -list font | grep CJK
+mogrify -pointsize $FS -font 'Noto-Sans-CJK-SC-Regular' -draw "text $XY "\'$TXT\'"" $PPM
+
+mkbitmap -f$F -t$T -o $PBM $PPM
+ppm2tiff -c lzw $PBM $TIF
+tiff2pdf -o $PDF -F $TIF
