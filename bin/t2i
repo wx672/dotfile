@@ -1,0 +1,18 @@
+#!/bin/bash
+
+[[ -n "$2" ]] || { cat <<EOF
+Usage: $0 <text> <Image name> [pointsize]
+
+      text - text you want to say
+Image name - name of the generated image
+ pointsize - font size, default to 36
+EOF
+				   exit 4;
+}
+
+IMG="$2"
+TXT="$1"
+PSIZE='36'; [[ -n "$3" ]] && PSIZE=$3
+
+# convert -list font | grep CJK
+convert -font 'Noto-Sans-CJK-SC-Regular' -pointsize $PSIZE label:"$TXT" $IMG
