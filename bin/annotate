@@ -1,0 +1,25 @@
+#!/bin/bash
+
+[[ -n "$2" ]] || { cat <<EOF
+Usage: $0 '<Image> <text> [x,y] [font size]'
+
+    Image - the image you want to tweak
+     text - text to be added into the image
+      x,y - coordinate, default to '+300+30'
+font size - default to 22
+EOF
+				   exit 4;
+}
+
+[[ -f "$1" ]] || { echo $1: 'Image file not found!'; exit 1; }
+
+IMG="$1"
+TXT="$2"
+XY='+300+30'; [[ -n "$5" ]] && XY=$5
+FS='22'; [[ -n "$6" ]] && FS=$6
+
+# https://tecadmin.net/how-to-extract-filename-extension-in-shell-script/
+BASE="${IMG%.*}"
+
+# convert -list font | grep CJK
+convert $IMG -pointsize $FS -font 'Noto-Sans-CJK-SC-Regular' -annotate $XY "$TXT" $BASE-anno.png

@@ -19,7 +19,7 @@ IMG="$1"
 F="4"; [[ -n "$2" ]] && F=$2
 T=".45"; [[ -n "$3" ]] && T=$3
 TXT="$4"
-XY='300,30'; [[ -n "$5" ]] && XY=$5
+XY='+300+30'; [[ -n "$5" ]] && XY=$5
 FS='22'; [[ -n "$6" ]] && FS=$6
 
 # https://tecadmin.net/how-to-extract-filename-extension-in-shell-script/
@@ -31,10 +31,10 @@ TIF="$BASE.tif"
 PDF="$BASE.pdf"
 
 anytopnm $IMG > $PPM 2>/dev/null
+mkbitmap -f$F -t$T -o $PBM $PPM
 
 # convert -list font | grep CJK
-mogrify -pointsize $FS -font 'Noto-Sans-CJK-SC-Regular' -draw "text $XY "\'$TXT\'"" $PPM
+[[ -n "$TXT" ]] && mogrify -pointsize $FS -font 'Noto-Sans-CJK-SC-Regular' -annotate $XY "$TXT" $PBM
 
-mkbitmap -f$F -t$T -o $PBM $PPM
 ppm2tiff -c lzw $PBM $TIF
 tiff2pdf -o $PDF -F $TIF

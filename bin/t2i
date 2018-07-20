@@ -15,4 +15,4 @@ TXT="$1"
 PSIZE='36'; [[ -n "$3" ]] && PSIZE=$3
 
 # convert -list font | grep CJK
-convert -font 'Noto-Sans-CJK-SC-Regular' -pointsize $PSIZE label:"$TXT" $IMG
+convert -font 'Noto-Sans-CJK-SC-Regular' -pointsize $PSIZE -size 640x caption:"$TXT" $IMG
