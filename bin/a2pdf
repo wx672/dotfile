@@ -1,13 +1,15 @@
 #!/bin/bash
 
 [[ -n "$1" ]] || { cat <<EOF
-Usage: $0 '<Image> [Filter] [Threshold] [text] [x,y] [font size]'
+a2pdf - Convert any image into a black/white PDF file optionally with text annotation.
+
+Usage: `basename $0` <Image> [Filter] [Threshold] [text] [x,y] [font size]
 
     Image - the image you want to tweak
    Filter - man mkbitmap for details
 Threshold - man mkbitmap for details
      text - text to be added into the image
-      x,y - coordinate, default to '300,30'
+      x,y - coordinate of text to be added, default to '300,30'
 font size - default to 22
 EOF
 				   exit 4;

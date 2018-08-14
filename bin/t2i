@@ -1,13 +1,15 @@
 #!/bin/bash
 
 [[ -n "$2" ]] || { cat <<EOF
+`basename $0` - Convert text into an image.
+
 Usage: $0 <text> <Image name> [pointsize]
 
       text - text you want to say
 Image name - name of the generated image
  pointsize - font size, default to 36
 EOF
-				   exit 4;
+exit 4;
 }
 
 IMG="$2"

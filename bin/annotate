@@ -1,14 +1,16 @@
 #!/bin/bash
 
 [[ -n "$2" ]] || { cat <<EOF
-Usage: $0 '<Image> <text> [x,y] [font size]'
+`basename $0` - Add text annotation into any type of image.
 
-    Image - the image you want to tweak
-     text - text to be added into the image
-      x,y - coordinate, default to '+300+30'
+Usage: `basename $0` <Image> <text> [x,y] [font size]
+
+    Image - the image to be annotated
+     text - text to be added
+      x,y - coordinate of text to be added, default to '+300+30'
 font size - default to 22
 EOF
-				   exit 4;
+exit 4;
 }
 
 [[ -f "$1" ]] || { echo $1: 'Image file not found!'; exit 1; }

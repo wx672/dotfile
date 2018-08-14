@@ -7,7 +7,8 @@ XTerm*loginShell: true
 !!!font and locale
 XTerm*faceName: Monospace
 XTerm*boldFont: Monospace
-XTerm*faceSize: 18
+XTerm*faceSize: 22
+XTerm*antialias: false
 XTerm*faceNameDoublesize: Noto Sans Mono CJK SC
 
 ! set 'cjkWidth' to true makes aptitude window messy.
@@ -15,7 +16,7 @@ XTerm*faceNameDoublesize: Noto Sans Mono CJK SC
 XTerm*locale: true
 XTerm*utf8: true
 XTerm*fontMenu*fontdefault*Label: Default
-XTerm*xftAntialias: true
+XTerm*xftAntialias: false
 XTerm*selectToClipboard: true
 
 !!! make url selection better (seems not working)
