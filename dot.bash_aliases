@@ -25,7 +25,7 @@ alias screencapture='ffmpeg -video_size 1360x768 -framerate 30 -f x11grab -i :0.
 alias Date='date +%Y%m%d%H%M'
 alias unpaper='unpaper -t pbm --overwrite --no-blackfilter --no-noisefilter --no-blurfilter --no-grayfilter --no-deskew --no-wipe'
 #alias impressive='/usr/bin/impressive --windowed -c memory --clock -M --nologo'
-#alias xcompmgr='xcompmgr -CcfF -I-.02 -O-.04 -D0001 -t-5 -l-5 -r4.2 -o.82'
+alias xcompmgr='xcompmgr -CcfF -I-.02 -O-.04 -D0001 -t-5 -l-5 -r4.2 -o.82'
 
 # Local Variables:
 # mode: sh
