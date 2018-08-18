@@ -1,16 +1,22 @@
 ;; Sawfish user customization -- do not edit by hand!
 ;; Use the configurator instead.
-;; sawfish version 1.11.90, written Mon Jun 11 12:43:48 2018
+;; sawfish version 1.11.90, written Sat Aug 18 20:50:36 2018
 
+(custom-set-keymap (quote window-keymap) (quote (keymap)))
+(custom-set-keymap (quote global-keymap) (quote (keymap)))
+(custom-set-typed-variable (quote decorate-transients) (quote ()) (quote boolean))
+(custom-set-typed-variable (quote use-custom-border) (quote ()) (quote boolean))
+(custom-set-typed-variable (quote use-custom-button-cursor-shape) (quote ()) (quote boolean))
+(custom-set-typed-variable (quote use-custom-font-color) (quote ()) (quote boolean))
+(custom-set-typed-variable (quote use-custom-font) (quote ()) (quote boolean))
+(custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))
+(custom-set-typed-variable (quote default-font) (quote ("Pango" . "Sans 14")) (quote font))
 (custom-set-typed-variable (quote cabinet:cycle) (quote "TAB") (quote event))
 (custom-set-typed-variable (quote init-wallpaper) (quote t) (quote boolean))
-(custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))
 (custom-set-typed-variable (quote cabinet:cycle-as-start) (quote t) (quote boolean))
-(custom-set-keymap (quote global-keymap) (quote (keymap (cycle-windows . "Super-TAB") (move-viewport-previous . "Super-k") (cabinet-switch . "Super-BS") (move-viewport-next . "Super-j") (run-application . "Super-r") (next-workspace . "Super-.") (select-workspace-interactively . "Super-/") ((xterm "") . "Super-x"))))
 (custom-set-typed-variable (quote ugly-cycle-relative) (quote window) (quote symbol))
 (custom-set-typed-variable (quote cabinet:filter-out-for-manipulation) (quote ()) (quote (list string "Windows displayed below the split line.")))
 (custom-set-typed-variable (quote cabinet:workspace-mode-on-initial) (quote t) (quote boolean))
-(custom-set-keymap (quote window-keymap) (quote (keymap (maximize-window-toggle . "Super-RET") (send-window-to-next-head . "Super-Right") (send-window-to-previous-head . "Super-Left") (move-window-interactively . "Super-m") (iconify-window . "Super-S-RET") ((send-to-workspace 2) . "Super-@") ((send-to-workspace 1) . "Super-!") (delete-window . "Super-F4") (destroy-window . "Super-F5"))))
 (custom-set-keymap (quote close-button-keymap) (quote (keymap (delete-window . "Button1-Off"))))
 (custom-set-keymap (quote iconify-button-keymap) (quote (keymap (iconify-window . "Button1-Off"))))
 (custom-set-keymap (quote maximize-button-keymap) (quote (keymap (maximize-window-toggle . "Button1-Off"))))
@@ -41,10 +47,6 @@
 (custom-set-typed-variable (quote ugly-cycle-font) (quote ("Pango" . "Sans 0")) (quote font))
 (custom-set-typed-variable (quote uglicon-height) (quote 64) (quote number))
 (custom-set-typed-variable (quote uglicon-width) (quote 64) (quote number))
-(custom-set-typed-variable (quote decorate-transients) (quote ()) (quote boolean))
-(custom-set-typed-variable (quote use-custom-border) (quote ()) (quote boolean))
-(custom-set-typed-variable (quote use-custom-font-color) (quote ()) (quote boolean))
-(custom-set-typed-variable (quote default-font) (quote ("Pango" . "Sans 0")) (quote font))
 (custom-set-typed-variable (quote run-application:use-application-exclude) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote error-destination) (quote standard-error) (quote (choice nowhere screen standard-error both)))
 (custom-set-typed-variable (quote ugly-cycle-padding) (quote (4 . 4)) (quote (pair (labelled "Horizontal:" (number 0 100)) (labelled "Vertical:" (number 0 100)))))

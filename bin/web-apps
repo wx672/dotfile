@@ -52,7 +52,7 @@ gkeep(){
 }
 
 gmail(){
-  bash -c "$BROWSER https://inbox.google.com" 2>/dev/null &
+  bash -c "$BROWSER --new-window --app=https://inbox.google.com" 2>/dev/null &
 }
 
 gmailoffline(){
