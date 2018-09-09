@@ -1,6 +1,7 @@
 #!/bin/bash
 
 BROWSER="/usr/bin/x-www-browser"
+SURF="/usr/local/bin/surf"
 
 baidupan(){
     bash -c "$BROWSER https://pan.baidu.com" &>/dev/null &
@@ -32,19 +33,23 @@ gcal(){
 }
 
 gcontacts(){
-	bash -c "$BROWSER https://contacts.google.com" 2>/dev/null &
+	bash -c "$BROWSER --new-window --app=https://contacts.google.com" 2>/dev/null &
 }
 
 gdrawing(){
-  bash -c "$BROWSER https://docs.google.com/drawings/create?usp=apps_start&hl=en" 2>/dev/null &
+  bash -c "$BROWSER  --new-window --app=https://docs.google.com/drawings/create?usp=apps_start&hl=en" 2>/dev/null &
 }
 
 gdrive(){
-  bash -c "$BROWSER https://drive.google.com/drive/#my-drive" 2>/dev/null &
+  bash -c "$BROWSER  --new-window --app=https://drive.google.com/drive/#my-drive" 2>/dev/null &
 }
 
 github(){
 	bash -c "$BROWSER https://github.com" 2>/dev/null &
+}
+
+gitlab(){
+	bash -c "$BROWSER  --new-window --app=https://gitlab.swfu.edu.cn" 2>/dev/null &
 }
 
 gkeep(){
@@ -85,7 +90,7 @@ gplus(){
 }
 
 grammarly(){
-	bash -c "$BROWSER https://app.grammarly.com/" 2>/dev/null &
+	bash -c "$BROWSER  --new-window --app=https://app.grammarly.com/" 2>/dev/null &
 }
 
 hangouts(){
@@ -121,15 +126,15 @@ moodle(){
 }
 
 music163(){
-  bash -c "$BROWSER --new-window --app=http://music.163.com/#/my/" 2>/dev/null &
+  bash -c "$BROWSER  --new-window --app=http://music.163.com/#/my/" 2>/dev/null &
 }
 
 pixlr(){
-  bash -c "$BROWSER http://pixlr.com/editor" 2>/dev/null &
+  bash -c "$BROWSER  --new-window --app=http://pixlr.com/editor" 2>/dev/null &
 }
 
 qq(){
-  bash -c "$BROWSER http://w.qq.com/" 2>/dev/null &
+  bash -c "$BROWSER  --new-window --app=http://w.qq.com/" 2>/dev/null &
 }
 
 taobao(){
@@ -137,23 +142,23 @@ taobao(){
 }
 
 telegram(){
-    bash -c "$BROWSER https://web.telegram.org" 2>/dev/null &
+    bash -c "$BROWSER  --new-window --app=https://web.telegram.org" 2>/dev/null &
 }
 
 timeit(){
-	bash -c "$BROWSER --new-window --app=http://timeit.swfu.edu.cn/attendance/all" 2>/dev/null &
+	bash -c "$BROWSER  --new-window --app=http://timeit.swfu.edu.cn/attendance/all" 2>/dev/null &
 }
 
 timer(){
-  bash -c "$BROWSER http://www.timer-tab.com" 2>/dev/null &
+  bash -c "$BROWSER  --new-window --app=http://www.timer-tab.com" 2>/dev/null &
 }
 
 travelogs(){
-	bash -c "$BROWSER http://cs2.swfu.edu.cn/~wx672/travelogs" 2>/dev/null &
+	bash -c "$BROWSER  --new-window --app=http://cs2.swfu.edu.cn/~wx672/travelogs" 2>/dev/null &
 }
 
 wechat(){
-  bash -c "$BROWSER --new-window --app=https://wx2.qq.com/" 2>/dev/null &
+  bash -c "$BROWSER  --new-window --app=https://wx2.qq.com/" 2>/dev/null &
 }
 
 twitter(){

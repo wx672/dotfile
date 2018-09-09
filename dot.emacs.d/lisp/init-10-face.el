@@ -24,12 +24,12 @@
   (set-fontset-font t ;;(frame-parameter nil 'font)
                     charset (font-spec :family "Noto Sans Mono CJK SC"
                                        :size 22)))
+;; Symbols
+(set-fontset-font t 'symbol (font-spec :family "Symbola"))
 
-(set-fontset-font "fontset-default"  '(#xe200 . #xf4a8)
-				  "DejaVu Sans Mono Nerd Font Complete")
+(set-fontset-font "fontset-default"  '(#xe200 . #xf4a8) (font-spec :family "DejaVu Sans Mono Nerd Font Complete"))
 
-(set-fontset-font "fontset-default"  '(#x1f000 . #x1f9e6)
-				  "Symbola")
+(set-fontset-font "fontset-default"  '(#x1f000 . #x1f9e6) (font-spec :family "Symbola"))
 
 (provide 'init-10-face)
 ;;; init-10-face.el ends here

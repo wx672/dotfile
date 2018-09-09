@@ -58,8 +58,8 @@
 		   "Super-e" '(system "/usr/bin/emacsclient -c -n &")
 		   "Super-c" '(jump-or-exec "Chromium" "x-www-browser" t)
 		   "Super-w" '(system "x-www-browser --new-window --app=https://wx2.qq.com/ &")
-		   "Super-y" '(system "x-www-browser --new-window --app=https://youtube.com &")
 		   "Super-d" '(system "x-www-browser --new-window --app=https://im.dingtalk.com &")
+		   "Super-y" '(system "x-www-browser --new-window --app=https://youtube.com &")
 		   "Super-F1" '(jump-or-exec "Help" "/usr/bin/qiv -s -C -d120 ~/.keys.png" t)
 		   "Super-F2" '(system "bash -c \"gromit-mpx -a -o .5 --key F2\" &")
 

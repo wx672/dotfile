@@ -1,5 +1,10 @@
 #!/bin/bash
 
+PDFVIEWER="/usr/bin/mupdf"
+
+function screencapture(){
+	ffmpeg -f x11grab -s 1366x768 -r 30 -i :0.0 -c:v libx264 -crf 0 -preset ultrafast screen.mkv
+}
 # http://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal
 
 # function countdown(){
@@ -40,19 +45,19 @@ mdview(){
 }
 
 neta(){
-	zathura /home/wx672/lecture_notes/network_basics/net-a.pdf
+	$PDFVIEWER /home/wx672/lecture_notes/network_basics/net-a.pdf &
 }
 
 netb(){
-	zathura /home/wx672/lecture_notes/network_basics/net-b.pdf
+	$PDFVIEWER /home/wx672/lecture_notes/network_basics/net-b.pdf &
 }
 
 osa(){
-	zathura /home/wx672/lecture_notes/os/slides/os-a.pdf
+	$PDFVIEWER /home/wx672/lecture_notes/os/slides/os-a.pdf &
 }
 
 osb(){
-	zathura /home/wx672/lecture_notes/os/slides/os-b.pdf
+	$PDFVIEWER /home/wx672/lecture_notes/os/slides/os-b.pdf &
 }
 
 pdf2gray(){

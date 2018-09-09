@@ -31,7 +31,7 @@
   ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-dynamic-english
-                  pyim-probe-isearch-mode
+                  ;pyim-probe-isearch-mode
                   pyim-probe-program-mode
                   pyim-probe-org-structure-template))
 
@@ -42,7 +42,7 @@
   (setq pyim-punctuation-translate-p '(yes no auto))
 
   ;; 开启拼音搜索功能
-  (pyim-isearch-mode 1)
+;  (pyim-isearch-mode 1)
 
   ;; 使用 pupup-el 来绘制选词框
   (setq pyim-page-tooltip 'popup)

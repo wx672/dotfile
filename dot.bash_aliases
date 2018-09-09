@@ -20,12 +20,12 @@ alias cs2ssh='xterm -e ssh -XC cs2 &'
 alias cs3ssh='xterm -e ssh -XC cs3 &'
 alias wget='wget -c --no-check-certificate'
 alias espeak='espeak -s 120 -v mb-us1'
-alias screencapture='ffmpeg -video_size 1360x768 -framerate 30 -f x11grab -i :0.0 -c:v libx264 -qp 0 -preset ultrafast screen.mkv'
+#alias screencapture='ffmpeg -f x11grab -video_size 1360x768 -framerate 30 -i :0.0 -c:v libx264 -crf 0 -preset ultrafast screen.mkv'
 #alias recordmydesktop='recordmydesktop --no-cursor --fps 30 --no-sound --no-wm-check --no-frame'
 alias Date='date +%Y%m%d%H%M'
 alias unpaper='unpaper -t pbm --overwrite --no-blackfilter --no-noisefilter --no-blurfilter --no-grayfilter --no-deskew --no-wipe'
 #alias impressive='/usr/bin/impressive --windowed -c memory --clock -M --nologo'
-alias xcompmgr='xcompmgr -CcfF -I-.02 -O-.04 -D0001 -t-5 -l-5 -r4.2 -o.82'
+#alias xcompmgr='xcompmgr -CcfF -I-.02 -O-.04 -D0001 -t-5 -l-5 -r4.2 -o.82'
 
 # Local Variables:
 # mode: sh

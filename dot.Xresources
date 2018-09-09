@@ -7,7 +7,13 @@ XTerm*loginShell: true
 !!!font and locale
 XTerm*faceName: Monospace
 XTerm*boldFont: Monospace
-XTerm*faceSize: 22
+XTerm*faceSize: 20
+XTerm*faceSize1: 14
+XTerm*faceSize2: 16
+XTerm*faceSize3: 18
+XTerm*faceSize4: 20
+XTerm*faceSize5: 22
+XTerm*faceSize6: 24
 XTerm*antialias: false
 XTerm*faceNameDoublesize: Noto Sans Mono CJK SC
 

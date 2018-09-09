@@ -149,6 +149,9 @@
   :config
   (setq-default pdf-view-display-size 'fit-page)
   (setq yas-minor-mode nil
+		pdf-cache-image-limit 32
+		pdf-view-max-image-width 2048
+		pdf-view-resize-factor 1.8
 		pdf-isearch-batch-mode t
 		pdf-annot-activate-created-annotations t))
 

@@ -71,6 +71,7 @@
     (setq
      reftex-plug-into-AUCTeX t
      reftex-bibliography-commands '("addbibresource" "bibliography" "nobibliography")
+	 bibtex-dialect 'biblatex
      )
     :config
     (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
