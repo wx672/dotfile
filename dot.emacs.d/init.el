@@ -242,6 +242,12 @@
 		uniquify-after-kill-buffer-p t
 		uniquify-ignore-buffers-re "^\\*"))
 
+(setq auto-mode-alist
+	  (cons '("/rfc[0-9]+\\.txt\\(\\.gz\\)?\\'" . rfcview-mode)
+			auto-mode-alist))
+
+(autoload 'rfcview-mode "rfcview" nil t)
+
 (save-place-mode 1)
 (setq save-place-forget-unreadable-files t)
 
