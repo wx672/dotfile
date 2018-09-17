@@ -1,0 +1,29 @@
+# -*- mode: snippet -*-
+#name : ctexart template
+# --
+\documentclass[scheme=plain]{ctexart}
+
+\title{$1}
+\author{${2:WANG Xiaolin}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+$3
+\end{abstract}
+
+\clearpage
+\pagenumbering{roman}
+\tableofcontents
+%\listoffigures{}
+%\listoftables{}
+
+\clearpage
+\pagenumbering{arabic}
+
+$0
+
+
+\end{document}

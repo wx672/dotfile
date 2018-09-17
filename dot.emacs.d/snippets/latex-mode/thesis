@@ -1,100 +1,69 @@
 # -*- mode: snippet -*-
 #name : SWFU thesis template
 # --
-\documentclass{swfcthesis}
+\documentclass{swfuthesis}
 
 \addbibresource{thesis.bib}    % 参照教程自己去写一个.bib文件
 
+\title{${1:论文标题}}
+\enTitle{${2:英文标题}}
+\author{${3:作者姓名}}
+\enAuthor{${4:英文姓名}}
+\Advisor{${5:指导教师姓名}}
+\AdvisorTitle{${6:指导教师职称}}
+\Month{${7:六}}
+\Year{${8:二〇一九}}
+\Subject{${9:计算机科学与技术专业}}    %专业名称（比如 电子信息工程专业）
+
 \begin{document}
 
-\Title{${1:论文标题}}
-\Author{${2:作者姓名}}
-\Advisor{${3:指导教师姓名}}
-\AdvisorTitle{${4:指导教师职称}}
-\AdvisorInfo{${5:指导教师简介（约百余字）}}
-\Month{${6:六}}
-\Year{${7:二〇一七}}
-\Subject{${8:计算机科学与技术专业}}    %专业名称（比如 电子信息工程专业）
-\Abstract{${9:这里写论文摘要（约两百字）}}
-\Keywords{${10:这里写关键字，比如 电阻, 电容}}
-\Acknowledgments{${11:这里写鸣谢（约百余字）}}
-\enTitle{${12:英文标题}}
-\enAuthor{${13:英文姓名}}
-\enAbstract{${14:英文摘要}}
-\enKeywords{${15:英文关键字}}
+\maketitle
 
-%%% 下面六行不要动！
-\makepreliminarypages% 封面
-\frontmatter          
+\begin{abstract} % 摘要
+$0 本文是关于……
+\end{abstract}
+
+\begin{keyword} % 关键词
+  关键词，关键词，关键词……
+\end{keyword}
+
+\begin{EAbstract} % 英文摘要
+   This project is about...
+\end{EAbstract}
+
+\begin{EKeyword} % 英文关键词
+   keyword, keyword, keyword...
+\end{EKeyword}
+
 \tableofcontents     % 目录
-\listoffigures       % 插图目录
-\listoftables        % 表格目录
-\mainmatter
+\listoffigures       % 插图目录，可以没有
+\listoftables        % 表格目录，可以没有
+\cleardoublepage % keep this line
+\pagenumbering{arabic}
 
-\chapter{${16:第一章标题}}
+% 参考教程，在chapters目录中单独写各章
+\include{chapters/ch1-intro}
+\include{chapters/ch2-design}
+\include{chapters/ch3-implementation}
+\include{chapters/ch4-test}
 
-$0
-正文部分从此开始。可以参考模版目录中的各章节tex文件来写。
+%%%%% appendix （参考文献、指导教师简介、鸣谢、附录）
+\appendix % keep this line
+\makebib % 参考文献
 
-\section{图片与表格}
+\begin{advisorInfo} % 指导教师简介
+王晓林，男，50岁，硕士，讲师，毕业于英国格林尼治大学，分布式计算系统专业。现任
+西南林业大学计信学院教师。执教Linux、操作系统、网络技术等方面的课程，有丰富的Linux教学和系统管理经验。
+\end{advisorInfo}
 
-如果需要插入图片与表格的话，可以参考下面的简单例子。
+\begin{acknowledgment} % 致谢
+我要感谢党……
+\end{acknowledgment}
 
-\subsection{图片示例}
+%%%%% 附录章节
+\singlespacing
+\include{chapters/ch5-app-code}
 
-下面是插入图片的示例：
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=.5\textwidth]{hello}
-  \caption{图片示例}
-  \label{fig:hello}
-\end{figure}
-
-\subsection{表格示例}
-
-下面是一个表格的例子：
-
-\begin{table}[!ht]
-  \centering
-  \begin{tabular}{|r|c|l|}
-    \hline
-    Hello&world&Hello, world!\\\hline
-    Hello&world&Hello, world!\\\hline
-  \end{tabular}
-  \caption{表格示例}
-  \label{tab:hello}
-\end{table}
-
-\chapter{又一章标题}
-
-接着写吧接着写吧接着写吧接着写吧
-
-%%% 正文部分到此结束。下面是『参考文献』、『指导教师简介』、『鸣谢』、『附录』
-
-%% 不要动下面四行！
-\Appendix{}
-\printbibliography[heading={bibintoc},title={参考文献}] % 输出参考文献
-\advisorinfopage{}                 % 输出指导教师简介
-\acknowledgmentspage{}             % 输出鸣谢
-
-%%% 下面是附录部分，可以没有。
-
-\chapter{我也不知道为什么要写附录} %附录一
-
-可以参考模版目录中的 appendix.tex 文件来写。
-
-\chapter{主要程序代码} %附录二
-
-% 插入程序代码
-\inputminted[fontsize=\small]{c}{hello.c}
-
-% 也可以这样
-\begin{listing}[H]
-  \inputminted{c}{hello.c}
-  \caption{Hello, world!}
-  \label{lst:hello}
-\end{listing}  
 
 \end{document} % 结束。不要动下面几行！
 

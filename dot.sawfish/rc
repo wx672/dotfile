@@ -42,6 +42,7 @@
 		   "Super-Right" 'send-window-to-next-head
 		   "Super-Left" 'send-window-to-previous-head
 		   "Super-m" 'move-window-interactively
+		   "Super-Up" 'resize-window-interactively
 		   )
 
 (bind-keys global-keymap
@@ -51,7 +52,8 @@
 		   ;"Super-BS" 'cabinet-switch
 		   "Super-r" 'run-application
 		   "Super-." 'next-workspace
-		   "Super-/" 'select-workspace-interactively
+		   ;"Super-/" 'select-workspace-interactively
+		   "Super-0" 'delete-empty-workspaces
 		   "Super-x" '(xterm "")
 		   "Super-t" '(system "xterm -e tmux &")
 		   "Super-o" '(jump-or-exec "LibreOffice" "libreoffice" t)

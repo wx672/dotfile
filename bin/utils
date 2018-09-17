@@ -107,9 +107,19 @@ propstring () {
   echo '}'
 }
 
+rfc(){
+	[[ -n "$1" ]] || { cat <<EOF
+rfc - Command line RFC viewer
+Usage: rfc <number>
+EOF
+					   return 1
+	}
+	find /usr/share/doc/RFC/ -type f -iname "rfc$1.*" | xargs less
+}
+
 booksearch () {
 	LIBPATH=/home/local/Calibre
-	[[ -n "$1" ]] || { echo Usage: '$0 <keywords>'; exit 0; }
+	[[ -n "$1" ]] || { echo Usage: 'booksearch <keywords>'; return 1; }
 	calibredb list -s "$@" --with-library=$LIBPATH/Calibre1
 	calibredb list -s "$@" --with-library=$LIBPATH/Calibre2
 	calibredb list -s "$@" --with-library=$LIBPATH/Calibre3
