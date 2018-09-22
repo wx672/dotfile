@@ -80,5 +80,5 @@
 ; 	   "Print" '(system "/usr/bin/import -window root /tmp/screen.png")
 ; 	"M-C-l" '(system "sudo /etc/acpi/sleepbtn.sh")
 ; 	"XF86Sleep" '(system "sudo /etc/acpi/sleepbtn.sh")
-; 	"XF86MonBrightnessDown" '(system "xbacklight -dec 10")
-;	"XF86MonBrightnessUp" '(system "xbacklight -inc 10")
+; 	"XF86MonBrightnessDown" '(system "brightnessctl set 10%-")
+;	"XF86MonBrightnessUp" '(system "brightnessctl set +10%")

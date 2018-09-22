@@ -41,11 +41,11 @@ $0 本文是关于……
 \cleardoublepage % keep this line
 \pagenumbering{arabic}
 
-% 参考教程，在chapters目录中单独写各章
-\include{chapters/ch1-intro}
-\include{chapters/ch2-design}
-\include{chapters/ch3-implementation}
-\include{chapters/ch4-test}
+% 参考教程，在chapters目录中单独写各章（ch1.tex, ch2.tex...）
+\include{chapters/ch1}
+\include{chapters/ch2}
+\include{chapters/ch3}
+\include{chapters/ch4}
 
 %%%%% appendix （参考文献、指导教师简介、鸣谢、附录）
 \appendix % keep this line
@@ -57,12 +57,12 @@ $0 本文是关于……
 \end{advisorInfo}
 
 \begin{acknowledgment} % 致谢
-我要感谢党……
+我要感谢党，我要感谢政府，我情绪稳定……
 \end{acknowledgment}
 
 %%%%% 附录章节
 \singlespacing
-\include{chapters/ch5-app-code}
+\include{chapters/ch5}
 
 
 \end{document} % 结束。不要动下面几行！

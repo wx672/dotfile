@@ -1,6 +1,7 @@
 #!/bin/bash
 
-PDFVIEWER="/usr/bin/mupdf"
+MUPDF="/usr/bin/mupdf -r285"
+XPDF="/usr/bin/mupdf -r180"
 
 function screencapture(){
 	ffmpeg -f x11grab -s 1366x768 -r 30 -i :0.0 -c:v libx264 -crf 0 -preset ultrafast screen.mkv
@@ -20,7 +21,7 @@ function countdown(){
     while [ "$date1" -ne `date +%s` ]; do 
 	echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
 	sleep 1
-    done && aplay -q /usr/share/sawfish/sounds/move-viewport.wav
+    done && ogg123 /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga
 }
 
 function stopwatch(){
@@ -45,19 +46,19 @@ mdview(){
 }
 
 neta(){
-	$PDFVIEWER /home/wx672/lecture_notes/network_basics/net-a.pdf &
+	$XPDF /home/wx672/lecture_notes/network_basics/net-a.pdf &
 }
 
 netb(){
-	$PDFVIEWER /home/wx672/lecture_notes/network_basics/net-b.pdf &
+	$MUPDF /home/wx672/lecture_notes/network_basics/net-b.pdf &
 }
 
 osa(){
-	$PDFVIEWER /home/wx672/lecture_notes/os/slides/os-a.pdf &
+	$XPDF /home/wx672/lecture_notes/os/slides/os-a.pdf &
 }
 
 osb(){
-	$PDFVIEWER /home/wx672/lecture_notes/os/slides/os-b.pdf &
+	$MUPDF /home/wx672/lecture_notes/os/slides/os-b.pdf &
 }
 
 pdf2gray(){
@@ -146,5 +147,5 @@ w2pdf () {
 }
 
 xpdf(){
-	/usr/bin/mupdf "$1" 2>/dev/null &
+	$XPDF "$1" 2>/dev/null &
 }
