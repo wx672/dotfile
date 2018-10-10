@@ -91,7 +91,7 @@
 
 (use-package ispell
   :config
-  (setq ispell-dictionary "english")
+  (setq ispell-dictionary "en_US")
   (when (executable-find ispell-program-name)
 	(use-package flyspell
 	  :config

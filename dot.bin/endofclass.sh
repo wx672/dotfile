@@ -12,6 +12,6 @@ case "$1" in
 		;;
 	[bB][rR][eE][aA][kK]) $SM $BREAK
 		;;
-	*) echo "Usage: $0 day|night"
+	*) echo "Usage: $0 day|night|break"
 		;;
 esac

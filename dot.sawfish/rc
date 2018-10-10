@@ -62,7 +62,8 @@
 		   "Super-w" '(system "x-www-browser --new-window --app=https://wx2.qq.com/ &")
 		   "Super-d" '(system "x-www-browser --new-window --app=https://im.dingtalk.com &")
 		   "Super-y" '(system "x-www-browser --new-window --app=https://youtube.com &")
-		   "Super-F1" '(jump-or-exec "Help" "/usr/bin/qiv -s -C -d120 ~/.keys.png" t)
+		   "Super-z" '(jump-or-exec "Zathura" "/usr/bin/zathura --fork" t)
+		   "Super-F1" '(jump-or-exec "Help" "/usr/bin/pqiv -s -i -d 30 --end-of-files-action=quit .keys.png" t)
 		   "Super-F2" '(system "bash -c \"gromit-mpx -a -o .5 --key F2\" &")
 
 		   "Super-l" '(system "xset dpms force off")
@@ -71,6 +72,8 @@
 		   "XF86AudioLowerVolume" '(system "amixer set Master 3%- && amixer set PCM 3%-")
 		   "XF86AudioRaiseVolume" '(system "amixer set Master 3%+ && amixer set PCM 3%+")
 		   "XF86WLAN" '(system "/bin/sleep 1"); disable XF86WLAN
+			"XF86MonBrightnessDown" '(system "brightnessctl set 5%-")
+			"XF86MonBrightnessUp" '(system "brightnessctl set +5%")
 		   )
 
 ; 	   "XF86HomePage" '(system "/usr/bin/x-www-browser &")
@@ -80,5 +83,3 @@
 ; 	   "Print" '(system "/usr/bin/import -window root /tmp/screen.png")
 ; 	"M-C-l" '(system "sudo /etc/acpi/sleepbtn.sh")
 ; 	"XF86Sleep" '(system "sudo /etc/acpi/sleepbtn.sh")
-; 	"XF86MonBrightnessDown" '(system "brightnessctl set 10%-")
-;	"XF86MonBrightnessUp" '(system "brightnessctl set +10%")

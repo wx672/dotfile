@@ -2,6 +2,7 @@
 
 MUPDF="/usr/bin/mupdf -r285"
 XPDF="/usr/bin/mupdf -r180"
+ZATHURA="/usr/bin/zathura --fork"
 
 function screencapture(){
 	ffmpeg -f x11grab -s 1366x768 -r 30 -i :0.0 -c:v libx264 -crf 0 -preset ultrafast screen.mkv
@@ -46,7 +47,7 @@ mdview(){
 }
 
 neta(){
-	$XPDF /home/wx672/lecture_notes/network_basics/net-a.pdf &
+	$ZATHURA /home/wx672/lecture_notes/network_basics/net-a.pdf &
 }
 
 netb(){
@@ -54,7 +55,7 @@ netb(){
 }
 
 osa(){
-	$XPDF /home/wx672/lecture_notes/os/slides/os-a.pdf &
+	$ZATHURA /home/wx672/lecture_notes/os/slides/os-a.pdf &
 }
 
 osb(){

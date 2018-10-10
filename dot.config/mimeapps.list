@@ -1,0 +1,10 @@
+
+[Default Applications]
+image/jpeg=pqiv.desktop
+image/png=pqiv.desktop
+image/pnm=pqiv.desktop
+image/ppm=pqiv.desktop
+image/pbm=pqiv.desktop
+image/pgm=pqiv.desktop
+image/tif=pqiv.desktop
+image/gif=pqiv.desktop
