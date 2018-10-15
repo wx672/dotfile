@@ -1,5 +1,7 @@
-set recolor-darkcolor "#93A1A1"
-set recolor-lightcolor "#002B36"
+#set recolor-darkcolor "#93A1A1"
+#set recolor-lightcolor "#002B36"
+set recolor-darkcolor "#dcdccc"
+set recolor-lightcolor "#3f3f3f"
 set recolor true
 
 # colors
@@ -36,6 +38,9 @@ map W adjust_window width
 map H adjust_window best-fit
 map <BackSpace> scroll full-up
 map u scroll half-up
+unmap d
+map d scroll half-down
+map <C-d> toggle_page_mode
 map = zoom in
 map - zoom out
 
