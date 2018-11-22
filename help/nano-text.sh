@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/bin/funcs
+. ~/.bin/ttyrec-utils
 
 clear; ttyplayhelp
 echo

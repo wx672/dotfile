@@ -1,5 +1,5 @@
 #!/bin/bash
-[ -f ~/bin/funcs ] && . ~/bin/funcs
+[ -f ~/.bin/ttyrec-utils ] && . ~/.bin/ttyrec-utils
 clear
 ttyplayhelp
 echo

@@ -1,6 +1,6 @@
 ;;; init-pyim.el --- pinyin input method
 
-;;; Commentary:
+;;; Commentary: https://github.com/tumashu/pyim
 
 ;;; Code:
 
@@ -8,7 +8,8 @@
 (require 'pyim-basedict)
 
 (use-package pyim
-  :ensure t
+  :ensure nil
+  :demand t
   :diminish pyim-isearch-mode
   :config
   ;; 激活 basedict 拼音词库
@@ -31,7 +32,7 @@
   ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-dynamic-english
-                  ;pyim-probe-isearch-mode
+                  ;pyim-probe-isearch-mode ; troubles PDF viewer
                   pyim-probe-program-mode
                   pyim-probe-org-structure-template))
 
@@ -39,10 +40,10 @@
                 '(pyim-probe-punctuation-line-beginning
                   pyim-probe-punctuation-after-punctuation))
 
-  (setq pyim-punctuation-translate-p '(yes no auto))
+  (setq pyim-punctuation-translate-p '(auto yes no))
 
   ;; 开启拼音搜索功能
-;  (pyim-isearch-mode 1)
+;  (pyim-isearch-mode 1) ; troubles PDF viewer
 
   ;; 使用 pupup-el 来绘制选词框
   (setq pyim-page-tooltip 'popup)

@@ -28,21 +28,18 @@
 ---
 Assuming...
 ---
-* My student ID is 20141152888, and...
----
-* I have a directory called '20141152888' for saving my homeworks. So, I've got...
+* I have a directory called 'homework' for saving my homeworks. So, I've got...
 ---
 --beginoutput
 /tmp
 --revon
- └── 20141152888
+ └── homework
 --revoff
      ├── c-homework
      │   └── hello.c
      └── python-homework
          ├── a.py
          ├── b.py
-         ├── c.py
          └── hello.py
 --endoutput
 ---
@@ -67,20 +64,20 @@ To play around within directories, you just need 2 small commands...
 
 For example...
 --beginshelloutput
-$ cd /tmp/20141152888
-/tmp/20141152888$
+$ cd /tmp/homework
+/tmp/homework$
 --endshelloutput
-Now I am in /tmp/20141152888/ directory!
+Now I am in /tmp/homework/ directory!
 
 ---
-To see what's in /tmp/20141152888/ ...
+To see what's in /tmp/homework/ ...
 --beginshelloutput
-$ ls /tmp/20141152888
+$ ls /tmp/homework
 c-homework/  python-homework/
 --endshelloutput
 ---
 
-Or you can just type 'ls' if you're in /tmp/20141152888 directory
+Or you can just type 'ls' if you're in /tmp/homework directory
 --beginshelloutput
 $ ls
 c-homework/  python-homework/
@@ -92,14 +89,14 @@ Now, let's get into python-homework directory...
 ---
 --beginshelloutput
 $ cd python-homework
-/tmp/20141152888/python-homework$
+/tmp/homework/python-homework$
 --endshelloutput
 
 ---
 To see what's in it...
 --beginshelloutput
 $ ls
-a.py  b.py  c.py  hello.py
+a.py  b.py  hello.py
 --endshelloutput
 
 ---
@@ -109,7 +106,6 @@ $ ls -l
 total 0
 -rw-r--r-- 1 wx672 wx672 0 Oct  2 18:12 a.py
 -rw-r--r-- 1 wx672 wx672 0 Oct  2 18:12 b.py
--rw-r--r-- 1 wx672 wx672 0 Oct  2 18:12 c.py
 -rw-r--r-- 1 wx672 wx672 0 Oct  2 18:11 hello.py
 --endshelloutput
 
@@ -118,14 +114,14 @@ total 0
 * Use 'pwd' to see where you are...
 --beginshelloutput
 $ pwd
-/tmp/20141152888/python-homework
+/tmp/homework/python-homework
 --endshelloutput
 
 ---
 * '..' means parent directory...
 --beginshelloutput
 $ cd ..
-/tmp/20141152888$
+/tmp/homework$
 ---
 $ ls
 c-homework/  python-homework/
@@ -157,7 +153,7 @@ Easy as pie!
 For example... 4 files in python-homework directory right now.
 --beginshelloutput
 $ ls python-homework
-a.py  b.py  c.py  hello.py
+a.py  b.py  hello.py
 --endshelloutput
 ---
 
@@ -167,7 +163,7 @@ Now, let's remove a.py...
 $ rm python-homework/a.py
 /bin/rm: remove regular empty file ‘python-homework/a.py’? y
 $ ls python-homework
-b.py  c.py  hello.py
+b.py  hello.py
 --endshelloutput
 ---
 See? a.py is gone!
@@ -178,7 +174,7 @@ To remove a directory, you should use 'rm -r'
 For example,
 ---
 --beginshelloutput
-$ cd /tmp/20141152888
+$ cd /tmp/homework
 $ ls
 c-homework/  java-homework/  Movie/  Music/  Photo/  python-homework/
 $ rm -r c-homework java-homework
@@ -197,7 +193,7 @@ Got the idea?
 For example, in my python-homework directory, there are 3 files...
 --beginshelloutput
 $ ls
-b.py  c.py  hello.py
+b.py  hello.py
 --endshelloutput
 
 ---
@@ -206,7 +202,7 @@ Now I want to give 'hello.py' a new name...
 --beginshelloutput
 $ mv hello.py hello-world.py
 $ ls
-b.py  c.py  hello-world.py
+b.py  hello-world.py
 --endshelloutput
 Easy, eh?
 
@@ -220,7 +216,7 @@ Now, I want to make a copy of hello-world.py...
 --beginshelloutput
 $ cp hello-world.py hello.py
 $ ls
-b.py  c.py  hello.py  hello-world.py
+b.py  hello.py  hello-world.py
 --endshelloutput
 ---
 See? Piece of cake!

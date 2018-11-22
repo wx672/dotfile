@@ -1,8 +1,9 @@
 ;; Sawfish user customization -- do not edit by hand!
 ;; Use the configurator instead.
-;; sawfish version 1.11.90, written Fri Sep 14 15:36:17 2018
+;; sawfish version 1.11.90, written Sun Nov 18 18:36:55 2018
 
-(custom-set-keymap (quote global-keymap) (quote (keymap ((xterm "") . "Super-x") (delete-empty-workspaces . "Super-0") (next-workspace . "Super-.") (run-application . "Super-r") (move-viewport-previous . "Super-k") (move-viewport-next . "Super-j") (cycle-windows . "Super-TAB"))))
+(custom-set-typed-variable (quote wm-modifier-value) (quote (super)) (quote modifier-list))
+(custom-set-keymap (quote global-keymap) (quote (keymap (restart . "Super-R") ((xterm "") . "Super-x") (delete-empty-workspaces . "Super-0") (next-workspace . "Super-.") (run-application . "Super-r") (move-viewport-previous . "Super-k") (move-viewport-next . "Super-j") (cycle-windows . "Super-TAB"))))
 (custom-set-typed-variable (quote workspace-names) (quote ()) (quote (list string "Workspace names")))
 (custom-set-keymap (quote window-keymap) (quote (keymap (move-window-interactively . "Super-m") (resize-window-interactively . "Super-Up") (send-window-to-previous-head . "Super-Left") (send-window-to-next-head . "Super-Right") ((send-to-workspace 2) . "Super-@") ((send-to-workspace 1) . "Super-!") (iconify-window . "Super-S-RET") (maximize-window-toggle . "Super-RET") (destroy-window . "Super-F5") (delete-window . "Super-F4"))))
 (custom-set-typed-variable (quote match-window-profile) (quote ((((WM_CLASS . "^Google-chrome/.*$")) (maximized . all)) (((WM_CLASS . "^Surf/surf$")) (window-icon . "/home/local/src/git.suckless.org/surf/surf.png")) (((WM_CLASS . "^Zenity/zenity$")) (depth . 16)) (((WM_CLASS . "^PacketTracer6/PacketTracer6$")) (maximized . all)) (((WM_CLASS . "^Zathura/zathura$")) (maximized . all)) (((WM_CLASS . "^Xpdf/win$")) (maximized . all)) (((WM_CLASS . "^XTerm/xterm$")) (maximized . all)))) (quote match-window) (quote sawfish.wm.ext.match-window))
@@ -36,7 +37,6 @@
 (custom-set-keymap (quote next-workspace-button-keymap) (quote (keymap)))
 (custom-set-keymap (quote previous-workspace-button-keymap) (quote (keymap)))
 (custom-set-keymap (quote cycle-keymap) (quote (keymap)))
-(custom-set-typed-variable (quote wm-modifier-value) (quote (meta)) (quote modifier-list))
 (custom-set-typed-variable (quote ugly-cycle-caption) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote ugly-cycle-show-icons) (quote t) (quote boolean))
 (custom-set-typed-variable (quote ugly-cycle-show-windows) (quote t) (quote boolean))

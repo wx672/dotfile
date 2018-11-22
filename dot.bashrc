@@ -39,3 +39,4 @@ tabs -4 &>/dev/null
 [[ -f ~/.LESS_TERMCAP ]] && tty -s && . ~/.LESS_TERMCAP
 
 #source ~/.xsh
+export GPGKEY=0EE277C8D838C7DA

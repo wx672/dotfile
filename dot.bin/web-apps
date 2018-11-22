@@ -1,27 +1,27 @@
 #!/bin/bash
 
-BROWSER="/usr/bin/x-www-browser"
-SURF="/usr/local/bin/surf"
+CHROME="/usr/bin/x-www-browser"
+WWW="/usr/bin/qutebrowser"
 
 baidupan(){
-    bash -c "$BROWSER https://pan.baidu.com" &>/dev/null &
+    bash -c "$WWW https://pan.baidu.com" &>/dev/null &
 }
 
-calibre1(){
+techbooks(){
 	# jkxjxxz:swfcxs
-	bash -c "$BROWSER http://cs3/tech" 2>/dev/null &
+	bash -c "$WWW https://cs3/tech" 2>/dev/null &
 }
-calibre2(){
-	# calibre:1984
-	bash -c "$BROWSER http://pub/library" 2>/dev/null &
-}
-calibre3(){
-	# sensitive:1989
-	bash -c "$BROWSER http://pub/sensitive" 2>/dev/null &
-}
+#calibre2(){
+#	# calibre:1984
+#	bash -c "$WWW http://pub/library" 2>/dev/null &
+#}
+#calibre3(){
+#	# sensitive:1989
+#	bash -c "$WWW http://pub/sensitive" 2>/dev/null &
+#}
 
 dingding(){
-	bash -c "$BROWSER --new-window --app=https://im.dingtalk.com" 2>/dev/null &
+	bash -c "$WWW https://im.dingtalk.com" 2>/dev/null &
 }
 
 ff(){
@@ -29,39 +29,39 @@ ff(){
 }
 
 gcal(){
-  bash -c "$BROWSER --new-window --app=https://www.google.com/calendar/render" 2>/dev/null &
+  bash -c "$WWW https://www.google.com/calendar/render" 2>/dev/null &
 }
 
 gcontacts(){
-	bash -c "$BROWSER --new-window --app=https://contacts.google.com" 2>/dev/null &
+	bash -c "$WWW https://contacts.google.com" 2>/dev/null &
 }
 
 gdrawing(){
-  bash -c "$BROWSER  --new-window --app=https://docs.google.com/drawings/create?usp=apps_start&hl=en" 2>/dev/null &
+  bash -c "$WWW https://docs.google.com/drawings/create?usp=apps_start&hl=en" 2>/dev/null &
 }
 
 gdrive(){
-  bash -c "$BROWSER  --new-window --app=https://drive.google.com/drive/#my-drive" 2>/dev/null &
+  bash -c "$WWW https://drive.google.com/drive/#my-drive" 2>/dev/null &
 }
 
 github(){
-	bash -c "$BROWSER https://github.com" 2>/dev/null &
+	bash -c "$WWW https://github.com" 2>/dev/null &
 }
 
 gitlab(){
-	bash -c "$BROWSER  --new-window --app=https://gitlab.swfu.edu.cn" 2>/dev/null &
+	bash -c "$WWW https://gitlab.swfu.edu.cn" 2>/dev/null &
 }
 
 gkeep(){
-  bash -c "$BROWSER --new-window --app=https://keep.google.com" 2>/dev/null &
+  bash -c "$WWW https://keep.google.com" 2>/dev/null &
 }
 
 gmail(){
-  bash -c "$BROWSER --new-window --app=https://inbox.google.com" 2>/dev/null &
+  bash -c "$WWW https://mail.google.com" 2>/dev/null &
 }
 
 gmailoffline(){
-  bash -c "$BROWSER https://mail.google.com/mail/mu/?mui=ca" 2>/dev/null &
+  bash -c "$CHROME https://mail.google.com/mail/mu/?mui=ca" 2>/dev/null &
 }
 
 gmaps(){
@@ -69,7 +69,7 @@ gmaps(){
 	for WORD in $@; do
 		QUERY="$QUERY%20$WORD"
 	done
-	bash -c "$BROWSER --new-window --app=https://www.google.com/maps/search/$QUERY" 2>/dev/null &
+	bash -c "$WWW https://www.google.com/maps/search/$QUERY" 2>/dev/null &
 }
 
 google(){
@@ -78,101 +78,101 @@ google(){
   for WORD in $@; do
     QUERY="$QUERY%20$WORD"
   done
-  bash -c "$BROWSER http://www.google.com/search?q=$QUERY" 2>/dev/null &
+  bash -c "$WWW http://www.google.com/search?q=$QUERY" 2>/dev/null &
 }
 
 gphotos(){
-	bash -c "$BROWSER --new-window --app=https://photos.google.com" 2>/dev/null &
+	bash -c "$WWW https://photos.google.com" 2>/dev/null &
 }
 
 gplus(){
-  bash -c "$BROWSER --new-window --app=https://plus.google.com/" 2>/dev/null &
+  bash -c "$WWW https://plus.google.com/" 2>/dev/null &
 }
 
 grammarly(){
-	bash -c "$BROWSER  --new-window --app=https://app.grammarly.com/" 2>/dev/null &
+	bash -c "$WWW https://app.grammarly.com/" 2>/dev/null &
 }
 
 hangouts(){
-  bash -c "$BROWSER --new-window --app=https://hangouts.google.com/" 2>/dev/null &
+  bash -c "$WWW https://hangouts.google.com/" 2>/dev/null &
 }
 
 jd(){
-	bash -c "$BROWSER http://jd.com" 2>/dev/null &
+	bash -c "$WWW http://jd.com" 2>/dev/null &
 }
 
 jwc(){
-	bash -c "$BROWSER http://jwc.swfu.edu.cn" 2>/dev/null &
+	bash -c "$WWW http://jwc.swfu.edu.cn" 2>/dev/null &
 }
 
 lecturenotes(){
-	bash -c "$BROWSER http://cs2.swfu.edu.cn/~wx672/lecture_notes" 2>/dev/null &
+	bash -c "$WWW http://cs2.swfu.edu.cn/~wx672/lecture_notes" 2>/dev/null &
 }
 
 lizhifm(){
-  bash -c "$BROWSER --new-window --app=http://www.lizhi.fm/label/24229953853202224/" 2>/dev/null &
+  bash -c "$WWW http://www.lizhi.fm/label/24229953853202224/" 2>/dev/null &
 }
 
 lucidchart(){
-  bash -c "$BROWSER --new-window --app=https://www.lucidchart.com/documents" 2>/dev/null &
+  bash -c "$WWW https://www.lucidchart.com/documents" 2>/dev/null &
 }
 
 meituan(){
-	bash -c "$BROWSER http://km.meituan.com/" 2>/dev/null &
+	bash -c "$WWW http://km.meituan.com/" 2>/dev/null &
 }
 
 moodle(){
-  bash -c "$BROWSER --new-window --app=http://cs6.swfu.edu.cn/moodle/" 2>/dev/null &
+  bash -c "$WWW http://cs6.swfu.edu.cn/moodle/" 2>/dev/null &
 }
 
 music163(){
-  bash -c "$BROWSER  --new-window --app=http://music.163.com/#/my/" 2>/dev/null &
+  bash -c "$WWW http://music.163.com/#/my/" 2>/dev/null &
 }
 
 pixlr(){
-  bash -c "$BROWSER  --new-window --app=http://pixlr.com/editor" 2>/dev/null &
+  bash -c "$WWW http://pixlr.com/editor" 2>/dev/null &
 }
 
 qq(){
-  bash -c "$BROWSER  --new-window --app=http://w.qq.com/" 2>/dev/null &
+  bash -c "$WWW http://w.qq.com/" 2>/dev/null &
 }
 
 taobao(){
-  bash -c "$BROWSER http://www.taobao.com/" 2>/dev/null &
+  bash -c "$WWW http://www.taobao.com/" 2>/dev/null &
 }
 
 telegram(){
-    bash -c "$BROWSER  --new-window --app=https://web.telegram.org" 2>/dev/null &
+    bash -c "$WWW https://web.telegram.org" 2>/dev/null &
 }
 
 timeit(){
-	bash -c "$BROWSER  --new-window --app=http://timeit.swfu.edu.cn/attendance/all" 2>/dev/null &
+	bash -c "$WWW http://timeit.swfu.edu.cn/attendance/all" 2>/dev/null &
 }
 
 timer(){
-  bash -c "$BROWSER  --new-window --app=http://www.timer-tab.com" 2>/dev/null &
+  bash -c "$WWW http://www.timer-tab.com" 2>/dev/null &
 }
 
 travelogs(){
-	bash -c "$BROWSER  --new-window --app=http://cs2.swfu.edu.cn/~wx672/travelogs" 2>/dev/null &
+	bash -c "$WWW http://cs2.swfu.edu.cn/~wx672/travelogs" 2>/dev/null &
 }
 
 wechat(){
-  bash -c "$BROWSER  --new-window --app=https://wx2.qq.com/" 2>/dev/null &
+  bash -c "$WWW https://wx2.qq.com/" 2>/dev/null &
 }
 
 twitter(){
-	bash -c "$BROWSER --new-window --app=https://twitter.com" 2>/dev/null &
+	bash -c "$WWW https://twitter.com" 2>/dev/null &
 }
 
 youtube(){
-  bash -c "$BROWSER --new-window --app=https://youtube.com" 2>/dev/null &
+  bash -c "$WWW https://youtube.com" 2>/dev/null &
 }
 
 zhifubao(){
-	bash -c "$BROWSER https://my.alipay.com" 2>/dev/null &
+	bash -c "$WWW https://my.alipay.com" 2>/dev/null &
 }
 
 zhihu(){
-  bash -c "$BROWSER http://www.zhihu.com/notifications" 2>/dev/null &
+  bash -c "$WWW http://www.zhihu.com/notifications" 2>/dev/null &
 }

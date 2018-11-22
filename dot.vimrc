@@ -69,4 +69,3 @@ inoremap [ []<LEFT>
 inoremap { {}<LEFT>
 
 map ^T :w!<CR>:!aspell check %<CR>:e! %<CR>
-
