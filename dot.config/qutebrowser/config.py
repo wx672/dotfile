@@ -87,6 +87,14 @@ config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
 #config.bind('gi', 'enter-mode insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
 #config.bind('<Ctrl-p>', 'jseval document.location=\'https://pinboard.in/add?next=same&url=\'+encodeURIComponent(location.href)+\'&title=\'+encodeURIComponent(document.title)', mode="normal")
 
+# config.set('content.proxy', 'none', '*://im.dingtalk.com/*')
+# config.set('content.proxy', 'none', '*://wx2.qq.com/*')
+# config.set('content.proxy', 'none', '*://cs2.swfu.edu.cn/*')
+# config.set('content.proxy', 'none', '*://cs3.swfu.edu.cn/*')
+# config.set('content.proxy', 'none', '*://cs6.swfu.edu.cn/*')
+# config.set('content.proxy', 'none', '*://www.swfu.edu.cn/*')
+# config.set('content.proxy', 'none', '*://jwc.swfu.edu.cn/*')
+
 ## colors
 #c.colors.completion.fg = "#899CA1"
 #c.colors.completion.category.fg = "#F2F2F2"

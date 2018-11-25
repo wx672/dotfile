@@ -35,7 +35,7 @@
 	(setq
 	 org-export-with-sub-superscripts t
 	 org-html-doctype "html5"
-	 org-html-head "<link rel=\"stylesheet\" href=\"http://cs2.swfu.edu.cn/org-info-js/org-manual.css\" type=\"text/css\">"
+	 org-html-head "<link rel=\"stylesheet\" href=\"https://cs2.swfu.edu.cn/org-info-js/org-manual.css\" type=\"text/css\">"
 	 org-html-head-extra "<style>code {font-family:Monospace; font-size:90%; background-color: #eee} body {font-size:14pt}</style>"
 	 org-export-default-language "cn"
 	 org-html-head-include-default-style nil
