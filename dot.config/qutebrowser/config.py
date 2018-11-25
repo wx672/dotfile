@@ -57,10 +57,10 @@ c.aliases['gy'] = 'open -t https://youtube.com'
 
 # keybinds
 config.bind('<Ctrl-/>', 'undo', mode='normal')
-config.unbind('o', mode='normal')
-config.unbind('O', mode='normal')
-config.bind('o', 'set-cmd-text -s :open -t', mode='normal')
-config.bind('O', 'set-cmd-text -s :open', mode='normal')
+#config.unbind('o', mode='normal')
+#config.unbind('O', mode='normal')
+#config.bind('o', 'set-cmd-text -s :open -t', mode='normal')
+#config.bind('O', 'set-cmd-text -s :open', mode='normal')
 config.unbind('ga', mode='normal')
 config.unbind('<Ctrl-Tab>', mode='normal')
 config.bind('<Ctrl-Tab>', 'tab-next', mode='normal')
