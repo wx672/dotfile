@@ -4,7 +4,7 @@
 # }
 do_usage(){
     cat <<EOF
-Usage: $0 '<background> <signature> <g|ng> [x,y] [scale]'
+Usage: $0 '<background> <signature> [g|ng] [x,y] [scale]'
 
 background - the paper you want to sign
  signature - your signature file
@@ -16,24 +16,25 @@ EOF
 }
 
 do_check(){
-	[[ -f "$1" ]] || { echo $1: 'Missing background PDF file!'; exit 1; }
+	[[ -f "$1" ]] || { echo 'Missing background PDF file!'; do_usage; }
 }
 
 do_init(){
 	BG=$1
-	SIG=$2
+	SIG="$2"
+	GRID='g'
+	[[ -n "$3" ]] && GRID=$3
 	XY='.6,.2'
-	[[ -n "$3" ]] && XY=$3
+	[[ -n "$4" ]] && XY=$4
 	SCALE='.2'
-	[[ -n "$4" ]] && SCALE=$4
+	[[ -n "$5" ]] && SCALE=$5
 
 	TEX="$(basename $BG .pdf)"-signed.tex
 	PDF="`basename $TEX .tex`.pdf"
 	LOG="`basename $TEX .tex`.log"
 	AUX="`basename $TEX .tex`.aux"
 
-	rm -f $PDF
-	rm -f $TEX
+	rm -f $PDF $TEX
 }
 
 do_grid(){
@@ -90,19 +91,19 @@ EOF
 EOF
 }
 
-case "$3" in
+do_check $1 $2
+do_init $1 $2 $3 $4 $5
+
+case "$GRID" in
 	g|grid)
-		do_check $1 $2
-		do_init $1 $2 $4 $5
+		echo "Signing with grid..."
 		do_grid
 		;;
 	n|ng|nogrid)
-		do_check $1 $2
-		do_init $1 $2 $4 $5
+		echo "Signing without grid..."
 		do_nogrid
 		;;
 	*)
-		echo '$3': invalid option!
 		do_usage
 		;;
 esac
