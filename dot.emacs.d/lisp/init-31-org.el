@@ -32,11 +32,12 @@
    org-cycle-include-plain-lists t
    org-blank-before-new-entry '((heading) (plain-list-item))
    org-src-fontify-natively t
+   org-confirm-babel-evaluate nil
    
    org-list-demote-modify-bullet '(("+" . "-")
-				   ("*" . "-")
-				   ("1." . "-")
-				   ("1)" . "-"))
+								   ("*" . "-")
+								   ("1." . "-")
+								   ("1)" . "-"))
    
    ;; Showing context
    org-show-hierarchy-above '((default . t))
@@ -62,8 +63,8 @@
      ("PROJECT" ("CANCELLED") ("PROJECT" . t)))
    
    org-file-apps '((auto-mode . emacs)
-		   ("\\.x?html?\\'" . default)
-		   ("\\.pdf\\'" . "/usr/bin/zathura %s")))
+				   ("\\.x?html?\\'" . default)
+				   ("\\.pdf\\'" . "/usr/bin/zathura %s")))
 
   :bind (("C-c a" . org-agenda)
 		 ("C-c b" . org-iswitchb)
@@ -81,6 +82,23 @@
   (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
   (load "org-protocol")
+
+  ;; active Babel languages
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((awk . t)
+	 (calc . t)
+	 (css . t)
+	 (ditaa . t)
+	 (dot . t)
+	 (emacs-lisp . t)
+	 (latex . t)
+	 (org . t)
+	 (python . t)
+	 (R . t)
+	 (sed . t)
+	 (shell . t)
+	 ))
   
   (use-package org-agenda
     :init
@@ -161,45 +179,45 @@
 	 org-refile-allow-creating-parent-nodes (quote confirm)))
 
   (use-package ox-latex
-  :config
-  (setq
-   ;org-latex-low-levels nil
-   org-latex-default-packages-alist nil
-   org-latex-packages-alist
-   '(("" "fullpage" t) ("" "wx672minted" t))
-   org-latex-classes
-   '(("article" "\\documentclass[12pt]{wx672article}"
-      ("\\section{%s}" . "\\section*{%s}")
-      ("\\subsection{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-      ("\\paragraph{%s}" . "\\paragraph*{%s}")
-      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-     ("report" "\\documentclass[12pt]{report}"
-      ("\\part{%s}" . "\\part*{%s}")
-      ("\\chapter{%s}" . "\\chapter*{%s}")
-      ("\\section{%s}" . "\\section*{%s}")
-      ("\\subsection{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-     ("book" "\\documentclass[12pt]{book}"
-      ("\\part{%s}" . "\\part*{%s}")
-      ("\\chapter{%s}" . "\\chapter*{%s}")
-      ("\\section{%s}" . "\\section*{%s}")
-      ("\\subsection{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-   org-latex-default-figure-position "!htb"
-   org-latex-default-table-environment "tabu"
-   org-latex-image-default-width ".6\\linewidth"
-   org-latex-listings 'minted
-   org-latex-minted-options
-   '(("mathescape" "true")
-     ("linenos" "true")
-     ("numbersep" "5pt")
-     ("frame" "lines")
-     ("framesep" "2mm"))
-   org-latex-pdf-process
-   '("xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
-     "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
-     "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f")))
+	:config
+	(setq
+										;org-latex-low-levels nil
+	 org-latex-default-packages-alist nil
+	 org-latex-packages-alist
+	 '(("" "fullpage" t) ("" "wx672minted" t))
+	 org-latex-classes
+	 '(("article" "\\documentclass[12pt]{wx672article}"
+		("\\section{%s}" . "\\section*{%s}")
+		("\\subsection{%s}" . "\\subsection*{%s}")
+		("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+		("\\paragraph{%s}" . "\\paragraph*{%s}")
+		("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+	   ("report" "\\documentclass[12pt]{report}"
+		("\\part{%s}" . "\\part*{%s}")
+		("\\chapter{%s}" . "\\chapter*{%s}")
+		("\\section{%s}" . "\\section*{%s}")
+		("\\subsection{%s}" . "\\subsection*{%s}")
+		("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+	   ("book" "\\documentclass[12pt]{book}"
+		("\\part{%s}" . "\\part*{%s}")
+		("\\chapter{%s}" . "\\chapter*{%s}")
+		("\\section{%s}" . "\\section*{%s}")
+		("\\subsection{%s}" . "\\subsection*{%s}")
+		("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+	 org-latex-default-figure-position "!htb"
+	 org-latex-default-table-environment "tabu"
+	 org-latex-image-default-width ".6\\linewidth"
+	 org-latex-listings 'minted
+	 org-latex-minted-options
+	 '(("mathescape" "true")
+	   ("linenos" "true")
+	   ("numbersep" "5pt")
+	   ("frame" "lines")
+	   ("framesep" "2mm"))
+	 org-latex-pdf-process
+	 '("xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
+	   "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
+	   "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f")))
 
   (use-package org-ref
 	:diminish org-ref

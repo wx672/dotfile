@@ -3,6 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
  '(blink-cursor-mode nil)
  '(bookmark-save-flag 1)
  '(browse-url-browser-function (quote browse-url-generic))
@@ -10,6 +12,8 @@
  '(cal-tex-24 t)
  '(case-fold-search t)
  '(column-number-mode t)
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
  '(confirm-kill-emacs nil)
  '(cua-auto-tabify-rectangles nil)
  '(cua-selection-mode t)
@@ -32,6 +36,7 @@
  '(display-time-mode t nil (time))
  '(display-time-use-mail-icon t)
  '(doc-view-continuous nil)
+ '(fci-rule-color "#383838")
  '(fill-column 90)
  '(flyspell-issue-message-flag nil)
  '(fringe-mode (quote (1 . 1)) nil (fringe))
@@ -49,9 +54,14 @@
  '(mark-diary-entries-in-calendar t)
  '(menu-bar-mode nil)
  '(mode-line-in-non-selected-windows t)
+ '(nrepl-message-colors
+   (quote
+	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(org-ditaa-jar-path "/usr/bin/ditaa")
  '(package-selected-packages
    (quote
-	(nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
+	(graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(read-mail-command (quote ignore))
  '(safe-local-variable-values
    (quote
@@ -70,6 +80,28 @@
  '(tool-bar-mode nil)
  '(track-eol t)
  '(unibyte-display-via-language-environment t)
+ '(vc-annotate-background "#2B2B2B")
+ '(vc-annotate-color-map
+   (quote
+	((20 . "#BC8383")
+	 (40 . "#CC9393")
+	 (60 . "#DFAF8F")
+	 (80 . "#D0BF8F")
+	 (100 . "#E0CF9F")
+	 (120 . "#F0DFAF")
+	 (140 . "#5F7F5F")
+	 (160 . "#7F9F7F")
+	 (180 . "#8FB28F")
+	 (200 . "#9FC59F")
+	 (220 . "#AFD8AF")
+	 (240 . "#BFEBBF")
+	 (260 . "#93E0E3")
+	 (280 . "#6CA0A3")
+	 (300 . "#7CB8BB")
+	 (320 . "#8CD0D3")
+	 (340 . "#94BFF3")
+	 (360 . "#DC8CC3"))))
+ '(vc-annotate-very-old-color "#DC8CC3")
  '(version-control (quote never))
  '(view-diary-entries-initially t)
  '(view-read-only t)
