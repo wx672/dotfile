@@ -78,7 +78,16 @@ google(){
   for WORD in $@; do
     QUERY="$QUERY%20$WORD"
   done
-  bash -c "$WWW http://www.google.com/search?q=$QUERY" 2>/dev/null &
+  bash -c "$WWW https://www.google.com/search?q=$QUERY" 2>/dev/null &
+}
+
+ddg(){
+  QUERY=""
+  echo "duckduckgo: $@"
+  for WORD in $@; do
+    QUERY="$QUERY%20$WORD"
+  done
+  bash -c "$WWW https://duckduckgo.com/?q=$QUERY" 2>/dev/null &
 }
 
 gphotos(){

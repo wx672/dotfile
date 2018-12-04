@@ -10,6 +10,9 @@ setxkbmap -option ctrl:nocaps
 export $(dbus-launch)
 export BROWSER='x-www-browser'
 
+# Let Qt apps use GTK theme to make GUI font size larger.
+export QT_QPA_PLATFORMTHEME=gtk3
+
 # stop warning messages
 export NO_AT_BRIDGE=1 
 

@@ -9,3 +9,6 @@ image/pgm=pqiv.desktop
 image/tif=pqiv.desktop
 image/gif=pqiv.desktop
 application/pdf=mupdf.desktop
+text/plain=less.desktop
+text/x-bibtex=emacs-term.desktop
+text/html=lynx.desktop

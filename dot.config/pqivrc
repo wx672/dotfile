@@ -6,7 +6,7 @@ hide-info-box=true
 slideshow-interval=2
 end-of-files-action=wrap-no-reshuffle
 # not using caching (but only 128 and 256 can be cached)
-thumbnail-size=256x256
+thumbnail-size=257x256
 
 # already defaults:
 scale-images-up=true
@@ -28,45 +28,42 @@ toggle_scale_mode(4)
 # r reload
 # m toggle montage mode
 
-# ** Toggle
-# <space> { toggle_slideshow(); }
-s { toggle_scale_mode(); }
-# t { toggle_scale_mode(4); }
-b { toggle_info_box(); }
-
-# ** Navigation/ Scrolling
-# file
+<space> { goto_file_relative(1); }
+<BackSpace> { goto_file_relative(-1); }
 g { goto_file_byindex(0); }
 G { goto_file_byindex(-1); }
-#l { goto_earlier_file(); }
-#J { goto_file_relative(1); }
-#K { goto_file_relative(-1); }
-#k { goto_file_relative(-10); }
-#o { goto_file_relative(10); }
+
+# ** Toggle
+s { toggle_slideshow(); }
+i { toggle_info_box(); }
 
 # scrolling
-# TODO percentage shifts
 j { shift_y(-50); }
 k { shift_y(50); }
 h { shift_x(-20); }
 l { shift_x(20); }
 
 # ** Zooming
-#u { set_scale_level_relative(0.8); }
 <equal> { set_scale_level_relative(1.2); }
 0 { set_scale_level_absolute(1); }
 # found it's not really necessary to change; auto works well
 z { set_interpolation_quality(0); }
 
+# ** Rotating/ Alignment
+w { flip_horizontally(); }
+v { flip_vertically(); }
+L { rotate_left(); }
+
+
 @MONTAGE {
  g { montage_mode_return_cancel(); goto_file_byindex(0); montage_mode_enter(); }
  G { montage_mode_return_cancel(); goto_file_byindex(-1); montage_mode_enter(); }
  h { montage_mode_shift_x(-1); }
- n { montage_mode_shift_y(1); }
- e { montage_mode_shift_y(-1); }
- i { montage_mode_shift_x(1); }
- k { montage_mode_shift_y_pg(1); }
- o { montage_mode_shift_y_pg(-1); }
+ l { montage_mode_shift_x(1); }
+ j { montage_mode_shift_y(1); }
+ k { montage_mode_shift_y(-1); }
+ J { montage_mode_shift_y_pg(1); }
+ K { montage_mode_shift_y_pg(-1); }
 }
 
 # changing thumbnail size
@@ -105,35 +102,29 @@ z { set_interpolation_quality(0); }
  # }
 }
 
-# ** Rotating/ Alignment
-w { flip_horizontally(); }
-v { flip_vertically(); }
-a { rotate_left(); }
-d { rotate_right(); }
-
 # comic keybindings
-<space> { send_keys(:comic_on); }
-:comic_on {
- set_scale_level_absolute(1);
- send_keys(:cycleCN);
- bind_key(<space> { send_keys(:comic_off\); });
-}
-:comic_off {
- toggle_scale_mode(4);
- bind_key(h { goto_file_relative(-1\); });
- bind_key(i { goto_file_relative(1\); });
- bind_key(<space> { send_keys(:comic_on\); });
-}
-:cycleCN {
- set_shift_align_corner(CN);
- bind_key(h { goto_file_relative(-1\); send_keys(:cycleCS\); });
- bind_key(i { send_keys(:cycleCS\); });
-}
-:cycleCS {
- set_shift_align_corner(CS);
- bind_key(h { send_keys(:cycleCN\); });
- bind_key(i { goto_file_relative(1\); send_keys(:cycleCN\); });
-}
+#<space> { send_keys(:comic_on); }
+#:comic_on {
+# set_scale_level_absolute(1);
+# send_keys(:cycleCN);
+# bind_key(<space> { send_keys(:comic_off\); });
+#}
+#:comic_off {
+# toggle_scale_mode(4);
+# bind_key(h { goto_file_relative(-1\); });
+# bind_key(i { goto_file_relative(1\); });
+# bind_key(<space> { send_keys(:comic_on\); });
+#}
+#:cycleCN {
+# set_shift_align_corner(CN);
+# bind_key(h { goto_file_relative(-1\); send_keys(:cycleCS\); });
+# bind_key(i { send_keys(:cycleCS\); });
+#}
+#:cycleCS {
+# set_shift_align_corner(CS);
+# bind_key(h { send_keys(:cycleCN\); });
+# bind_key(i { goto_file_relative(1\); send_keys(:cycleCN\); });
+#}
 
 # ** Filters
 cg { command(|convert - -colorspace Gray -); }

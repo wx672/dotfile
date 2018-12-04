@@ -14,10 +14,17 @@ c.content.javascript.can_access_clipboard = True
 c.content.javascript.can_open_tabs_automatically = True
 #c.content.javascript.can_close_tabs = True
 c.content.proxy = "socks://localhost:1080/"
-c.content.webgl = False
+c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
-c.downloads.position = 'bottom'
-c.editor.command = ["tmux", "new-window", "vim", "{}"]
+c.downloads.location.prompt = False
+c.downloads.location.remember = False
+c.downloads.location.suggestion = 'path'
+c.downloads.open_dispatcher = None
+c.downloads.position = 'top'
+#c.editor.command = ["tmux", "new-window", "vim", "{}"]
+c.editor.command = ["xterm", "-e", "vim", "{}"]
+c.hints.auto_follow = 'always'
+c.hints.auto_follow_timeout = 0
 c.hints.border = "1px solid #CCCCCC"
 c.hints.mode = "number"
 c.hints.chars = "1234567890"
@@ -28,8 +35,9 @@ c.keyhint.blacklist = ["*"]
 c.messages.timeout = 5000
 c.new_instance_open_target = "tab"
 c.prompt.filebrowser = False
+c.scrolling.smooth = False
+c.session.default_name = None
 c.session.lazy_restore = True
-#c.spellcheck.languages = ["en-US"]
 c.statusbar.hide = True
 c.tabs.background = False
 c.tabs.favicons.show = "never"
@@ -38,23 +46,28 @@ c.tabs.new_position.related = "last"
 c.tabs.show = "switching"
 c.tabs.show_switching_delay = 3000
 c.tabs.title.format = "{title}"
-c.url.default_page = 'https://www.google.com'
+c.url.default_page = 'https://duckduckgo.com'
 c.url.open_base_url = True
-c.url.start_pages = 'https://www.google.com'
+c.url.start_pages = 'https://start.duckduckgo.com'
 c.zoom.default = "175%"
 
 # searches
-c.url.searchengines['DEFAULT'] = 'http://www.google.com/search?hl=en&source=hp&ie=ISO-8859-l&q={}'
-c.url.searchengines['w'] = 'https://secure.wikimedia.org/wikipedia/en/w/index.php?title=Special%%3ASearch&search={}'
-c.url.searchengines['y'] = 'https://www.youtube.com/results?search_query={}'
-c.url.searchengines['gh'] = 'https://github.com/search?q={}&type=Code'
+c.url.searchengines = {
+'DEFAULT':'https://duckduckgo.com/?q={}',
+'g':'http://www.google.com/search?hl=en&source=hp&ie=ISO-8859-l&q={}',
+'w':'https://secure.wikimedia.org/wikipedia/en/w/index.php?title=Special%%3ASearch&search={}',
+'y':'https://www.youtube.com/results?search_query={}',
+'gh':'https://github.com/search?q={}&type=Code'
+}
 
 # aliases
-c.aliases['gd'] = 'open -t https://im.dingtalk.com'
-c.aliases['gl'] = 'open -t http://cs2.swfu.edu.cn/~wx672/lecture_notes'
-c.aliases['gm'] = 'open -t https://mail.google.com'
-c.aliases['gw'] = 'open -t https://wx2.qq.com/?lang=en'
-c.aliases['gy'] = 'open -t https://youtube.com'
+c.aliases = {
+'gd':'open -t https://im.dingtalk.com',
+'gl':'open -t http://cs2.swfu.edu.cn/~wx672/lecture_notes',
+'gm':'open -t https://mail.google.com',
+'gw':'open -t https://wx2.qq.com/?lang=en',
+'gy':'open -t https://youtube.com'
+}
 
 # keybinds
 config.bind('<Ctrl-/>', 'undo', mode='normal')
