@@ -93,13 +93,13 @@
     :config (add-hook 'TeX-mode-hook (lambda () (TeX-fold-mode 1)))
     )
 
-  (use-package ispell
-    :config (add-hook 'LaTeX-mode-hook (lambda () (setq ispell-parser 'tex)))
-    )
+  ;; (use-package ispell
+  ;;   :config (add-hook 'LaTeX-mode-hook (lambda () (setq ispell-parser 'tex)))
+  ;;   )
 
-  (use-package flyspell
-    :config (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-    )
+  ;; (use-package flyspell
+  ;;   :config (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  ;;   )
   ) ;end of (use-pakcage tex)
 
 (load "init-beamer")

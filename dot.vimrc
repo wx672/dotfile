@@ -34,9 +34,9 @@ endif
 " Uncomment the following to have Vim load indentation rules according to the
 " detected filetype. Per default Debian Vim only load filetype specific
 " plugins.
-if has("autocmd")
-  filetype plugin indent on
-endif
+filetype plugin indent on
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='latex'
 
 " The following are commented out as they cause vim to behave a lot
 " differently from regular Vi. They are highly recommended though.
@@ -68,4 +68,4 @@ inoremap ( ()<LEFT>
 inoremap [ []<LEFT>
 inoremap { {}<LEFT>
 
-map ^T :w!<CR>:!aspell check %<CR>:e! %<CR>
+" map ^T :w!<CR>:!aspell check %<CR>:e! %<CR>

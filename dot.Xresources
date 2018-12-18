@@ -5,10 +5,10 @@
 XTerm*loginShell: true
 
 !!!font and locale
-!XTerm*faceName: Monospace
-!XTerm*boldFont: Monospace
-XTerm*faceName: Source Code Variable:style=Semibold
-XTerm*boldFont: Source Code Variable:style=Bold
+XTerm*faceName: Monospace
+XTerm*boldFont: Monospace
+!XTerm*faceName: Source Code Variable:style=Semibold
+!XTerm*boldFont: Source Code Variable:style=Bold
 XTerm*faceSize: 18
 XTerm*faceSize1: 14
 XTerm*faceSize2: 16

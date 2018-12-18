@@ -3,17 +3,19 @@
 # --
 \documentclass{swfuthesis}
 
-\addbibresource{thesis.bib}    % 参照教程自己去写一个.bib文件
+\addbibresource{thesis.bib} % 参照教程自己去写一个.bib文件
 
-\title{${1:论文标题}}
-\enTitle{${2:英文标题}}
-\author{${3:作者姓名}}
-\enAuthor{${4:英文姓名}}
-\Advisor{${5:指导教师姓名}}
-\AdvisorTitle{${6:指导教师职称}}
-\Month{${7:六}}
-\Year{${8:二〇一九}}
-\Subject{${9:计算机科学与技术专业}}    %专业名称（比如 电子信息工程专业）
+\pgfkeys{
+  Title={${1:论文标题}}, % 论文标题
+  enTitle={${2:英文标题}}, % 论文标题（英文）
+  Author={${3:作者姓名}}, % 作者姓名
+  enAuthor={${4:英文姓名}}, % 作者姓名（英文）
+  Advisor={${5:指导教师姓名}}, % 指导教师姓名
+  AdvisorTitle={${6:指导教师职称}}, % 指导教师职称
+  Year={${7:二〇一九}},
+  Month={${8:六}},
+  Subject={${9:计算机科学与技术专业}}, %专业名称（比如 电子信息工程专业）
+}
 
 \begin{document}
 
@@ -42,10 +44,23 @@ $0 本文是关于……
 \pagenumbering{arabic}
 
 % 参考教程，在chapters目录中单独写各章（ch1.tex, ch2.tex...）
-\include{chapters/ch1}
-\include{chapters/ch2}
-\include{chapters/ch3}
-\include{chapters/ch4}
+\include{chapters/ch1} %%% 论文的目录结构大致如下：
+\include{chapters/ch2} % thesis/
+\include{chapters/ch3} %       ├── doc/
+\include{chapters/ch4} %       │      ├── thesis.tex
+\include{chapters/ch5} %       │      ├── chapters/
+\include{chapters/ch6} %       │      │   ├── ch1.tex
+\include{chapters/ch7} %       │      │   ├── ch2.tex
+\include{chapters/ch8} %       │      │   ├── ch3.tex
+\include{chapters/ch9} %       │      │   └── ...
+\include{chapters/cha} %       │      ├── figs/
+\include{chapters/chb} %       │      │   ├── flowchart.pdf
+\include{chapters/chc} %       │      │   └── ...
+\include{chapters/chd} %       │      └── ...
+\include{chapters/che} %       └── src/
+\include{chapters/chf} %              ├── hello.c
+\include{chapters/chg} %              └── ...
+\include{chapters/chh} %%%
 
 %%%%% appendix （参考文献、指导教师简介、鸣谢、附录）
 \appendix % keep this line

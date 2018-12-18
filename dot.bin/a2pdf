@@ -9,7 +9,7 @@ Usage: `basename $0` <Image> [Filter] [Threshold] [text] [x,y] [font size]
    Filter - man mkbitmap for details
 Threshold - man mkbitmap for details
      text - text to be added into the image
-      x,y - coordinate of text to be added, default to '300,30'
+      x,y - coordinate of text to be added, default to '+300+30'
 font size - default to 22
 EOF
 				   exit 4;
@@ -32,7 +32,7 @@ PBM="$BASE.pbm"
 TIF="$BASE.tif"
 PDF="$BASE.pdf"
 
-anytopnm $IMG > $PPM 2>/dev/null
+convert $IMG $PPM 
 mkbitmap -f$F -t$T -o $PBM $PPM
 
 # convert -list font | grep CJK

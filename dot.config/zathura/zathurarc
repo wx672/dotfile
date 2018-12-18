@@ -18,6 +18,7 @@ set inputbar-bg "#3f3f3f"
 set font "monospace normal 18"
 
 # settings
+set show-recent 30
 set guioptions ""
 set adjust-open width
 set zoom-step 10
@@ -25,10 +26,8 @@ set zoom-max 500
 set zoom-min 100
 #set first-page-column 1:1
 set selection-clipboard clipboard
-
 set scroll-full-overlap .1
 set window-icon "~/.local/share/icons/pdf.png"
-set page-padding 2
 set page-thumbnail-size 0
 
 # key bindings
