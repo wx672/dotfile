@@ -28,11 +28,12 @@ export HISTIGNORE="&:[ ]*:exit"
 export HISTFILESIZE=2000
 export HISTSIZE=2000
 export BROWSER='/usr/bin/x-www-browser'
-#export EDITOR='emacsclient -t -a ""'
-export PDFVIEWER='/usr/bin/mupdf'
+export EDITOR='vim'
 export ALTERNATE_EDITOR=""
+export PDFVIEWER='/usr/bin/mupdf'
 export LESSCHARSET=utf-8
 #export IGNOREEOF=2
+#export TESSDATA_PREFIX='/usr/local/share/tesseract-ocr/4.00'
 tabs -4 &>/dev/null
 
 # Use colors for less, man, etc.

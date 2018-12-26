@@ -48,7 +48,6 @@
  '(hi-lock-mode t t (hi-lock))
  '(inhibit-startup-screen t)
  '(ispell-extra-args (quote ("--reverse")))
- '(ispell-program-name "hunspell")
  '(linum-format "%d ")
  '(make-backup-files nil)
  '(mark-diary-entries-in-calendar t)
@@ -115,7 +114,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 165 :family "DejaVu Sans Mono"))))
+ '(default ((t (:height 240 :family "DejaVu Sans Mono"))))
  '(mode-line ((t (:background "#2B2B2B" :foreground "#8FB28F" :box (:line-width -1 :style released-button) :weight bold :height 120))))
  '(mode-line-buffer-id ((t (:foreground "#F0DFAF" :weight bold :width condensed))))
  '(mode-line-inactive ((t (:background "#2b2b2b" :foreground "#5F7F5F" :box nil :height 120)))))

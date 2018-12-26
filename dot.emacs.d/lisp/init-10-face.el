@@ -23,7 +23,7 @@
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
   (set-fontset-font t ;;(frame-parameter nil 'font)
                     charset (font-spec :family "Noto Sans Mono CJK SC"
-                                       :size 22)))
+                                       :size 26)))
 ;; Symbols
 (set-fontset-font t 'symbol (font-spec :family "Symbola"))
 

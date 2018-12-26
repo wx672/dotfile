@@ -22,7 +22,7 @@
      ;("LaTeX" "%`xelatex%(mode) -synctex=1 --shell-escape%' %t" TeX-run-TeX nil t :help "Run xelatex")
      ("XeLaTeX" "%`xelatex%(mode) -synctex=1 --shell-escape%' %t" TeX-run-TeX nil t :help "Run xelatex")
      ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
-     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
+     ; ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
      ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
      ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
      ("Check" "lacheck %s" TeX-run-compile nil (latex-mode) :help "Check LaTeX file for correctness")
@@ -92,14 +92,6 @@
      )
     :config (add-hook 'TeX-mode-hook (lambda () (TeX-fold-mode 1)))
     )
-
-  ;; (use-package ispell
-  ;;   :config (add-hook 'LaTeX-mode-hook (lambda () (setq ispell-parser 'tex)))
-  ;;   )
-
-  ;; (use-package flyspell
-  ;;   :config (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  ;;   )
   ) ;end of (use-pakcage tex)
 
 (load "init-beamer")
