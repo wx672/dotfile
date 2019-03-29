@@ -48,6 +48,7 @@
  '(hi-lock-mode t t (hi-lock))
  '(inhibit-startup-screen t)
  '(ispell-extra-args (quote ("--reverse")))
+ '(ispell-local-dictionary "en_US")
  '(linum-format "%d ")
  '(make-backup-files nil)
  '(mark-diary-entries-in-calendar t)

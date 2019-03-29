@@ -1,0 +1,1 @@
+tiff2pdf -zFo output.pdf input.tif

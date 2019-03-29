@@ -1,0 +1,5 @@
+# show zombies
+watch -n.1 'ps -el | grep Z'
+
+# print only the name of PID 42
+watch -n.1 'ps -o comm= -q 42'

@@ -1,0 +1,14 @@
+# xlsx -> csv
+xlsx2csv overseas.xlsx > overseas.csv
+
+# viewing
+column -nts, overseas.csv | less -#2NS
+# or
+csvtool readable file.csv | view -
+
+# csv -> sc
+# sc  /usr/share/doc/sc/tutorial.sc
+cat file.csv | psc -kd, | sc
+
+# csvkit (csvgrep, csvsort, csvcut, csvlook...)
+

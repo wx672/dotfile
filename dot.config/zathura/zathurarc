@@ -18,7 +18,7 @@ set inputbar-bg "#3f3f3f"
 set font "monospace normal 18"
 
 # settings
-set show-recent 30
+#set show-recent 10
 set guioptions ""
 set adjust-open width
 set zoom-step 10

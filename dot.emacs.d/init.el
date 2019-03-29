@@ -16,9 +16,10 @@
 (setq package-enable-at-startup nil)
 (setq package-archives
       (append package-archives
-			  '(("melpa" . "http://melpa.org/packages/")
-				("gnu" . "http://elpa.gnu.org/packages/")
-				("org" . "http://orgmode.org/elpa/"))))
+			  '(("melpa" . "https://stable.melpa.org/packages/")
+				("gnu" . "https://elpa.gnu.org/packages/")
+				("org" . "https://orgmode.org/elpa/")
+				)))
 
 (package-initialize)
 
@@ -41,13 +42,14 @@
 (load custom-file 'noerror)
 (load-file (expand-file-name "registers" user-emacs-directory))
 
-(use-package socks
-  :ensure url
-  :init
-  (setq socks-override-functions 1
-		url-gateway-method 'socks
-		socks-noproxy '("localhost")
-		socks-server '("Default server" "127.0.0.1" 1080 5)))
+;; (use-package socks
+;;   :ensure url
+;;   :init
+;;   (setq socks-override-functions 0
+;; 		url-gateway-method 'native
+;; ;		url-gateway-method 'socks
+;; 		socks-noproxy '("localhost")
+;; 		socks-server '("Default server" "127.0.0.1" 1080 5)))
 
 (require 'init-00-utils)
 (require 'init-10-face)
@@ -91,7 +93,10 @@
 
 (use-package ispell
   :config
-;  (setq ispell-dictionary "en_US")
+  (setq ispell-local-dictionary "en_US"
+		ispell-local-dictionary-alist
+		'(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+
   (when (executable-find ispell-program-name)
 	(use-package flyspell
 	  :config

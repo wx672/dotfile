@@ -142,8 +142,20 @@ pixlr(){
   bash -c "$WWW http://pixlr.com/editor" 2>/dev/null &
 }
 
+q(){
+	bash -c "$WWW $1" 2>/dev/null &
+}
+
 qq(){
   bash -c "$WWW http://w.qq.com/" 2>/dev/null &
+}
+
+emstock(){
+	bash -c "$WWW http://i.eastmoney.com/stock.html" 2>/dev/null &
+}
+
+sinastock(){
+	bash -c "$WWW http://i.finance.sina.com.cn" 2>/dev/null &
 }
 
 taobao(){

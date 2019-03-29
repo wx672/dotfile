@@ -29,7 +29,7 @@ alias Date='date +%Y%m%d%H%M'
 alias unpaper='unpaper -t pbm --overwrite --no-blackfilter --no-noisefilter --no-blurfilter --no-grayfilter --no-deskew --no-wipe'
 #alias impressive='/usr/bin/impressive --windowed -c memory --clock -M --nologo'
 #alias xcompmgr='xcompmgr -CcfF -I-.02 -O-.04 -D0001 -t-5 -l-5 -r4.2 -o.82'
-
+alias rdesktop='rdesktop -f -g 1920x1080 -a 32 -z -x b -P'
 # Local Variables:
 # mode: sh
 # End:

@@ -1,0 +1,36 @@
+# To remove block of code
+# For example,
+#	 <script type=...>
+#		...
+#	 </script>
+find . -type f -name "*.html" | xargs sed -i -e '/<script type/,/<\/script>/d'
+
+# To print only matching lines
+sed -n -e '/<script type/,/<\/script>/p' hello.html
+
+# To replace all occurrences of "day" with "night" and write to stdout:
+sed 's/day/night/g' file.txt
+
+# To replace all occurrences of "day" with "night" within file.txt:
+sed -i 's/day/night/g' file.txt
+
+# To replace all occurrences of "day" with "night" on stdin:
+echo 'It is daytime' | sed 's/day/night/g'
+
+# To remove leading spaces
+sed -i -r 's/^\s+//g' file.txt
+
+# To remove empty lines and print results to stdout:
+sed '/^$/d' file.txt
+sed '/string/,+10d' file.txt # To remove 11 lines
+sed '10d' file.txt   # remove the 10th line
+sed '1,10d' file.txt # remove from line 1 to line 10
+
+# To replace newlines in multiple lines
+sed ':a;N;$!ba;s/\n//g'  file.txt
+
+# Insert a line before a matching pattern:
+sed '/Once upon a time/i\Chapter 1'
+
+# Add a line after a matching pattern:
+sed '/happily ever after/a\The end.'

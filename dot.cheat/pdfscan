@@ -1,0 +1,13 @@
+# To optimize scanned PDF file:
+# 1. extract images from the PDF file
+cheat pdfimages
+# 2. ppm -> tif
+cheat ppm2tiff
+# 3. combine all tif pics into one tif file
+cheat tiffcp
+cheat tiffcrop
+# 4. tif -> pdf
+cheat tiff2pdf
+# 5. shrink the pdf (optional)
+cheat gs
+

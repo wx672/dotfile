@@ -46,6 +46,10 @@ mdview(){
 	pandoc "$1" | lynx -stdin
 }
 
+linux(){
+	$MUPDF /home/wx672/lecture_notes/linux/linux_intro/linux_intro-b.pdf &
+}
+
 neta(){
 	$ZATHURA /home/wx672/lecture_notes/network_basics/net-a.pdf &
 }
@@ -112,11 +116,21 @@ propstring () {
 rfc(){
 	[[ -n "$1" ]] || { cat <<EOF
 rfc - Command line RFC viewer
-Usage: rfc <number>
+Usage: rfc <index>
 EOF
-					   return 1
+return 1
+}
+find /usr/share/doc/RFC/ -type f -iname "rfc$1.*" | xargs less
+}
+
+rfcgrep(){
+	[[ -n "$1" ]] || { cat <<EOF
+rfcgrep - grep within /usr/share/doc/RFC/rfc-index.txt.gz
+Usage: rfcgrep <string>	
+EOF
+return 1
 	}
-	find /usr/share/doc/RFC/ -type f -iname "rfc$1.*" | xargs less
+	zgrep -i "$1" /usr/share/doc/RFC/rfc-index.txt.gz
 }
 
 booksearch () {
@@ -144,7 +158,7 @@ netnotes () {
 }
 
 update-calibre () {
-	sudo -v && wget --no-check-certificate -nv -O- https://download.calibre-ebook.com/linux-installer.py | sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main('/home/local')"
+	sudo -v && wget --no-check-certificate -nv -O- https://download.calibre-ebook.com/linux-installer.py | sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main('/home/wx672/')"
 }
 
 w2pdf () {

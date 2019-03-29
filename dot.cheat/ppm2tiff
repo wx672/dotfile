@@ -1,0 +1,7 @@
+# https://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
+
+for f in *.ppm; do ppm2tiff -c jpeg $f ${f%ppm}tif; done
+
+# Note: jpeg compression is not applicable to pbm
+
+for f in *.pbm; do ppm2tiff $f ${f%pbm}tif; done

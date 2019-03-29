@@ -1,0 +1,5 @@
+# write the output to imgfile.txt
+tesseract imgfile -l chi_sim+eng txt
+
+# write the output to imgfile.pdf
+tesseract imgfile -l chi_sim+eng pdf

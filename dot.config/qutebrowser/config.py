@@ -13,6 +13,7 @@ c.content.host_blocking.enabled = False
 c.content.javascript.can_access_clipboard = True
 c.content.javascript.can_open_tabs_automatically = True
 #c.content.javascript.can_close_tabs = True
+c.content.plugins = True
 c.content.proxy = "socks://localhost:1080/"
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
@@ -45,15 +46,18 @@ c.tabs.new_position.related = "last"
 c.tabs.show = "switching"
 c.tabs.show_switching_delay = 3000
 c.tabs.title.format = "{title}"
-c.url.default_page = 'https://duckduckgo.com'
+c.url.default_page = 'https://google.com'
+#c.url.default_page = 'https://duckduckgo.com'
 c.url.open_base_url = True
-c.url.start_pages = 'https://start.duckduckgo.com'
+#c.url.start_pages = 'https://start.duckduckgo.com'
+c.url.start_pages = 'https://google.com'
 c.zoom.default = "175%"
+c.zoom.levels = ["75%","100%","125%","150%","175%","200%","225%","250%","275%","300%","400%","500%"]
 
 # searches
 c.url.searchengines = {
-'DEFAULT':'https://duckduckgo.com/?q={}',
-'g':'http://www.google.com/search?hl=en&source=hp&ie=ISO-8859-l&q={}',
+'DEFAULT':'http://www.google.com/search?q={}',
+'ddg':'https://duckduckgo.com/?q={}',
 'w':'https://secure.wikimedia.org/wikipedia/en/w/index.php?title=Special%%3ASearch&search={}',
 'y':'https://www.youtube.com/results?search_query={}',
 'gh':'https://github.com/search?q={}&type=Code'
@@ -69,6 +73,9 @@ c.aliases = {
 }
 
 # keybinds
+config.bind('<Escape>', 'leave-mode', mode='passthrough')
+config.unbind('<Ctrl-v>', mode='normal')
+config.bind('<Ctrl-i>', 'enter-mode passthrough', mode='normal')
 config.bind('<Ctrl-/>', 'undo', mode='normal')
 #config.unbind('o', mode='normal')
 #config.unbind('O', mode='normal')
@@ -93,6 +100,7 @@ config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.unbind('<Ctrl-a>', mode='normal')
 config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
+config.bind('<Ctrl-a><Ctrl-t>', 'config-cycle statusbar.hide ;; config-cycle tabs.show multiple never')
 config.unbind('b', mode='normal')
 config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')

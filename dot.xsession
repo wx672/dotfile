@@ -17,7 +17,7 @@ export QT_QPA_PLATFORMTHEME=gtk3
 export NO_AT_BRIDGE=1 
 
 [ -x /usr/bin/xterm ] && /usr/bin/xterm -e tmux &
-[ -x /usr/bin/emacs ] && /usr/bin/emacs --daemon &
+#[ -x /usr/bin/emacs ] && /usr/bin/emacs --daemon &
 [ -x /usr/bin/udiskie ] && /usr/bin/udiskie -F &
 [ -x /usr/bin/redshift ] && /usr/bin/redshift &
 [ -x /usr/lib/notification-daemon/notification-daemon ] && /usr/lib/notification-daemon/notification-daemon &

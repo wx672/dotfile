@@ -1,0 +1,1 @@
+/home/wx672/.screenlayout/classroom-1280x1024.sh
