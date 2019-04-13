@@ -13,13 +13,21 @@
 ;;; Code:
 
 (require 'package)
-(setq package-enable-at-startup nil)
+(setq package-enable-at-startup nil
+	  ;package-check-signature nil
+	  )
+
 (setq package-archives
-      (append package-archives
-			  '(("melpa" . "https://stable.melpa.org/packages/")
-				("gnu" . "https://elpa.gnu.org/packages/")
-				("org" . "https://orgmode.org/elpa/")
-				)))
+	  '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
+        ("melpa" . "http://elpa.emacs-china.org/melpa/")
+		("org" . "http://elpa.emacs-china.org/org/")
+		)
+	  ;;       (append package-archives
+	  ;; 			  '(("melpa" . "https://stable.melpa.org/packages/")
+	  ;; 				("gnu" . "https://elpa.gnu.org/packages/")
+	  ;; 				("org" . "https://orgmode.org/elpa/")
+	  ;; 				))
+	  )
 
 (package-initialize)
 
