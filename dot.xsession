@@ -1,7 +1,15 @@
 #!/bin/sh
 
 # /usr/share/doc/xfree86-common/examples/xsession
-# see /etc/x11/xinit/xinput.d/fcitx
+# seems /etc/X11/xinit/xinput.d/fcitx is not sourced as expected. so have to do it here.
+
+export XIM=fcitx
+export XIM_PROGRAM=/usr/bin/fcitx
+export XIM_ARGS=""
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export QT4_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
 
 xhost +
 #/usr/bin/xmodmap .Xmodmap
@@ -16,7 +24,12 @@ export QT_QPA_PLATFORMTHEME=gtk3
 # stop warning messages
 export NO_AT_BRIDGE=1 
 
-[ -x /usr/bin/xterm ] && /usr/bin/xterm -e tmux &
+# use /usr/local/bin/xterm (st) instead
+#[ -x /usr/bin/xterm ] && /usr/bin/xterm -e tmux &
+[ -x /usr/local/bin/xterm ] && /usr/local/bin/xterm -e tmux &
+
+
+# see ~/.config/systemd/user/emacs.service
 #[ -x /usr/bin/emacs ] && /usr/bin/emacs --daemon &
 [ -x /usr/bin/udiskie ] && /usr/bin/udiskie -F &
 [ -x /usr/bin/redshift ] && /usr/bin/redshift &
