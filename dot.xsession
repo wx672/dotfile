@@ -26,7 +26,6 @@ export NO_AT_BRIDGE=1
 
 # use /usr/local/bin/xterm (st) instead
 #[ -x /usr/bin/xterm ] && /usr/bin/xterm -e tmux &
-[ -x /usr/local/bin/xterm ] && /usr/local/bin/xterm -e tmux &
 
 
 # see ~/.config/systemd/user/emacs.service
@@ -37,4 +36,5 @@ export NO_AT_BRIDGE=1
 #[ -x /usr/bin/compton ] && /usr/bin/compton -b
 #[ -x /usr/bin/hsetroot ] && /usr/bin/hsetroot -solid '#000000'
 
+[ -x /usr/local/bin/xterm ] && /usr/local/bin/xterm -e tmux &
 exec /etc/alternatives/x-window-manager

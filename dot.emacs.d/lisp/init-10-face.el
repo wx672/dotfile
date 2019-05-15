@@ -1,15 +1,21 @@
 ;;; init-10-face.el --- Customize the look of emacs
 
 ;;; Commentary:
-;; Zenburn theme; variables
+;; theme; variables
 
 ;;; Code:
 
 ;; == Load Custom Theme ==
 
+;;; Material
+(use-package material-theme
+  :init (load-theme 'material-light t))
+
+(enable-theme 'material-light)
+
 ;;; Zenburn
-(use-package zenburn-theme
-  :init (load-theme 'zenburn t))
+;; (use-package zenburn-theme
+;;   :init (load-theme 'zenburn t))
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (set-language-environment "UTF-8")
