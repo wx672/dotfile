@@ -2,10 +2,10 @@
 
 do_usage(){
     cat <<EOF
-Usage: $0 '<background> <signature> [g|ng] [year] [month] [date] [x,y] [scale]'
+Usage: `basename $0` '<background> <signature> [g|ng] [x,y] [scale] [year] [month] [date]'
 
-background - the paper you want to sign
- signature - your signature file
+background - paper to sign on
+ signature - signature file or text
       g|ng - show grid or not
        x,y - coordinate, e.g. '.6,.2', '.07,y' for the last page
      scale - scale to your signature (.2 looks good; 1.3 for the last page)
@@ -20,17 +20,17 @@ do_check(){
 do_init(){
 	BG="$1"
 	SIG="$2"
-	GRID='g';   [[ -n "$3" ]] && GRID="$3"
-	Y='';       [[ -n "$4" ]] && Y="$4"
-	M='';       [[ -n "$5" ]] && M="$5"
-	D='';       [[ -n "$6" ]] && D="$6"
-	XY='.6,.2'; [[ -n "$7" ]] && XY="$7"
-	SCALE='.2'; [[ -n "$8" ]] && SCALE="$8"
-	
-	TEX="$(basename $BG .pdf)"-signed.tex
-	PDF="`basename $TEX .tex`.pdf"
-	LOG="`basename $TEX .tex`.log"
-	AUX="`basename $TEX .tex`.aux"
+	GRID='ng';  [[ -n "$3" ]] && GRID="$3"
+	XY='12,6';  [[ -n "$4" ]] && XY="$4"
+	SCALE='.2'; [[ -n "$5" ]] && SCALE="$5"
+	Y='';       [[ -n "$6" ]] && Y="$6"
+	M='';       [[ -n "$7" ]] && M="$7"
+	D='';       [[ -n "$8" ]] && D="$8"
+
+	TEX="${BG%.pdf}-signed.tex"
+	PDF="${TEX%.tex}.pdf"
+	LOG="${TEX%.tex}.log"
+	AUX="${TEX%.tex}.aux"
 
 	rm -f $PDF $TEX
 }
@@ -45,11 +45,11 @@ do_grid(){
     \node (bg) at (0,0) [anchor=south west]
 		 {\includegraphics[width=\paperwidth]{$BG}};
 
-	\begin{scope}[x={(bg.south east)},y={(bg.north west)}]%
+	\begin{scope}
 	%%% grid
-	\draw[help lines,xstep=.1,ystep=.1] (0,0) grid (1,1);%
-    \foreach \x in {0,1,...,9} { \node [anchor=south west] at (\x/10,0) {0.\x}; }%
-    \foreach \y in {0,1,...,9} { \node [anchor=south west] at (0,\y/10) {0.\y}; }%
+	\draw[help lines,red,step=1] (0,0) grid (21,31);%
+	\foreach \x in {0,1,...,20} { \node [anchor=south] at (\x,0) {\x}; }%
+	\foreach \y in {0,1,...,30} { \node [anchor=west] at (0,\y) {\y}; }%
 EOF
 	if [[ -f "$SIG" ]]
 	then
@@ -74,7 +74,7 @@ do_nogrid(){
 \begin{document}
 \begin{tikzpicture}[inner sep=0]
     \node (bg) at (0,0) [anchor=south west] {\includegraphics[width=\paperwidth]{$BG}};
-	\begin{scope}[x={(bg.south east)},y={(bg.north west)}]%
+	\begin{scope}
 EOF
 	if [[ -f "$SIG" ]]
 	then
