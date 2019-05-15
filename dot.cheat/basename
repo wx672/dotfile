@@ -1,0 +1,2 @@
+BASE="${IMG%.*}" # remove .suffix
+
