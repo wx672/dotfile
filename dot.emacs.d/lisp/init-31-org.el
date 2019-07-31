@@ -153,7 +153,7 @@
 	:config
 	(setq
 	 org-directory "~/"
-	 org-default-notes-file (concat org-directory "0.org")
+	 org-default-notes-file (concat org-directory ".tmp.org")
 
 	 org-capture-templates
 	 '(("e" "Error" entry (file "~/Errorlog.org")
@@ -177,47 +177,6 @@
 	 org-refile-use-outline-path (quote file)
 	 org-outline-path-complete-in-steps t
 	 org-refile-allow-creating-parent-nodes (quote confirm)))
-
-  (use-package ox-latex
-	:config
-	(setq
-										;org-latex-low-levels nil
-	 org-latex-default-packages-alist nil
-	 org-latex-packages-alist
-	 '(("" "fullpage" t) ("" "wx672minted" t))
-	 org-latex-classes
-	 '(("article" "\\documentclass[12pt]{wx672article}"
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-		("\\paragraph{%s}" . "\\paragraph*{%s}")
-		("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-	   ("report" "\\documentclass[12pt]{report}"
-		("\\part{%s}" . "\\part*{%s}")
-		("\\chapter{%s}" . "\\chapter*{%s}")
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-	   ("book" "\\documentclass[12pt]{book}"
-		("\\part{%s}" . "\\part*{%s}")
-		("\\chapter{%s}" . "\\chapter*{%s}")
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-	 org-latex-default-figure-position "!htb"
-	 org-latex-default-table-environment "tabu"
-	 org-latex-image-default-width ".6\\linewidth"
-	 org-latex-listings 'minted
-	 org-latex-minted-options
-	 '(("mathescape" "true")
-	   ("linenos" "true")
-	   ("numbersep" "5pt")
-	   ("frame" "lines")
-	   ("framesep" "2mm"))
-	 org-latex-pdf-process
-	 '("xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
-	   "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
-	   "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f")))
 
   (use-package org-ref
 	:diminish org-ref

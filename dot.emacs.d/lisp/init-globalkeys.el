@@ -17,6 +17,8 @@
 (global-set-key [f9] 'switch-to-other-buffer)
 (global-set-key [S-f11] 'next-user-buffer)
 (global-set-key [f11] 'previous-user-buffer)
+(global-set-key [C-tab] 'next-user-buffer)
+(global-set-key [C-iso-lefttab] 'previous-user-buffer)
 (global-set-key (kbd "M-n") 'next-user-buffer)
 (global-set-key (kbd "M-p") 'previous-user-buffer)
 (global-set-key [f12] 'kill-current-buffer)

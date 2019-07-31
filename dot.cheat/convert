@@ -1,3 +1,10 @@
+# append
+convert a.png b.png -append c.png
+convert a.png b.png +append c.png
+
+# make png background white
+convert emacs.png -flatten emacs.pnm
+
 # To crop an image
 convert orig.jpg -crop WxH+x+y new.jpg
 

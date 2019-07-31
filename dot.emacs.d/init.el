@@ -219,6 +219,13 @@
     :config (add-auto-mode 'csv-mode "\\.[Cc][Ss][Vv]\\'"))
   (setq csv-separators '("," ";" "|" " ")))
 
+(use-package magit
+  :custom
+  (magit-auto-revert-mode nil)
+  (setq vc-handled-backends nil)
+  :bind
+  ("C-c g" . magit-status))
+
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'c-mode-hook
           (lambda() (local-set-key (kbd "C-c C-c") #'compile)))
@@ -258,6 +265,15 @@
 (setq auto-mode-alist
 	  (cons '("/rfc[0-9]+\\.txt\\(\\.gz\\)?\\'" . rfcview-mode)
 			auto-mode-alist))
+
+;; (add-hook 'outline-mode-hook
+;;           (lambda ()
+;;             (require 'outline-cycle)))
+
+(add-hook 'outline-minor-mode-hook
+          (lambda ()
+            (require 'outline-magic)
+            (define-key outline-minor-mode-map [(tab)] 'outline-cycle)))
 
 (autoload 'rfcview-mode "rfcview" nil t)
 

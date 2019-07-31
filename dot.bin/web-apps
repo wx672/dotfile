@@ -1,68 +1,67 @@
 #!/bin/bash
 
 CHROME="/usr/bin/x-www-browser"
-QB="/usr/bin/qutebrowser"
-QBW="/usr/bin/qutebrowser --target window"
+QB="/usr/bin/qutebrowser --target window"
 
 baidupan(){
-    bash -c "$QBW https://pan.baidu.com" &>/dev/null &
+    bash -c "$QB https://pan.baidu.com &"
 }
 
 techbooks(){
 	# jkxjxxz:swfcxs
-	bash -c "$QB https://cs3/tech" 2>/dev/null &
+	bash -c "$QB https://cs3/tech &"
 }
 #calibre2(){
 #	# calibre:1984
-#	bash -c "$QB http://pub/library" 2>/dev/null &
+#	bash -c "$QB http://pub/library &"
 #}
 #calibre3(){
 #	# sensitive:1989
-#	bash -c "$QB http://pub/sensitive" 2>/dev/null &
+#	bash -c "$QB http://pub/sensitive &"
 #}
 
 dingding(){
-	bash -c "$QBW https://im.dingtalk.com" 2>/dev/null &
+	bash -c "$QB https://im.dingtalk.com &"
 }
 
-ff(){
-	firefox -url 'data:text/html;charset=utf-8,<!DOCTYPE html><html><body><script>window.open("https://gmail.com", "_blank","menubar=no,location=no,toolbar=no")<%2Fscript><%2Fbody><%2Fhtml>'
-}
+# ff(){
+# 	firefox -url "data:text/html;charset=utf-8,<!DOCTYPE html><html><body><script>window.open("https://gmail.com", "_blank","menubar=no,location=no,toolbar=no")<%2Fscript><%2Fbody><%2Fhtml>"
+# }
 
 gcal(){
-  bash -c "$QBW https://www.google.com/calendar/render" 2>/dev/null &
+  bash -c "$QB https://www.google.com/calendar/render &"
 }
 
 gcontacts(){
-	bash -c "$QBW https://contacts.google.com" 2>/dev/null &
+	bash -c "$QB https://contacts.google.com &"
 }
 
 gdrawing(){
-  bash -c "$QBW https://docs.google.com/drawings/create?usp=apps_start&hl=en" 2>/dev/null &
+  bash -c "$QB https://docs.google.com/drawings/create?usp=apps_start&hl=en &"
 }
 
 gdrive(){
-  bash -c "$QBW https://drive.google.com/drive/#my-drive" 2>/dev/null &
+  bash -c "$QB https://drive.google.com/drive/#my-drive &"
 }
 
 github(){
-	bash -c "$QBW https://github.com" 2>/dev/null &
+	bash -c "$QB https://github.com &"
 }
 
 gitlab(){
-	bash -c "$QBW https://gitlab.swfu.edu.cn" 2>/dev/null &
+	bash -c "$QB https://gitlab.swfu.edu.cn &"
 }
 
 gkeep(){
-  bash -c "$QBW https://keep.google.com" 2>/dev/null &
+  bash -c "$QB https://keep.google.com &"
 }
 
 gmail(){
-  bash -c "$QBW https://mail.google.com" 2>/dev/null &
+  bash -c "$QB https://mail.google.com &"
 }
 
 gmailoffline(){
-  bash -c "$CHROME https://mail.google.com/mail/mu/?mui=ca" 2>/dev/null &
+  bash -c "$CHROME https://mail.google.com/mail/mu/?mui=ca &"
 }
 
 gmaps(){
@@ -70,7 +69,7 @@ gmaps(){
 	for WORD in $@; do
 		QUERY="$QUERY%20$WORD"
 	done
-	bash -c "$QBW https://www.google.com/maps/search/$QUERY" 2>/dev/null &
+	bash -c "$QB https://www.google.com/maps/search/$QUERY &"
 }
 
 google(){
@@ -79,7 +78,7 @@ google(){
   for WORD in $@; do
     QUERY="$QUERY%20$WORD"
   done
-  bash -c "$QB https://www.google.com/search?q=$QUERY" 2>/dev/null &
+  bash -c "$QB https://www.google.com/search?q=$QUERY &"
 }
 
 ddg(){
@@ -88,109 +87,113 @@ ddg(){
   for WORD in $@; do
     QUERY="$QUERY%20$WORD"
   done
-  bash -c "$QB https://duckduckgo.com/?q=$QUERY" 2>/dev/null &
+  bash -c "$QB https://duckduckgo.com/?q=$QUERY &"
 }
 
 gphotos(){
-	bash -c "$QBW https://photos.google.com" 2>/dev/null &
+	bash -c "$QB https://photos.google.com &"
 }
 
 grammarly(){
-	bash -c "$QB https://app.grammarly.com/" 2>/dev/null &
+	bash -c "$QB https://app.grammarly.com/ &"
 }
 
 hangouts(){
-  bash -c "$QBW https://hangouts.google.com/" 2>/dev/null &
+  bash -c "$QB https://hangouts.google.com/ &"
 }
 
 jd(){
-	bash -c "$QBW http://jd.com" 2>/dev/null &
-}
-
-jwc(){
-	bash -c "$QBW http://jwc.swfu.edu.cn" 2>/dev/null &
+	bash -c "$QB http://jd.com &"
 }
 
 lecturenotes(){
-	bash -c "$QB http://cs2.swfu.edu.cn/~wx672/lecture_notes" 2>/dev/null &
+	bash -c "$QB http://cs2.swfu.edu.cn/~wx672/lecture_notes &"
 }
 
 lizhifm(){
-  bash -c "$QB http://www.lizhi.fm/label/24229953853202224/" 2>/dev/null &
+  bash -c "$QB http://www.lizhi.fm/label/24229953853202224/ &"
 }
 
 lucidchart(){
-  bash -c "$QBW https://www.lucidchart.com/documents" 2>/dev/null &
+  bash -c "$QB https://www.lucidchart.com/documents &"
 }
 
 meituan(){
-	bash -c "$QBW http://km.meituan.com/" 2>/dev/null &
+	bash -c "$QB http://km.meituan.com/ &"
 }
 
 moodle(){
-  bash -c "$QBW http://cs6.swfu.edu.cn/moodle/" 2>/dev/null &
+  bash -c "$QB http://cs6.swfu.edu.cn/moodle/ &"
 }
 
 music163(){
-  bash -c "$QBW http://music.163.com/#/my/" 2>/dev/null &
+  bash -c "$QB http://music.163.com/#/my/ &"
 }
 
 pixlr(){
-  bash -c "$QBW http://pixlr.com/editor" 2>/dev/null &
+  bash -c "$QB http://pixlr.com/editor &"
 }
 
 q(){
-	bash -c "$QB $1" 2>/dev/null &
+	bash -c "$QB $1 &"
 }
 
 qq(){
-  bash -c "$QBW http://w.qq.com/" 2>/dev/null &
+  bash -c "$QB http://w.qq.com/ &"
+}
+
+eastmoney(){
+	bash -c "$QB http://i.eastmoney.com/stock.html &"
 }
 
 emstock(){
-	bash -c "$QBW http://i.eastmoney.com/stock.html" 2>/dev/null &
+	bash -c "$QB http://i.eastmoney.com/stock.html &"
 }
 
 sinastock(){
-	bash -c "$QBW http://i.finance.sina.com.cn" 2>/dev/null &
+	bash -c "$QB http://i.finance.sina.com.cn &"
 }
 
 taobao(){
-  bash -c "$QBW http://www.taobao.com/" 2>/dev/null &
+  bash -c "$QB http://www.taobao.com/ &"
 }
 
 telegram(){
-    bash -c "$QBW https://web.telegram.org" 2>/dev/null &
+    bash -c "$QB https://web.telegram.org &"
 }
 
 timeit(){
-	bash -c "$QBW http://timeit.swfu.edu.cn/attendance/all" 2>/dev/null &
+	bash -c "$QB http://timeit.swfu.edu.cn/attendance/all &"
 }
 
 timer(){
-  bash -c "$QBW http://www.timer-tab.com" 2>/dev/null &
+  bash -c "$QB http://www.timer-tab.com &"
 }
 
 travelogs(){
-	bash -c "$QBW http://cs2.swfu.edu.cn/~wx672/travelogs" 2>/dev/null &
+	bash -c "$QB http://cs2.swfu.edu.cn/~wx672/travelogs &"
 }
 
 twitter(){
-	bash -c "$QBW https://twitter.com" 2>/dev/null &
+	bash -c "$QB https://twitter.com &"
 }
 
 wechat(){
-  bash -c "$QBW https://wx2.qq.com/" 2>/dev/null &
+  bash -c "$QB https://wx2.qq.com/ &"
+}
+
+ximalaya(){
+	bash -c "$QB https://www.ximalaya.com/yinyue/235694/ &"
 }
 
 youtube(){
-  bash -c "$QBW https://youtube.com" 2>/dev/null &
+  bash -c "$QB https://youtube.com &"
 }
 
 zhifubao(){
-	bash -c "$QBW https://my.alipay.com" 2>/dev/null &
+	bash -c "$QB https://my.alipay.com &"
 }
 
 zhihu(){
-  bash -c "$QBW http://www.zhihu.com/notifications" 2>/dev/null &
+  bash -c "$QB http://www.zhihu.com/notifications &"
 }

@@ -5,7 +5,7 @@ XPDF="/usr/bin/mupdf -r180"
 ZATHURA="/usr/bin/zathura --fork"
 
 function screencapture(){
-	ffmpeg -f x11grab -s 1366x768 -r 30 -i :0.0 -c:v libx264 -crf 0 -preset ultrafast screen.mkv
+	ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 -c:v libx264 -crf 0 -preset ultrafast screen.mkv
 }
 # http://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal
 
@@ -34,11 +34,16 @@ function stopwatch(){
 }
 
 ec(){
-    /usr/bin/env emacsclient -t -a "" $*
+    /usr/bin/env emacsclient -t -a "" "$@"
 }
 
 ecw(){
-    /usr/bin/env emacsclient -n -a "" $*
+	emacsclient -n -e "(if (> (length (frame-list)) 1) 't)" | grep -q t
+	if [ "$?" = "1" ]; then
+    	emacsclient -c -n -a "" "$@"
+	else
+   		emacsclient -n -a "" "$@"
+	fi
 }
 
 # viewing markdown file in lynx
@@ -50,8 +55,11 @@ linux(){
 	$MUPDF /home/wx672/lecture_notes/linux/linux_intro/linux_intro-b.pdf &
 }
 
+nerd(){
+	$ZATHURA /home/wx672/.local/share/fonts/truetype/nerd-fonts/dejavu/nerd.pdf
+}
 neta(){
-	$ZATHURA /home/wx672/lecture_notes/network_basics/net-a.pdf &
+	$ZATHURA /home/wx672/lecture_notes/network_basics/net-a.pdf
 }
 
 netb(){
@@ -59,7 +67,7 @@ netb(){
 }
 
 osa(){
-	$ZATHURA /home/wx672/lecture_notes/os/slides/os-a.pdf &
+	$ZATHURA /home/wx672/lecture_notes/os/slides/os-a.pdf
 }
 
 osb(){
@@ -130,7 +138,7 @@ Usage: rfcgrep <string>
 EOF
 return 1
 	}
-	zgrep -i "$1" /usr/share/doc/RFC/rfc-index.txt.gz
+	zgrep -iB3 "$1" /usr/share/doc/RFC/rfc-index.txt.gz
 }
 
 booksearch () {

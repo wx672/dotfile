@@ -12,7 +12,7 @@
     co = checkout
 	br = branch
 [core]
-	excludesfile = /home/wx672/.gitignore
+	excludesFile = .gitignore
 	autocrlf = input
 [push]
 	default = simple

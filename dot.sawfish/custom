@@ -1,7 +1,9 @@
 ;; Sawfish user customization -- do not edit by hand!
 ;; Use the configurator instead.
-;; sawfish version 1.11.90, written Sun Nov 18 18:36:55 2018
+;; sawfish version 1.11.90, written Sun May 19 17:34:21 2019
 
+(custom-set-typed-variable (quote default-font) (quote ("Pango" . "DejaVuSansMono Nerd Font 14")) (quote font))
+(custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))
 (custom-set-typed-variable (quote wm-modifier-value) (quote (super)) (quote modifier-list))
 (custom-set-keymap (quote global-keymap) (quote (keymap (restart . "Super-R") ((xterm "") . "Super-x") (delete-empty-workspaces . "Super-0") (next-workspace . "Super-.") (run-application . "Super-r") (move-viewport-previous . "Super-k") (move-viewport-next . "Super-j") (cycle-windows . "Super-TAB"))))
 (custom-set-typed-variable (quote workspace-names) (quote ()) (quote (list string "Workspace names")))
@@ -12,8 +14,6 @@
 (custom-set-typed-variable (quote use-custom-button-cursor-shape) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote use-custom-font-color) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote use-custom-font) (quote ()) (quote boolean))
-(custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))
-(custom-set-typed-variable (quote default-font) (quote ("Pango" . "Sans 14")) (quote font))
 (custom-set-typed-variable (quote cabinet:cycle) (quote "TAB") (quote event))
 (custom-set-typed-variable (quote init-wallpaper) (quote t) (quote boolean))
 (custom-set-typed-variable (quote cabinet:cycle-as-start) (quote t) (quote boolean))
@@ -96,7 +96,6 @@
 (custom-set-typed-variable (quote avoid-shadows) (quote t) (quote boolean))
 (custom-set-typed-variable (quote translucency) (quote 60) (quote symbol))
 (custom-set-typed-variable (quote shadows-crop-maximized) (quote ()) (quote boolean))
-(custom-set-typed-variable (quote wallpaper-setter) (quote "/usr/bin/qiv") (quote file-name))
 (custom-set-typed-variable (quote focus-dont-push) (quote t) (quote boolean))
 (custom-set-typed-variable (quote uglicon-suffixes) (quote "svg,png,xpm") (quote string))
 (custom-set-typed-variable (quote tab-raise-on-hover) (quote t) (quote boolean))

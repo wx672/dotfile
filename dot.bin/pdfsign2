@@ -2,40 +2,22 @@
 
 usage(){
     cat <<EOF
-Usage: $(basename $0) '<background> <signature> [g|ng] [x,y] [scale] [year] [month] [date]'
+Usage: $(basename $0) '[-g] [-c x,y] [-s scale] [-y year] [-m month] [-d date] [-S sigfile|text] <background>'
 
-background - paper to sign on
- signature - signature file or text
-      g|ng - show grid or not
-       x,y - coordinate, e.g. '12,6', '1.1,y' for the last page
-     scale - scale to your signature (.2 looks good; 1.3 for the last page)
+background - paper to sign
+        -S - signature file or text
+        -g - show grid
+        -c - coordinate, e.g. '12,6', '1.1,y' for the last page
+        -s - scale to your signature (.2 looks good; 1.3 for the last page)
+      -ymd - only valid when signing with text
 EOF
-    exit 4;
 }
 
-do_check(){
-	[[ -f "$1" ]] || { echo 'Missing background PDF file!'; usage; }
+cleanup(){
+	rm -f $AUX $LOG $TEX
 }
 
-do_init(){
-	BG="$1"
-	SIG="$2"
-	GRID=${3:-'ng'}
-	XY=${4:-'12,6'}
-	SCALE=${5:-'.2'}
-	Y=${6:-''}
-	M=${7:-''}
-	D=${8:-''}
-
-	TEX="${BG%.pdf}-signed.tex"
-	PDF="${TEX%.tex}.pdf"
-	LOG="${TEX%.tex}.log"
-	AUX="${TEX%.tex}.aux"
-
-	rm -f $PDF $TEX
-}
-
-do_grid(){
+grid(){
 	cat <<EOF >> $TEX
 \documentclass[tikz]{standalone}
 \usetikzlibrary{backgrounds}
@@ -68,7 +50,7 @@ EOF
 EOF
 }
 
-do_nogrid(){
+nogrid(){
 	cat <<EOF >> $TEX
 \documentclass[tikz]{standalone}
 \usetikzlibrary{backgrounds}
@@ -95,20 +77,48 @@ EOF
 EOF
 }
 
-do_check $1 $2
-do_init $@
+trap cleanup EXIT
+
+# defaults
+GRID='ng'
+XY='12,6'
+SCALE='.2'
+Y=''
+M=''
+D=''
+
+while getopts :hgc:s:S:y:m:d: OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		g) GRID='g' ;;
+		c) XY="$OPTARG" ;;
+		s) SCALE="$OPTARG" ;;
+		y) Y="$OPTARG" ;;
+		m) M="$OPTARG" ;;
+		d) D="$OPTARG" ;;
+		S) SIG="$OPTARG" ;;
+		?) usage; exit 2
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+BG="$@"
+[[ -f "$BG" ]] || { echo "File <$BG> does not exist!"; exit 1; }
+
+TEX="${BG%.pdf}-signed.tex"
+PDF="${TEX%.tex}.pdf"
+LOG="${TEX%.tex}.log"
+AUX="${TEX%.tex}.aux"
 
 case "$GRID" in
-	g|grid)
+	g)
 		echo "Signing with grid..."
-		do_grid
+		grid
 		;;
-	n|ng|nogrid)
+	ng)
 		echo "Signing without grid..."
-		do_nogrid
-		;;
-	*)
-		usage
+		nogrid
 		;;
 esac
 
@@ -119,4 +129,4 @@ xelatex $TEX > /dev/null
 
 { echo 'DONE!'; ls -l $PDF; }
 
-rm -f $AUX $LOG $TEX
+

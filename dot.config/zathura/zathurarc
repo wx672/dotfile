@@ -1,12 +1,12 @@
-#set recolor-darkcolor "#93A1A1"
-#set recolor-lightcolor "#002B36"
-set recolor-darkcolor "#dcdccc"
-set recolor-lightcolor "#3f3f3f"
-set recolor true
-
 # colors
-set default-fg "#dcdccc"
-set default-bg "#3f3f3f"
+#set recolor true
+#set recolor-keephue true
+#set recolor-reverse-video true
+set recolor-lightcolor "#e0dca5"
+set recolor-darkcolor "#000000"
+
+set default-bg "#e0dca5"
+set default-fg "#000000"
 set completion-fg "#dcdccc"
 set completion-bg "#3f3f3f"
 set inputbar-fg "#dcdccc"

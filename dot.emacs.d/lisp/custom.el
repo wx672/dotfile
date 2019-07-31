@@ -63,12 +63,14 @@
  '(org-ditaa-jar-path "/usr/bin/ditaa")
  '(package-selected-packages
    (quote
-	(elpy material-theme char-menu graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
+	(magit outline-magic yasnippet-classic-snippets plantuml-mode elpy material-theme char-menu graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(read-mail-command (quote ignore))
  '(safe-local-variable-values
    (quote
-	((TeX-master . \.\./thesis\.tex)
+	((TeX-master . lap-b\.tex)
+	 (TeX-master . lap-b)
+	 (TeX-master . \.\./thesis\.tex)
 	 (eval when
 		   (require
 			(quote rainbow-mode)
@@ -119,5 +121,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:height 240 :family "DejaVuSansMono Nerd Font"))))
- '(mode-line ((t (:height 160 :family "DejaVuSansMono Nerd Font"))))
- )
+ '(mode-line ((t (:height 160 :family "DejaVuSansMono Nerd Font")))))

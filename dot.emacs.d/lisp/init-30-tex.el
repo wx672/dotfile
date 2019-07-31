@@ -19,14 +19,10 @@
 
    TeX-command-list
    '(("LaTeXMK" "latexmk %s" TeX-run-TeX nil t :help "Run latexmk")
-     ;("LaTeX" "%`xelatex%(mode) -synctex=1 --shell-escape%' %t" TeX-run-TeX nil t :help "Run xelatex")
      ("XeLaTeX" "%`xelatex%(mode) -synctex=1 --shell-escape%' %t" TeX-run-TeX nil t :help "Run xelatex")
      ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
-     ; ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
      ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
      ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
-     ("Check" "lacheck %s" TeX-run-compile nil (latex-mode) :help "Check LaTeX file for correctness")
-     ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t :help "Spell-check the document")
      ("Clean" "TeX-clean" TeX-run-function nil t :help "Delete generated intermediate files")
      ("Clean All" "(TeX-clean t)" TeX-run-function nil t :help "Delete generated intermediate and output files")
      )

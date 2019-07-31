@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#https://gist.github.com/smoitra87/8115689
+
+[ -n "$1" ] || { echo Usage: $0 '<source file>'; exit 1; }
+
+#\setmonofont{Source Code Pro}
+PREAMBLE='\usepackage{xltxtra}\setmonofont{Latin Modern Mono}\pagestyle{empty}'
+
+# STYLE='default'
+# [ -n "$2" ] && STYLE=$2
+
+for f in "$@"; do
+	pygmentize -f tex -O "style=default,linenos,full,preamble=$PREAMBLE" $f \
+		| xelatex -jobname=`basename $f` -output-directory=/tmp;
+
+	pdfcrop /tmp/`basename $f.pdf` `basename $f | tr . -`.pdf;
+
+	rm -f /tmp/$f*;
+done
