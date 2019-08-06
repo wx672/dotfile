@@ -2,7 +2,7 @@ unicode 2500.. #table symbols
 echo -e "\uNNNN"
 
 #      (redhat)    (pie) 
-#      
+#      
 # ➔ ➜ ➤ ☞ ☜ 
 # □ ✔ ✓ ✘ ✗ 🗹 ☑ 🗷 ☒
 # ☺ ☹ 👍👎☠          

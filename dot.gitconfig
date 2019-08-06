@@ -11,8 +11,9 @@
     ci = commit
     co = checkout
 	br = branch
+	ls = ls-files
 [core]
-	excludesFile = .gitignore
+	excludesFile = /home/wx672/.gitignore
 	autocrlf = input
 [push]
 	default = simple
