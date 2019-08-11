@@ -68,6 +68,7 @@
      reftex-plug-into-AUCTeX t
      reftex-bibliography-commands '("addbibresource" "bibliography" "nobibliography")
 	 bibtex-dialect 'biblatex
+	 reftex-use-external-file-finders t
      )
     :config
     (add-hook 'LaTeX-mode-hook 'turn-on-reftex)

@@ -41,7 +41,6 @@ c.statusbar.hide = True
 c.tabs.background = False
 c.tabs.favicons.show = "never"
 c.tabs.last_close = "close"
-c.tabs.new_position.related = "last"
 c.tabs.show = "switching"
 c.tabs.show_switching_delay = 3000
 #c.tabs.title.format = "{title}"

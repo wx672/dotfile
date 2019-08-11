@@ -1,20 +1,51 @@
-#!/bin/sh
+#!/bin/bash
 
-#https://gist.github.com/smoitra87/8115689
+usage(){
+    cat <<EOF
+Usage: $(basename $0) [-h] [-s style] <source files>
+EOF
+}
 
-[ -n "$1" ] || { echo Usage: $0 '<source file>'; exit 1; }
+cleanup(){
+	rm -rf $SCRATCH
+}
+
+trap cleanup EXIT
 
 #\setmonofont{Source Code Pro}
-PREAMBLE='\usepackage{xltxtra}\setmonofont{Latin Modern Mono}\pagestyle{empty}'
+PREAMBLE='\usepackage{fontspec}\setmonofont{Latin Modern Mono}\pagestyle{empty}'
+STYLE=default
+SCRATCH=$(mktemp -d)
 
-# STYLE='default'
-# [ -n "$2" ] && STYLE=$2
+while getopts :hs:a OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		s) STYLE="$OPTARG" ;;
+		a) ALL=1; STYLE=default ;;
+		?) usage; exit 2
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+[ -z "$@" ] && { usage; exit 1; }
 
 for f in "$@"; do
-	pygmentize -f tex -O "style=default,linenos,full,preamble=$PREAMBLE" $f \
-		| xelatex -jobname=`basename $f` -output-directory=/tmp;
+	if [[ -s "$f" ]]; then
+		pygmentize -f tex -O "style=$STYLE,linenos,full,preamble=$PREAMBLE" $f \
+			| xelatex -jobname=`basename $f` -output-directory=$SCRATCH
+	else
+		echo "File <$f> not found." && exit 1
+	fi
 
-	pdfcrop /tmp/`basename $f.pdf` `basename $f | tr . -`.pdf;
-
-	rm -f /tmp/$f*;
+	[[ "$STYLE" = "default" ]] \
+		&& pdfcrop $SCRATCH/`basename $f.pdf` `basename $f | tr . -`.pdf \
+		|| pdfcrop $SCRATCH/`basename $f.pdf` `basename $f | tr . -`-$STYLE.pdf
+	
+	(( ALL == 1 )) \
+		&& { pygmentize -f tex -O "style=bw,linenos,full,preamble=$PREAMBLE" $f \
+				 | xelatex -jobname=`basename $f` -output-directory=$SCRATCH; \
+			 pdfcrop $SCRATCH/`basename $f.pdf` `basename $f | tr . -`-bw.pdf; }
 done
+
+#https://gist.github.com/smoitra87/8115689

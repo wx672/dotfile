@@ -66,18 +66,6 @@
 	(magit outline-magic yasnippet-classic-snippets plantuml-mode elpy material-theme char-menu graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(read-mail-command (quote ignore))
- '(safe-local-variable-values
-   (quote
-	((TeX-master . lap-b\.tex)
-	 (TeX-master . lap-b)
-	 (TeX-master . \.\./thesis\.tex)
-	 (eval when
-		   (require
-			(quote rainbow-mode)
-			nil t)
-		   (rainbow-mode 1))
-	 (TeX─master . t)
-	 (reftex-default-bibliography "./os.bib"))))
  '(scheme-program-name "guile")
  '(scroll-bar-mode nil)
  '(select-enable-clipboard t)

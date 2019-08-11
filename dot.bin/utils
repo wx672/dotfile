@@ -33,6 +33,8 @@ function stopwatch(){
     done
 }
 
+dict () { /usr/bin/dict "$@" 2>&1 | less; }
+
 ec(){
     /usr/bin/env emacsclient -t -a "" "$@"
 }
