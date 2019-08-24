@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
-   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
+   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#FDF6E3"])
  '(blink-cursor-mode nil)
  '(bookmark-save-flag 1)
  '(browse-url-browser-function (quote browse-url-generic))
@@ -19,6 +19,7 @@
  '(cua-selection-mode t)
  '(current-language-environment "UTF-8")
  '(cursor-type (quote bar))
+ '(custom-enabled-themes (quote (material-light)))
  '(custom-safe-themes
    (quote
 	("a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
@@ -53,6 +54,7 @@
  '(ispell-extra-args (quote ("--reverse")))
  '(ispell-local-dictionary "en_US")
  '(linum-format "%d ")
+ '(magit-auto-revert-mode nil)
  '(make-backup-files nil)
  '(mark-diary-entries-in-calendar t)
  '(menu-bar-mode nil)
@@ -65,10 +67,13 @@
    (quote
 	(magit outline-magic yasnippet-classic-snippets plantuml-mode elpy material-theme char-menu graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(ps-line-number nil)
  '(read-mail-command (quote ignore))
+ '(safe-local-variable-values (quote ((TeX─master . t))))
  '(scheme-program-name "guile")
  '(scroll-bar-mode nil)
  '(select-enable-clipboard t)
+ '(setq (quote (RCS CVS SVN SCCS SRC Bzr Git Hg Mtn)) t)
  '(tool-bar-button-margin 1 t)
  '(tool-bar-mode nil)
  '(track-eol t)

@@ -9,6 +9,7 @@
 (global-set-key (kbd "<print>") 'ps-print-region-with-faces)
 (global-set-key [f1] 'query-replace-regexp)
 (global-set-key [M-f1] 'menu-bar-mode)
+(global-set-key [f2] 'hs-toggle-hiding)
 ;; (global-set-key [M-f2] 'mode-line-hide)
 ;; (global-set-key [M-S-f2] 'mode-line-show)
 (global-set-key [f5] 'shell-other-window)
@@ -27,6 +28,8 @@
 (global-set-key (kbd "C-x C-o") 'browse-url-at-point)
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-x |") 'split-window-right)
+
+(add-hook 'prog-mode-hook #'hs-minor-mode)
 
 ;; (defvar-local hidden-mode-line-mode nil)
 

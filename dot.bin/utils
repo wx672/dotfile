@@ -1,12 +1,43 @@
 #!/bin/bash
 
+BROWSER="/usr/bin/x-www-browser"
+TIMETABLE="/home/wx672/texmf/doc/latex/swfu/timetable/timetable.pdf"
 MUPDF="/usr/bin/mupdf -r285"
 XPDF="/usr/bin/mupdf -r180"
 ZATHURA="/usr/bin/zathura --fork"
 
-function screencapture(){
+abs(){
+    $BROWSER file:///usr/share/doc/abs-guide/html/index.html &>/dev/null &
+}
+
+cdev(){
+    $BROWSER file:///home/wx672/lecture_notes/linux/c/c_dev.html &>/dev/null &
+}
+
+ch8(){
+    $MUPDF ~/texmf/doc/latex/ch8.pdf &>/dev/null &
+}
+
+math(){
+    $MUPDF ~/texmf/doc/latex/ch8.pdf &>/dev/null &
+}
+
+symbol(){
+    $MUPDF ~/texmf/doc/latex/symbols-a4.pdf &>/dev/null &
+}
+
+playbash(){
+    $BROWSER file:///home/wx672/lecture_notes/linux/bash/shell_basics.plain.html &>/dev/null &
+}
+
+timetable(){
+	$MUPDF $TIMETABLE
+}
+
+screencapture(){
 	ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 -c:v libx264 -crf 0 -preset ultrafast screen.mkv
 }
+
 # http://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal
 
 # function countdown(){
@@ -51,6 +82,14 @@ ecw(){
 # viewing markdown file in lynx
 mdview(){
 	pandoc "$1" | lynx -stdin
+}
+
+lapa(){
+	$ZATHURA /home/wx672/lecture_notes/linux-app/slides/lap-a.pdf
+}
+
+lapb(){
+	$MUPDF /home/wx672/lecture_notes/linux-app/slides/lap-b.pdf &
 }
 
 linux(){

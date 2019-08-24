@@ -12,8 +12,8 @@ cleanup(){
 
 trap cleanup EXIT
 
-#\setmonofont{Source Code Pro}
-PREAMBLE='\usepackage{fontspec}\setmonofont{Latin Modern Mono}\pagestyle{empty}'
+#\setmonofont{Source Code Pro} Latin Modern Mono
+PREAMBLE='\usepackage{fontspec}\setmonofont{LMMono12 Nerd Font}\pagestyle{empty}'
 STYLE=default
 SCRATCH=$(mktemp -d)
 

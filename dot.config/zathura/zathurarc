@@ -2,10 +2,10 @@
 #set recolor true
 #set recolor-keephue true
 #set recolor-reverse-video true
-set recolor-lightcolor "#eeeeee"
+set recolor-lightcolor "#FDF6E3"
 set recolor-darkcolor "#000000"
 
-set default-bg "#eeeeee"
+set default-bg "#FDF6E3"
 set default-fg "#000000"
 set completion-fg "#dcdccc"
 set completion-bg "#3f3f3f"

@@ -16,6 +16,7 @@ c.content.javascript.can_open_tabs_automatically = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
 c.content.proxy = "socks://localhost:1080/"
+c.content.user_stylesheets = ["solarized-light-all-sites.css", "solarized-light-generic.css", "solarized-light-mediawiki.org.css", "solarized-light-github.css", "solarized-light-google.com.css", "solarized-light-stackexchange.com.css", "solarized-light-reddit.com.css"]
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
 c.downloads.location.prompt = False
@@ -92,8 +93,9 @@ config.unbind('r', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.unbind('<Ctrl-a>', mode='normal')
-config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
+config.bind('<Ctrl-a><Ctrl-r>', 'config-cycle content.user_stylesheets solarized-light-all-sites.css solarized-light-generic.css solarized-light-mediawiki.org.css solarized-light-github.css solarized-light-google.com.css solarized-light-stackexchange.com.css solarized-light-reddit.com.css', mode='normal')
+config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080', mode='normal')
 config.bind('<Ctrl-a><Ctrl-t>', 'config-cycle statusbar.hide ;; config-cycle tabs.show multiple never')
 config.unbind('b', mode='normal')
 config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
@@ -107,7 +109,8 @@ c.colors.tabs.selected.even.fg = "black"
 c.colors.tabs.selected.even.bg = "yellow"
 c.colors.tabs.selected.odd.fg = "black"
 c.colors.tabs.selected.odd.bg = "yellow"
-c.colors.hints.bg = "#CCCCCC"
+c.colors.hints.bg = "#cccccc"
+c.colors.webpage.bg = "#eeeeee"
 
 # fonts
 c.fonts.tabs = "14pt NotoMono Nerd Font"
