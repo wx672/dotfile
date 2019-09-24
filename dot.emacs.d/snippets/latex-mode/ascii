@@ -3,12 +3,15 @@
 # --
 \documentclass[varwidth,crop]{standalone}
 
-\usepackage{wx672fonts}
+\usepackage{fontspec}
 \setmonofont{DejaVu Sans Mono}
-\usepackage{fancyvrb,xcolor}
 
 \begin{document}
-\begin{Verbatim}[commandchars=\\\\\{\\}]
+\begin{verbatim}
 $0
-\end{Verbatim}
+\end{verbatim}
 \end{document}
+
+%\usepackage{fancyvrb,xcolor}
+%\begin{Verbatim}[commandchars=\\\\\{\\}]
+%\end{Verbatim}

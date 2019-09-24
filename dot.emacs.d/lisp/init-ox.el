@@ -42,7 +42,7 @@
 	:config
 	(setq
 	 ;; org-latex-default-packages-alist nil
-	 org-latex-packages-alist '(("" "wx672hyperref" nil))
+	 org-latex-packages-alist '(("" "wx672hyperref" nil) ("" "wx672minted" nil) ("" "amsmath" nil) ("" "amsfonts" nil) ("" "amssymb" nil) ("" "graphicx" nil))
 	 org-latex-classes
 	 '(("wx672ctexart"
 		"\\documentclass{wx672ctexart}

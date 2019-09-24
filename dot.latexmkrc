@@ -1,5 +1,5 @@
-$pdf_mode = 1; $postscript_mode = $dvi_mode = 0;
-$pdflatex = 'xelatex -interaction=nonstopmode -synctex=1 -8bit --shell-escape %O %S';
+$pdf_mode = 5; $postscript_mode = $dvi_mode = 0;
+$xelatex = 'xelatex -interaction=nonstopmode -synctex=1 -8bit --shell-escape %O %S';
 
 $bibtex_use = 1;
 $biber = 'biber --debug %O %S';

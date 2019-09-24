@@ -104,30 +104,33 @@
 		ispell-local-dictionary-alist
 		'(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
 
-  (when (executable-find ispell-program-name)
-	(use-package flyspell
-	  :config
-	  (if (fboundp 'prog-mode)
-		  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-		(dolist (hook '(c-mode-hook caml-mode-hook clojure-mode-hook crontab-mode-hook css-mode-hook
-						emacs-lisp-mode-hook
-						haskell-mode-hook
-						javascript-mode-hook
-						LaTeX-mode-hook lisp-mode-hook 
-						nxml-mode-hook
-						org-mode-hook
-						perl-mode-hook php-mode-hook python-mode-hook
-						ruby-mode-hook
-						scheme-mode-hook shell-mode-hook
-						tcl-mode-hook 
-						yaml-mode ))
-		  (add-hook hook 'flyspell-prog-mode)))
-	  (add-to-list 'flyspell-prog-text-faces 'nxml-text-face))))
+  ;; (when (executable-find ispell-program-name)
+  ;; 	(use-package flyspell
+  ;; 	  :config
+  ;;      (setq flyspell-issue-message-flag nil)
+  ;; 	  (if (fboundp 'prog-mode)
+  ;; 		  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  ;; 		(dolist (hook '(c-mode-hook caml-mode-hook clojure-mode-hook crontab-mode-hook css-mode-hook
+  ;; 						emacs-lisp-mode-hook
+  ;; 						haskell-mode-hook
+  ;; 						javascript-mode-hook
+  ;; 						LaTeX-mode-hook lisp-mode-hook 
+  ;; 						nxml-mode-hook
+  ;; 						org-mode-hook
+  ;; 						perl-mode-hook php-mode-hook python-mode-hook
+  ;; 						ruby-mode-hook
+  ;; 						scheme-mode-hook shell-mode-hook
+  ;; 						tcl-mode-hook 
+  ;; 						yaml-mode ))
+  ;; 		  (add-hook hook 'flyspell-prog-mode)))
+  ;; 	  (add-to-list 'flyspell-prog-text-faces 'nxml-text-face)))
+  )
 
 (use-package printing
   :init
   (setq ps-use-face-background nil
 		ps-print-header nil
+		ps-line-number nil
 		ps-always-build-face-reference t
 		ps-build-face-reference t
 		ps-default-fg t)

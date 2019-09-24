@@ -9,7 +9,7 @@ baidupan(){
 
 techbooks(){
 	# jkxjxxz:swfcxs
-	bash -c "$QB https://cs3/tech &"
+	bash -c "$QB ':set content.proxy none' https://cs3/tech &"
 }
 #calibre2(){
 #	# calibre:1984
@@ -21,7 +21,7 @@ techbooks(){
 #}
 
 dingding(){
-	bash -c "$QB https://im.dingtalk.com &"
+	bash -c "$QB ':set content.proxy none' https://im.dingtalk.com &"
 }
 
 # ff(){
@@ -49,7 +49,7 @@ github(){
 }
 
 gitlab(){
-	bash -c "$QB https://gitlab.swfu.edu.cn &"
+	bash -c "$QB ':set content.proxy none' https://gitlab.swfu.edu.cn/wx672 &"
 }
 
 gkeep(){
@@ -103,35 +103,35 @@ hangouts(){
 }
 
 jd(){
-	bash -c "$QB http://jd.com &"
+	bash -c "$QB ':set content.proxy none' http://jd.com &"
 }
 
 lecturenotes(){
-	bash -c "$QB http://cs2.swfu.edu.cn/~wx672/lecture_notes &"
+	bash -c "$QB ':set content.proxy none' http://cs2.swfu.edu.cn/~wx672/lecture_notes &"
 }
 
 lizhifm(){
-  bash -c "$QB http://www.lizhi.fm/label/24229953853202224/ &"
+  bash -c "$QB ':set content.proxy none' http://www.lizhi.fm/label/24229953853202224/ &"
 }
 
 lucidchart(){
-  bash -c "$QB https://www.lucidchart.com/documents &"
+  bash -c "$QB ':set content.proxy none' https://www.lucidchart.com/documents &"
 }
 
 meituan(){
-	bash -c "$QB http://km.meituan.com/ &"
+	bash -c "$QB ':set content.proxy none' http://km.meituan.com/ &"
 }
 
 moodle(){
-  bash -c "$QB http://cs6.swfu.edu.cn/moodle/ &"
+  bash -c "$QB ':set content.proxy none' http://cs6.swfu.edu.cn/moodle/ &"
 }
 
 music163(){
-  bash -c "$QB http://music.163.com/#/my/ &"
+  bash -c "$QB ':set content.proxy none' http://music.163.com/#/my/ &"
 }
 
 pixlr(){
-  bash -c "$QB http://pixlr.com/editor &"
+  bash -c "$QB ':set content.proxy none' http://pixlr.com/editor &"
 }
 
 q(){
@@ -139,23 +139,23 @@ q(){
 }
 
 qq(){
-  bash -c "$QB http://w.qq.com/ &"
+  bash -c "$QB ':set content.proxy none' http://w.qq.com/ &"
 }
 
 eastmoney(){
-	bash -c "$QB http://i.eastmoney.com/stock.html &"
+	bash -c "$QB ':set content.proxy none' http://i.eastmoney.com/stock.html &"
 }
 
 emstock(){
-	bash -c "$QB http://i.eastmoney.com/stock.html &"
+	bash -c "$QB ':set content.proxy none' http://i.eastmoney.com/stock.html &"
 }
 
 sinastock(){
-	bash -c "$QB http://i.finance.sina.com.cn &"
+	bash -c "$QB ':set content.proxy none' http://i.finance.sina.com.cn &"
 }
 
 taobao(){
-  bash -c "$QB http://www.taobao.com/ &"
+  bash -c "$QB ':set content.proxy none' http://www.taobao.com/ &"
 }
 
 telegram(){
@@ -163,15 +163,15 @@ telegram(){
 }
 
 timeit(){
-	bash -c "$QB http://timeit.swfu.edu.cn/attendance/all &"
+	bash -c "$QB ':set content.proxy none' http://timeit.swfu.edu.cn/attendance/all &"
 }
 
 timer(){
-  bash -c "$QB http://www.timer-tab.com &"
+  bash -c "$QB ':set content.proxy none' http://www.timer-tab.com &"
 }
 
 travelogs(){
-	bash -c "$QB http://cs2.swfu.edu.cn/~wx672/travelogs &"
+	bash -c "$QB ':set content.proxy none' http://cs2.swfu.edu.cn/~wx672/travelogs &"
 }
 
 twitter(){
@@ -179,11 +179,11 @@ twitter(){
 }
 
 wechat(){
-  bash -c "$QB https://wx2.qq.com/ &"
+  bash -c "$QB ':set content.proxy none' https://wx2.qq.com/ &"
 }
 
 ximalaya(){
-	bash -c "$QB https://www.ximalaya.com/yinyue/235694/ &"
+	bash -c "$QB ':set content.proxy none' https://www.ximalaya.com/yinyue/235694/ &"
 }
 
 youtube(){
@@ -191,9 +191,9 @@ youtube(){
 }
 
 zhifubao(){
-	bash -c "$QB https://my.alipay.com &"
+	bash -c "$QB ':set content.proxy none' https://my.alipay.com &"
 }
 
 zhihu(){
-  bash -c "$QB http://www.zhihu.com/notifications &"
+  bash -c "$QB ':set content.proxy none' http://www.zhihu.com/notifications &"
 }

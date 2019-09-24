@@ -3,8 +3,6 @@
 # --
 ${7:%}\documentclass{wx672beamer} % uncomment this if you don't need a companion handouts version
 
-${8:%}\usepackage{wx672cjk}
-
 \addbibresource{$6.bib}
 
 \title{${1:title}}

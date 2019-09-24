@@ -2,7 +2,12 @@
 
 usage(){
     cat <<EOF
-Usage: $(basename $0) [-h] [-s style] <source files>
+Usage: $(basename $0) [-ha] [-f from] [-t to] [-s style] <source files>
+-h  help
+-a  output in both default and bw style
+-s  style (pygmentize -L)
+-f  line number of the first line (TODO)
+-t  line number of the last line (TODO)
 EOF
 }
 
@@ -22,6 +27,8 @@ while getopts :hs:a OPT; do
 		h) usage; exit 0 ;;
 		s) STYLE="$OPTARG" ;;
 		a) ALL=1; STYLE=default ;;
+		f) FROM="$OPTARG" ;;
+		t) TO="$OPTARG" ;;
 		?) usage; exit 2
 	esac
 done
@@ -33,19 +40,17 @@ OPTIND=1
 for f in "$@"; do
 	if [[ -s "$f" ]]; then
 		pygmentize -f tex -O "style=$STYLE,linenos,full,preamble=$PREAMBLE" $f \
-			| xelatex -jobname=`basename $f` -output-directory=$SCRATCH
+			| xelatex -jobname=$(basename $f) -output-directory=$SCRATCH
 	else
 		echo "File <$f> not found." && exit 1
 	fi
 
 	[[ "$STYLE" = "default" ]] \
-		&& pdfcrop $SCRATCH/`basename $f.pdf` `basename $f | tr . -`.pdf \
-		|| pdfcrop $SCRATCH/`basename $f.pdf` `basename $f | tr . -`-$STYLE.pdf
+		&& pdfcrop $SCRATCH/$(basename $f.pdf) $(basename $f | tr . -).pdf \
+		|| pdfcrop $SCRATCH/$(basename $f.pdf) $(basename $f | tr . -)-$STYLE.pdf
 	
 	(( ALL == 1 )) \
 		&& { pygmentize -f tex -O "style=bw,linenos,full,preamble=$PREAMBLE" $f \
-				 | xelatex -jobname=`basename $f` -output-directory=$SCRATCH; \
-			 pdfcrop $SCRATCH/`basename $f.pdf` `basename $f | tr . -`-bw.pdf; }
+				 | xelatex -jobname=$(basename $f) -output-directory=$SCRATCH; \
+			 pdfcrop $SCRATCH/$(basename $f.pdf) $(basename $f | tr . -)-bw.pdf; }
 done
-
-#https://gist.github.com/smoitra87/8115689

@@ -11,6 +11,7 @@ sed -i 's/day/night/g' file.txt # replace "day" with "night"
 
 # remove lines
 sed -i -r 's/^\s+//g' file.txt # remove leading spaces
+sed -i -r 's/\s+//g' file.txt # remove all spaces
 sed '/^$/d' file.txt # remove empty lines
 sed -i '/string/d' # remove matching lines
 sed '/string/,+10d' file.txt # remove 11 lines

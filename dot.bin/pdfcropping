@@ -9,7 +9,7 @@ Usage: $(basename $0) [-p page number] [-m L T R B] [-o outPDF] <inPDF>"
       inPDF - The input PDF file name
 page number - The number of to-be-cropped page
      outPDF - The output PDF file name
-  [L T R B] - Margins
+    L T R B - Margins
 EOF
 }
 
@@ -33,6 +33,6 @@ INPDF="$@"
 
 [[ -f "$INPDF" ]] || { echo "$(basename $0): Missing input file!"; usage; exit 1; }
 
-[[ -f "$OUTPDF" ]] || OUTPDF="${INPDF%.*}-$PAGE.pdf"
+[[ -n "$OUTPDF" ]] || OUTPDF="${INPDF%.*}-$PAGE.pdf"
 
 pdftk $INPDF cat $PAGE output - | pdfcrop --margins "${MARGIN[*]}" --clip - $OUTPDF && mupdf $OUTPDF

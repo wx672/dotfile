@@ -7,9 +7,12 @@ XPDF="/usr/bin/mupdf -r180"
 ZATHURA="/usr/bin/zathura --fork"
 
 abs(){
-    $BROWSER file:///usr/share/doc/abs-guide/html/index.html &>/dev/null &
+    $BROWSER file:///usr/share/doc/abs-guide/html/xrefindex.html &>/dev/null &
 }
 
+blp(){
+	$ZATHURA /home/wx672/Documents/Beginning.Linux.Programming-4e.pdf
+}
 cdev(){
     $BROWSER file:///home/wx672/lecture_notes/linux/c/c_dev.html &>/dev/null &
 }
@@ -31,7 +34,11 @@ playbash(){
 }
 
 timetable(){
-	$MUPDF $TIMETABLE
+	$MUPDF $TIMETABLE &>/dev/null &
+}
+
+tlpi(){
+	$ZATHURA /home/wx672/Documents/The.Linux.Programming.Interface.pdf
 }
 
 screencapture(){

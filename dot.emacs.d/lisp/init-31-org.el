@@ -76,7 +76,6 @@
   :config
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
-  (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'yas-minor-mode-on)
 
   (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))

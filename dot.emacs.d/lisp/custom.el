@@ -42,7 +42,6 @@
  '(doc-view-continuous nil)
  '(fci-rule-color "#383838")
  '(fill-column 90)
- '(flyspell-issue-message-flag nil)
  '(fringe-mode (quote (1 . 1)) nil (fringe))
  '(global-auto-revert-mode t)
  '(global-font-lock-mode t nil (font-lock))
@@ -67,9 +66,12 @@
    (quote
 	(magit outline-magic yasnippet-classic-snippets plantuml-mode elpy material-theme char-menu graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- '(ps-line-number nil)
  '(read-mail-command (quote ignore))
- '(safe-local-variable-values (quote ((TeX─master . t))))
+ '(safe-local-variable-values
+   (quote
+	((reftex-default-bibliography . "os.bib")
+	 (reftex-default-bibliography . "ref.bib")
+	 (TeX─master . t))))
  '(scheme-program-name "guile")
  '(scroll-bar-mode nil)
  '(select-enable-clipboard t)

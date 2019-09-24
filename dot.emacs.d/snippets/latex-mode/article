@@ -1,16 +1,7 @@
 # -*- mode: snippet -*-
 #name : article template
 # --
-%%% if you have
-%%%
-%%%    $HOME/texmf/tex/latex/wx672article.cls
-%%%
-%%% you can use it instead.
-
-\documentclass{article}
-
-\usepackage{wx672a} % wx672fonts, wx672bib loaded here
-%\usepackage{wx672cjk}
+\documentclass{wx672ctexart}
 
 \title{$1}
 \author{${2:WANG Xiaolin}}
