@@ -1,3 +1,9 @@
+# substitute 'a.out' with filename without .c. For example:
+#     gcc -Wall hello.c -o /tmp/a.out 
+# changed to:
+#     gcc -Wall hello.c -o /tmp/hello
+for f in $(grep -l a.out *.c); do sed -i "s/a\.out/${f%.c}/" $f; done
+
 # To remove block of code
 # For example,
 #	 <script type=...>

@@ -1,4 +1,10 @@
 #!/bin/bash
 
-gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${1%pdf}opt.pdf $1
+[[ -z "$1" ]] && { echo "Usage: $0 <pdf files>"; exit 1; }
+
+for f in "$@";
+do
+	gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${f%.pdf}-opt.pdf $f
+done
+
 
