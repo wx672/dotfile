@@ -14,6 +14,7 @@ find . -type f -name "*.html" | xargs sed -i -e '/<script type/,/<\/script>/d'
 sed -n -e '/<script type/,/<\/script>/p' hello.html # print only matching lines
 
 sed -i 's/day/night/g' file.txt # replace "day" with "night" 
+sed 's/[^[:blank:]]/x/g' file.txt # replace non-blank with x
 
 # remove lines
 sed -i -r 's/^\s+//g' file.txt # remove leading spaces
@@ -24,11 +25,10 @@ sed '/string/,+10d' file.txt # remove 11 lines
 sed '10d' file.txt   # remove the 10th line
 sed '1,10d' file.txt # remove from line 1 to line 10
 
-# To replace newlines in multiple lines
-sed ':a;N;$!ba;s/\n//g'  file.txt
+sed ':a;N;$!ba;s/\n//g'  file.txt # To replace newlines in multiple lines
 
-# Insert a line before a matching pattern:
-sed '/Once upon a time/i\Chapter 1'
+sed '/Once upon a time/i\Chapter 1' # Insert a line before a matching pattern
 
-# Add a line after a matching pattern:
-sed '/happily ever after/a\The end.'
+
+sed '/happily ever after/a\The end.' # Add a line after a matching pattern
+

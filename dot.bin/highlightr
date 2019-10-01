@@ -1,0 +1,44 @@
+#!/bin/bash
+
+usage(){
+    cat <<EOF
+`basename $0` - Draw rectangle on a given picture.
+
+Usage: `basename $0` [-h] [-f fill] [-o opacity] [-s stroke] [-c "X1,Y1 X2,Y2" ] <Image>
+
+      Image - the image to be annotated on
+         -h - help
+         -c - coordinates of the rectangle to be added, default to '10,10 200,200'
+         -f - fill color. Default 'none'
+		 -o - fill opacity. Default '0.5'
+         -s - stroke color. Default 'red'
+
+See http://www.imagemagick.org/Usage/draw/ for more.
+EOF
+}
+
+XY='10,10 200,200'
+FILL='none'
+STROKE='red'
+OPACITY='.5'
+
+while getopts :hc:f:s:o: OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		c) XY="$OPTARG" ;;
+		s) STROKE="$OPTARG" ;;
+		f) FILL="$OPTARG" ;;
+		o) OPACITY="$OPTARG" ;;
+		?) usage; exit 2
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+IMG="$@"
+[[ -f "$IMG" ]] || { echo "File <$IMG> does not exist!"; usage; exit 1; }
+
+OUT="${IMG%.*}-out.png"
+
+# http://www.imagemagick.org/Usage/draw/
+convert $IMG -fill $FILL -stroke $STROKE -draw "fill-opacity $OPACITY rectangle $XY" $OUT

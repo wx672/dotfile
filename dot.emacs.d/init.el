@@ -67,8 +67,18 @@
 (require 'init-globalkeys)
 (require 'init-pyim)
 
+(use-package recentf
+  :init
+  (run-at-time nil 1800 'recentf-save-list)
+  :config
+  (recentf-mode 1)
+  :custom
+  (recentf-max-menu-item 10)
+  :bind
+  ("C-x C-r" . recentf-open-files))
+
 (use-package company
-  :diminish company-mode
+  :diminish co.
   :init
   (setq-default company-backends '((company-capf company-dabbrev-code) company-dabbrev))
   (setq tab-always-indent 'complete
@@ -92,6 +102,7 @@
   (yas-load-directory "/usr/share/yasnippet-snippets"))
 
 (use-package flycheck
+  :disabled
   :init
   (setq
    flycheck-check-syntax-automatically '(save idle-change mode-enabled)
@@ -99,31 +110,10 @@
    flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list))
 
 (use-package ispell
-  :config
-  (setq ispell-local-dictionary "en_US"
-		ispell-local-dictionary-alist
-		'(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
-
-  ;; (when (executable-find ispell-program-name)
-  ;; 	(use-package flyspell
-  ;; 	  :config
-  ;;      (setq flyspell-issue-message-flag nil)
-  ;; 	  (if (fboundp 'prog-mode)
-  ;; 		  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  ;; 		(dolist (hook '(c-mode-hook caml-mode-hook clojure-mode-hook crontab-mode-hook css-mode-hook
-  ;; 						emacs-lisp-mode-hook
-  ;; 						haskell-mode-hook
-  ;; 						javascript-mode-hook
-  ;; 						LaTeX-mode-hook lisp-mode-hook 
-  ;; 						nxml-mode-hook
-  ;; 						org-mode-hook
-  ;; 						perl-mode-hook php-mode-hook python-mode-hook
-  ;; 						ruby-mode-hook
-  ;; 						scheme-mode-hook shell-mode-hook
-  ;; 						tcl-mode-hook 
-  ;; 						yaml-mode ))
-  ;; 		  (add-hook hook 'flyspell-prog-mode)))
-  ;; 	  (add-to-list 'flyspell-prog-text-faces 'nxml-text-face)))
+  :custom
+  (ispell-local-dictionary "en_US")
+  (ispell-local-dictionary-alist
+   '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
   )
 
 (use-package printing
@@ -163,23 +153,24 @@
 			  ("C-s" . isearch-forward))
   :config
   (setq-default pdf-view-display-size 'fit-page)
-  (setq yas-minor-mode nil
-		pdf-cache-image-limit 32
-		pdf-view-max-image-width 2048
-		pdf-view-resize-factor 1.8
-		pdf-isearch-batch-mode t
-		pdf-annot-activate-created-annotations t))
+  :custom
+  (yas-minor-mode nil)
+  (pdf-cache-image-limit 32)
+  (pdf-view-max-image-width 2048)
+  (pdf-view-resize-factor 1.8)
+  (pdf-isearch-batch-mode t)
+  (pdf-annot-activate-created-annotations t))
 
 (use-package dict
-  :config
-  (setq
-   dict-original-server "localhost"
-   dict-servers '("localhost")
-   ;; dictionary-server "localhost"
-   dict-databases '("wn" "gcide" "foldoc" "jargon" "moby-tresaurus" "vera" "langdao-ce" "langdao-ec")
-   dict-enable-key-bindings t
-   dict-noauth t
-   dict-show-one-window t)
+  :custom
+  (dict-original-server "localhost")
+  (dict-servers '("localhost"))
+  ;; (dictionary-server "localhost")
+  (dict-databases
+   '("wn" "gcide" "foldoc" "jargon" "moby-tresaurus" "vera" "langdao-ce" "langdao-ec"))
+  (dict-enable-key-bindings t)
+  (dict-noauth t)
+  (dict-show-one-window t)
 
   (dict-update-key-bindings)
   (dict-mode-update-key-bindings))
@@ -188,11 +179,8 @@
   :config (add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\|nas\\)$" . nasm-mode)))
 
 (use-package helm-gtags
-  :init
-  (add-hook 'c-mode-hook 'helm-gtags-mode)
-  (add-hook 'c++-mode-hook 'helm-gtags-mode)
-  (add-hook 'asm-mode-hook 'helm-gtags-mode)
-  (add-hook 'nasm-mode-hook 'helm-gtags-mode)
+  :hook
+  ((c-mode c++-mode asm-mode nasm-mode) . helm-gtags-mode)
 
   :bind (:map helm-gtags-mode
 	 ("M-." . helm-gtags-find-tag)
@@ -210,23 +198,25 @@
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-  (setq web-mode-engines-alist
-		'(("php"    . "\\.phtml\\'")
-		  ("blade"  . "\\.blade\\."))))
-
-(use-package csv-mode
-  :ensure csv-nav
-  :config
-  (use-package init-00-utils
-    :config (add-auto-mode 'csv-mode "\\.[Cc][Ss][Vv]\\'"))
-  (setq csv-separators '("," ";" "|" " ")))
+  :custom
+  (web-mode-engines-alist
+   '(("php"    . "\\.phtml\\'")
+	 ("blade"  . "\\.blade\\."))))
 
 (use-package magit
+  :disabled
   :custom
   (magit-auto-revert-mode nil)
-  (setq vc-handled-backends nil)
+  (vc-handled-backends nil)
   :bind
   ("C-c g" . magit-status))
+
+;; https://github.com/jorgenschaefer/elpy
+(use-package elpy
+  :disabled
+  :ensure t
+  :init
+  (elpy-enable))
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'c-mode-hook
@@ -246,38 +236,26 @@
 (put 'LaTeX-narrow-to-environment 'disabled nil)
 
 (electric-pair-mode 1)
-(show-paren-mode 1)
-
-(use-package recentf
-  :init
-  (run-at-time nil 1800 'recentf-save-list)
-  :config
-  (recentf-mode 1)
-  (setq recentf-max-menu-item 10)
-  (global-set-key (kbd "C-x C-r") 'recentf-open-files))
+(show-paren-mode 1)  
 
 ;; Nicer naming of buffers for files with identical names
 (use-package uniquify
-  :init
-  (setq uniquify-buffer-name-style 'reverse
-		uniquify-separator " @ "
-		uniquify-after-kill-buffer-p t
-		uniquify-ignore-buffers-re "^\\*"))
+  :custom
+  (uniquify-buffer-name-style 'reverse)
+  (uniquify-separator " @ ")
+  (uniquify-after-kill-buffer-p t)
+  (uniquify-ignore-buffers-re "^\\*"))
 
 (setq auto-mode-alist
 	  (cons '("/rfc[0-9]+\\.txt\\(\\.gz\\)?\\'" . rfcview-mode)
 			auto-mode-alist))
 
-;; (add-hook 'outline-mode-hook
-;;           (lambda ()
-;;             (require 'outline-cycle)))
+(autoload 'rfcview-mode "rfcview" nil t)
 
 (add-hook 'outline-minor-mode-hook
           (lambda ()
             (require 'outline-magic)
             (define-key outline-minor-mode-map [(tab)] 'outline-cycle)))
-
-(autoload 'rfcview-mode "rfcview" nil t)
 
 (save-place-mode 1)
 (setq save-place-forget-unreadable-files t)

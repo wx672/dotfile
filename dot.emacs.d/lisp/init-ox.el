@@ -5,36 +5,38 @@
 ;;; Code:
 
 ;; https://github.com/hick/emacs-chinese#%E4%B8%AD%E6%96%87%E6%96%AD%E8%A1%8C
-(use-package ox
-  :ensure org
-  :config
-  (defun clear-single-linebreak-in-cjk-string (string)
-    "Clear single line-break (STRING) between cjk characters that is usually soft line-breaks."
-    (let* ((regexp "\\([\u4E00-\u9FA5]\\)\n\\([\u4E00-\u9FA5]\\)")
-		   (start (string-match regexp string)))
-      (while start
-		(setq string (replace-match "\\1\\2" nil nil string)
-			  start (string-match regexp string start))))
-    string)
+;; (defun eh-org-clean-space (text backend info)
+;;   "在export为HTML时,删除中文之间不必要的空格"
+;;   (when (org-export-derived-backend-p backend 'html)
+;;     (let ((regexp "[[:multibyte:]]")
+;;           (string text))
+;;       ;; org默认将一个换行符转换为空格,但中文不需要这个空格,删除.
+;;       (setq string
+;;             (replace-regexp-in-string
+;;              (format "\\(%s\\) *\n *\\(%s\\)" regexp regexp)
+;;              "\\1\\2" string))
+;;       ;; 删除粗体之前的空格
+;;       (setq string
+;;             (replace-regexp-in-string
+;;              (format "\\(%s\\) +\\(<\\)" regexp)
+;;              "\\1\\2" string))
+;;       ;; 删除粗体之后的空格
+;;       (setq string
+;;             (replace-regexp-in-string
+;;              (format "\\(>\\) +\\(%s\\)" regexp)
+;;              "\\1\\2" string))
+;;       string)))
+;; (add-to-list 'org-export-filter-paragraph-functions
+;;              'eh-org-clean-space)
 
-  (defun ox-html-clear-single-linebreak-for-cjk (string backend info)
-	"STRING.  BACKEND.  INFO."
-	;; (when (org-export-derived-backend-p backend 'html)
-	;; 	(clear-single-linebreak-in-cjk-string string))
-	(clear-single-linebreak-in-cjk-string string))
-  
-  (add-to-list 'org-export-filter-final-output-functions
-			   'ox-html-clear-single-linebreak-for-cjk)
-
-  (use-package ox-html
-	:ensure org
+(use-package ox-html
 	:init
 	(setq
 	 org-html-link-org-files-as-html nil
 	 org-export-with-sub-superscripts t
 	 org-html-doctype "html5"
-	 org-html-head "<link rel=\"stylesheet\" href=\"https://cs2.swfu.edu.cn/org-info-js/org-manual.css\" type=\"text/css\">"
-	 org-html-head-extra "<style>code {font-family:Monospace; font-size:90%; background-color: #eee} body {font-size:14pt}</style>"
+	 org-html-head "<link rel=\"stylesheet\" href=\"https://cs6.swfu.edu.cn/org.css\" type=\"text/css\">"
+	 ;; org-html-head-extra "<style>code {font-family:Monospace; font-size:90%; background-color: #eee} body {font-size:14pt}</style>"
 	 org-export-default-language "cn"
 	 org-html-head-include-default-style nil))
 
@@ -46,7 +48,6 @@
 	 org-latex-classes
 	 '(("wx672ctexart"
 		"\\documentclass{wx672ctexart}
-\\usepackage[top=1in, bottom=1in, left=1.25in, right=1in]{geometry}
 		[NO-DEFAULT-PACKAGES]
 		[PACKAGES]
 		[EXTRA]"
@@ -97,8 +98,6 @@
 	 '("xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
 	   "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
 	   "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f")))
-  )
-  
 
 (provide 'init-ox)
 ;;; init-ox.el ends here

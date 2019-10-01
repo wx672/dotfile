@@ -1,9 +1,10 @@
 #!/bin/bash
 
-[[ -n "$1" ]] || { cat <<EOF
+usage(){
+	cat <<EOF
 a2pdf - Convert any image into a black/white PDF file optionally with text annotation.
 
-Usage: `basename $0` <Image> [Filter] [Threshold] [text] [x,y] [font size]
+Usage: `basename $0` [-f Filter] [-t Threshold] [-T text] [-c x,y] [-F font size] <Image>
 
     Image - the image you want to tweak
    Filter - man mkbitmap for details
@@ -12,17 +13,36 @@ Threshold - man mkbitmap for details
       x,y - coordinate of text to be added, default to '+300+30'
 font size - default to 22
 EOF
-				   exit 4;
 }
 
-[[ -f "$1" ]] || { echo $1: 'Image file not found!'; exit 1; }
+cleanup(){
+	rm -f $TIF $PBM
+}
 
-IMG="$1"
-F="4"; [[ -n "$2" ]] && F=$2
-T=".45"; [[ -n "$3" ]] && T=$3
-TXT="$4"
-XY='+300+30'; [[ -n "$5" ]] && XY=$5
-FS='22'; [[ -n "$6" ]] && FS=$6
+trap cleanup EXIT
+
+# defaults
+F=4
+T=".5"
+XY='+300+30'
+FS=22
+
+while getopts :hf:t:T:c:F: OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		f) F="$OPTARG" ;;
+		t) T="$OPTARG" ;;
+		T) TXT="$OPTARG" ;;
+		c) XY="$OPTARG" ;;
+		F) FS="$OPTARG" ;;
+		?) usage; exit 2
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+IMG="$@"
+[[ -f "$IMG" ]] || { echo "Image <$IMG> not found!"; exit 1; }
 
 # https://tecadmin.net/how-to-extract-filename-extension-in-shell-script/
 BASE="${IMG%.*}"
@@ -36,7 +56,7 @@ convert $IMG $PPM
 mkbitmap -f$F -t$T -o $PBM $PPM
 
 # convert -list font | grep CJK
-[[ -n "$TXT" ]] && mogrify -pointsize $FS -font 'Noto-Sans-CJK-SC-Regular' -annotate $XY "$TXT" $PBM
+[[ -n "$TXT" ]] && mogrify -pointsize $FS -font 'Noto-Sans-CJK-SC' -annotate $XY "$TXT" $PBM
 
 ppm2tiff -c lzw $PBM $TIF
 tiff2pdf -o $PDF -F $TIF

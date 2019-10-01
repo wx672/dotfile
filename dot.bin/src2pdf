@@ -17,8 +17,6 @@ cleanup(){
 
 trap cleanup EXIT
 
-#\setmonofont{Source Code Pro} Latin Modern Mono
-PREAMBLE='\usepackage{fontspec}\setmonofont{LMMono12 Nerd Font}\pagestyle{empty}'
 STYLE=default
 SCRATCH=$(mktemp -d)
 
@@ -36,6 +34,13 @@ shift $(( OPTIND - 1 ))
 OPTIND=1
 
 [ -z "$@" ] && { usage; exit 1; }
+
+#\setmonofont{Latin Modern Mono}
+#\setmonofont{Source Code Pro}
+#\setmonofont{Monaco Nerd Font Mono}
+#\setmonofont{LMMono12 Nerd Font}
+#\setCJKmonofont{Noto Sans Mono CJK SC}\setCJKmainfont{Noto Serif CJK SC}\setCJKsansfont{Noto Sans CJK SC}
+PREAMBLE='\usepackage{fontspec}\setmonofont{Source Code Pro}\usepackage{xeCJK}\setCJKmonofont{Noto Sans Mono CJK SC}\pagestyle{empty}'
 
 for f in "$@"; do
 	if [[ -s "$f" ]]; then

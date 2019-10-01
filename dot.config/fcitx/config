@@ -37,7 +37,7 @@ UseExtraTriggerKeyOnlyWhenUseItToInactivate=False
 # Enable Hotkey to scroll Between Input Method
 # Available Value:
 # True False
-#IMSwitchKey=True
+IMSwitchKey=False
 # Include Inactivate when scrolling between Input Method
 # Available Value:
 # True False

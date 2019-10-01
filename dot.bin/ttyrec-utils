@@ -36,16 +36,17 @@ prompt(){
 # Slow down screen output
 PV(){
     pv -qL15
-    sleep 1
+#    sleep 1
 }
 
 # Show help message
 ttyplayhelp(){
-	cat | PV << ENDOFHELP
+	cat <<EOF | PV
 While watching this tutorial, the following keys might help:
 	0 - pause	1 - play
 	f - faster	s - slower
 		C-c - quit
-ENDOFHELP
-    echo -e "\rLet's go..." | PV; sleep 1
+EOF
+	sleep 1
+    echo -e "\rLet's begin..." | PV; sleep 2
 }

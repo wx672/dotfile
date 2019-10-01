@@ -6,4 +6,4 @@ $biber = 'biber --debug %O %S';
 
 $pdf_previewer = "start xdg-open";
 
-$clean_ext = '%R.run.xml %R.synctex.gz %R.auxlock %R.ent %R.lol %R.vrb %R.nav %R.tdo %R.lox %R.snm _minted-%R';
+$clean_ext = '%R.run.xml %R.synctex.gz %R.auxlock %R.ent %R.lol %R.vrb %R.nav %R.tdo %R.xdv %R.lox %R.snm _minted-%R';

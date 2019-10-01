@@ -8,7 +8,7 @@ XTerm*loginShell: true
 XTerm*faceName: Monospace
 XTerm*boldFont: Monospace
 !XTerm*boldFont: Noto Mono:style=Bold
-XTerm*faceSize: 18
+XTerm*faceSize: 22
 XTerm*faceSize1: 14
 XTerm*faceSize2: 16
 XTerm*faceSize3: 18

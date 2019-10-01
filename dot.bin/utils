@@ -6,15 +6,8 @@ MUPDF="/usr/bin/mupdf -r285"
 XPDF="/usr/bin/mupdf -r180"
 ZATHURA="/usr/bin/zathura --fork"
 
-abs(){
-    $BROWSER file:///usr/share/doc/abs-guide/html/xrefindex.html &>/dev/null &
-}
-
 blp(){
 	$ZATHURA $HOME/Documents/Beginning.Linux.Programming-4e.pdf
-}
-cdev(){
-    $BROWSER file://$HOME/lecture_notes/linux/c/c_dev.html &>/dev/null &
 }
 
 ch8(){
@@ -25,13 +18,15 @@ math(){
     $MUPDF ~/texmf/doc/latex/ch8.pdf &>/dev/null &
 }
 
+pgfmanual(){
+	$ZATHURA /usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf &>/dev/null &
+}
+
 symbol(){
     $MUPDF ~/texmf/doc/latex/symbols-a4.pdf &>/dev/null &
 }
 
-playbash(){
-    $BROWSER file://$HOME/lecture_notes/linux/bash/shell_basics.plain.html &>/dev/null &
-}
+tikz(){ pgfmanual; }
 
 timetable(){
 	$MUPDF $TIMETABLE &>/dev/null &
@@ -96,11 +91,11 @@ lapa(){
 }
 
 lapb(){
-	$MUPDF $HOME/lecture_notes/linux-app/slides/lap-b.pdf &
+	$MUPDF $HOME/lecture_notes/linux-app/slides/lap-b.pdf &>/dev/null &
 }
 
 linux(){
-	$MUPDF $HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf &
+	$MUPDF $HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf &>/dev/null &
 }
 
 nerd(){
@@ -111,7 +106,7 @@ neta(){
 }
 
 netb(){
-	$MUPDF $HOME/lecture_notes/network_basics/net-b.pdf &
+	$MUPDF $HOME/lecture_notes/network_basics/net-b.pdf &>/dev/null &
 }
 
 osa(){
@@ -119,7 +114,7 @@ osa(){
 }
 
 osb(){
-	$MUPDF $HOME/lecture_notes/os/slides/os-b.pdf &
+	$MUPDF $HOME/lecture_notes/os/slides/os-b.pdf &>/dev/null &
 }
 
 pdf2gray(){

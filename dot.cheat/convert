@@ -21,3 +21,9 @@ done
 # To make a background image
 convert -size 1920x1080 plasma:fractal bg.png
 
+# To simulate a scanned PDF
+convert -density 200 INPUT.pdf -rotate 2 +noise Multiplicative -format pdf  -quality 85 -compress JPEG -colorspace gray OUTPUT.pdf
+
+# To make a GIF
+convert -delay 120 -loop 0 *.jpg linux.gif
+

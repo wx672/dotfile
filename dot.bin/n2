@@ -3,11 +3,6 @@
 [ -z "$1" ] && echo "Usage: `basename $0` [dhb]<number>" && exit 0;
 
 case "$1" in
-	[dD]*) 
-		NUM=$(echo $1 | cut -b 2-)
-		printf "\tDec\tHex\tBin\n"
-		printf "\t%d\t0x%02X\t%s\n" $NUM $NUM $(bc <<< "obase=2;$NUM")
-		;;
 	[hH]*) 
 		NUM=$(echo $1 | cut -b 2-)
 		NUM=$(echo $NUM | tr [:lower:] [:upper:])
@@ -35,7 +30,7 @@ case "$1" in
 			$(bc <<< "ibase=2;obase=1010;$NUM")
 		;;
 	    *) 
-		printf "Dec\tHex\tBin\n"
+		printf "Dec\tHex\t\tBin\n"
 		printf "%d\t0x%08X\t%08d\n" $1 $1 $(bc <<< "obase=2;$1")
 		;;
 esac

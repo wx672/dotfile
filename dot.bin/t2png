@@ -1,0 +1,36 @@
+#!/bin/bash
+
+usage(){
+	cat <<EOF
+`basename $0` - Convert text into a png image.
+
+Usage: $(basename $0) [-h] [-o image name] [-w width] [-f pointsize] <text>
+
+Image name - Output file name
+     width - canvas width, default to 640x
+ pointsize - font size, default to 36
+EOF
+}
+
+# defaults
+IMG="/tmp/t2.png"
+WIDTH='640x'
+PSIZE='36'
+
+while getopts :ho:w:f: OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		o) IMG="$OPTARG" ;;
+		w) WIDTH="$OPTARG" ;;
+		f) PSIZE="$OPTARG" ;;
+		?) usage; exit 2
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+#[ -z "$*" ] && { usage; exit 1; }
+[ -z "$*" ] && read TEXT || TEXT="$1"  #echo hello world | t2png
+
+# convert -list font | grep CJK
+convert -font 'Noto-Sans-CJK-SC' -pointsize $PSIZE -size $WIDTH caption:"$TEXT" $IMG

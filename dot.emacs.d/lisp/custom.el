@@ -61,10 +61,12 @@
  '(nrepl-message-colors
    (quote
 	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(org-agenda-files (quote ("~/Documents/No.14/accounting.org")))
  '(org-ditaa-jar-path "/usr/bin/ditaa")
+ '(org-time-stamp-custom-formats (quote ("<%m/%d/%y>" . "<%m/%d/%y>")))
  '(package-selected-packages
    (quote
-	(magit outline-magic yasnippet-classic-snippets plantuml-mode elpy material-theme char-menu graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm zenburn-theme auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils markdown-mode+ htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode company-quickhelp cider-eval-sexp-fu use-package auctex-latexmk anzu)))
+	(unicode-fonts elpy markdown-mode magit outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode cider-eval-sexp-fu use-package auctex-latexmk anzu)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(read-mail-command (quote ignore))
  '(safe-local-variable-values
@@ -76,6 +78,7 @@
  '(scroll-bar-mode nil)
  '(select-enable-clipboard t)
  '(setq (quote (RCS CVS SVN SCCS SRC Bzr Git Hg Mtn)) t)
+ '(shell-command-with-editor-mode t)
  '(tool-bar-button-margin 1 t)
  '(tool-bar-mode nil)
  '(track-eol t)
