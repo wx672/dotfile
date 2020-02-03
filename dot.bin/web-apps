@@ -174,7 +174,7 @@ reddit(){
 sicp(){
 	URL="http://cs6/~wx672/video/sicp"
 	bash -c "wget $URL/lec$1.srt"
-	bash -c "mpv --sub-file=lec$1.srt $URL/lec$1.ogv"
+	bash -c "mpv --no-resume-playback --sub-file=lec$1.srt $URL/lec$1.ogv"
 }
 
 sinastock(){

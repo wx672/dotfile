@@ -12,6 +12,7 @@ umask 022
 [ -d ~/.local/bin ] && PATH="~/.local/bin:${PATH}"
 
 export PATH="${PATH}:/usr/local/sbin:/usr/sbin:/sbin"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # make sure libpam-systemd is installed, otherwise XDG_VTNR will be NULL.
 [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- vt1 -keeptty

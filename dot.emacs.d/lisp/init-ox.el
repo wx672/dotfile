@@ -30,74 +30,54 @@
 ;;              'eh-org-clean-space)
 
 (use-package ox-html
-	:init
-	(setq
-	 org-html-link-org-files-as-html nil
-	 org-export-with-sub-superscripts t
-	 org-html-doctype "html5"
-	 org-html-head "<link rel=\"stylesheet\" href=\"https://cs6.swfu.edu.cn/org.css\" type=\"text/css\">"
-	 ;; org-html-head-extra "<style>code {font-family:Monospace; font-size:90%; background-color: #eee} body {font-size:14pt}</style>"
-	 org-export-default-language "cn"
-	 org-html-head-include-default-style nil))
+  :config
+  (setq org-html-link-org-files-as-html nil
+   		org-export-with-sub-superscripts t
+		org-html-doctype "html5"
+		org-html-head "<link rel=\"stylesheet\" href=\"https://cs6.swfu.edu.cn/org.css\" type=\"text/css\">"
+		org-export-default-language "cn"
+		org-html-head-include-default-style nil))
 
 (use-package ox-latex
-	:config
-	(setq
-	 ;; org-latex-default-packages-alist nil
-	 org-latex-packages-alist '(("" "wx672hyperref" nil) ("" "wx672minted" nil) ("" "amsmath" nil) ("" "amsfonts" nil) ("" "amssymb" nil) ("" "graphicx" nil))
-	 org-latex-classes
-	 '(("wx672ctexart"
-		"\\documentclass{wx672ctexart}
-		[NO-DEFAULT-PACKAGES]
-		[PACKAGES]
-		[EXTRA]"
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-		("\\paragraph{%s}" . "\\paragraph*{%s}")
-		("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-	   ("article"
-		"\\documentclass{article}
-		[NO-DEFAULT-PACKAGES]
-		[PACKAGES]
-		[EXTRA]"
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-		("\\paragraph{%s}" . "\\paragraph*{%s}")
-		("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-	   ("report" "\\documentclass{report}
-		[NO-DEFAULT-PACKAGES]
-		[PACKAGES]
-		[EXTRA]"
-		("\\part{%s}" . "\\part*{%s}")
-		("\\chapter{%s}" . "\\chapter*{%s}")
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-	   ("book" "\\documentclass{book}
-		[NO-DEFAULT-PACKAGES]
-		[PACKAGES]
-		[EXTRA]"
-		("\\part{%s}" . "\\part*{%s}")
-		("\\chapter{%s}" . "\\chapter*{%s}")
-		("\\section{%s}" . "\\section*{%s}")
-		("\\subsection{%s}" . "\\subsection*{%s}")
-		("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-	 ; org-latex-default-figure-position "!htb"
-	 ; org-latex-default-table-environment "tabular"
-	 org-latex-image-default-width ".6\\linewidth"
-	 org-latex-listings 'minted
-	 org-latex-minted-options
-	 '(("mathescape" "true")
-	   ("linenos" "true")
-	   ("numbersep" "5pt")
-	   ("frame" "lines")
-	   ("framesep" "2mm"))
-	 org-latex-pdf-process
-	 '("xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
-	   "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
-	   "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f")))
+  :config
+  (setq
+   ;; org-latex-default-packages-alist nil
+   org-latex-packages-alist '(("" "wx672hyperref" nil) ("" "amsmath" nil) ("" "amsfonts" nil) ("" "amssymb" nil) ("" "graphicx" nil)) ; ("" "wx672minted" nil) 
+   org-latex-classes
+   '(("wx672ctexart"
+	  "\\documentclass{wx672ctexart} [NO-DEFAULT-PACKAGES] [PACKAGES] [EXTRA]"
+	  ("\\section{%s}" . "\\section*{%s}")
+	  ("\\subsection{%s}" . "\\subsection*{%s}")
+	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	  ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+	 ("article"
+	  "\\documentclass{article} [NO-DEFAULT-PACKAGES] [PACKAGES] [EXTRA]"
+	  ("\\section{%s}" . "\\section*{%s}")
+	  ("\\subsection{%s}" . "\\subsection*{%s}")
+	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	  ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+	 ("report" "\\documentclass{report} [NO-DEFAULT-PACKAGES] [PACKAGES] [EXTRA]"
+	  ("\\part{%s}" . "\\part*{%s}")
+	  ("\\chapter{%s}" . "\\chapter*{%s}")
+	  ("\\section{%s}" . "\\section*{%s}")
+	  ("\\subsection{%s}" . "\\subsection*{%s}")
+	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+	 ("book" "\\documentclass{book} [NO-DEFAULT-PACKAGES] [PACKAGES] [EXTRA]"
+	  ("\\part{%s}" . "\\part*{%s}")
+	  ("\\chapter{%s}" . "\\chapter*{%s}")
+	  ("\\section{%s}" . "\\section*{%s}")
+	  ("\\subsection{%s}" . "\\subsection*{%s}")
+	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+   org-latex-image-default-width ".6\\linewidth"
+   org-latex-listings 'minted
+   org-latex-minted-options
+   '(("mathescape" "true") ("linenos" "true") ("numbersep" "5pt") ("frame" "lines") ("framesep" "2mm"))
+   org-latex-pdf-process
+   '("xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
+	 "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
+	 "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f")))
 
 (provide 'init-ox)
 ;;; init-ox.el ends here

@@ -11,7 +11,7 @@
 (use-package org
   :init
   (setq
-   org-modules '(org-bibtex org-info org-jsinfo)
+   org-modules '(org-bibtex org-info)
    org-log-done (quote time)
    org-reverse-note-order t
    org-deadline-warning-days 14
