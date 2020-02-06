@@ -2,7 +2,7 @@
 
 usage(){
 	cat <<EOF
-a2pdf - Convert any image into a black/white PDF file optionally with text annotation.
+a2pdf - Convert any image into a black/white PDF file with optional text annotation.
 
 Usage: `basename $0` [-f Filter] [-t Threshold] [-T text] [-c x,y] [-F font size] <Image>
 
@@ -20,6 +20,16 @@ cleanup(){
 }
 
 trap cleanup EXIT
+
+#######color code########
+ERR="31m"     # red
+SUCCESS="32m" # green
+WARN="33m"    # yellow
+INFO="36m"    # blue
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+}
 
 # defaults
 F=4
@@ -42,7 +52,7 @@ shift $(( OPTIND - 1 ))
 OPTIND=1
 
 IMG="$@"
-[[ -f "$IMG" ]] || { echo "Image <$IMG> not found!"; exit 1; }
+[[ -f "$IMG" ]] || { colorEcho $ERR "Image <$IMG> not found!"; usage; exit 1; }
 
 # https://tecadmin.net/how-to-extract-filename-extension-in-shell-script/
 BASE="${IMG%.*}"

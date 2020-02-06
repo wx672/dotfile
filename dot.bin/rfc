@@ -1,0 +1,44 @@
+#!/bin/bash
+
+usage(){
+	cat <<EOF
+rfc - Command line RFC viewer
+Usage: $(basename $0) [-h] | [-l | -j | -f format] <index>
+EOF
+}
+
+FMT='txt'
+
+while getopts :hjlf: OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		f) FMT="$OPTARG" ;;
+		j) FMT='json' ;;
+		l) FMT='list' ;;
+		?) usage; exit 2
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+[[ -n "$1" ]] || { usage; exit 1; }
+
+RFCDIR="/usr/share/doc/RFC/"
+
+DOCS=$(find $RFCDIR -type f -iname "rfc$1.*")
+
+[[ -z "$DOCS" ]] && { echo "RFC $1 is not found."; exit 1; }
+
+case $FMT in
+    txt) TXT=$(echo $DOCS | tr ' ' '\n' | grep txt)
+		 [[ -n "$TXT" ]] && less $TXT || echo "No TXT format found." ;;
+    html) HT=$(echo $DOCS | tr ' ' '\n' | grep html)
+		  [[ -n "$HT" ]] && lynx $HT || echo "No HTML format found." ;;
+    pdf) PDF=$(echo $DOCS | tr ' ' '\n' | grep pdf)
+		 [[ -n "$PDF" ]] && mupdf $PDF || echo "No PDF format found." ;;
+    json) JSON=$(echo $DOCS | tr ' ' '\n' | grep json)
+		  [[ -n "$JSON" ]] && { cat $JSON | sed 's/,/,\n/g' | less; } || echo "No json file found."
+		  ;;
+	list) echo $DOCS | tr ' ' '\n' ;;
+    *) echo "No $FMT format found."
+esac

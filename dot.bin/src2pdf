@@ -17,6 +17,17 @@ cleanup(){
 
 trap cleanup EXIT
 
+#######color code########
+ERR="31m"     # red
+SUCCESS="36m" # green
+WARN="32m"    # yellow
+INFO="34m"    # blue
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+}
+#########################
+
 STYLE=default
 SCRATCH=$(mktemp -d)
 
@@ -47,7 +58,7 @@ for f in "$@"; do
 		pygmentize -f tex -O "style=$STYLE,linenos,full,preamble=$PREAMBLE" $f \
 			| xelatex -jobname=$(basename $f) -output-directory=$SCRATCH
 	else
-		echo "File <$f> not found." && exit 1
+		echo $ERR "Error: File <$f> not found." && exit 1
 	fi
 
 	[[ "$STYLE" = "default" ]] \

@@ -7,37 +7,37 @@ XPDF="/usr/bin/mupdf -r180"
 ZATHURA="/usr/bin/zathura --fork"
 
 blp(){
-	$ZATHURA $HOME/Documents/Beginning.Linux.Programming-4e.pdf
+	($ZATHURA $HOME/Documents/Beginning.Linux.Programming-4e.pdf)
 }
 
 ch8(){
-    $MUPDF ~/texmf/doc/latex/ch8.pdf &>/dev/null &
+    ($MUPDF ~/texmf/doc/latex/ch8.pdf &>/dev/null &)
 }
 
 math(){
-    $MUPDF ~/texmf/doc/latex/ch8.pdf &>/dev/null &
+    ($MUPDF ~/texmf/doc/latex/ch8.pdf &>/dev/null &)
 }
 
 pgfmanual(){
-	$ZATHURA /usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf &>/dev/null &
+	($ZATHURA /usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf &>/dev/null &)
 }
 
 symbol(){
-    $MUPDF ~/texmf/doc/latex/symbols-a4.pdf &>/dev/null &
+    ($MUPDF ~/texmf/doc/latex/symbols-a4.pdf &>/dev/null &)
 }
 
 tikz(){ pgfmanual; }
 
 timetable(){
-	$MUPDF $TIMETABLE &>/dev/null &
+	($MUPDF $TIMETABLE &>/dev/null &)
 }
 
 tlpi(){
-	$ZATHURA $HOME/Documents/The.Linux.Programming.Interface.pdf
+	($ZATHURA $HOME/Documents/The.Linux.Programming.Interface.pdf)
 }
 
 screencapture(){
-	ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 -c:v libx264 -crf 0 -preset ultrafast screen.mkv
+	(ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 -c:v libx264 -crf 0 -preset ultrafast screen.mkv)
 }
 
 # http://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal
@@ -66,10 +66,10 @@ function stopwatch(){
     done
 }
 
-dict () { /usr/bin/dict "$@" 2>&1 | less; }
+dict () { (/usr/bin/dict "$@" 2>&1 | less;) }
 
 ec(){
-    /usr/bin/env emacsclient -t -a "" "$@"
+    (/usr/bin/env emacsclient -t -a "" "$@")
 }
 
 ecw(){
@@ -83,54 +83,54 @@ ecw(){
 
 # viewing markdown file in lynx
 mdview(){
-	pandoc "$1" | lynx -stdin
+	(pandoc "$1" | lynx -stdin)
 }
 
 lapa(){
-	$ZATHURA $HOME/lecture_notes/linux-app/slides/lap-a.pdf
+	($ZATHURA $HOME/lecture_notes/linux-app/slides/lap-a.pdf)
 }
 
 lapb(){
-	$MUPDF $HOME/lecture_notes/linux-app/slides/lap-b.pdf &>/dev/null &
+	($MUPDF $HOME/lecture_notes/linux-app/slides/lap-b.pdf &>/dev/null &)
 }
 
 linux(){
-	$MUPDF $HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf &>/dev/null &
+	($MUPDF $HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf &>/dev/null &)
 }
 
 nerd(){
-	$ZATHURA $HOME/.local/share/fonts/truetype/nerd-fonts/dejavu/nerd.pdf
+	($ZATHURA $HOME/.local/share/fonts/truetype/nerd-fonts/dejavu/nerd.pdf)
 }
 neta(){
-	$ZATHURA $HOME/lecture_notes/network_basics/net-a.pdf
+	($ZATHURA $HOME/lecture_notes/network_basics/net-a.pdf)
 }
 
 netb(){
-	$MUPDF $HOME/lecture_notes/network_basics/net-b.pdf &>/dev/null &
+	($MUPDF $HOME/lecture_notes/network_basics/net-b.pdf &>/dev/null &)
 }
 
 osa(){
-	$ZATHURA $HOME/lecture_notes/os/slides/os-a.pdf
+	($ZATHURA $HOME/lecture_notes/os/slides/os-a.pdf)
 }
 
 osb(){
-	$MUPDF $HOME/lecture_notes/os/slides/os-b.pdf &>/dev/null &
+	($MUPDF $HOME/lecture_notes/os/slides/os-b.pdf &>/dev/null &)
 }
 
 pdf2gray(){
-	gs -sOutputFile=gray.pdf -sDEVICE=pdfwrite -sColorConversionStrategy=Gray -dProcessColorModel=/DeviceGray -dCompatibiltyLevel=1.4 -dNOPAUSE -dBATCH $@
+	(gs -sOutputFile=gray.pdf -sDEVICE=pdfwrite -sColorConversionStrategy=Gray -dProcessColorModel=/DeviceGray -dCompatibiltyLevel=1.4 -dNOPAUSE -dBATCH $@)
 }
 
 speak(){
-	/usr/bin/espeak -s 140 -v mb-en1 "$*";
+	(/usr/bin/espeak -s 140 -v mb-en1 "$*";)
 	sleep 1;
-	/usr/bin/espeak -s 140 -v mb-us1 "$*";
+	(/usr/bin/espeak -s 140 -v mb-us1 "$*";)
 	sleep 1;
-	/usr/bin/espeak -s 140 -v mb-us2 "$*";
+	(/usr/bin/espeak -s 140 -v mb-us2 "$*";)
 }
 
 srtplay(){
-	mplayer /dev/zero -demuxer rawvideo -rawvideo w=1024:h=128 -utf8 -sub "$*";
+	(mplayer /dev/zero -demuxer rawvideo -rawvideo w=1024:h=128 -utf8 -sub "$*";)
 }
 
 ssh() {
@@ -168,15 +168,17 @@ config(){
 	esac
 }
 
-rfc(){
-	[[ -n "$1" ]] || { cat <<EOF
-rfc - Command line RFC viewer
-Usage: rfc <index>
-EOF
-return 1
-}
-find /usr/share/doc/RFC/ -type f -iname "rfc$1.*" | xargs less
-}
+# rfc(){
+# 	[[ -n "$1" ]] || { cat <<EOF
+# rfc - Command line RFC viewer
+# Usage: rfc <index> [format]
+# EOF
+# return 1
+# 	}
+
+# 	[[ -n "$2" ]] || FMT='txt'
+# find /usr/share/doc/RFC/ -type f -iname "rfc$1.$2*" | xargs less
+# }
 
 rfcgrep(){
 	[[ -n "$1" ]] || { cat <<EOF
@@ -197,11 +199,11 @@ booksearch () {
 }
 
 searchbook () {
-    booksearch "$1"
+    (booksearch "$1")
 }
 
 showcolor () {
-	for i in {0..255}; do printf "\x1b[38;5;${i}mcolour${i} "; done
+	(for i in {0..255}; do printf "\x1b[38;5;${i}mcolour${i} "; done)
 }
 
 colorshow () { 
@@ -218,12 +220,20 @@ for fgbg in 38 48 ; do # Foreground / Background
 done
 }
 
+themelight () {
+	(wal -q -l --theme tempus_dawn)
+}
+
+themedark () {
+	(wal -q --theme tempus_autumn)
+}
+
 technotes () {
-	emacsclient -e '(progn (find-file-read-only-other-frame "~/git/org/tech.org"))'
+	(emacsclient -e '(progn (find-file-read-only-other-frame "~/git/org/tech.org"))')
 }
 
 netnotes () {
-	emacsclient -e '(progn (find-file-read-only-other-frame "~/lecture_notes/network_basics/net-tools/net-tools.org"))'
+	(emacsclient -e '(progn (find-file-read-only-other-frame "~/lecture_notes/network_basics/net-tools/net-tools.org"))')
 }
 
 update-calibre () {
@@ -231,11 +241,20 @@ update-calibre () {
 }
 
 w2pdf () {
-	libreoffice --convert-to pdf:writer_pdf_Export "$1"
+	(libreoffice --convert-to pdf:writer_pdf_Export "$1")
 }
 
 xpdf(){
-	$XPDF "$1" 2>/dev/null &
+	($XPDF "$1" 2>/dev/null &)
+}
+
+ydl(){
+	fmt=${3:-249}
+	youtube-dl -f$fmt -o$1 $2
+}
+
+cs6movie(){
+	(aria2c --no-conf -x16 https://cs6.swfu.edu.cn/~wx672/tmp/$1)
 }
 
 # https://madebynathan.com/2011/10/04/a-nicer-way-to-use-xclip/
@@ -285,9 +304,7 @@ alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 
 # https://stackoverflow.com/questions/660613/how-do-you-hide-the-mouse-pointer-under-linux-x11
 setmouse () {
-   DISPLAY=":0" xinput $1 `DISPLAY=":0" xinput | grep Mouse |
-           tr -d " " | tr "\t" " " |
-           cut -d" " -f2 | cut -d"=" -f2`
+   DISPLAY=":0" xinput $1 `DISPLAY=":0" xinput | grep "Wireless Mouse" | cut -d"=" -f2 | cut -b-2` 
 }
 
 dm () {

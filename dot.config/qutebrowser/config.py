@@ -65,38 +65,39 @@ c.url.searchengines = {
 # aliases
 c.aliases = {
 'gd':'open -t https://im.dingtalk.com',
-'gl':'open -t http://cs2.swfu.edu.cn/~wx672/lecture_notes',
+'gl':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
 'gm':'open -t https://mail.google.com',
-'gw':'open -t https://wx2.qq.com/?lang=en',
+'gw':'open -t https://wx2.qq.com/',
 'gy':'open -t https://youtube.com'
 }
 
 # keybinds
-config.bind('<Escape>', 'leave-mode', mode='passthrough')
+config.unbind('<Ctrl-q>', mode='normal')
 config.unbind('<Ctrl-v>', mode='normal')
+config.unbind('<Ctrl-a>', mode='normal')
+config.unbind('ga', mode='normal')
+config.unbind('r', mode='normal')
+config.bind('<Escape>', 'leave-mode', mode='passthrough')
 config.bind('<Ctrl-i>', 'enter-mode passthrough', mode='normal')
 config.bind('<Ctrl-/>', 'undo', mode='normal')
-config.unbind('ga', mode='normal')
 config.unbind('<Ctrl-Tab>', mode='normal')
 config.bind('<Ctrl-Tab>', 'tab-next', mode='normal')
 config.bind('<Ctrl-Shift-Tab>', 'tab-prev', mode='normal')
 config.unbind('=', mode='normal')
 config.bind('=', 'zoom-in', mode='normal')
 config.unbind('d', mode='normal')
-config.unbind('u', mode='normal')
 config.bind('d','scroll-page 0 0.5', mode='normal')
+config.unbind('u', mode='normal')
 config.bind('u','scroll-page 0 -0.5', mode='normal')
 config.bind('<Backspace>','scroll-page 0 -1', mode='normal')
 config.bind('<Ctrl-Shift-r>', 'restart', mode='normal')
 config.bind('<Ctrl-r>', 'reload', mode='normal')
-config.unbind('r', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
-config.unbind('<Ctrl-a>', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
 config.bind('<Ctrl-a><Ctrl-r>', 'config-cycle content.user_stylesheets solarized-light-all-sites.css solarized-light-generic.css solarized-light-github.css solarized-light-google.com.css solarized-light-mediawiki.org.css solarized-light-stackexchange.com.css solarized-light-reddit.com.css', mode='normal')
 config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080', mode='normal')
-config.bind('<Ctrl-a><Ctrl-t>', 'config-cycle statusbar.hide ;; config-cycle tabs.show multiple never')
+config.bind('<Shift-i>', 'config-cycle statusbar.hide ;; config-cycle tabs.show multiple never')
 config.unbind('b', mode='normal')
 config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
@@ -124,4 +125,3 @@ c.fonts.messages.warning = c.fonts.messages.info
 c.fonts.messages.error = c.fonts.messages.info
 c.fonts.completion.entry = c.fonts.statusbar
 c.fonts.completion.category = c.fonts.statusbar
-c.fonts.monospace = '"DejaVuSansMono Nerd Font", "NotoMono Nerd Font", Monospace, "Liberation Mono", monospace'

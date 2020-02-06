@@ -17,6 +17,16 @@ See http://www.imagemagick.org/Usage/draw/ for more.
 EOF
 }
 
+#######color code########
+ERR="31m"     # red
+SUCCESS="32m" # green
+WARN="33m"    # yellow
+INFO="36m"    # blue
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+}
+
 XY='10,100 200,100'
 WIDTH='30'
 STROKE='red'
@@ -36,7 +46,7 @@ shift $(( OPTIND - 1 ))
 OPTIND=1
 
 IMG="$@"
-[[ -f "$IMG" ]] || { echo -e "ERROR: Missing argument!\n"; usage; exit 1; }
+[[ -f "$IMG" ]] || { colorEcho $ERR 'ERROR: Missing argument!'; usage; exit 1; }
 
 OUT="${IMG%.*}-out.png"
 

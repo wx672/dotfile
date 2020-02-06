@@ -19,7 +19,7 @@
 
    TeX-command-list
    '(("LaTeXMK" "latexmk %s" TeX-run-TeX nil t :help "Run latexmk")
-     ("XeLaTeX" "%`xelatex%(mode) -synctex=1 --shell-escape%' %t" TeX-run-TeX nil t :help "Run xelatex")
+     ("XeLaTeX" "%`xelatex%(mode) -synctex=1 -8bit --shell-escape%' %t" TeX-run-TeX nil t :help "Run xelatex")
      ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
      ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
      ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
@@ -44,11 +44,6 @@
 
   (setq-default TeX-master nil)
 
-  ;; (use-package auctex-latexmk
-  ;;   :config
-  ;;   (auctex-latexmk-setup)
-  ;;   )
-  
   (use-package latex
     :bind (:map LaTeX-mode-map ("$" . self-insert-command))
     :config

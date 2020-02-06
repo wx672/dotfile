@@ -178,6 +178,10 @@
 (use-package nasm-mode
   :config (add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\|nas\\)$" . nasm-mode)))
 
+(use-package nov-mode
+  :config (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+  )
+
 (use-package helm-gtags
   :hook
   ((c-mode c++-mode asm-mode nasm-mode) . helm-gtags-mode)
@@ -213,7 +217,7 @@
 
 ;; https://github.com/jorgenschaefer/elpy
 (use-package elpy
-  :disabled
+  ;; :disabled
   :ensure t
   :init
   (elpy-enable))

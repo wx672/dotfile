@@ -1,27 +1,50 @@
 #!/bin/bash
 
-[[ -n "$2" ]] || { cat <<EOF
-`basename $0` - Add text annotation into any type of image.
+usage(){
+	cat <<EOF
+`basename $0` - Add text annotation on any type of image.
 
-Usage: `basename $0` <Image> <text> [x,y] [font size]
+Usage: `basename $0` [-h] [-c x,y] [-f font size] <Image> <text>
 
-    Image - the image to be annotated
+    Image - the image to be annotated on
      text - text to be added
-      x,y - coordinate of text to be added, default to '+300+30'
-font size - default to 22
+       -c - coordinate of text to be added, default to '+300+30'
+       -f - default to 22
 EOF
-exit 4;
 }
 
-[[ -f "$1" ]] || { echo $1: 'Image file not found!'; exit 1; }
+#######color code########
+ERR="31m"     # red
+SUCCESS="32m" # green
+WARN="33m"    # yellow
+INFO="36m"    # blue
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+}
+
+# defaults
+XY='+300+30'
+FS='22'
+
+while getopts :hf:c: OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		f) FS="$OPTARG" ;;
+		c) XY="$OPTARG" ;;
+		?) usage; exit 2
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
 
 IMG="$1"
-TXT="$2"
-XY='+300+30'; [[ -n "$5" ]] && XY=$5
-FS='22'; [[ -n "$6" ]] && FS=$6
+[[ -f "$IMG" ]] || { colorEcho $ERR "Error: Image <$IMG> not found!"; usage; exit 1; }
 
-# https://tecadmin.net/how-to-extract-filename-extension-in-shell-script/
+TXT="$2"
+[[ -n "$TXT" ]] || { colorEcho $ERR 'Error: No annotation text!'; usage; exit 3; }
+
 BASE="${IMG%.*}"
 
 # convert -list font | grep CJK
-convert $IMG -pointsize $FS -font 'Noto-Sans-CJK-SC-Regular' -annotate $XY "$TXT" $BASE-anno.png
+convert $IMG -pointsize $FS -font 'Noto-Sans-CJK-SC' -annotate $XY "$TXT" $BASE-anno.png

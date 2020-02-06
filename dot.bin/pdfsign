@@ -13,8 +13,18 @@ EOF
     exit 4;
 }
 
+#######color code########
+ERR="31m"     # red
+SUCCESS="36m" # green
+WARN="32m"    # yellow
+INFO="34m"    # blue
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+}
+
 do_check(){
-	[[ -f "$1" ]] || { echo 'Missing background PDF file!'; usage; }
+	[[ -f "$1" ]] || { colorEcho $ERR 'Error: Missing background PDF file!'; usage; }
 }
 
 do_init(){
@@ -95,16 +105,16 @@ EOF
 EOF
 }
 
-do_check $1 $2
+do_check $1
 do_init $@
 
 case "$GRID" in
 	g|grid)
-		echo "Signing with grid..."
+		colorEcho $INFO "Signing with grid..."
 		do_grid
 		;;
 	n|ng|nogrid)
-		echo "Signing without grid..."
+		colorEcho $INFO "Signing without grid..."
 		do_nogrid
 		;;
 	*)
@@ -112,11 +122,11 @@ case "$GRID" in
 		;;
 esac
 
-echo Signing <$BG>...
+colorEcho $INFO "Signing <$BG>..."
 xelatex $TEX > /dev/null
 
-[[ -f "$PDF" ]] || { echo Failed generating PDF file. Please check <$LOG> file for details; exit 5;}
+[[ -f "$PDF" ]] || { colorEcho $ERR "Failed generating PDF file. Please check <$LOG> file for details"; exit 5;}
 
-{ echo 'DONE!'; ls -l $PDF; }
+{ colorEcho $SUCCESS 'DONE!'; ls -l $PDF; }
 
 rm -f $AUX $LOG $TEX

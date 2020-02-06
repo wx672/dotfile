@@ -17,6 +17,16 @@ cleanup(){
 	rm -f $AUX $LOG $TEX
 }
 
+#######color code########
+ERR="31m"     # red
+SUCCESS="36m" # green
+WARN="32m"    # yellow
+INFO="34m"    # blue
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+}
+
 grid(){
 	cat <<EOF >> $TEX
 \documentclass[tikz]{standalone}
@@ -104,7 +114,7 @@ shift $(( OPTIND - 1 ))
 OPTIND=1
 
 BG="$@"
-[[ -f "$BG" ]] || { echo "File <$BG> does not exist!"; exit 1; }
+[[ -f "$BG" ]] || { colorEcho $ERR "Error: File <$BG> does not exist!"; exit 1; }
 
 TEX="${BG%.pdf}-signed.tex"
 PDF="${TEX%.tex}.pdf"
@@ -113,20 +123,20 @@ AUX="${TEX%.tex}.aux"
 
 case "$GRID" in
 	g)
-		echo "Signing with grid..."
+		colorEcho $INFO "Signing with grid..."
 		grid
 		;;
 	ng)
-		echo "Signing without grid..."
+		colorEcho $INFO "Signing without grid..."
 		nogrid
 		;;
 esac
 
-echo Signing <$BG>...
+colorEcho $INFO "Signing <$BG>..."
 xelatex $TEX > /dev/null
 
-[[ -f "$PDF" ]] || { echo Failed generating PDF file. Please check <$LOG> file for details; exit 5;}
+[[ -f "$PDF" ]] || { colorEcho $ERR "Failed generating PDF file. Please check <$LOG> file for details"; exit 5;}
 
-{ echo 'DONE!'; ls -l $PDF; }
+{ colorEcho $SUCCESS 'DONE!'; ls -l $PDF; }
 
 

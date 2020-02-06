@@ -42,10 +42,10 @@
   :config
   (setq
    ;; org-latex-default-packages-alist nil
-   org-latex-packages-alist '(("" "wx672hyperref" nil) ("" "amsmath" nil) ("" "amsfonts" nil) ("" "amssymb" nil) ("" "graphicx" nil)) ; ("" "wx672minted" nil) 
+   org-latex-packages-alist '(("" "wx672hyperref" nil) ("" "amsmath" nil) ("" "amsfonts" nil) ("" "amssymb" nil) ("" "graphicx" nil)) ;("" "enumitem" nil) ("" "wx672minted" nil) 
    org-latex-classes
    '(("wx672ctexart"
-	  "\\documentclass{wx672ctexart} [NO-DEFAULT-PACKAGES] [PACKAGES] [EXTRA]"
+	  "\\documentclass{wx672ctexart} [PACKAGES] [EXTRA]"
 	  ("\\section{%s}" . "\\section*{%s}")
 	  ("\\subsection{%s}" . "\\subsection*{%s}")
 	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -70,14 +70,14 @@
 	  ("\\section{%s}" . "\\section*{%s}")
 	  ("\\subsection{%s}" . "\\subsection*{%s}")
 	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-   org-latex-image-default-width ".6\\linewidth"
+   org-latex-image-default-width ".5\\linewidth"
    org-latex-listings 'minted
    org-latex-minted-options
    '(("mathescape" "true") ("linenos" "true") ("numbersep" "5pt") ("frame" "lines") ("framesep" "2mm"))
    org-latex-pdf-process
-   '("xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
-	 "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
-	 "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f")))
+   '("xelatex --shell-escape -8bit -interaction nonstopmode -output-directory %o %f"
+	 "xelatex --shell-escape -8bit -interaction nonstopmode -output-directory %o %f"
+	 "xelatex --shell-escape -8bit -interaction nonstopmode -output-directory %o %f")))
 
 (provide 'init-ox)
 ;;; init-ox.el ends here

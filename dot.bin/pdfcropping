@@ -2,7 +2,7 @@
 
 function usage(){
 	cat <<EOF
-Split a page from a PDF file, and crop it.
+$(basename $0) - Split a page out of a PDF file, and crop it.
 
 Usage: $(basename $0) [-p page number] [-m L T R B] [-o outPDF] <inPDF>"
 
@@ -11,6 +11,16 @@ page number - The number of to-be-cropped page
      outPDF - The output PDF file name
     L T R B - Margins
 EOF
+}
+
+#######color code########
+ERR="31m"     # red
+SUCCESS="32m" # green
+WARN="33m"    # yellow
+INFO="36m"    # blue
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
 }
 
 PAGE=1
@@ -31,7 +41,7 @@ OPTIND=1
 
 INPDF="$@"
 
-[[ -f "$INPDF" ]] || { echo "$(basename $0): Missing input file!"; usage; exit 1; }
+[[ -f "$INPDF" ]] || { colorEcho $ERR 'Error: Missing input file!'; usage; exit 1; }
 
 [[ -n "$OUTPDF" ]] || OUTPDF="${INPDF%.*}-$PAGE.pdf"
 

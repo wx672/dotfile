@@ -66,7 +66,7 @@
  '(org-time-stamp-custom-formats (quote ("<%m/%d/%y>" . "<%m/%d/%y>")))
  '(package-selected-packages
    (quote
-	(unicode-fonts elpy markdown-mode magit outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode cider-eval-sexp-fu use-package auctex-latexmk anzu)))
+	(helm-unicode elpy markdown-mode magit outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(read-mail-command (quote ignore))
  '(recentf-save-file "~/.recentf")
@@ -84,6 +84,78 @@
  '(tool-bar-mode nil)
  '(track-eol t)
  '(unibyte-display-via-language-environment t)
+ '(unicode-fonts-block-font-mapping
+   (quote
+	(("Arrows"
+	  ("DejaVu Sans Mono" "Symbola" "Noto Sans Symbols"))
+	 ("Block Elements"
+	  ("DejaVu Sans Mono" "Noto Sans Symbols" "Symbola"))
+	 ("Box Drawing"
+	  ("DejaVuSansMono Nerd Font" "Quivira" "NotoMono Nerd Font" "Symbola"))
+	 ("Dingbats"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Emoticons"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola" "Quivira"))
+	 ("Enclosed Alphanumeric Supplement"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Enclosed Alphanumerics"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Enclosed CJK Letters and Months"
+	  ("WenQuanYi Zen Hei Mono"))
+	 ("Enclosed Ideographic Supplement"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Geometric Shapes"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Segoe UI Symbol" "Arial Unicode MS" "Symbola" "Noto Sans Symbols" "Quivira" "BabelStone Modern" "Everson Mono" "FreeMono" "Code2000"))
+	 ("Geometric Shapes Extended"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Letterlike Symbols"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Miscellaneous Mathematical Symbols-A"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Miscellaneous Mathematical Symbols-B"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Miscellaneous Symbols"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Miscellaneous Symbols and Arrows"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Miscellaneous Symbols and Pictographs"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola" "Quivira"))
+	 ("Miscellaneous Technical"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Musical Symbols"
+	  ("Noto Sans Symbols" "DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola" "Quivira"))
+	 ("Number Forms"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Optical Character Recognition"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Noto Sans Symbols" "Symbola"))
+	 ("Ornamental Dingbats"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Playing Cards"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Small Form Variants"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "WenQuanYi Zen Hei Mono" "Microsoft YaHei" "Microsoft YaHei UI" "Code2000"))
+	 ("Specials"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Superscripts and Subscripts"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Supplemental Arrows-A"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Supplemental Arrows-B"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Supplemental Arrows-C"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Supplemental Mathematical Operators"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Supplemental Punctuation"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Supplemental Symbols and Pictographs"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
+	 ("Supplementary Private Use Area-A"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font"))
+	 ("Supplementary Private Use Area-B"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font"))
+	 ("Transport and Map Symbols"
+	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola")))))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
