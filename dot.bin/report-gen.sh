@@ -36,16 +36,16 @@ CSV="$@"
 cd $DIR && paste \
   <( ls $FILE | head -$(( $(wc -l $CSV | cut -d' ' -f1) - 1 )) ) \
   <(grep -v username $CSV | cut -f1,3,4 --output-delimiter='' -d, \
-		| tr -d "[:blank:]\000" | sed 's/$/.org/')\
-  | sed 's/^/mv /' | bash                                 # mv oldfile newfile
+		| tr -d "[:blank:]\000" | sed 's/$/.org/') \
+	| sed 's/^/mv /' | bash                                 # mv oldfile newfile
 
 # change TITLE/AUTHOR
-sed -i '/#+TITLE/d' 20*.org					# remove TITLE line
-sed -i "1i\#+TITLE: $TITLE" 20*.org		    # insert TITLE line
+sed -i '/#+TITLE/d' 20*.org					# remove old TITLE line
+sed -i "1i\#+TITLE: $TITLE" 20*.org		    # insert new TITLE line
 
-sed -i '/#+AUTHOR/d' 20*.org                                     # remove AUTHOR line
+sed -i '/#+AUTHOR/d' 20*.org                # remove old AUTHOR line
 for f in 20*.org; do
 	NAME=$(echo $f | tr -d "[:digit:]" | cut -f1 -d.)
 	ID=$(echo $f | cut -b-11)
 	sed -i "1a\#+AUTHOR: $NAME ($ID)" $f;
-done    # append AUTHOR line
+done    # append new AUTHOR line

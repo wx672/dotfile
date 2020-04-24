@@ -19,7 +19,8 @@
 
    TeX-command-list
    '(("LaTeXMK" "latexmk %s" TeX-run-TeX nil t :help "Run latexmk")
-     ("XeLaTeX" "%`xelatex%(mode) -synctex=1 -8bit --shell-escape%' %t" TeX-run-TeX nil t :help "Run xelatex")
+	 ("LuaLaTeX" "%`lualatex%(mode) --synctex=1 --8bit --shell-escape%' %t" TeX-run-TeX nil t :help "Run lualatex")
+     ("XeLaTeX" "%`xelatex%(mode) -synctex=1 -8bit -shell-escape%' %t" TeX-run-TeX nil t :help "Run xelatex")
      ("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
      ("View" "%V" TeX-run-discard-or-function t t :help "Run Viewer")
      ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
@@ -62,6 +63,8 @@
     (setq
      reftex-plug-into-AUCTeX t
      reftex-bibliography-commands '("addbibresource" "bibliography" "nobibliography")
+	 reftex-default-bibliography  '("~/lecture_notes/bib/os.bib" "~/lecture_notes/bib/net.bib"
+									"~/lecture_notes/bib/wikipedia.bib")
 	 bibtex-dialect 'biblatex
 	 reftex-use-external-file-finders t
      )

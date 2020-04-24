@@ -22,9 +22,19 @@
  '(custom-enabled-themes (quote (material-light)))
  '(custom-safe-themes
    (quote
-	("a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
+	("afd761c9b0f52ac19764b99d7a4d871fc329f7392dfc6cd29710e8209c691477" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
  '(debug-on-error nil)
  '(default-major-mode (quote org-mode) t)
+ '(dict-databases
+   (quote
+	("wn" "gcide" "foldoc" "jargon" "moby-tresaurus" "vera" "langdao-ce" "langdao-ec")))
+ '(dict-enable-key-bindings t nil (dict))
+ '(dict-mode-update-key-bindings nil t)
+ '(dict-noauth t)
+ '(dict-original-server "localhost")
+ '(dict-servers (quote ("localhost")))
+ '(dict-show-one-window t)
+ '(dict-update-key-bindings nil t)
  '(dired-guess-shell-alist-user nil)
  '(dired-omit-extensions
    (quote
@@ -52,6 +62,11 @@
  '(inhibit-startup-screen t)
  '(ispell-extra-args (quote ("--reverse")))
  '(ispell-local-dictionary "en_US")
+ '(ispell-local-dictionary-alist
+   (quote
+	(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil
+	  ("-d" "en_US")
+	  nil utf-8))))
  '(linum-format "%d ")
  '(magit-auto-revert-mode nil)
  '(make-backup-files nil)
@@ -61,20 +76,24 @@
  '(nrepl-message-colors
    (quote
 	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(org-agenda-files (quote ("~/Documents/No.14/accounting.org")))
+ '(org-agenda-files (quote ("~/Android/mido/notes.org")))
  '(org-ditaa-jar-path "/usr/bin/ditaa")
  '(org-time-stamp-custom-formats (quote ("<%m/%d/%y>" . "<%m/%d/%y>")))
  '(package-selected-packages
    (quote
 	(helm-unicode elpy markdown-mode magit outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu)))
+ '(pdf-annot-activate-created-annotations t)
+ '(pdf-cache-image-limit 32)
+ '(pdf-isearch-batch-mode t t)
+ '(pdf-view-max-image-width 2048)
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(pdf-view-resize-factor 1.8)
  '(read-mail-command (quote ignore))
+ '(recentf-max-menu-items 25)
+ '(recentf-max-saved-items 25)
+ '(recentf-mode t)
  '(recentf-save-file "~/.recentf")
- '(safe-local-variable-values
-   (quote
-	((reftex-default-bibliography . "os.bib")
-	 (reftex-default-bibliography . "ref.bib")
-	 (TeX─master . t))))
+ '(safe-local-variable-values (quote ((reftex-default-bibliography . "ref.bib"))))
  '(scheme-program-name "guile")
  '(scroll-bar-mode nil)
  '(select-enable-clipboard t)
@@ -156,6 +175,10 @@
 	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font"))
 	 ("Transport and Map Symbols"
 	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola")))))
+ '(uniquify-after-kill-buffer-p t)
+ '(uniquify-buffer-name-style (quote reverse) nil (uniquify))
+ '(uniquify-ignore-buffers-re "^\\*")
+ '(uniquify-separator " @ ")
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
    (quote
@@ -185,7 +208,9 @@
  '(warning-minimum-level :emergency)
  '(warning-minimum-log-level :emergency)
  '(warning-suppress-types (quote ((\(undo\ discard-info\)))))
- '(x-stretch-cursor t))
+ '(web-mode-engines-alist (quote (("php" . "\\.phtml\\'") ("blade" . "\\.blade\\."))) t)
+ '(x-stretch-cursor t)
+ '(yas-minor-mode nil t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

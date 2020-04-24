@@ -1,6 +1,5 @@
 
 [Default Applications]
-image/jpeg=pqiv.desktop
 image/png=pqiv.desktop
 image/pnm=pqiv.desktop
 image/ppm=pqiv.desktop
@@ -16,3 +15,4 @@ x-scheme-handler/http=qutebrowser.desktop
 x-scheme-handler/https=qutebrowser.desktop
 x-scheme-handler/about=qutebrowser.desktop
 x-scheme-handler/unknown=qutebrowser.desktop
+image/jpeg=usr-usercreated-1.desktop;

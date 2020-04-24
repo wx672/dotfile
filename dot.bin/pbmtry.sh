@@ -2,7 +2,7 @@
 
 usage(){
 	cat <<EOF
-$(basename $0) - Convert any image into PBMs with didderent parameters.
+$(basename $0) - Convert any image into PBMs with different parameters.
 
 Usage: `basename $0` <Image file>
 EOF

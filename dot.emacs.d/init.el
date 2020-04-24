@@ -69,13 +69,15 @@
 
 (use-package recentf
   :init
-  (run-at-time nil 1800 'recentf-save-list)
+  (run-at-time nil (* 5 60) 'recentf-save-list)
   :config
   (recentf-mode 1)
   :custom
-  (recentf-max-menu-item 10)
+  (setq
+   recentf-max-menu-items 25
+   recentf-max-saved-items 25)
   :bind
-  ("C-x C-r" . recentf-open-files))
+  (("C-x C-r" . recentf-open-files)))
 
 (use-package company
   :diminish co.
@@ -213,7 +215,7 @@
   (magit-auto-revert-mode nil)
   (vc-handled-backends nil)
   :bind
-  ("C-c g" . magit-status))
+  (("C-c g" . magit-status)))
 
 ;; https://github.com/jorgenschaefer/elpy
 (use-package elpy

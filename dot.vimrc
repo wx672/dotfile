@@ -1,7 +1,7 @@
 syntax on
-set background=dark
+" set background=light
 set t_Co=256
-colors zenburn
+" colors zenburn
 
 set tabstop=4
 set shiftwidth=4

@@ -1,0 +1,69 @@
+#!/bin/bash
+
+usage() {
+	cat <<EOF
+`basename $0` - draw grid on a picture
+
+USAGE: `basename $0` [-h] [-s 'x,y'] [-c color] [-o opacity] [-O outfile] infile
+
+OPTIONS:
+ -s spacing    x,y spacing between grid lines. default=200,200;
+ -c color      color of grid lines. default="red";
+ -o opacity    opacity of grid lines opacity between 0.0 and 1.0. default=1;
+ -O outfile    default='/tmp/grid.png'
+EOF
+}
+
+#######color code########
+ERR="31m"     # red
+SUCCESS="32m" # green
+WARN="33m"    # yellow
+INFO="36m"    # blue
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+}
+
+# set default values
+SPACING='200,200'
+COLOR="red"
+OPACITY='1'
+OUTFILE="/tmp/grid.png"
+
+while getopts :hc:s:o:O: OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		s) SPACING="$OPTARG" ;; 
+		c) COLOR="$OPTARG" ;; 
+		o) OPACITY="$OPTARG" ;;
+		O) OUTFILE="$OPTARG" ;;
+		?) usage; exit 2
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+INFILE="$@"
+[[ -f "$INFILE" ]] || { colorEcho $ERR 'ERROR: NO INPUT FILE SPECIFIED!'; usage; exit 1; }
+
+# get image dimensions
+W=`identify -format "%w" "$INFILE"`
+H=`identify -format "%h" "$INFILE"`
+
+# get spacing values
+xinc=`echo "$SPACING" | cut -d, -f1`
+yinc=`echo "$SPACING" | cut -d, -f2`
+
+# get string for drawing grid lines
+DRAWSTR=""
+for ((i=0; i<=$H; i+=yinc)); do
+	DRAWSTR="$DRAWSTR M 0,$i L $W,$i"
+done
+
+for ((i=0; i<=$W; i+=xinc)); do
+	DRAWSTR="$DRAWSTR M $i,0 L $i,$H"
+done
+
+# process image
+convert $INFILE -flatten -fill none -stroke $COLOR -strokewidth 1 \
+		-draw "stroke-opacity $OPACITY path '$DRAWSTR'" "$OUTFILE"

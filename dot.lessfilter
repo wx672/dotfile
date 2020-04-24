@@ -2,12 +2,15 @@
 
 case "$1" in
     *.bin|*.raw|*.img|*.iso)
-	if [ file "$1" | grep -q "ext2 filesystem data" ]; then
-	    hd "$1" | less
-	fi
-        ;;
+		if [ file "$1" | grep -q "ext2 filesystem data" ]; then
+			hd "$1" | less
+		fi
+		;;
+	*.docx|*.DOCX)
+		docx2txt "$1" - | less
+		;;
     *)
-                 # We don't handle this format.
+        # We don't handle this format.
         exit 1
 esac
 

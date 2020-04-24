@@ -172,9 +172,10 @@
 	   ("h" "Habit" entry (file org-default-notes-file)
 		"* NEXT %?\n%U\n%a\nSCHEDULED: %t .+1d/3d\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n  %i"))
 
-	 org-refile-targets '((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))
-	 org-refile-use-outline-path (quote file)
-	 org-outline-path-complete-in-steps t
+	 ;; https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html
+	 org-refile-targets '((org-agenda-files :maxlevel . 5))
+	 org-refile-use-outline-path 'file
+	 org-outline-path-complete-in-steps nil
 	 org-refile-allow-creating-parent-nodes (quote confirm)))
 
   (use-package org-ref

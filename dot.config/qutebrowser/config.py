@@ -38,7 +38,7 @@ c.prompt.filebrowser = False
 c.scrolling.smooth = False
 c.session.default_name = None
 c.session.lazy_restore = True
-c.statusbar.hide = True
+c.statusbar.show = "never"
 c.tabs.background = False
 c.tabs.favicons.show = "never"
 c.tabs.last_close = "close"
@@ -50,10 +50,11 @@ c.url.default_page = 'https://google.com'
 c.url.open_base_url = True
 #c.url.start_pages = 'https://start.duckduckgo.com'
 c.url.start_pages = 'https://google.com'
-c.zoom.default = "175%"
+c.zoom.default = "200%"
 c.zoom.levels = ["75%","100%","125%","150%","175%","200%","225%","250%","275%","300%","400%","500%"]
 
 # searches
+# example: :open ddg wx672
 c.url.searchengines = {
 'DEFAULT':'http://www.google.com/search?q={}',
 'ddg':'https://duckduckgo.com/?q={}',
@@ -63,12 +64,15 @@ c.url.searchengines = {
 }
 
 # aliases
+# example: :ding
 c.aliases = {
-'gd':'open -t https://im.dingtalk.com',
-'gl':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
-'gm':'open -t https://mail.google.com',
-'gw':'open -t https://wx2.qq.com/',
-'gy':'open -t https://youtube.com'
+'ding':'open -t https://im.dingtalk.com',
+'gist':'open -t https://gist.github.com',
+'github':'open -t https://github.com',
+'gmail':'open -t https://mail.google.com',
+'lec':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
+'wechat':'open -t https://wx2.qq.com/',
+'youtube':'open -t https://youtube.com'
 }
 
 # keybinds
@@ -97,24 +101,40 @@ config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
 config.bind('<Ctrl-a><Ctrl-r>', 'config-cycle content.user_stylesheets solarized-light-all-sites.css solarized-light-generic.css solarized-light-github.css solarized-light-google.com.css solarized-light-mediawiki.org.css solarized-light-stackexchange.com.css solarized-light-reddit.com.css', mode='normal')
 config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080', mode='normal')
-config.bind('<Shift-i>', 'config-cycle statusbar.hide ;; config-cycle tabs.show multiple never')
+config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show multiple never')
 config.unbind('b', mode='normal')
 config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
 
-#config.bind('gi', 'enter-mode insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
-#config.bind('<Ctrl-p>', 'jseval document.location=\'https://pinboard.in/add?next=same&url=\'+encodeURIComponent(location.href)+\'&title=\'+encodeURIComponent(document.title)', mode="normal")
+config.bind('gi', 'enter-mode insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
+
+config.bind('gs', 'jseval document.location=\'https://gist.github.com\'', mode="normal")
+
+#config.bind('gp', 'jseval document.location=\'https://pinboard.in/add?next=same&url=\'+encodeURIComponent(location.href)+\'&title=\'+encodeURIComponent(document.title)', mode="normal")
 
 ## colors
+c.colors.tabs.even.fg = "white"
+c.colors.tabs.even.bg = "black"
+c.colors.tabs.odd.fg = "white"
+c.colors.tabs.odd.bg = "black"
 c.colors.tabs.selected.even.fg = "black"
 c.colors.tabs.selected.even.bg = "yellow"
 c.colors.tabs.selected.odd.fg = "black"
 c.colors.tabs.selected.odd.bg = "yellow"
+c.colors.tabs.pinned.even.fg = "white"
+c.colors.tabs.pinned.even.bg = "black"
+c.colors.tabs.pinned.odd.fg = "white"
+c.colors.tabs.pinned.odd.bg = "black"
+c.colors.tabs.pinned.selected.even.fg = "black"
+c.colors.tabs.pinned.selected.even.bg = "yellow"
+c.colors.tabs.pinned.selected.odd.fg = "black"
+c.colors.tabs.pinned.selected.odd.bg = "yellow"
 c.colors.hints.bg = "#cccccc"
 c.colors.webpage.bg = "#eeeeee"
 
 # fonts
-c.fonts.tabs = "14pt NotoMono Nerd Font"
+c.fonts.tabs.selected = "14pt NotoMono Nerd Font"
+c.fonts.tabs.unselected = "14pt NotoMono Nerd Font"
 c.fonts.statusbar = "16pt NotoMono Nerd Font"
 c.fonts.downloads = c.fonts.statusbar 
 c.fonts.prompts = c.fonts.statusbar

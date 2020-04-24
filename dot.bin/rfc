@@ -4,6 +4,10 @@ usage(){
 	cat <<EOF
 rfc - Command line RFC viewer
 Usage: $(basename $0) [-h] | [-l | -j | -f format] <index>
+
+-l  List matching files
+-j  dump the json file
+-f  open specified format (txt|pdf|html)
 EOF
 }
 

@@ -5,6 +5,9 @@ convert a.png b.png +append c.png
 # make png background white
 convert emacs.png -flatten emacs.pnm
 
+# change background color to blue
+convert in.png -fuzz 10% -fill none -draw "matte 0,0 floodfill" -background blue -flatten out.png
+
 # To crop an image
 convert orig.jpg -crop WxH+x+y new.jpg
 
