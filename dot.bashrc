@@ -40,4 +40,16 @@ tabs -4 &>/dev/null
 [[ -f ~/.LESS_TERMCAP ]] && tty -s && . ~/.LESS_TERMCAP
 
 #source ~/.xsh
+
 export GPGKEY=0EE277C8D838C7DA
+
+# https://github.com/dylanaraps/pywal/wiki/Getting-Started
+# Import colorscheme from 'wal' asynchronously
+# &   # Run the process in the background.
+# ( ) # Hide shell job control messages.
+#(cat ~/.cache/wal/sequences &)
+
+# To add support for TTYs this line can be optionally added.
+#source ~/.cache/wal/colors-tty.sh
+
+#source ~/.cache/wal/colors.sh

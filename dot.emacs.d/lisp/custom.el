@@ -76,13 +76,15 @@
  '(nrepl-message-colors
    (quote
 	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(org-agenda-files (quote ("~/Android/mido/notes.org")))
+ '(org-agenda-files
+   (quote
+	("~/git/lab-backup/lab-notes.org" "~/Documents/rsync/ytxx14/accounting.org")))
  '(org-ditaa-jar-path "/usr/bin/ditaa")
  '(org-time-stamp-custom-formats (quote ("<%m/%d/%y>" . "<%m/%d/%y>")))
  '(package-selected-packages
    (quote
-	(helm-unicode elpy markdown-mode magit outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu)))
- '(pdf-annot-activate-created-annotations t)
+	(wgrep-helm gnuplot gnuplot-mode helm-unicode elpy markdown-mode outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu)))
+ '(pdf-annot-activate-created-annotations t t)
  '(pdf-cache-image-limit 32)
  '(pdf-isearch-batch-mode t t)
  '(pdf-view-max-image-width 2048)

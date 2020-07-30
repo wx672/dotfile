@@ -8,8 +8,8 @@ Usage: `basename $0` [-h] [-c x,y] [-f font size] <Image> <text>
 
     Image - the image to be annotated on
      text - text to be added
-       -c - coordinate of text to be added, default to '+300+30'
-       -f - default to 22
+      x,y - coordinate of text to be added, default to '+300+30'
+font size - default to 22
 EOF
 }
 

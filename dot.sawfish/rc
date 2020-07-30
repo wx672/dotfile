@@ -49,7 +49,7 @@
 		   "Super-S-e" '(system "sawfish-config &")
 		   "Super-S-r" 'restart
 		   "Super-S-p" '(system "ffmpeg -y -f x11grab -s 1920x1080 -i :0.0 -vframes 1 /tmp/screenshot.png")
-		   "Super-S-i" '(system "import /tmp/window.png")
+		   "Super-S-i" '(system "import -screen /tmp/window.png")
 		   "Super-TAB" 'cycle-windows
 		   "Super-j" 'move-viewport-next
 		   "Super-k" 'move-viewport-previous
@@ -72,7 +72,7 @@
 		   "Super-z" '(jump-or-exec "Zathura" "/usr/bin/zathura --fork" t)
 		   "Super-F1" '(jump-or-exec "Help" "/usr/bin/pqiv -s -i -d 30 --end-of-files-action=quit .keys.png" t)
 		   "Super-F2" '(system "bash -c \"gromit-mpx -a -o .5 --key F2\" &")
-
+		   "Super-F12" '(system "xterm -e mosh stud@cs6.swfu.edu.cn &")
 		   "Super-l" '(system "xset dpms force off")
 										;audio controls
 		   "XF86AudioMute" '(system "amixer set Master toggle && amixer set PCM toggle")

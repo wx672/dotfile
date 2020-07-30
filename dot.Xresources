@@ -52,29 +52,48 @@ XTerm*allowSendEvents: True
 XTerm*allowTitleOps: True
 XTerm*sessionMgt: false
 
-!!! http://sunaku.github.io/zenburn-terminal-color-scheme.html
-XTerm*color0: #000d18
-XTerm*color1: #e89393
-XTerm*color2: #9ece9e
-XTerm*color3: #f0dfaf
-XTerm*color4: #1f1f1f
-! #8cd0d3
-XTerm*color5: #c0bed1
-XTerm*color6: #dfaf8f
-XTerm*color7: #efefef
-XTerm*color8: #000d18
-XTerm*color9: #e89393
-XTerm*color10: #9ece9e
-XTerm*color11: #f0dfaf
-XTerm*color12: #8cd0d3
-XTerm*color13: #c0bed1
-XTerm*color14: #dfaf8f
-XTerm*color15: #efefef
-XTerm*colorBD: #ffcfaf
-XTerm*colorIT: #80d4aa
-XTerm*colorUL: #ccdc90
-XTerm*foreground: #dcdccc
-XTerm*background: black
-!XTerm*background: #3f3f3f
-!#1f1f1f
-XTerm*cursorColor: #8faf9f
+Xcursor.size: 64
+
+! --- generated with 4bit Terminal Color Scheme Designer -----------------------
+! --- http://ciembor.github.com/4bit -------------------------------------------
+! --- special colors ---
+
+*background: #0d1926
+*foreground: #d9e6f2
+
+! --- standard colors ---
+
+! black
+*color0: #000000
+! bright_black
+*color8: #262626
+! red
+*color1: #b87a7a
+! bright_red
+*color9: #dbbdbd
+! green
+*color2: #7ab87a
+! bright_green
+*color10: #bddbbd
+! yellow
+*color3: #b8b87a
+! bright_yellow
+*color11: #dbdbbd
+! blue
+*color4: #7a7ab8
+! bright_blue
+*color12: #bdbddb
+! magenta
+*color5: #b87ab8
+! bright_magenta
+*color13: #dbbddb
+! cyan
+*color6: #7ab8b8
+! bright_cyan
+*color14: #bddbdb
+! white
+*color7: #d9d9d9
+! bright_white
+*color15: #ffffff
+
+! --- end of terminal colors section -------------------------------------------

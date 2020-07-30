@@ -12,7 +12,7 @@
   :init
   (setq
    org-modules '(org-bibtex org-info)
-   org-log-done (quote time)
+   org-log-done 'time
    org-reverse-note-order t
    org-deadline-warning-days 14
    org-hide-leading-stars t
@@ -34,10 +34,7 @@
    org-src-fontify-natively t
    org-confirm-babel-evaluate nil
    
-   org-list-demote-modify-bullet '(("+" . "-")
-								   ("*" . "-")
-								   ("1." . "-")
-								   ("1)" . "-"))
+   org-list-demote-modify-bullet '(("+" . "-") ("*" . "-") ("1." . "-") ("1)" . "-"))
    
    ;; Showing context
    org-show-hierarchy-above '((default . t))
@@ -99,10 +96,41 @@
 	 (shell . t)
 	 ))
   
+  (use-package org-capture
+	:bind (:map global-map ("C-c c" . org-capture))
+	:config
+	(setq
+	 org-directory "~/"
+	 org-default-notes-file (concat org-directory ".tmp.org")
+
+	 org-capture-templates
+	 '(("e" "Error" entry (file "~/Errorlog.org")
+		"* ERROR %?\n%U\n%a\n  %i")
+	   ("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
+		"* TODO %?\n%U\n%a\n  %i" :clock-in t :clock-resume t)
+	   ("n" "Note" entry (file org-default-notes-file)
+		"* %? :NOTE:\n%U\n%a\n  %i")
+	   ("i" "Idea" entry (file org-default-notes-file)
+		"* %? :IDEA:\n%U\n%a\n  %i")
+	   ("j" "Journal" entry (file+datetree org-default-notes-file)
+		"* %?\n%U\n  %i")
+	   ("r" "Reminder" entry (file+headline org-default-notes-file "Reminder")
+		"* %i%? \n %U")
+	   ("w" "org-protocol" entry (file org-default-notes-file)
+		"* TODO Review %c\n%U\n  %i" :immediate-finish t)
+	   ("h" "Habit" entry (file org-default-notes-file)
+		"* NEXT %?\n%U\n%a\nSCHEDULED: %t .+1d/3d\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n  %i"))
+
+	 ;; https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html
+	 ;; https://www.reddit.com/r/emacs/comments/4366f9/how_do_orgrefiletargets_work/
+	 org-refile-targets '((org-agenda-files :maxlevel . 3))
+	 org-refile-use-outline-path 'file
+	 org-outline-path-complete-in-steps nil
+	 org-refile-allow-creating-parent-nodes (quote confirm)))
+
   (use-package org-agenda
     :init
     (setq
-     org-agenda-files nil
      org-agenda-window-setup 'current-window
      org-agenda-restore-windows-after-quit nil
      org-agenda-span 1
@@ -146,37 +174,6 @@
 	(add-to-list 'org-file-apps '("\\.pdf\\'" . org-pdfview-open))
 	(add-to-list 'org-file-apps '("\\.pdf::\\([[:digit:]]+\\)\\'" . org-pdfview-open))
 	(add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
-
-  (use-package org-capture
-	:bind (:map global-map ("C-c c" . org-capture))
-	:config
-	(setq
-	 org-directory "~/"
-	 org-default-notes-file (concat org-directory ".tmp.org")
-
-	 org-capture-templates
-	 '(("e" "Error" entry (file "~/Errorlog.org")
-		"* ERROR %?\n%U\n%a\n  %i")
-	   ("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
-		"* TODO %?\n%U\n%a\n  %i" :clock-in t :clock-resume t)
-	   ("n" "Note" entry (file org-default-notes-file)
-		"* %? :NOTE:\n%U\n%a\n  %i")
-	   ("i" "Idea" entry (file org-default-notes-file)
-		"* %? :IDEA:\n%U\n%a\n  %i")
-	   ("j" "Journal" entry (file+datetree org-default-notes-file)
-		"* %?\n%U\n  %i")
-	   ("w" "org-protocol" entry (file org-default-notes-file)
-		"* TODO Review %c\n%U\n  %i" :immediate-finish t)
-	   ;; ("p" "Phone call" entry (file "~/.refile.org")
-	   ;;  "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-	   ("h" "Habit" entry (file org-default-notes-file)
-		"* NEXT %?\n%U\n%a\nSCHEDULED: %t .+1d/3d\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n  %i"))
-
-	 ;; https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html
-	 org-refile-targets '((org-agenda-files :maxlevel . 5))
-	 org-refile-use-outline-path 'file
-	 org-outline-path-complete-in-steps nil
-	 org-refile-allow-creating-parent-nodes (quote confirm)))
 
   (use-package org-ref
 	:diminish org-ref

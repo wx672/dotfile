@@ -35,7 +35,7 @@ export NO_AT_BRIDGE=1
 [ -x /usr/lib/notification-daemon/notification-daemon ] && /usr/lib/notification-daemon/notification-daemon &
 #[ -x /usr/bin/compton ] && /usr/bin/compton -b
 #[ -x /usr/bin/hsetroot ] && /usr/bin/hsetroot -solid '#000000'
-
 #[ -x /usr/local/bin/xterm ] && /usr/local/bin/xterm -e tmux &
-
+[ -x /usr/local/bin/wal ] && wal -R
+[ -x /usr/bin/keynav ] && keynav
 exec /etc/alternatives/x-window-manager

@@ -65,10 +65,6 @@ github(){
 	(bash -c "$QB https://github.com 2>/dev/null &")
 }
 
-gitlab(){
-	(bash -c "$QB ':set content.proxy none' https://gitlab.swfu.edu.cn/wx672 2>/dev/null &")
-}
-
 gkeep(){
 	(bash -c "$QB https://keep.google.com 2>/dev/null &")
 }

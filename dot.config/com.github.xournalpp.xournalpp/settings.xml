@@ -4,7 +4,7 @@
   <property name="pressureSensitivity" value="true"/>
   <property name="zoomGesturesEnabled" value="true"/>
   <property name="selectedToolbar" value="Portrait"/>
-  <property name="lastSavePath" value="/tmp"/>
+  <property name="lastSavePath" value="/home/wx672/lecture_notes/os/figs"/>
   <property name="lastOpenPath" value="/home/wx672/Documents/rsync/swfu/projs/2020/tmp"/>
   <property name="lastImagePath" value=""/>
   <property name="zoomStep" value="10.00000000"/>
@@ -137,7 +137,7 @@
     </data>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="hilighter"/>
+    <attribute name="current" type="string" value="selectObject"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
@@ -155,7 +155,7 @@
     </data>
     <data name="eraser">
       <attribute name="drawingType" type="string" value="default"/>
-      <attribute name="size" type="string" value="THIN"/>
+      <attribute name="size" type="string" value="BIG"/>
       <attribute name="type" type="string" value="whiteout"/>
     </data>
     <data name="hand">

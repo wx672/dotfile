@@ -2,14 +2,13 @@
 
 usage(){
 	cat <<EOF
-a2pdf - Convert any image into a black/white PDF file with optional text annotation.
+a2pdf - Convert any image into a monochrome PDF file with optional text annotation.
 
 Usage: `basename $0` [-f Filter] [-t Threshold] [-T text] [-c x,y] [-F font size] <Image>
 
-    Image - the image you want to tweak
    Filter - man mkbitmap for details
 Threshold - man mkbitmap for details
-     text - text to be added into the image
+     text - text to be added
       x,y - coordinate of text to be added, default to '+300+30'
 font size - default to 22
 EOF

@@ -1,0 +1,2 @@
+bindkey('0', 'go-leftmost')
+bindkey('x', 'delete-cell')

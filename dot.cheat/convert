@@ -30,3 +30,6 @@ convert -density 200 INPUT.pdf -rotate 2 +noise Multiplicative -format pdf  -qua
 # To make a GIF
 convert -delay 120 -loop 0 *.jpg linux.gif
 
+# deskew and trim
+# adjust fuzz value as desired
+convert img.jpg -deskew 40% -fuzz 8% -define trim:percent-background=0% -trim +repage -rotate -90 result.png
