@@ -1,0 +1,30 @@
+#!/bin/bash
+
+SSR="/home/wx672/.local/share/shadowsocksr/shadowsocks/local.py"
+SERVERDIR="/home/wx672/.local/share/fyvvv"
+
+usage(){
+	cat <<EOF
+USAGE: $(basename $0) [-h] [-l] [json file]
+EOF
+}
+
+list(){
+	ls $SERVERDIR/
+}
+
+while getopts :hl OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		l) list; exit 0 ;;
+		?) usage; exit 1 ;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+JSON="$@"
+
+[[ -f "$SERVERDIR/$JSON" ]] || { echo "ERROR: <${JSON:-json file}> not found in $SERVERDIR."; usage; exit 2; }
+
+$SSR -c $SERVERDIR/$JSON
