@@ -231,7 +231,7 @@ themelight () {
 }
 
 themedark () {
-	(wal -q -n --theme tempus_autumn)
+	(wal -q -n --theme tempus_autumn -b'#000000')
 }
 
 technotes () {

@@ -16,7 +16,7 @@ c.content.javascript.can_open_tabs_automatically = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
 c.content.proxy = "socks://localhost:1080/"
-c.content.user_stylesheets = ["solarized-light-all-sites.css", "solarized-light-generic.css", "solarized-light-mediawiki.org.css", "solarized-light-github.css", "solarized-light-google.com.css", "solarized-light-stackexchange.com.css", "solarized-light-reddit.com.css"]
+c.content.user_stylesheets = ["null.css", "solarized-light-all-sites.css", "solarized-light-generic.css", "solarized-light-mediawiki.org.css", "solarized-light-github.css", "solarized-light-google.com.css", "solarized-light-stackexchange.com.css", "solarized-light-reddit.com.css"]
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
 c.downloads.location.prompt = False
@@ -105,6 +105,7 @@ config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycl
 config.unbind('b', mode='normal')
 config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
+config.bind('<Ctrl-a>i', 'spawn --userscript qute-pass', mode='normal')
 
 config.bind('gi', 'enter-mode insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
 
