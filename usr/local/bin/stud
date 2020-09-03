@@ -1,0 +1,11 @@
+#/bin/bash
+
+if pgrep -f 'stud@cs6'; 
+then 
+	zenity 	--error \
+		--width=600 \
+		--timeout=1 \
+		--text='You should press Super-F12 only once.'
+else 
+	/usr/bin/mosh stud@cs6.swfu.edu.cn
+fi

@@ -22,7 +22,7 @@
  '(custom-enabled-themes (quote (material-light)))
  '(custom-safe-themes
    (quote
-	("afd761c9b0f52ac19764b99d7a4d871fc329f7392dfc6cd29710e8209c691477" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
+	("24714e2cb4a9d6ec1335de295966906474fdb668429549416ed8636196cb1441" "afd761c9b0f52ac19764b99d7a4d871fc329f7392dfc6cd29710e8209c691477" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
  '(debug-on-error nil)
  '(default-major-mode (quote org-mode) t)
  '(dict-databases
@@ -78,7 +78,7 @@
 	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(org-agenda-files
    (quote
-	("~/git/lab-backup/lab-notes.org" "~/Documents/rsync/ytxx14/accounting.org")))
+	("~/Documents/rsync/swfu/lab-backup/lab-notes.org" "~/Documents/rsync/ytxx14/accounting.org")))
  '(org-ditaa-jar-path "/usr/bin/ditaa")
  '(org-time-stamp-custom-formats (quote ("<%m/%d/%y>" . "<%m/%d/%y>")))
  '(package-selected-packages
@@ -95,7 +95,31 @@
  '(recentf-max-saved-items 25)
  '(recentf-mode t)
  '(recentf-save-file "~/.recentf")
- '(safe-local-variable-values (quote ((reftex-default-bibliography . "ref.bib"))))
+ '(safe-local-variable-values
+   (quote
+	((org-export-latex-preamble . "\\documentclass[ngerman]{article}
+\\usepackage[T1]{fontenc}
+\\usepackage[utf8]{inputenc}
+\\usepackage{verbatim}
+%% No necesito \\url porque uso hyperref (\\href)
+%% \\IfFileExists{url.sty}{\\usepackage{url}}
+%%                       {\\newcommand{\\url}{\\texttt}}
+\\usepackage[authoryear]{natbib}
+\\usepackage{ae}
+
+\\makeatletter
+\\providecommand{\\LyX}{L\\kern-.1667em\\lower.25em\\hbox{Y}\\kern-.125emX\\@}
+
+\\usepackage{bibgerm}
+
+\\usepackage{babel}
+\\makeatother
+
+\\usepackage[breaklinks=true]{hyperref}
+\\usepackage{breakurl}
+\\usepackage{array}
+")
+	 (reftex-default-bibliography . "ref.bib"))))
  '(scheme-program-name "guile")
  '(scroll-bar-mode nil)
  '(select-enable-clipboard t)
@@ -219,4 +243,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:height 240 :family "DejaVuSansMono Nerd Font"))))
- '(mode-line ((t (:height 160 :family "DejaVuSansMono Nerd Font")))))
+ '(mode-line ((t (:height 160 :family "DejaVuSansMono Nerd Font"))))
+ '(org-table ((t (:family "Noto Sans Mono CJK SC")))))

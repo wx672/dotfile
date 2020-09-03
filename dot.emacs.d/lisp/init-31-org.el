@@ -11,10 +11,11 @@
 (use-package org
   :init
   (setq
-   org-modules '(org-bibtex org-info)
+   org-catch-invisible-edits show-and-error
+   org-modules '(ol-bibtex ol-info ol-docview)
    org-log-done 'time
    org-reverse-note-order t
-   org-deadline-warning-days 14
+   org-deadline-warning-days 7
    org-hide-leading-stars t
    org-use-fast-todo-selection t
    org-use-fast-tag-selection 'auto
@@ -148,7 +149,16 @@
     (setq
      org-clock-into-drawer "CLOCK"
      org-clock-persist t
-     org-clock-in-switch-to-state "STARTED")) ;; Change task state to STARTED when clocking in
+     org-clock-in-switch-to-state "STARTED"))
+
+  (use-package org-timer
+	:config
+	(setq org-timer-default-timer 25)
+
+	(add-hook 'org-clock-in-hook
+			  (lambda ()
+				(if (not org-timer-current-timer)
+					(org-timer-set-timer '(16))))))	
   
   (use-package org-chinese-utils
     :init
