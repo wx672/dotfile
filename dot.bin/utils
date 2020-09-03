@@ -5,28 +5,48 @@ MUPDF="/usr/bin/mupdf -r285 -C FDF6E3"
 XPDF="/usr/bin/mupdf -r180 -C FDF6E3"
 ZATHURA="/usr/bin/zathura --fork"
 
+# vv(){
+# 	declare -A BOOKS=(
+# 		[Slides-lap]="$HOME/lecture_notes/linux-app/slides/lap-b.pdf"
+# 		[Slides-os]="$HOME/lecture_notes/os/slides/os-b.pdf"
+#     	[Slides-net]="$HOME/lecture_notes/network_basics/net-b.pdf"
+#     	[Slides-linux]="$HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf"
+#     	[Handouts-lap]="$HOME/lecture_notes/linux-app/slides/lap-a.pdf"
+#     	[Handouts-os]="$HOME/lecture_notes/os/slides/os-a.pdf"
+#     	[Handouts-net]="$HOME/lecture_notes/network_basics/net-a.pdf"
+#     	[Beginning Linux Programming 4e]="$HOME/Documents/Beginning.Linux.Programming-4e.pdf"
+#     	[The Linux Programming Interface]="$HOME/Documents/The.Linux.Programming.Interface.pdf"
+#     	[Computer Networks 5e]="$HOME/Documents/network/ComputerNetworks-AST-5e.pdf"
+#     	[Tikz/PGF manual]="/usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf"
+#     	[The Comprehensive LaTeX Symbol List]="$HOME/texmf/doc/latex/symbols-a4.pdf"
+#     	[Chapter 8 - Higher Mathematics]="$HOME/texmf/doc/latex/ch8.pdf"
+#     	[My class schedule]="$HOME/texmf/doc/latex/swfu/timetable/timetable.pdf"
+# 	)
+# 	select BOOK in "${!BOOKS[@]}" # Mind the double quotes!
+# 	do
+# 		($MUPDF ${BOOKS[$BOOK]} &>/dev/null &)
+# 		break
+# 	done	
+# }
+
 v(){
-	declare -A BOOKS=(
-		[Slides-lap]="$HOME/lecture_notes/linux-app/slides/lap-b.pdf"
-		[Slides-os]="$HOME/lecture_notes/os/slides/os-b.pdf"
-    	[Slides-net]="$HOME/lecture_notes/network_basics/net-b.pdf"
-    	[Slides-linux]="$HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf"
-    	[Handouts-lap]="$HOME/lecture_notes/linux-app/slides/lap-a.pdf"
-    	[Handouts-os]="$HOME/lecture_notes/os/slides/os-a.pdf"
-    	[Handouts-net]="$HOME/lecture_notes/network_basics/net-a.pdf"
-    	[Beginning Linux Programming 4e]="$HOME/Documents/Beginning.Linux.Programming-4e.pdf"
-    	[The Linux Programming Interface]="$HOME/Documents/The.Linux.Programming.Interface.pdf"
-    	[Computer Networks 5e]="$HOME/Documents/network/ComputerNetworks-AST-5e.pdf"
-    	[Tikz/PGF manual]="/usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf"
-    	[The Comprehensive LaTeX Symbol List]="$HOME/texmf/doc/latex/symbols-a4.pdf"
-    	[Chapter 8 - Higher Mathematics]="$HOME/texmf/doc/latex/ch8.pdf"
-    	[My class schedule]="$HOME/texmf/doc/latex/swfu/timetable/timetable.pdf"
-	)
-	select BOOK in "${!BOOKS[@]}" # Mind the double quotes!
-	do
-		($MUPDF ${BOOKS[$BOOK]} &>/dev/null &)
-		break
-	done	
+	($MUPDF $(cat <<EOF | dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20 -p mupdf
+$HOME/lecture_notes/linux-app/slides/lap-b.pdf
+$HOME/lecture_notes/os/slides/os-b.pdf
+$HOME/lecture_notes/network_basics/net-b.pdf
+$HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf
+$HOME/lecture_notes/linux-app/slides/lap-a.pdf
+$HOME/lecture_notes/os/slides/os-a.pdf
+$HOME/lecture_notes/network_basics/net-a.pdf
+$HOME/Documents/Beginning.Linux.Programming-4e.pdf
+$HOME/Documents/The.Linux.Programming.Interface.pdf
+$HOME/Documents/network/ComputerNetworks-AST-5e.pdf
+/usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf
+$HOME/texmf/doc/latex/symbols-a4.pdf
+$HOME/texmf/doc/latex/ch8.pdf
+$HOME/texmf/doc/latex/swfu/timetable/timetable.pdf
+EOF
+		) &>/dev/null &)
 }
 
 ffshot(){ # screenshot
@@ -231,7 +251,7 @@ themelight () {
 }
 
 themedark () {
-	(wal -q -n --theme tempus_autumn)
+	(wal -q -n --theme tempus_autumn -b'#000000')
 }
 
 technotes () {
@@ -281,11 +301,11 @@ cs6(){
 }
 
 cs6a(){
-	(aria2c --no-conf -x16 https://cs6.swfu.edu.cn/~wx672/700/a/$1)
+	(aria2c --no-conf --check-certificate=false -x16 https://cs6.swfu.edu.cn/~wx672/700/a/$1)
 }
 
 cs6v(){
-	(aria2c --no-conf -x16 https://cs6.swfu.edu.cn/~wx672/700/v/$1)
+	(aria2c --no-conf --check-certificate=false -x16 https://cs6.swfu.edu.cn/~wx672/700/v/$1)
 }
 
 # https://madebynathan.com/2011/10/04/a-nicer-way-to-use-xclip/
@@ -335,14 +355,38 @@ alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 
 # https://stackoverflow.com/questions/660613/how-do-you-hide-the-mouse-pointer-under-linux-x11
 setmouse () {
-   DISPLAY=":0" xinput $1 `DISPLAY=":0" xinput | grep "Wireless Mouse" | cut -d"=" -f2 | cut -b-2` 
+   DISPLAY=":0" xinput --$1 `DISPLAY=":0" xinput | grep "Wireless Mouse" | cut -d"=" -f2 | cut -b-2` 
 }
 
-dm () {
+moff () {
    DISPLAY=":0" xdotool mousemove 1920 540 # use xrandr to find out
    setmouse disable
 }
 
-em () {
-   setmouse enable
+mon () {
+	DISPLAY=":0" xdotool mousemove 960 540 # use xrandr to find out
+	setmouse enable
+}
+
+settouchpad() {
+   DISPLAY=":0" xinput --$1 `DISPLAY=":0" xinput | grep "309A Touchpad" | cut -d"=" -f2 | cut -b-2` 
+}
+
+toff () { # touchpad
+	DISPLAY=":0" xdotool mousemove 1920 540 # use xrandr to find out
+	settouchpad disable
+}
+
+ton () {
+	DISPLAY=":0" xdotool mousemove 960 540 # use xrandr to find out
+	settouchpad enable
+}
+
+xoff () {
+	xset dpms force off
+	xset dpms force off
+}
+
+xon () {
+	xset s off -dpms
 }

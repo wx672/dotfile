@@ -137,7 +137,7 @@
     </data>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="selectObject"/>
+    <attribute name="current" type="string" value="pen"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
