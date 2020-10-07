@@ -105,11 +105,14 @@ config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycl
 config.unbind('b', mode='normal')
 config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
-config.bind('<Ctrl-a>i', 'spawn --userscript qute-pass', mode='normal')
+config.bind('<Ctrl-a>i', 'spawn --userscript password_fill', mode='normal')
+
+config.bind(';d', 'hint links spawn aria2c --no-conf --check-certificate=false -x6 {hint-url}')
 
 config.bind('gi', 'enter-mode insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
 
 config.bind('gs', 'jseval document.location=\'https://gist.github.com\'', mode="normal")
+config.bind('cs6m', 'jseval document.location=\'https://cs6.swfu.edu.cn/moodle\'', mode="normal")
 
 #config.bind('gp', 'jseval document.location=\'https://pinboard.in/add?next=same&url=\'+encodeURIComponent(location.href)+\'&title=\'+encodeURIComponent(document.title)', mode="normal")
 
@@ -134,13 +137,13 @@ c.colors.hints.bg = "#cccccc"
 c.colors.webpage.bg = "#eeeeee"
 
 # fonts
-c.fonts.tabs.selected = "14pt NotoMono Nerd Font"
-c.fonts.tabs.unselected = "14pt NotoMono Nerd Font"
-c.fonts.statusbar = "16pt NotoMono Nerd Font"
+c.fonts.tabs.selected = "14pt Noto Sans Mono"
+c.fonts.tabs.unselected = "14pt Noto Sans Mono"
+c.fonts.statusbar = "16pt Noto Sans Mono"
 c.fonts.downloads = c.fonts.statusbar 
 c.fonts.prompts = c.fonts.statusbar
-c.fonts.hints = "20pt NotoMono Nerd Font"
-c.fonts.messages.info = "20pt NotoMono Nerd Font"
+c.fonts.hints = "20pt Noto Sans Mono"
+c.fonts.messages.info = "20pt Noto Sans Mono"
 c.fonts.keyhint = c.fonts.hints
 c.fonts.messages.warning = c.fonts.messages.info
 c.fonts.messages.error = c.fonts.messages.info
