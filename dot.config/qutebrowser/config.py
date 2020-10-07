@@ -15,7 +15,7 @@ c.content.javascript.can_open_tabs_automatically = True
 #c.content.javascript.can_close_tabs = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
-c.content.proxy = "socks://localhost:1080/"
+c.content.proxy = "none"
 c.content.user_stylesheets = ["null.css", "solarized-light-all-sites.css", "solarized-light-generic.css", "solarized-light-mediawiki.org.css", "solarized-light-github.css", "solarized-light-google.com.css", "solarized-light-stackexchange.com.css", "solarized-light-reddit.com.css"]
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
@@ -45,11 +45,11 @@ c.tabs.last_close = "close"
 c.tabs.show = "switching"
 c.tabs.show_switching_delay = 3000
 #c.tabs.title.format = "{title}"
-c.url.default_page = 'https://google.com'
+c.url.default_page = 'https://cs6.swfu.edu.cn/moodle'
 #c.url.default_page = 'https://duckduckgo.com'
 c.url.open_base_url = True
 #c.url.start_pages = 'https://start.duckduckgo.com'
-c.url.start_pages = 'https://google.com'
+c.url.start_pages = 'https://cs6.swfu.edu.cn/moodle'
 c.zoom.default = "200%"
 c.zoom.levels = ["75%","100%","125%","150%","175%","200%","225%","250%","275%","300%","400%","500%"]
 
@@ -66,11 +66,12 @@ c.url.searchengines = {
 # aliases
 # example: :ding
 c.aliases = {
+'calibre':'open -t https://cs6.swfu.edu.cn/calibre',
 'ding':'open -t https://im.dingtalk.com',
 'gist':'open -t https://gist.github.com',
 'github':'open -t https://github.com',
 'gmail':'open -t https://mail.google.com',
-'lec':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
+'lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
 'wechat':'open -t https://wx2.qq.com/',
 'youtube':'open -t https://youtube.com'
 }
