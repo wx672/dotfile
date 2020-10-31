@@ -63,7 +63,7 @@
 		   "Super-e" '(jump-or-exec "Emacs" "/usr/bin/emacsclient -c -n" t)
 		   "Super-c" '(jump-or-exec "Browser" "x-www-browser" t)
 		   "Super-q" '(jump-or-exec "Qutebrowser" "qutebrowser" t)
-		   "Super-w" '(jump-or-exec "Wechat" "qutebrowser --target window ':set content.proxy none' https://wx2.qq.com/" t)
+		   "Super-w" '(jump-or-exec "Wechat" "qutebrowser --target window ':set content.proxy none' https://web.wechat.com/" t)
 		   "Super-d" '(jump-or-exec "Dingtalk" "qutebrowser --target window ':set content.proxy none' https://im.dingtalk.com" t)
 		   "Super-y" '(jump-or-exec "Youtube" "qutebrowser --target window https://youtube.com" t)
 		   "Super-z" '(jump-or-exec "Zathura" "/usr/bin/zathura --fork" t)

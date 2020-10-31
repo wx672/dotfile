@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SSR="/home/wx672/.local/share/shadowsocksr/shadowsocks/local.py"
-SERVERDIR="/home/wx672/.local/share/fyvvv"
+SSR="$HOME/.local/share/shadowsocksr/shadowsocks/local.py"
+SERVERDIR="$HOME/.local/share/fyvvv"
 
 usage(){
 	cat <<EOF
