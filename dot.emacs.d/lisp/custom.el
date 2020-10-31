@@ -97,7 +97,12 @@
  '(recentf-save-file "~/.recentf")
  '(safe-local-variable-values
    (quote
-	((org-export-latex-preamble . "\\documentclass[ngerman]{article}
+	((From . blp4e)
+	 (From . "tlpi, Listing 44-2")
+	 (Usage . "/tmp/a.out 'string'")
+	 (Ref . https://www\.arp242\.net/tmux\.html)
+	 (ref . "https://stackoverflow.com/questions/5311515/gcc-fpic-option")
+	 (org-export-latex-preamble . "\\documentclass[ngerman]{article}
 \\usepackage[T1]{fontenc}
 \\usepackage[utf8]{inputenc}
 \\usepackage{verbatim}

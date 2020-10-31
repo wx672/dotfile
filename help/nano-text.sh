@@ -2,7 +2,7 @@
 
 [[ -f ~/.bin/ttyrec-utils ]] && . ~/.bin/ttyrec-utils
 
-clear; ttyplayhelp; tput setaf 7
+clear; resize_window; ttyplayhelp; tput setaf 7
 
 cat <<EOF | PV
 Today I am going to show you how to do simple python programming within your terminal.
