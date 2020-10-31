@@ -19,10 +19,10 @@
  '(cua-selection-mode t)
  '(current-language-environment "UTF-8")
  '(cursor-type (quote bar))
- '(custom-enabled-themes (quote (material-light)))
+ '(custom-enabled-themes (quote (material)))
  '(custom-safe-themes
    (quote
-	("24714e2cb4a9d6ec1335de295966906474fdb668429549416ed8636196cb1441" "afd761c9b0f52ac19764b99d7a4d871fc329f7392dfc6cd29710e8209c691477" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
+	("d4f8fcc20d4b44bf5796196dbeabec42078c2ddb16dcb6ec145a1c610e0842f3" "24714e2cb4a9d6ec1335de295966906474fdb668429549416ed8636196cb1441" "afd761c9b0f52ac19764b99d7a4d871fc329f7392dfc6cd29710e8209c691477" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
  '(debug-on-error nil)
  '(default-major-mode (quote org-mode) t)
  '(dict-databases
@@ -83,8 +83,8 @@
  '(org-time-stamp-custom-formats (quote ("<%m/%d/%y>" . "<%m/%d/%y>")))
  '(package-selected-packages
    (quote
-	(wgrep-helm gnuplot gnuplot-mode helm-unicode elpy markdown-mode outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu)))
- '(pdf-annot-activate-created-annotations t t)
+	(w3m wgrep-helm gnuplot gnuplot-mode helm-unicode elpy markdown-mode outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu)))
+ '(pdf-annot-activate-created-annotations t)
  '(pdf-cache-image-limit 32)
  '(pdf-isearch-batch-mode t t)
  '(pdf-view-max-image-width 2048)
@@ -97,7 +97,12 @@
  '(recentf-save-file "~/.recentf")
  '(safe-local-variable-values
    (quote
-	((org-export-latex-preamble . "\\documentclass[ngerman]{article}
+	((From . blp4e)
+	 (From . "tlpi, Listing 44-2")
+	 (Usage . "/tmp/a.out 'string'")
+	 (Ref . https://www\.arp242\.net/tmux\.html)
+	 (ref . "https://stackoverflow.com/questions/5311515/gcc-fpic-option")
+	 (org-export-latex-preamble . "\\documentclass[ngerman]{article}
 \\usepackage[T1]{fontenc}
 \\usepackage[utf8]{inputenc}
 \\usepackage{verbatim}
@@ -244,4 +249,4 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:height 240 :family "DejaVuSansMono Nerd Font"))))
  '(mode-line ((t (:height 160 :family "DejaVuSansMono Nerd Font"))))
- '(org-table ((t (:family "Noto Sans Mono CJK SC")))))
+ '(org-table ((t (:background "gray25" :foreground "light gray" :family "Noto Sans Mono CJK SC")))))

@@ -2,6 +2,12 @@
 
 # Functions for ttyrec
 
+# resize window. $1 should be window id (wmctrl -l)
+resize_window(){
+	wmctrl -r tmux -e '0,0,0,1366,768'
+	#xdotool windowsize $1 1366 768
+}
+
 # Show a spinning bar on the screen
 waiting(){
     echo # waiting in a new line
