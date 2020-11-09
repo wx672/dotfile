@@ -48,7 +48,9 @@
 (bind-keys global-keymap
 		   "Super-S-e" '(system "sawfish-config &")
 		   "Super-S-r" 'restart
-		   "Super-S-p" '(system "ffmpeg -y -f x11grab -s 1920x1080 -i :0.0 -vframes 1 /tmp/screenshot.png")
+;	   "Super-S-p" '(system "ffmpeg -y -f x11grab -s 1920x1080 -i :0.0 -vframes 1 /tmp/screenshot.png")
+		"Super-S-p" '(system "import -window root /tmp/screenshot-$(date +%Y%m%d%H%M).png")
+		"Print" '(system "import -window root /tmp/screenshot-$(date +%Y%m%d%H%M).png")
 		   "Super-TAB" 'cycle-windows
 		   "Super-j" 'move-viewport-next
 		   "Super-k" 'move-viewport-previous
@@ -61,13 +63,17 @@
 		   "Super-e" '(jump-or-exec "Emacs" "/usr/bin/emacsclient -c -n" t)
 		   "Super-c" '(jump-or-exec "Browser" "x-www-browser" t)
 		   "Super-q" '(jump-or-exec "Qutebrowser" "qutebrowser" t)
-		   "Super-w" '(jump-or-exec "Wechat" "qutebrowser --target window ':set content.proxy none' https://wx2.qq.com/" t)
+		   "Super-w" '(jump-or-exec "Wechat" "qutebrowser --target window ':set content.proxy none' https://web.wechat.com/" t)
 		   "Super-d" '(jump-or-exec "Dingtalk" "qutebrowser --target window ':set content.proxy none' https://im.dingtalk.com" t)
 		   "Super-y" '(jump-or-exec "Youtube" "qutebrowser --target window https://youtube.com" t)
 		   "Super-z" '(jump-or-exec "Zathura" "/usr/bin/zathura --fork" t)
 		   "Super-F1" '(jump-or-exec "Help" "qiv -i -C -s -d 120 .keys.png" t)
 		   "Super-F2" '(system "bash -c \"gromit-mpx -a -o .5 --key F2\" &")
+<<<<<<< HEAD
 		   "Super-F12" '(system "xterm -e mosh stud@cs6.swfu.edu.cn &")
+=======
+		   "Super-F12" '(system "xterm -e /usr/local/bin/stud &")
+>>>>>>> baa56979ae905bacbcc1cc584f2142658bc25db3
 ;audio controls
 		   "XF86AudioMute" '(system "amixer set Master toggle && amixer set PCM toggle")
 		   "XF86AudioLowerVolume" '(system "amixer set Master 3%- && amixer set PCM 3%-")

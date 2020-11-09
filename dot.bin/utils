@@ -1,9 +1,9 @@
 #!/bin/bash
 
-BROWSER="/usr/bin/x-www-browser"
 MUPDF="/usr/bin/mupdf -r285 -C FDF6E3"
 XPDF="/usr/bin/mupdf -r180 -C FDF6E3"
-ZATHURA="/usr/bin/zathura --fork"
+QB="/usr/bin/qutebrowser --target window"
+CS6="cs6.swfu.edu.cn"
 
 # vv(){
 # 	declare -A BOOKS=(
@@ -47,6 +47,96 @@ $HOME/texmf/doc/latex/ch8.pdf
 $HOME/texmf/doc/latex/swfu/timetable/timetable.pdf
 EOF
 		) &>/dev/null &)
+}
+
+vl(){
+	($QB ':set content.proxy none' $(cat <<EOF | dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20
+qute://help
+file:///usr/share/doc/abs-guide/html/xrefindex.html
+file:///$HOME/lecture_notes/linux/c/c_dev.html
+file:///$HOME/lecture_notes/linux/bash/shell_basics.plain.html
+file://$HOME/Documents/network/www.tcpipguide.com/free/t_toc.htm
+https://$CS6/~wx672
+https://$CS6/~wx672/lecture_notes
+https://$CS6/moodle
+https://$CS6/calibre
+http://www.zhihu.com/notifications
+https://pan.baidu.com
+https://im.dingtalk.com
+https://web.wechat.com
+http://w.qq.com
+https://my.alipay.com
+http://jd.com
+http://www.taobao.com
+http://music.163.com/#/my/
+http://www.lizhi.fm/label/24229953853202224
+https://www.ximalaya.com/yinyue/235694/
+https://www.lucidchart.com/documents
+http://km.meituan.com
+http://pixlr.com/editor
+http://i.eastmoney.com/stock.html
+http://i.finance.sina.com.cn
+http://www.timer-tab.com
+EOF
+		 ) &>/dev/null &)
+}
+
+vg(){
+	($QB $(cat <<EOF | dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20
+https://youtube.com
+https://www.google.com/calendar/render
+https://contacts.google.com
+https://docs.google.com/drawings/create?usp=apps_start&hl=en
+https://drive.google.com/drive/#my-drive
+https://keep.google.com
+https://mail.google.com
+https://mail.google.com/mail/mu/?mui=ca
+https://photos.google.com
+https://hangouts.google.com
+https://github.com
+https://app.grammarly.com
+https://www.reddit.com
+https://web.telegram.org
+https://twitter.com
+EOF
+		 ) &>/dev/null &)
+}
+
+gmaps(){
+	QUERY=""
+	for WORD in $@; do
+		QUERY="$QUERY%20$WORD"
+	done
+	(bash -c "$QB https://www.google.com/maps/search/$QUERY 2>/dev/null &")
+}
+
+google(){
+  QUERY=""
+  echo "Googling: $@"
+  for WORD in $@; do
+    QUERY="$QUERY%20$WORD"
+  done
+  (bash -c "$QB https://www.google.com/search?q=$QUERY 2>/dev/null &")
+}
+
+ddg(){
+  QUERY=""
+  echo "duckduckgo: $@"
+  for WORD in $@; do
+    QUERY="$QUERY%20$WORD"
+  done
+  (bash -c "$QB https://duckduckgo.com/?q=$QUERY 2>/dev/null &")
+}
+
+q(){
+	(bash -c "$QB $1 2>/dev/null &")
+}
+
+sicp(){
+	URL="http://cs6/~wx672/video/sicp"
+	bash -c "wget $URL/lec$1.srt"
+	bash -c "mpv --no-resume-playback --sub-file=lec$1.srt $URL/lec$1.ogv"
+>>>>>>> baa56979ae905bacbcc1cc584f2142658bc25db3
 }
 
 ffshot(){ # screenshot
@@ -254,14 +344,6 @@ themedark () {
 	(wal -q -n --theme tempus_autumn -b'#000000')
 }
 
-technotes () {
-	(emacsclient -e '(progn (find-file-read-only-other-frame "~/git/org/tech.org"))')
-}
-
-netnotes () {
-	(emacsclient -e '(progn (find-file-read-only-other-frame "~/lecture_notes/network_basics/net-tools/net-tools.org"))')
-}
-
 # update-calibre () {
 # 	sudo -v && wget --no-check-certificate -nv -O- https://download.calibre-ebook.com/linux-installer.py | sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main('$HOME/')"
 # }
@@ -306,6 +388,10 @@ cs6a(){
 
 cs6v(){
 	(aria2c --no-conf --check-certificate=false -x16 https://cs6.swfu.edu.cn/~wx672/700/v/$1)
+}
+
+cs6r(){
+	rsync -avLP --inplace --append cs6:public_html/tmp/$1 .
 }
 
 # https://madebynathan.com/2011/10/04/a-nicer-way-to-use-xclip/
@@ -389,4 +475,8 @@ xoff () {
 
 xon () {
 	xset s off -dpms
+}
+
+lh () { 
+	ls --hide=*$1
 }
