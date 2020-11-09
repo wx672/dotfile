@@ -35,11 +35,15 @@ export NO_AT_BRIDGE=1
 [ -x /usr/lib/notification-daemon/notification-daemon ] && /usr/lib/notification-daemon/notification-daemon &
 #[ -x /usr/bin/compton ] && /usr/bin/compton -b
 #[ -x /usr/bin/hsetroot ] && /usr/bin/hsetroot -solid '#000000'
+<<<<<<< HEAD
 [ -x /usr/local/bin/xterm ] && /usr/local/bin/xterm -e tmux &
+=======
+/usr/bin/x-terminal-emulator -e tmux &
+>>>>>>> master
 [ -x /usr/local/bin/wal ] && wal -R
 [ -x /usr/bin/keynav ] && keynav
 
 # keep screen on
 xset s off -dpms
 
-exec /etc/alternatives/x-window-manager
+exec /usr/bin/x-window-manager
