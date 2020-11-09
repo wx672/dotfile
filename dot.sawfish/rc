@@ -67,7 +67,7 @@
 		   "Super-z" '(jump-or-exec "Zathura" "/usr/bin/zathura --fork" t)
 		   "Super-F1" '(jump-or-exec "Help" "qiv -i -C -s -d 120 .keys.png" t)
 		   "Super-F2" '(system "bash -c \"gromit-mpx -a -o .5 --key F2\" &")
-		   "Super-F12" '(system "xterm -e mosh stud@cs6.swfu.edu.cn &")
+		   "Super-F12" '(system "xterm -e /usr/local/bin/stud &")
 ;audio controls
 		   "XF86AudioMute" '(system "amixer set Master toggle && amixer set PCM toggle")
 		   "XF86AudioLowerVolume" '(system "amixer set Master 3%- && amixer set PCM 3%-")
