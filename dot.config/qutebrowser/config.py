@@ -56,7 +56,7 @@ c.zoom.levels = ["75%","100%","125%","150%","175%","200%","225%","250%","275%","
 # searches
 # example: :open ddg wx672
 c.url.searchengines = {
-'DEFAULT':'http://www.google.com/search?q={}',
+'DEFAULT':'http://bing.com/search?q={}',
 'ddg':'https://duckduckgo.com/?q={}',
 'w':'https://secure.wikimedia.org/wikipedia/en/w/index.php?title=Special%%3ASearch&search={}',
 'y':'https://www.youtube.com/results?search_query={}',
@@ -101,7 +101,7 @@ config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
 config.bind('<Ctrl-a><Ctrl-r>', 'config-cycle content.user_stylesheets solarized-light-all-sites.css solarized-light-generic.css solarized-light-github.css solarized-light-google.com.css solarized-light-mediawiki.org.css solarized-light-stackexchange.com.css solarized-light-reddit.com.css', mode='normal')
-config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080', mode='normal')
+#config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080', mode='normal')
 config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show multiple never')
 config.unbind('b', mode='normal')
 config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
