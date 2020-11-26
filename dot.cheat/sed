@@ -24,6 +24,8 @@ sed -i '/string/d' # remove matching lines
 sed '/string/,+10d' file.txt # remove 11 lines
 sed '10d' file.txt   # remove the 10th line
 sed '1,10d' file.txt # remove from line 1 to line 10
+sed '$ d' file.txt # remove last line
+head -n -1 file.txt # remove last line
 
 sed ':a;N;$!ba;s/\n//g'  file.txt # To replace newlines in multiple lines
 

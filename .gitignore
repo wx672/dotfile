@@ -2,3 +2,5 @@ dot.tmux/plugins/
 dot.config/qutebrowser/autoconfig.yml
 dot.config/pulse/
 dot.config/qutebrowser/qsettings/QtProject.conf
+draft/
+dot.config/libreoffice/

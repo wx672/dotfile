@@ -20,6 +20,7 @@ $HOME/Documents/network/ComputerNetworks-AST-5e.pdf
 /usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf
 $HOME/texmf/doc/latex/symbols-a4.pdf
 $HOME/texmf/doc/latex/ch8.pdf
+$HOME/git/syk-netbook/04-ip.pdf
 $HOME/texmf/doc/latex/swfu/timetable/timetable.pdf
 EOF
 		) &>/dev/null &)
@@ -340,9 +341,16 @@ xpdf(){
 	($XPDF "$1" 2>/dev/null &)
 }
 
-ydl(){
+# ydl <output file name> <URL> [format]
+# To list all available formats: youtube-dl -F <URL>
+ydl() 
+{
 	fmt=${3:-249}
-	youtube-dl -f$fmt -o$1 $2
+	echo "$1" | grep -q '\.' && outfile="$1" || outfile="$1".webm
+	while ! youtube-dl -f$fmt -o$outfile $2
+	do
+		echo try again...
+	done
 }
 
 cs2(){
@@ -362,7 +370,11 @@ cs6a(){
 }
 
 cs6v(){
-	(aria2c --no-conf --check-certificate=false -x16 https://cs6.swfu.edu.cn/~wx672/700/v/$1)
+	(aria2c --no-conf --check-certificate=false -x16 https://cs6.swfu.edu.cn/~wx672/$1)
+}
+
+cs6r(){
+	rsync -avLP --inplace --append cs6:public_html/$1 .
 }
 
 cs6r(){
@@ -416,36 +428,41 @@ alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 
 # https://stackoverflow.com/questions/660613/how-do-you-hide-the-mouse-pointer-under-linux-x11
 setmouse () {
-   DISPLAY=":0" xinput --$1 `DISPLAY=":0" xinput | grep "Mouse" | cut -d"=" -f2 | cut -b-2` 
+	for i in $(DISPLAY=":0" xinput | grep Mouse | cut -d"=" -f2 | cut -b-2)
+	do
+		DISPLAY=":0" xinput --$1 $i
+	done
 }
 
 moff () {
-   DISPLAY=":0" xdotool mousemove 1920 540 # use xrandr to find out
+   DISPLAY=":0" xdotool mousemove 3840 2160 # use xrandr to find out
    setmouse disable
 }
 
 mon () {
-	DISPLAY=":0" xdotool mousemove 960 540 # use xrandr to find out
+	DISPLAY=":0" xdotool mousemove 1366 768 # use xrandr to find out
 	setmouse enable
 }
 
 settouchpad() {
-   DISPLAY=":0" xinput --$1 `DISPLAY=":0" xinput | grep "309A Touchpad" | cut -d"=" -f2 | cut -b-2` 
+	for i in $(DISPLAY=":0" xinput | grep Touchpad | cut -d"=" -f2 | cut -b-2)
+	do
+		DISPLAY=":0" xinput --$1 $i
+	done
 }
 
 toff () { # touchpad
-	DISPLAY=":0" xdotool mousemove 1920 540 # use xrandr to find out
+	DISPLAY=":0" xdotool mousemove 3840 2160 # use xrandr to find out
 	settouchpad disable
 }
 
 ton () {
-	DISPLAY=":0" xdotool mousemove 960 540 # use xrandr to find out
+	DISPLAY=":0" xdotool mousemove 1366 768 # use xrandr to find out
 	settouchpad enable
 }
 
 xoff () {
-	xset dpms force off
-	xset dpms force off
+	xset dpms force off; xset dpms force off; xset dpms force off; xset dpms force off
 }
 
 xon () {
