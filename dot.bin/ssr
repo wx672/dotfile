@@ -24,7 +24,8 @@ shift $(( OPTIND - 1 ))
 OPTIND=1
 
 JSON="$@"
+echo "$JSON" | grep -q '\.' || JSON="$JSON".json
 
-[[ -f "$SERVERDIR/$JSON" ]] || { echo "ERROR: <${JSON:-json file}> not found in $SERVERDIR."; usage; exit 2; }
+[[ -f "$SERVERDIR/$JSON" ]] || { echo "ERROR: <$JSON> file not found in $SERVERDIR."; usage; exit 2; }
 
 $SSR -c $SERVERDIR/$JSON
