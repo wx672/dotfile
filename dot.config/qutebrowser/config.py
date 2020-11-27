@@ -9,14 +9,15 @@ c.completion.height = "30%"
 c.completion.web_history.max_items = 1000
 c.content.cache.size = 52428800
 c.content.default_encoding = 'utf-8'
-c.content.host_blocking.enabled = False
+c.content.blocking.enabled = True
 c.content.javascript.can_access_clipboard = True
 c.content.javascript.can_open_tabs_automatically = True
-#c.content.javascript.can_close_tabs = True
+#.content.javascript.can_close_tabs = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
 c.content.proxy = "socks://localhost:1080/"
 c.content.user_stylesheets = ["null.css", "solarized-light-all-sites.css", "solarized-light-generic.css", "solarized-light-mediawiki.org.css", "solarized-light-github.css", "solarized-light-google.com.css", "solarized-light-stackexchange.com.css", "solarized-light-reddit.com.css"]
+#.content.headers.user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML like Gecko) Firefox/68.0'
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
 c.downloads.location.prompt = False
@@ -29,7 +30,7 @@ c.hints.auto_follow = 'always'
 c.hints.auto_follow_timeout = 0
 c.hints.border = "1px solid #CCCCCC"
 c.hints.mode = "letter"
-#c.input.insert_mode.auto_load = True
+#.input.insert_mode.auto_load = True
 c.input.partial_timeout = 2000
 c.keyhint.blacklist = ["*"]
 c.messages.timeout = 5000
@@ -44,11 +45,11 @@ c.tabs.favicons.show = "never"
 c.tabs.last_close = "close"
 c.tabs.show = "switching"
 c.tabs.show_switching_delay = 3000
-#c.tabs.title.format = "{title}"
+#.tabs.title.format = "{title}"
 c.url.default_page = 'https://google.com'
-#c.url.default_page = 'https://duckduckgo.com'
+#.url.default_page = 'https://duckduckgo.com'
 c.url.open_base_url = True
-#c.url.start_pages = 'https://start.duckduckgo.com'
+#.url.start_pages = 'https://start.duckduckgo.com'
 c.url.start_pages = 'https://google.com'
 c.zoom.default = "200%"
 c.zoom.levels = ["75%","100%","125%","150%","175%","200%","225%","250%","275%","300%","400%","500%"]
@@ -76,6 +77,10 @@ c.aliases = {
 }
 
 # keybinds
+# config.unbind('F', mode='normal')
+# config.unbind('f', mode='normal')
+# config.bind('f', 'hint all tab', mode='normal')
+# config.bind('F', 'hint', mode='normal')
 config.unbind('<Ctrl-q>', mode='normal')
 config.unbind('<Ctrl-v>', mode='normal')
 config.unbind('<Ctrl-a>', mode='normal')
@@ -100,7 +105,7 @@ config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
 config.bind('<Ctrl-a><Ctrl-r>', 'config-cycle content.user_stylesheets solarized-light-all-sites.css solarized-light-generic.css solarized-light-github.css solarized-light-google.com.css solarized-light-mediawiki.org.css solarized-light-stackexchange.com.css solarized-light-reddit.com.css', mode='normal')
-config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080', mode='normal')
+config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080 socks://127.0.0.1:7891', mode='normal')
 config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show multiple never')
 config.unbind('b', mode='normal')
 config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
@@ -149,3 +154,5 @@ c.fonts.messages.warning = c.fonts.messages.info
 c.fonts.messages.error = c.fonts.messages.info
 c.fonts.completion.entry = c.fonts.statusbar
 c.fonts.completion.category = c.fonts.statusbar
+
+config.load_autoconfig(False)

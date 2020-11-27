@@ -4,3 +4,15 @@ dot.config/pulse/
 dot.config/qutebrowser/qsettings/QtProject.conf
 draft/
 dot.config/libreoffice/
+dot.config/fcitx/pinyin/
+dot.config/com.github.xournalpp.xournalpp/autosave/
+dot.config/com.github.xournalpp.xournalpp/metadata/
+dot.wine
+dot.config/chromium
+dot.config/chromium-back-ovfs
+dot.config/chromium-backup
+dot.config/clash/
+dot.config/menus/
+dot.local/share/applications/wine/
+dot.config/BaiduPCS-Go/pcs_command_history.txt
+dot.bin/dingtalk.sh
