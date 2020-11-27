@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(TeX-electric-math '("\\(" . "\\)"))
  '(ansi-color-names-vector
    ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#FDF6E3"])
  '(blink-cursor-mode nil)
@@ -20,8 +21,6 @@
  '(current-language-environment "UTF-8")
  '(cursor-type 'bar)
  '(custom-enabled-themes '(material))
- '(custom-safe-themes
-   '("d4f8fcc20d4b44bf5796196dbeabec42078c2ddb16dcb6ec145a1c610e0842f3" "24714e2cb4a9d6ec1335de295966906474fdb668429549416ed8636196cb1441" "afd761c9b0f52ac19764b99d7a4d871fc329f7392dfc6cd29710e8209c691477" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default))
  '(debug-on-error nil)
  '(default-major-mode 'org-mode t)
  '(dict-databases
@@ -35,7 +34,7 @@
  '(dict-update-key-bindings nil t)
  '(dired-guess-shell-alist-user nil)
  '(dired-omit-extensions
-   '("~" ".bin" ".lbin" ".a" ".ln" ".blg" ".bcf" ".run.xml" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".snm" ".out" ".nav" ".out" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyg" ".pyo" ".idx" ".lof" ".lot" ".glo" ".blg" ".bbl" ".cp" ".cps" ".fn" ".fns" ".ky" ".kys" ".pg" ".pgs" ".tp" ".tps" ".vr" ".vrs"))
+   '("~" ".a" ".aux" ".bbl" ".bcf" ".blg" ".elc" ".idx" ".lof" ".lot" ".toc" ".snm" ".nav" ".out" ".run.xml"))
  '(dired-omit-files-p t t)
  '(dired-omit-mode t t)
  '(dired-recursive-copies t)
@@ -53,6 +52,7 @@
  '(global-auto-revert-mode t)
  '(global-font-lock-mode t nil (font-lock))
  '(global-hl-line-mode t nil (hl-line))
+ '(global-prettify-symbols-mode t)
  '(graphviz-dot-auto-indent-on-semi nil)
  '(helm-full-frame t)
  '(hi-lock-mode t t (hi-lock))
@@ -88,36 +88,7 @@
  '(recentf-max-saved-items 25)
  '(recentf-mode t)
  '(recentf-save-file "~/.recentf")
- '(safe-local-variable-values
-   '((From . TLPI:)
-	 (From . blp4e)
-	 (From . "tlpi, Listing 44-2")
-	 (Usage . "/tmp/a.out 'string'")
-	 (Ref . https://www\.arp242\.net/tmux\.html)
-	 (ref . "https://stackoverflow.com/questions/5311515/gcc-fpic-option")
-	 (org-export-latex-preamble . "\\documentclass[ngerman]{article}
-\\usepackage[T1]{fontenc}
-\\usepackage[utf8]{inputenc}
-\\usepackage{verbatim}
-%% No necesito \\url porque uso hyperref (\\href)
-%% \\IfFileExists{url.sty}{\\usepackage{url}}
-%%                       {\\newcommand{\\url}{\\texttt}}
-\\usepackage[authoryear]{natbib}
-\\usepackage{ae}
-
-\\makeatletter
-\\providecommand{\\LyX}{L\\kern-.1667em\\lower.25em\\hbox{Y}\\kern-.125emX\\@}
-
-\\usepackage{bibgerm}
-
-\\usepackage{babel}
-\\makeatother
-
-\\usepackage[breaklinks=true]{hyperref}
-\\usepackage{breakurl}
-\\usepackage{array}
-")
-	 (reftex-default-bibliography . "ref.bib")))
+ '(safe-local-variable-values '((Ref . https://www\.arp242\.net/tmux\.html)))
  '(scheme-program-name "guile")
  '(scroll-bar-mode nil)
  '(select-enable-clipboard t)
@@ -127,102 +98,10 @@
  '(tool-bar-mode nil)
  '(track-eol t)
  '(unibyte-display-via-language-environment t)
- '(unicode-fonts-block-font-mapping
-   '(("Arrows"
-	  ("DejaVu Sans Mono" "Symbola" "Noto Sans Symbols"))
-	 ("Block Elements"
-	  ("DejaVu Sans Mono" "Noto Sans Symbols" "Symbola"))
-	 ("Box Drawing"
-	  ("DejaVuSansMono Nerd Font" "Quivira" "NotoMono Nerd Font" "Symbola"))
-	 ("Dingbats"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Emoticons"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola" "Quivira"))
-	 ("Enclosed Alphanumeric Supplement"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Enclosed Alphanumerics"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Enclosed CJK Letters and Months"
-	  ("WenQuanYi Zen Hei Mono"))
-	 ("Enclosed Ideographic Supplement"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Geometric Shapes"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Segoe UI Symbol" "Arial Unicode MS" "Symbola" "Noto Sans Symbols" "Quivira" "BabelStone Modern" "Everson Mono" "FreeMono" "Code2000"))
-	 ("Geometric Shapes Extended"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Letterlike Symbols"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Miscellaneous Mathematical Symbols-A"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Miscellaneous Mathematical Symbols-B"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Miscellaneous Symbols"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Miscellaneous Symbols and Arrows"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Miscellaneous Symbols and Pictographs"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola" "Quivira"))
-	 ("Miscellaneous Technical"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Musical Symbols"
-	  ("Noto Sans Symbols" "DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola" "Quivira"))
-	 ("Number Forms"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Optical Character Recognition"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Noto Sans Symbols" "Symbola"))
-	 ("Ornamental Dingbats"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Playing Cards"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Small Form Variants"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "WenQuanYi Zen Hei Mono" "Microsoft YaHei" "Microsoft YaHei UI" "Code2000"))
-	 ("Specials"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Superscripts and Subscripts"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Supplemental Arrows-A"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Supplemental Arrows-B"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Supplemental Arrows-C"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Supplemental Mathematical Operators"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Supplemental Punctuation"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Supplemental Symbols and Pictographs"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))
-	 ("Supplementary Private Use Area-A"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font"))
-	 ("Supplementary Private Use Area-B"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font"))
-	 ("Transport and Map Symbols"
-	  ("DejaVuSansMono Nerd Font" "NotoMono Nerd Font" "Symbola"))))
  '(uniquify-after-kill-buffer-p t)
  '(uniquify-buffer-name-style 'reverse nil (uniquify))
  '(uniquify-ignore-buffers-re "^\\*")
  '(uniquify-separator " @ ")
- '(vc-annotate-background "#2B2B2B")
- '(vc-annotate-color-map
-   '((20 . "#BC8383")
-	 (40 . "#CC9393")
-	 (60 . "#DFAF8F")
-	 (80 . "#D0BF8F")
-	 (100 . "#E0CF9F")
-	 (120 . "#F0DFAF")
-	 (140 . "#5F7F5F")
-	 (160 . "#7F9F7F")
-	 (180 . "#8FB28F")
-	 (200 . "#9FC59F")
-	 (220 . "#AFD8AF")
-	 (240 . "#BFEBBF")
-	 (260 . "#93E0E3")
-	 (280 . "#6CA0A3")
-	 (300 . "#7CB8BB")
-	 (320 . "#8CD0D3")
-	 (340 . "#94BFF3")
-	 (360 . "#DC8CC3")))
- '(vc-annotate-very-old-color "#DC8CC3")
  '(version-control 'never)
  '(view-diary-entries-initially t)
  '(view-read-only t)
