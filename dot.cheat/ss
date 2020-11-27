@@ -1,12 +1,9 @@
-ss
-Utility to investigate sockets
-
-Args
--4/-6 list ipv4/ipv6 sockets
--n numeric addresses instead of hostnames
--l list listening sockets
--u/-t/-x list udp/tcp/unix sockets
--p Show process(es) that using socket
+# -4/-6 list ipv4/ipv6 sockets
+# -n numeric addresses instead of hostnames
+# -l list listening sockets
+# -a Show both listening and non-listening sockets
+# -t/-u/-x list udp/tcp/unix sockets
+# -p Show process(es) that using socket
 
 # show all listening tcp sockets including the corresponding process
 ss -tlp
@@ -14,5 +11,10 @@ ss -tlp
 # show all sockets connecting to 192.168.2.1 on port 80
 ss -t dst 192.168.2.1:80
 
+# See ss(8) section STATE-FILTER
+# All standard TCP states: 
+#     established, syn-sent, syn-recv, fin-wait-1, fin-wait-2, time-wait, 
+#     closed, close-wait, last-ack, listening and closing.
+#
 # show all ssh related connection
 ss -t state established '( dport = :ssh or sport = :ssh )'

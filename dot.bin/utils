@@ -5,6 +5,30 @@ XPDF="/usr/bin/mupdf -r180 -C FDF6E3"
 QB="/usr/bin/qutebrowser --target window"
 CS6="cs6.swfu.edu.cn"
 
+# vv(){
+# 	declare -A BOOKS=(
+# 		[Slides-lap]="$HOME/lecture_notes/linux-app/slides/lap-b.pdf"
+# 		[Slides-os]="$HOME/lecture_notes/os/slides/os-b.pdf"
+#     	[Slides-net]="$HOME/lecture_notes/network_basics/net-b.pdf"
+#     	[Slides-linux]="$HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf"
+#     	[Handouts-lap]="$HOME/lecture_notes/linux-app/slides/lap-a.pdf"
+#     	[Handouts-os]="$HOME/lecture_notes/os/slides/os-a.pdf"
+#     	[Handouts-net]="$HOME/lecture_notes/network_basics/net-a.pdf"
+#     	[Beginning Linux Programming 4e]="$HOME/Documents/Beginning.Linux.Programming-4e.pdf"
+#     	[The Linux Programming Interface]="$HOME/Documents/The.Linux.Programming.Interface.pdf"
+#     	[Computer Networks 5e]="$HOME/Documents/network/ComputerNetworks-AST-5e.pdf"
+#     	[Tikz/PGF manual]="/usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf"
+#     	[The Comprehensive LaTeX Symbol List]="$HOME/texmf/doc/latex/symbols-a4.pdf"
+#     	[Chapter 8 - Higher Mathematics]="$HOME/texmf/doc/latex/ch8.pdf"
+#     	[My class schedule]="$HOME/texmf/doc/latex/swfu/timetable/timetable.pdf"
+# 	)
+# 	select BOOK in "${!BOOKS[@]}" # Mind the double quotes!
+# 	do
+# 		($MUPDF ${BOOKS[$BOOK]} &>/dev/null &)
+# 		break
+# 	done	
+# }
+
 v(){
 	($MUPDF $(cat <<EOF | dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20 -p mupdf
 $HOME/lecture_notes/linux-app/slides/lap-b.pdf
@@ -14,9 +38,15 @@ $HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf
 $HOME/lecture_notes/linux-app/slides/lap-a.pdf
 $HOME/lecture_notes/os/slides/os-a.pdf
 $HOME/lecture_notes/network_basics/net-a.pdf
+$HOME/lecture_notes/network_basics/figs/state_stevens-crop.pdf 
+$HOME/Documents/os/Modern.Operating.Systems-4e.pdf
+$HOME/Documents/os/Operating.System.Concepts.Essentials-2e.pdf
+$HOME/Documents/os/Operating.Systems-Design.and.Implementation-3e.pdf
+$HOME/Documents/os/Operating.Systems-Internals.and.Design-7e.pdf 
 $HOME/Documents/Beginning.Linux.Programming-4e.pdf
 $HOME/Documents/The.Linux.Programming.Interface.pdf
 $HOME/Documents/network/ComputerNetworks-AST-5e.pdf
+$HOME/Documents/network/TCPIP.Illustrated-v1.pdf
 /usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf
 $HOME/texmf/doc/latex/symbols-a4.pdf
 $HOME/texmf/doc/latex/ch8.pdf
