@@ -4,3 +4,6 @@ dot.config/pulse/
 dot.config/qutebrowser/qsettings/QtProject.conf
 draft/
 dot.config/libreoffice/
+dot.config/fcitx/pinyin/
+dot.config/com.github.xournalpp.xournalpp/autosave/
+dot.config/com.github.xournalpp.xournalpp/metadata/
