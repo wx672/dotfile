@@ -37,7 +37,7 @@ export NO_AT_BRIDGE=1
 #[ -x /usr/bin/hsetroot ] && /usr/bin/hsetroot -solid '#000000'
 /usr/bin/x-terminal-emulator -e tmux &
 [ -x /usr/local/bin/wal ] && wal -R
-[ -x /usr/bin/keynav ] && keynav
+[ -x /usr/bin/keynav ] && keynav &
 
 # keep screen on
 xset s off -dpms

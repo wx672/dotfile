@@ -58,22 +58,18 @@
 		   "Super-." 'next-workspace
 		   "Super-0" 'delete-empty-workspaces
 		   "Super-x" '(xterm "")
-		   "Super-t" '(jump-or-exec "Tmux" "xterm -e tmux" t)
+		   "Super-t" '(jump-or-exec "St" "x-terminal-emulator -e tmux" nil #:match-class t)
 		   "Super-o" '(jump-or-exec "LibreOffice" "libreoffice" t)
-		   "Super-e" '(jump-or-exec "Emacs" "/usr/bin/emacsclient -c -n" t)
-		   "Super-c" '(jump-or-exec "Browser" "x-www-browser" t)
-		   "Super-q" '(jump-or-exec "Qutebrowser" "qutebrowser" t)
-		   "Super-w" '(jump-or-exec "Wechat" "qutebrowser --target window ':set content.proxy none' https://web.wechat.com/" t)
-		   "Super-d" '(jump-or-exec "Dingtalk" "qutebrowser --target window ':set content.proxy none' https://im.dingtalk.com" t)
-		   "Super-y" '(jump-or-exec "Youtube" "qutebrowser --target window https://youtube.com" t)
-		   "Super-z" '(jump-or-exec "Zathura" "/usr/bin/zathura --fork" t)
-		   "Super-F1" '(jump-or-exec "Help" "qiv -i -C -s -d 120 .keys.png" t)
+		   "Super-e" '(jump-or-exec "Emacs" "/usr/bin/emacsclient -c -n" nil #:match-class t)
+		   "Super-c" '(jump-or-exec "browser" "x-www-browser" t)
+		   "Super-q" '(jump-or-exec "qutebrowser" "qutebrowser" nil #:match-class t)
+		   "Super-w" '(jump-or-exec "wechat" "qutebrowser --target window ':set content.proxy none' https://web.wechat.com/" t)
+		   "Super-d" '(jump-or-exec "DingTalk" "qutebrowser --target window ':set content.proxy none' https://im.dingtalk.com" t)
+		   "Super-y" '(jump-or-exec "youtube" "qutebrowser --target window https://youtube.com" t)
+		   "Super-z" '(jump-or-exec "Zathura" "/usr/bin/zathura --fork" nil #:match-class t)
+		   "Super-F1" '(jump-or-exec "qiv" "qiv -i -C -s -d 120 .keys.png" t)
 		   "Super-F2" '(system "bash -c \"gromit-mpx -a -o .5 --key F2\" &")
-<<<<<<< HEAD
-		   "Super-F12" '(system "xterm -e mosh stud@cs6.swfu.edu.cn &")
-=======
-		   "Super-F12" '(system "xterm -e /usr/local/bin/stud &")
->>>>>>> baa56979ae905bacbcc1cc584f2142658bc25db3
+		   "Super-F12" '(system "x-terminal-emulator -e /usr/local/bin/stud &")
 ;audio controls
 		   "XF86AudioMute" '(system "amixer set Master toggle && amixer set PCM toggle")
 		   "XF86AudioLowerVolume" '(system "amixer set Master 3%- && amixer set PCM 3%-")

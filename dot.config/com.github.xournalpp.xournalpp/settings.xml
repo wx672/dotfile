@@ -4,7 +4,7 @@
   <property name="pressureSensitivity" value="true"/>
   <property name="zoomGesturesEnabled" value="true"/>
   <property name="selectedToolbar" value="Portrait"/>
-  <property name="lastSavePath" value="/home/wx672/lecture_notes/os/figs"/>
+  <property name="lastSavePath" value="file:///home/wx672/Downloads/syk-wood-ware-tracking"/>
   <property name="lastOpenPath" value="/home/wx672/Documents/rsync/swfu/projs/2020/tmp"/>
   <property name="lastImagePath" value=""/>
   <property name="zoomStep" value="10.00000000"/>
@@ -83,7 +83,7 @@
   <property name="newInputSystemEnabled" value="false"/>
   <property name="inputSystemTPCButton" value="false"/>
   <property name="inputSystemDrawOutsideWindow" value="false"/>
-  <property name="font" font="Sans" size="10.00000000"/>
+  <property name="font" font="Sans" size="8.00000000"/>
   <data name="buttonConfig">
     <data name="default">
       <attribute name="color" type="hex" value="ffef2929"/>
@@ -137,7 +137,7 @@
     </data>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="pen"/>
+    <attribute name="current" type="string" value="hilighter"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
@@ -163,7 +163,7 @@
     </data>
     <data name="hilighter">
       <attribute name="color" type="hex" value="ff0000"/>
-      <attribute name="drawingType" type="string" value="rectangle"/>
+      <attribute name="drawingType" type="string" value="line"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
       <attribute name="size" type="string" value="MEDIUM"/>
@@ -172,8 +172,8 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="pen">
-      <attribute name="color" type="hex" value="000000"/>
-      <attribute name="drawingType" type="string" value="line"/>
+      <attribute name="color" type="hex" value="ff0000"/>
+      <attribute name="drawingType" type="string" value="arrow"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
       <attribute name="size" type="string" value="THIN"/>
@@ -195,7 +195,7 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="text">
-      <attribute name="color" type="hex" value="000000"/>
+      <attribute name="color" type="hex" value="ff0000"/>
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="verticalSpace">

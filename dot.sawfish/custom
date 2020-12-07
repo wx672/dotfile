@@ -1,7 +1,8 @@
 ;; Sawfish user customization -- do not edit by hand!
 ;; Use the configurator instead.
-;; sawfish version 1.11.90, written Wed Nov  4 05:21:01 2020
+;; sawfish version 1.11.90, written Fri Nov 27 14:58:32 2020
 
+(custom-set-typed-variable (quote ugly-cycle-relative) (quote window) (quote symbol))
 (custom-set-typed-variable (quote grow-pack-bump-obscured) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote grow-is-maximize) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote pack-warp-pointer) (quote always) (quote (choice always maybe never)))
@@ -26,7 +27,6 @@
 (custom-set-typed-variable (quote ugly-cycle-font) (quote ("Pango" . "Sans 12")) (quote font))
 (custom-set-typed-variable (quote ugly-cycle-percent) (quote (50 . 50)) (quote (pair (labelled "Horizontal:" (number 0 100)) (labelled "Vertical:" (number 0 100)))))
 (custom-set-typed-variable (quote ugly-cycle-show-windows) (quote t) (quote boolean))
-(custom-set-typed-variable (quote ugly-cycle-relative) (quote screen) (quote symbol))
 (custom-set-typed-variable (quote ugly-cycle-show-icons) (quote t) (quote boolean))
 (custom-set-typed-variable (quote xterm-program) (quote "xterm") (quote string))
 (custom-set-typed-variable (quote left-edge-action) (quote none/hot-spot) (quote (choice none/hot-spot viewport-drag flip-workspace flip-viewport show-desktop)))
