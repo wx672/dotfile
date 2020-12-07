@@ -4,3 +4,11 @@ dot.config/pulse/
 dot.config/qutebrowser/qsettings/QtProject.conf
 draft/
 dot.config/libreoffice/
+dot.config/chromium*
+dot.config/fcitx/libpinyin/
+dot.config/fcitx/cached_layout
+dot.config/fcitx/dbus/
+dot.config/fcitx/log/
+dot.config/fcitx/profile_LEBtFL
+dot.config/dconf
+dot.sawfish/window-history
