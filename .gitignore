@@ -4,17 +4,6 @@ dot.config/pulse/
 dot.config/qutebrowser/qsettings/QtProject.conf
 draft/
 dot.config/libreoffice/
-<<<<<<< HEAD
-dot.config/chromium*
-dot.config/fcitx/libpinyin/
-dot.config/fcitx/cached_layout
-dot.config/fcitx/dbus/
-dot.config/fcitx/log/
-dot.config/fcitx/profile_LEBtFL
-dot.config/dconf
-dot.sawfish/window-history
-=======
 dot.config/fcitx/pinyin/
 dot.config/com.github.xournalpp.xournalpp/autosave/
 dot.config/com.github.xournalpp.xournalpp/metadata/
->>>>>>> refs/remotes/origin/master
