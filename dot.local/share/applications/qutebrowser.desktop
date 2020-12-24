@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=qutebrowser
+GenericName=Web Browser
+Exec=/usr/bin/qutebrowser %U
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=qutebrowser
+Categories=Network;WebBrowser;
+StartupWMClass=qutebrowser
+StartupNotify=true
+MimeType=x-scheme-handler/unknown;x-scheme-handler/about;text/html;text/xml;application/xhtml_xml;application/x-mimearchive;x-scheme-handler/http;x-scheme-handler/https;
