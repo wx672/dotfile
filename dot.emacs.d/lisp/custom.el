@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(TeX-electric-math '("\\(" . "\\)"))
  '(ansi-color-names-vector
    ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#FDF6E3"])
  '(blink-cursor-mode nil)
@@ -51,6 +52,7 @@
  '(global-auto-revert-mode t)
  '(global-font-lock-mode t nil (font-lock))
  '(global-hl-line-mode t nil (hl-line))
+ '(global-prettify-symbols-mode t)
  '(graphviz-dot-auto-indent-on-semi nil)
  '(helm-full-frame t)
  '(hi-lock-mode t t (hi-lock))

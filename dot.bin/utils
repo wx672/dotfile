@@ -1,7 +1,7 @@
 #!/bin/bash
 
-MUPDF="/usr/bin/mupdf -r285 -C FDF6E3"
-XPDF="/usr/bin/mupdf -r180 -C FDF6E3"
+MUPDF="$(which mupdf) -r285 -C FDF6E3"
+XPDF="$(which mupdf) -r180 -C FDF6E3"
 QB="/usr/bin/qutebrowser --target window"
 CS6="cs6.swfu.edu.cn"
 
@@ -31,14 +31,13 @@ CS6="cs6.swfu.edu.cn"
 
 v(){
 	($MUPDF $(cat <<EOF | dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20 -p mupdf
-$HOME/lecture_notes/linux-app/slides/lap-b.pdf
 $HOME/lecture_notes/os/slides/os-b.pdf
-$HOME/lecture_notes/network_basics/net-b.pdf
-$HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf
-$HOME/lecture_notes/linux-app/slides/lap-a.pdf
 $HOME/lecture_notes/os/slides/os-a.pdf
+$HOME/lecture_notes/network_basics/net-b.pdf
 $HOME/lecture_notes/network_basics/net-a.pdf
-$HOME/lecture_notes/network_basics/figs/state_stevens-crop.pdf 
+$HOME/lecture_notes/linux-app/slides/lap-b.pdf
+$HOME/lecture_notes/linux-app/slides/lap-a.pdf
+$HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf
 $HOME/Documents/os/Modern.Operating.Systems-4e.pdf
 $HOME/Documents/os/Operating.System.Concepts.Essentials-2e.pdf
 $HOME/Documents/os/Operating.Systems-Design.and.Implementation-3e.pdf
@@ -47,6 +46,8 @@ $HOME/Documents/Beginning.Linux.Programming-4e.pdf
 $HOME/Documents/The.Linux.Programming.Interface.pdf
 $HOME/Documents/network/ComputerNetworks-AST-5e.pdf
 $HOME/Documents/network/TCPIP.Illustrated-v1.pdf
+$HOME/Documents/network/Computer.Networking-A.Top.Down.Approach-6e.pdf
+$HOME/lecture_notes/network_basics/figs/state_stevens-crop.pdf 
 /usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf
 $HOME/texmf/doc/latex/symbols-a4.pdf
 $HOME/texmf/doc/latex/ch8.pdf
@@ -371,13 +372,15 @@ xpdf(){
 	($XPDF "$1" 2>/dev/null &)
 }
 
-# ydl <output file name> <URL> [format]
+# ydl <output file name> [format]
 # To list all available formats: youtube-dl -F <URL>
 ydl() 
 {
-	fmt=${3:-249}
+	fmt=${2:-249}
+	url=$(xclip -selection clipboard -o)
+	
 	echo "$1" | grep -q '\.' && outfile="$1" || outfile="$1".webm
-	while ! youtube-dl -f$fmt -o$outfile $2
+	while ! youtube-dl -f$fmt -o$outfile $url
 	do
 		echo try again...
 	done

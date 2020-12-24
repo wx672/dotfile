@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Lynx
+GenericName=Text Web Browser
+Comment=View html files
+TryExec=lynx
+Exec=lynx %F
+Terminal=true
+Type=Application
+Keywords=Text;browser;
+Categories=Utility;
+StartupNotify=false
+MimeType=text/html;
+X-Desktop-File-Install-Version=0.23
