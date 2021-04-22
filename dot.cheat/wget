@@ -1,3 +1,7 @@
+# https://stackoverflow.com/questions/4602153/how-do-i-use-wget-to-download-all-images-into-a-single-folder-from-a-url
+
+wget -nd -H -p -A jpg,png,jpeg,gif -e robots=off https://zhuanlan.zhihu.com/p/28232983
+
 wget http://path.to.the/file -O newname
 
 wget -P path/to/directory http://path.to.the/file

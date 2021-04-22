@@ -8,6 +8,7 @@ umask 022
 [ -f ~/.bashrc ] && source ~/.bashrc
 
 [ -d ~/bin ] && PATH="~/bin:${PATH}"
+[ -d ~/.cargo/bin ] && PATH="~/.cargo/bin:${PATH}"
 [ -d ~/.bin ] && PATH="~/.bin:${PATH}"
 [ -d ~/.local/bin ] && PATH="~/.local/bin:${PATH}"
 
@@ -19,3 +20,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 
 #source ~/.xsh
+source "$HOME/.cargo/env"
+
+source /home/wx672/.config/broot/launcher/bash/br

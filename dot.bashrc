@@ -43,13 +43,11 @@ tabs -4 &>/dev/null
 
 export GPGKEY=0EE277C8D838C7DA
 
-# https://github.com/dylanaraps/pywal/wiki/Getting-Started
-# Import colorscheme from 'wal' asynchronously
-# &   # Run the process in the background.
-# ( ) # Hide shell job control messages.
-#(cat ~/.cache/wal/sequences &)
+#eval "$(starship init bash)"
+eval "$(zoxide init bash)"
 
-# To add support for TTYs this line can be optionally added.
-#source ~/.cache/wal/colors-tty.sh
+source "$HOME/.cargo/env"
+export SKIM_DEFAULT_COMMAND="rg --files --no-ignore || fd -I || find ."
 
-#source ~/.cache/wal/colors.sh
+
+source /home/wx672/.config/broot/launcher/bash/br

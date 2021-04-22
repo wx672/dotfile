@@ -20,12 +20,12 @@ rm - remove                  |
 --revon
 Tmux operations
 --revoff
-    Create window - Ctrl-a c      |    Up - Ctrl-a j
-     Close window - Ctrl-a x      |  Down - Ctrl-a k
-    Switch window - Ctrl-a Ctrl-a |  Left - Ctrl-a h
- Horizontal split - Ctrl-a -      | Right - Ctrl-a l
-   Vertical split - Ctrl-a |      
+    Create window - Ctrl-a c | Switch window - Ctrl-a a 
 
+ Horizontal split - Ctrl-a - | Right - Ctrl-a l |   Up - Ctrl-a j
+   Vertical split - Ctrl-a | |  Left - Ctrl-a h | Down - Ctrl-a k 
+                             
+                             
 --revon   
 --center press 'q' to quit
 --revoff

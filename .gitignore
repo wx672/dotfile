@@ -16,3 +16,9 @@ dot.config/menus/
 dot.local/share/applications/wine/
 dot.config/BaiduPCS-Go/pcs_command_history.txt
 dot.bin/dingtalk.sh
+dot.config/xmonad/xmonad.errors
+dot.config/xmonad/xmonad.hi
+dot.config/q4wine/
+dot.local/share/applications/wine-extension-xsl.desktop
+dot.config/xournalpp/autosave/
+dot.config/xournalpp/metadata/

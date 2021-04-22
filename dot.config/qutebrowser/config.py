@@ -16,7 +16,7 @@ c.content.javascript.can_open_tabs_automatically = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
 c.content.proxy = "socks://localhost:1080/"
-c.content.user_stylesheets = ["null.css", "solarized-light-all-sites.css", "solarized-light-generic.css", "solarized-light-mediawiki.org.css", "solarized-light-github.css", "solarized-light-google.com.css", "solarized-light-stackexchange.com.css", "solarized-light-reddit.com.css"]
+#c.content.user_stylesheets = ["null.css", "mhide.css"]
 #.content.headers.user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML like Gecko) Firefox/68.0'
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
@@ -52,16 +52,20 @@ c.url.open_base_url = True
 #.url.start_pages = 'https://start.duckduckgo.com'
 c.url.start_pages = 'https://google.com'
 c.zoom.default = "200%"
-c.zoom.levels = ["75%","100%","125%","150%","175%","200%","225%","250%","275%","300%","400%","500%"]
+c.zoom.levels = ["100%","125%","150%","175%","200%","225%","250%","275%","300%","325%","350%","375%","400%","425%","450%","475%","500%","525%","550%","575%","600%"]
 
 # searches
-# example: :open ddg wx672
+# example: :open ddg hello
 c.url.searchengines = {
 'DEFAULT':'http://www.google.com/search?q={}',
 'ddg':'https://duckduckgo.com/?q={}',
-'w':'https://secure.wikimedia.org/wikipedia/en/w/index.php?title=Special%%3ASearch&search={}',
+'w':'https://en.wikipedia.org/?search={}',
 'y':'https://www.youtube.com/results?search_query={}',
-'gh':'https://github.com/search?q={}&type=Code'
+'gh':'https://github.com/search?q={}&type=Code',
+'t':'https://twitter.com/{}',
+'r':'https://reddit.com/r/{}',
+'a':'https://wiki.archlinux.org/?search={}',
+'p':'http://thepiratebay.org/search/{}'
 }
 
 # aliases
@@ -104,8 +108,9 @@ config.bind('<Ctrl-r>', 'reload', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
-config.bind('<Ctrl-a><Ctrl-r>', 'config-cycle content.user_stylesheets solarized-light-all-sites.css solarized-light-generic.css solarized-light-github.css solarized-light-google.com.css solarized-light-mediawiki.org.css solarized-light-stackexchange.com.css solarized-light-reddit.com.css', mode='normal')
+#config.bind('<Ctrl-a><Ctrl-m>', 'config-cycle content.user_stylesheets mhide.css null.css', mode='normal')
 config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080 socks://127.0.0.1:7891', mode='normal')
+#onfig.bind('<Ctrl-a><Ctrl-f>','config-cycle fonts.hints "36pt Noto Sans Mono" "16pt Noto Sans Mono"', mode='normal')
 config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show multiple never')
 config.unbind('b', mode='normal')
 config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
@@ -140,11 +145,15 @@ c.colors.tabs.pinned.selected.odd.fg = "black"
 c.colors.tabs.pinned.selected.odd.bg = "yellow"
 c.colors.hints.bg = "#cccccc"
 c.colors.webpage.bg = "#eeeeee"
+c.colors.webpage.prefers_color_scheme_dark = False
+#c.colors.webpage.darkmode.enabled = False
+c.colors.webpage.darkmode.grayscale.all = True
+
 
 # fonts
-c.fonts.tabs.selected = "14pt Noto Sans Mono"
-c.fonts.tabs.unselected = "14pt Noto Sans Mono"
-c.fonts.statusbar = "16pt Noto Sans Mono"
+c.fonts.tabs.selected = "20pt Noto Sans Mono"
+c.fonts.tabs.unselected = "20pt Noto Sans Mono"
+c.fonts.statusbar = "20pt Noto Sans Mono"
 c.fonts.downloads = c.fonts.statusbar 
 c.fonts.prompts = c.fonts.statusbar
 c.fonts.hints = "20pt Noto Sans Mono"

@@ -5,6 +5,23 @@ XPDF="$(which mupdf) -r180 -C FDF6E3"
 QB="/usr/bin/qutebrowser --target window"
 CS6="cs6.swfu.edu.cn"
 
+skvi(){
+	 x="$(sk --bind "ctrl-p:toggle-preview" --ansi --preview="bat {} --style=header --color=always" --preview-window=up:90%:hidden)"
+
+	 [[ -n "$x" ]] && vim "$x"
+ }
+
+rgvi(){ 
+	x="$(sk --ansi -ic "rg --no-ignore --color=always --line-number {}")"
+
+	[[ -n "$x" ]] && vim "$(echo $x|cut -d: -f1)" "+$(echo $x|cut -d: -f2)"
+}
+
+skpdf(){
+	$MUPDF "$(fd pdf | sk)"
+ }
+
+
 # vv(){
 # 	declare -A BOOKS=(
 # 		[Slides-lap]="$HOME/lecture_notes/linux-app/slides/lap-b.pdf"
@@ -241,7 +258,7 @@ ev(){
 
 # viewing markdown file in lynx
 mdview(){
-	(pandoc "$1" | lynx -stdin)
+	(cmark "$1" | lynx -stdin)
 }
 
 speak(){
@@ -343,12 +360,14 @@ for fgbg in 38 48 ; do # Foreground / Background
 done
 }
 
+WAL="/usr/local/bin/wal"
+
 themelight () {
-	(wal -q -n -l --theme base16-atelier-plateau)
+	[ -x "$WAL" ] && ($WAL -q -n -l --theme base16-atelier-plateau)
 }
 
 themedark () {
-	(wal -q -n --theme tempus_autumn -b'#000000')
+	[ -x "$WAL" ] && ($WAL -q -n --theme tempus_autumn -b'#000000')
 }
 
 # update-calibre () {
@@ -509,3 +528,4 @@ loremipsum () {
 		curl -s http://metaphorpsum.com/"${1}"/"${2}" && printf "\n"
 	fi
 }
+
