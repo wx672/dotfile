@@ -24,7 +24,7 @@
 	# if you don't want the hidden files you can launch `br -H`)
 	# A popular flag is the `g` one which displays git related info.
 	#
-	# default_flags:
+	default_flags: hg
 
 	###############################################################
 	# Date/Time format
@@ -45,7 +45,7 @@
 	###############################################################
 	# Whether to mark the selected line with a triangle
 	#
-	# show_selection_mark: true
+	show_selection_mark: true
 
 	###############################################################
 	# Column order
@@ -81,6 +81,13 @@
 	# troubleshooting)
 	#
 	# icon_theme: vscode
+	
+	###############################################################
+	# syntax_theme: 
+	# base16-ocean.dark,base16-eighties.dark,base16-mocha.dark,base16-ocean.light,
+	# InspiredGitHub, 
+	# Solarized (dark) and Solarized (light)
+	syntax_theme: Solarized (light)
 
 	###############################################################
 	# Special paths
@@ -196,30 +203,30 @@
 		# }
 
 		# A popular set of shortcuts for going up and down:
-		#
-		# {
-		# 	key: ctrl-k
-		# 	execution: ":line_up"
-		# }
-		# {
-		# 	key: ctrl-j
-		# 	execution: ":line_down"
-		# }
-		# {
-		# 	key: ctrl-u
-		# 	execution: ":page_up"
-		# }
-		# {
-		# 	key: ctrl-d
-		# 	execution: ":page_down"
-		# }
+		
+		  {
+		  	key: ctrl-k
+		  	execution: ":line_up"
+		  }
+		  {
+		  	key: ctrl-j
+		  	execution: ":line_down"
+		  }
+		  {
+		  	key: ctrl-u
+		  	execution: ":page_up"
+		  }
+		  {
+		  	key: ctrl-d
+		  	execution: ":page_down"
+		  }
 
 		# If you develop using git, you might like to often switch
 		# to the git status filter:
-		# {
-		# 	key: ctrl-g
-		# 	execution: ":toggle_git_status"
-		# }
+		  {
+		  	key: ctrl-g
+		  	execution: ":toggle_git_status"
+		  }
 
 		# You can reproduce the bindings of Norton Commander
 		# on copying or moving to the other panel:

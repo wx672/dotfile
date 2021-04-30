@@ -6,7 +6,7 @@
   <property name="pressureMultiplier" value="1.00000000"/>
   <property name="zoomGesturesEnabled" value="true"/>
   <property name="selectedToolbar" value="Portrait"/>
-  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2021/20191159029任春燕"/>
+  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2021/20191159091普婷华"/>
   <property name="lastOpenPath" value="/home/wx672/Documents/rsync/swfu/projs/2020/tmp"/>
   <property name="lastImagePath" value=""/>
   <property name="zoomStep" value="10.00000000"/>
@@ -100,7 +100,7 @@
   <property name="latexSettings.autoCheckDependencies" value="true"/>
   <property name="latexSettings.globalTemplatePath" value="/usr/share/xournalpp/resources/default_template.tex"/>
   <property name="latexSettings.genCmd" value="pdflatex -interaction=nonstopmode '{}'"/>
-  <property name="font" font="Sans" size="8.00000000"/>
+  <property name="font" font="Sans" size="10.00000000"/>
   <data name="buttonConfig">
     <data name="default">
       <attribute name="color" type="hex" value="ffef2929"/>

@@ -19,8 +19,8 @@ window:
   # Specified in number of columns/lines, not pixels. If both are zero this
   # setting is ignored.
   dimensions:
-    columns: 100
-    lines: 85
+    columns: 0
+    lines: 0
 
   # Window padding (changes require restart)
   #
@@ -49,9 +49,7 @@ window:
   #   - Maximized
   #   - Fullscreen
   #
-  # Values for `startup_mode` (macOS only):
-  #   - SimpleFullscreen
-  startup_mode: Fullscreen
+  startup_mode: Maximized
 
 scrolling:
   # maximum number of lines in the scrollback buffer. Specifying '0' will
@@ -69,26 +67,17 @@ font:
   normal:
     family: "FiraCode Nerd Font"
     style: Retina
-    # family: "Source Code Pro"
-    #family: Iosevka
     #style: Light
 
   # The bold font face
   bold:
     family: "FiraCode Nerd Font"
-    #family: "Source Code Pro"
-    #family: Iosevka
     #style: Medium
 
   # The italic font face
   italic:
     family: "FiraCode Nerd Font"
     style: "Light"
-    #family: "Source Code Pro"
-    #style: "Medium Italic"
-    #family: Iosevka
-    #style: "Light Italic"
-    #style: "Light Oblique"
 
   # Point size of the font
   size: 22.0
@@ -105,22 +94,6 @@ font:
   glyph_offset:
     x: 0
     y: 0
-
-  # Thin stroke font rendering (macOS only)
-  #
-  # Thin strokes are suitable for retina displays, but for non-retina you
-  # probably want this set to false.
-  #
-  # macOS >= 10.14.x:
-  #
-  # If the font quality on non-retina display looks bad then set
-  # `use_thin_strokes` to `true` and enable font smoothing by running the
-  # following command:
-  #   `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
-  #
-  # This is a global setting and will require a log out or restart to take
-  # effect.
-  #use_thin_strokes: true
 
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: false

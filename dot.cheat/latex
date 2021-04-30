@@ -1,0 +1,22 @@
+% https://tex.stackexchange.com/questions/41476/lengths-and-when-to-use-them/41488
+% h spacing
+\; - a thick space
+\: - a medium space
+\, - a thin space
+\! - a negative thin space
+\enskip - half an em
+\quad - one em (M)
+\qquad - two em
+
+% v spacing
+\smallskip, \medskip, \bigskip
+\smallbreak, \medbreak, \bigbreak % could cause page break
+
+% tabular
+\begin{tabular}{*{9}{c}}
+
+% makebox
+\makebox[width][position (c,l,r,s)]{text}
+
+% minipage
+\begin{minipage}[pos][height][contentpos]{width} text \end{minipage}
