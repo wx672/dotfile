@@ -1,0 +1,9 @@
+# https://unix.stackexchange.com/questions/138188/easily-unpack-deb-edit-postinst-and-repack-deb
+1. $ mkdir tmp
+2. $ dpkg-deb -R orig.deb tmp
+3. # edit tmp/DEBIAN/control
+4. $ dpkg-deb -b tmp fixed.deb
+
+# Extract contents of a .deb file
+$ ar vx foo.deb    # -> data.tar.gz
+$ tar xf data.tar.gz

@@ -47,7 +47,7 @@ export GPGKEY=0EE277C8D838C7DA
 eval "$(zoxide init bash)"
 
 source "$HOME/.cargo/env"
-export SKIM_DEFAULT_COMMAND="rg --files --no-ignore || fd -I || find ."
+export SKIM_DEFAULT_COMMAND="fd --type f || rg --files || find ."
 
 
-source /home/wx672/.config/broot/launcher/bash/br
+#source /home/wx672/.config/broot/launcher/bash/br

@@ -116,7 +116,7 @@
   "grid view visible": false,
   "library_usage_stats": {
     "/home/wx672/Calibre Library": 2,
-    "/home/wx672/Calibre/Calibre1": 3,
+    "/home/wx672/Calibre/Calibre1": 20,
     "/home/wx672/Calibre/Calibre2": 1,
     "/home/wx672/Calibre/Calibre3": 1
   },
@@ -126,7 +126,7 @@
   },
   "metasingle_window_geometry3": {
     "__class__": "bytearray",
-    "__value__": "AdnQywADAAAAAAAUAAAADwAAB2QAAAQeAAAAGQAAABQAAAdSAAAEGQAAAAAAAAAAB4AAAAAZAAAAFAAAB1IAAAQZ"
+    "__value__": "AdnQywADAAAAAAAZAAAAFAAAB1IAAAQZAAAAGQAAABQAAAdSAAAEGQAAAAAAAAAAB4AAAAAZAAAAFAAAB1IAAAQZ"
   },
   "quick_start_guide_added": true,
   "quickview visible": false,
@@ -137,6 +137,6 @@
   "tag browser search box visible": false,
   "tag_browser_splitter_horizontal_state": [
     true,
-    200
+    384
   ]
 }

@@ -22,4 +22,4 @@ export XDG_CONFIG_HOME="$HOME/.config"
 #source ~/.xsh
 source "$HOME/.cargo/env"
 
-source /home/wx672/.config/broot/launcher/bash/br
+#source /home/wx672/.config/broot/launcher/bash/br

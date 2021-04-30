@@ -1,0 +1,8 @@
+# To cut the last field
+
+echo hello:linux:world | rev | cut -d: -f1 | rev
+
+fd -e pdf | tail -1 | rg -o '[^/]*$'
+
+# To cut out the third field of text or stdoutput that is delimited by a #:
+cut -d# -f3

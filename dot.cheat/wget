@@ -1,3 +1,7 @@
+# https://stackoverflow.com/questions/273743/using-wget-to-recursively-fetch-a-directory-with-arbitrary-files-in-it
+
+wget -r -np -nH --cut-dirs=3 -R "index.html*" -e robots=off https://cs6.swfu.edu.cn/~wx672/lecture_notes/os/src/
+
 # https://stackoverflow.com/questions/4602153/how-do-i-use-wget-to-download-all-images-into-a-single-folder-from-a-url
 
 wget -nd -H -p -A jpg,png,jpeg,gif -e robots=off https://zhuanlan.zhihu.com/p/28232983

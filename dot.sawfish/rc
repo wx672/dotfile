@@ -57,7 +57,7 @@
 		   "Super-r" 'run-application
 		   "Super-." 'next-workspace
 		   "Super-0" 'delete-empty-workspaces
-		   "Super-x" '(xterm "")
+		   "Super-x" '(x-terminal-emulator "")
 		   "Super-t" '(jump-or-exec "St" "x-terminal-emulator -e tmux" nil #:match-class t)
 		   "Super-o" '(jump-or-exec "LibreOffice" "libreoffice" t)
 		   "Super-e" '(jump-or-exec "Emacs" "/usr/bin/emacsclient -c -n" nil #:match-class t)

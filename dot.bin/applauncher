@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cat <<EOF | sk --bind "enter:execute({} &>/dev/null &)+abort"
+calibre
+qutebrowser
+chromium
+sm 
+EOF

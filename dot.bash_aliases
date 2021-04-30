@@ -1,6 +1,6 @@
 [ -x $HOME/.cargo/bin/exa ] && alias ls='exa -F' || alias ls='/bin/ls -F --color=auto'
-[ -x $HOME/.cargo/bin/bat ] && alias cat='bat'
-
+[ -x $HOME/.cargo/bin/bat ] && alias cat='bat --style=grid'
+alias bat='bat --style=grid'
 alias rm='/bin/rm -i'
 alias cp='/bin/cp -i'
 alias mv='/bin/mv -i'
