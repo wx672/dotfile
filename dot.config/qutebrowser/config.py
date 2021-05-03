@@ -1,4 +1,4 @@
-# ---------------------------------------------------
+#https://search.bilibili.com/all?keyword=%E5%B0%8F%E7%89%9B%E8%B4%A2%E6%83%85&from_source=webtop_search&spm_id_from=333.851 https://search.bilibili.com/all?keyword=%E5%B0%8F%E7%89%9B%E8%B4%A2%E6%83%85&from_source=webtop_search&spm_id_from=333.851-https://search.bilibili.com/all?keyword=%E5%B0%8F%E7%89%9B%E8%B4%A2%E6%83%85&from_source=webtop_search&spm_id_from=333.851--------------------------------------------------
 # file:     $XDG_CONFIG_HOME/qutebrowser/config.py
 # vim:fenc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=python:
 # ---------------------------------------------------
@@ -9,7 +9,7 @@ c.completion.height = "30%"
 c.completion.web_history.max_items = 1000
 c.content.cache.size = 52428800
 c.content.default_encoding = 'utf-8'
-c.content.blocking.enabled = True
+c.content.blocking.enabled = False
 c.content.javascript.can_access_clipboard = True
 c.content.javascript.can_open_tabs_automatically = True
 #.content.javascript.can_close_tabs = True
@@ -58,14 +58,16 @@ c.zoom.levels = ["100%","125%","150%","175%","200%","225%","250%","275%","300%",
 # example: :open ddg hello
 c.url.searchengines = {
 'DEFAULT':'http://www.google.com/search?q={}',
-'ddg':'https://duckduckgo.com/?q={}',
+'d':'https://duckduckgo.com/?q={}',
 'w':'https://en.wikipedia.org/?search={}',
 'y':'https://www.youtube.com/results?search_query={}',
-'gh':'https://github.com/search?q={}&type=Code',
+'gh':'https://github.com/search?q={}',
 't':'https://twitter.com/{}',
 'r':'https://reddit.com/r/{}',
 'a':'https://wiki.archlinux.org/?search={}',
-'p':'http://thepiratebay.org/search/{}'
+'p':'http://thepiratebay.org/search/{}',
+'pb':'https://pirate-bays.net/search?q={}',
+'b':'https://search.bilibili.com/all?keyword={}'
 }
 
 # aliases

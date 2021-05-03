@@ -23,6 +23,7 @@ export HISTFILESIZE=2000
 export HISTSIZE=2000
 export BROWSER='/usr/bin/x-www-browser'
 export EDITOR='vim'
+export PAGER='bat'
 export ALTERNATE_EDITOR="vim"
 export PDFVIEWER='mupdf'
 export LESSCHARSET=utf-8

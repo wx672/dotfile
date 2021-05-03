@@ -31,6 +31,8 @@
 
 (package-initialize)
 
+(setq inferior-lisp-program "/usr/bin/sbcl") ;; for slime
+
 ;;; Enable use-package
 (eval-and-compile (require 'use-package))
 (require 'diminish)
