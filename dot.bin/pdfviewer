@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat <<EOF | sk --bind "enter:execute(mupdf {} &)+abort" --ansi --color=always
+cat <<EOF | sk --bind "enter:execute(mupdf -r285 -C 'FDF6E3' {} &)+abort" --ansi --color=always
 $HOME/lecture_notes/os/slides/os-b.pdf
 $HOME/lecture_notes/os/slides/os-a.pdf
 $HOME/lecture_notes/network_basics/net-b.pdf

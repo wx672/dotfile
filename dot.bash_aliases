@@ -1,6 +1,5 @@
 [ -x $HOME/.cargo/bin/exa ] && alias ls='exa -F' || alias ls='/bin/ls -F --color=auto'
-[ -x $HOME/.cargo/bin/bat ] && alias cat='bat --style=grid'
-alias bat='bat --style=grid'
+[ -x $HOME/.cargo/bin/bat ] && alias cat='bat'
 alias rm='/bin/rm -i'
 alias cp='/bin/cp -i'
 alias mv='/bin/mv -i'
@@ -26,7 +25,6 @@ alias espeak='espeak -s 120 -v mb-us1'
 alias Date='date +%Y%m%d%H%M'
 alias unpaper='unpaper -t pbm --overwrite --no-blackfilter --no-noisefilter --no-blurfilter --no-grayfilter --no-deskew --no-wipe'
 #alias impressive='/usr/bin/impressive --windowed -c memory --clock -M --nologo'
-#alias xcompmgr='xcompmgr -CcfF -I-.02 -O-.04 -D0001 -t-5 -l-5 -r4.2 -o.82'
 alias rdesktop='rdesktop -f -g 1920x1080 -a 32 -z -x b -P'
 # Local Variables:
 # mode: sh
