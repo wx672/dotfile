@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat <<EOF | sk --bind "enter:execute({} &>/dev/null &)+abort"
+cat <<EOF | sk --bind "enter:execute({} &>/dev/null)+abort" --ansi --color=always
 calibre
 qutebrowser
 chromium
