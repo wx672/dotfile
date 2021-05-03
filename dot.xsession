@@ -42,9 +42,5 @@ export NO_AT_BRIDGE=1
 # keep screen on
 xset s off -dpms
 
-<<<<<<< HEAD
 #exec /usr/bin/x-window-manager
 exec dbus-launch leftwm
-=======
-exec /usr/bin/x-window-manager
->>>>>>> master

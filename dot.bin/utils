@@ -7,19 +7,19 @@ CS6="cs6.swfu.edu.cn"
 
 skpdf(){
 	cd ${1:-.}
-	fd -e pdf | sk --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$'
+	fd -e pdf | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$'
 	cd - &>/dev/null
  }
 
 skiv(){
 	cd ${1:-.}
-	fd -e png -e jpg -e gif -e pbm | sk --bind 'enter:execute(sxiv {} &)'
+	fd -e png -e jpg -e gif -e pbm | sk -e --bind 'enter:execute(sxiv {} &)'
 	cd - &>/dev/null
 }
 
 skvi(){
 	cd ${1:-.}
-	x="$(sk --bind "ctrl-p:toggle-preview" --ansi \
+	x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e \
 			--preview="bat {} --color=always" \
 			--preview-window=up:90%:hidden)"
 
@@ -30,7 +30,7 @@ skvi(){
 #--preview='bat --color=always {1} | rg -B3 -A$LINES {cq}'
 rgvi(){
 	cd ${1:-.}
-	x="$(sk --bind "ctrl-p:toggle-preview" --ansi -d: \
+	x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e -d: \
 			--preview='bat --color=always {1}' \
 			--preview-window=up:90%:hidden:+{2}-/3 \
 			-ic 'rg --color=always --line-number "{}"')"
@@ -64,7 +64,7 @@ rgvi(){
 # }
 
 v(){
-	cat <<EOF | sk --bind "enter:execute($MUPDF {} &)+abort" --ansi --color=always
+	cat <<EOF | sk -e --bind "enter:execute($MUPDF {} &)+abort" --ansi --color=always
 $HOME/lecture_notes/os/slides/os-b.pdf
 $HOME/lecture_notes/os/slides/os-a.pdf
 $HOME/lecture_notes/network_basics/net-b.pdf
@@ -93,7 +93,7 @@ EOF
 # $QB ':set content.proxy none' 
 # dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20
 vl(){
-	cat <<EOF | sk --bind "enter:execute($QB ':set content.proxy none' {} &)+abort" &>/dev/null
+	cat <<EOF | sk -e --bind "enter:execute($QB ':set content.proxy none' {} &)+abort" &>/dev/null
 qute://help
 file:///usr/share/doc/abs-guide/html/xrefindex.html
 file:///$HOME/lecture_notes/linux/c/c_dev.html
@@ -124,7 +124,7 @@ EOF
 }
 
 vg(){
-	cat <<EOF | sk --bind "enter:execute($QB {} &)+abort" &>/dev/null
+	cat <<EOF | sk -e --bind "enter:execute($QB {} &)+abort" &>/dev/null
 https://youtube.com
 https://www.google.com/calendar/render
 https://contacts.google.com
