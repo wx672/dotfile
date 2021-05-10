@@ -82,7 +82,7 @@
  '(org-ditaa-jar-path "/usr/bin/ditaa")
  '(org-time-stamp-custom-formats '("<%m/%d/%y>" . "<%m/%d/%y>"))
  '(package-selected-packages
-   '(elfeed-org elfeed zenburn-theme semi w3m wgrep-helm gnuplot gnuplot-mode helm-unicode elpy markdown-mode outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet helm-ag exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu))
+   '(helm-ag rg rust-mode eglot flycheck elisp-slime-nav helm-slime slime elfeed-org elfeed zenburn-theme semi w3m wgrep-helm gnuplot gnuplot-mode helm-unicode elpy markdown-mode outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(read-mail-command 'ignore)
  '(recentf-max-menu-items 25)

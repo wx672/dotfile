@@ -46,7 +46,7 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (defvar clm/log-text t
   "A non-nil setting means text will be saved to the command log.")

@@ -1,5 +1,5 @@
-[ -x $HOME/.cargo/bin/exa ] && alias ls='exa -F' || alias ls='/bin/ls -F --color=auto'
 [ -x $HOME/.cargo/bin/bat ] && alias cat='bat'
+alias ls='/bin/ls -F --color=auto'
 alias rm='/bin/rm -i'
 alias cp='/bin/cp -i'
 alias mv='/bin/mv -i'

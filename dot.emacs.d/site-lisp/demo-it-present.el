@@ -41,7 +41,7 @@
 ;;
 ;;; Code:
 
-(require 'cl)
+(require 'cl-lib)
 
 (declare-function org-tree-slide-content "ext:org-tree-slide")
 (declare-function org-tree-slide-move-next-tree "ext:org-tree-slide")
