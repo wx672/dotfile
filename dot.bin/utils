@@ -5,6 +5,11 @@ XPDF="$(which mupdf) -r180 -C FDF6E3"
 QB="/usr/bin/qutebrowser --target window"
 CS6="cs6.swfu.edu.cn"
 
+fdd(){
+	D=$(fd --type d $1 | sk -e)
+	[[ -n "$D" ]] && cd $D
+}
+
 skpdf(){
 	cd ${1:-.}
 	fd -e pdf | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$'
@@ -183,13 +188,13 @@ ffshot(){ # screenshot
 	ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i $DISPLAY -vframes 1 /tmp/screenshot.jpg &>/dev/null
 }
 
-ffscreen(){ # capture screen lossy
+ffcast(){ # capture screen lossy
 	ffmpeg -f x11grab -s 1920x1080 -r 25 -i :0.0 \
 		   -c:v libx264 -preset superfast \
 		   $(date +%Y%m%d%H%M).mp4
 }
 
-ffscreenlossless(){ # capture screen losslessly (very large file!)
+ffcast_lossless(){ # capture screen losslessly (very large file!)
 	ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 \
 		   -c:v libx264rgb -crf 0 -preset superfast \
 		   $(date +%Y%m%d%H%M).mkv
@@ -199,7 +204,7 @@ mp4(){ # convert $1 to mp4
 	ffmpeg -i $1 -c:v libx265 -preset ultrafast $1.mp4
 }
 
-ffoverlay(){ # capture screen and webcam
+ffcast_overlay(){ # capture screen and webcam
 	# man ffmpeg-filters
 	# use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
 	# 1280x720 960x540 848x480 640x480 640x360

@@ -35,54 +35,43 @@
 (bind-keys window-keymap
 		   "Super-F4" 'delete-window
 		   "Super-F5" 'destroy-window
-		   "Super-RET" 'maximize-window-toggle
+		   "Super-RET" 'maximize-window-fullscreen-toggle
 		   "Super-S-RET" 'iconify-window
 		   "Super-!" '(send-to-workspace 1)
 		   "Super-@" '(send-to-workspace 2)
 		   "Super-Right" 'send-window-to-next-head
 		   "Super-Left" 'send-window-to-previous-head
-		   "Super-m" 'move-window-interactively
-		   "Super-Up" 'resize-window-interactively
 		   )
 
 (bind-keys global-keymap
-		   "Super-S-e" '(system "sawfish-config &")
-		   "Super-S-r" 'restart
-;	   "Super-S-p" '(system "ffmpeg -y -f x11grab -s 1920x1080 -i :0.0 -vframes 1 /tmp/screenshot.png")
-		"Super-S-p" '(system "import -window root /tmp/screenshot-$(date +%Y%m%d%H%M).png")
-		"Print" '(system "import -window root /tmp/screenshot-$(date +%Y%m%d%H%M).png")
+		   "Super-C-BS" '(system "sawfish-config &")
+		   "Super-S-BS" 'restart
+		   "Super-S-p" '(system "import -window root /tmp/screenshot-$(date +%Y%m%d%H%M).png")
+		   "Print" '(system "import -window root /tmp/screenshot-$(date +%Y%m%d%H%M).png")
 		   "Super-TAB" 'cycle-windows
-		   "Super-j" 'move-viewport-next
-		   "Super-k" 'move-viewport-previous
-		   "Super-r" 'run-application
+		   "Super-j" 'next-workspace-window
+		   "Super-k" 'previous-workspace-window
+		   "Super-ESC" 'run-application
 		   "Super-." 'next-workspace
 		   "Super-0" 'delete-empty-workspaces
 		   "Super-x" '(x-terminal-emulator "")
-		   "Super-t" '(jump-or-exec "St" "x-terminal-emulator -e tmux" nil #:match-class t)
-		   "Super-o" '(jump-or-exec "LibreOffice" "libreoffice" t)
+		   "Super-t" '(jump-or-exec "Term" "x-terminal-emulator -e tmux" nil #:match-class t)
 		   "Super-e" '(jump-or-exec "Emacs" "/usr/bin/emacsclient -c -n" nil #:match-class t)
-		   "Super-c" '(jump-or-exec "browser" "x-www-browser" t)
-		   "Super-q" '(jump-or-exec "qutebrowser" "qutebrowser" nil #:match-class t)
-		   "Super-w" '(jump-or-exec "wechat" "qutebrowser --target window ':set content.proxy none' https://web.wechat.com/" t)
-		   "Super-d" '(jump-or-exec "DingTalk" "qutebrowser --target window ':set content.proxy none' https://im.dingtalk.com" t)
-		   "Super-y" '(jump-or-exec "youtube" "qutebrowser --target window https://youtube.com" t)
-		   "Super-z" '(jump-or-exec "Zathura" "/usr/bin/zathura --fork" nil #:match-class t)
-		   "Super-F1" '(jump-or-exec "qiv" "qiv -i -C -s -d 120 .keys.png" t)
+		   "Super-F1" '(system "timeout 1m sxiv -bq ~/.keys.png &")
 		   "Super-F2" '(system "bash -c \"gromit-mpx -a -o .5 --key F2\" &")
 		   "Super-F12" '(system "x-terminal-emulator -e /usr/local/bin/stud &")
-;audio controls
+		   ;; audio controls
 		   "XF86AudioMute" '(system "amixer set Master toggle && amixer set PCM toggle")
 		   "XF86AudioLowerVolume" '(system "amixer set Master 3%- && amixer set PCM 3%-")
 		   "XF86AudioRaiseVolume" '(system "amixer set Master 3%+ && amixer set PCM 3%+")
+		   "XF86MonBrightnessDown" '(system "brightnessctl set 5%-")
+		   "XF86MonBrightnessUp" '(system "brightnessctl set +5%")
 		   "XF86WLAN" '(system "/bin/sleep 1"); disable XF86WLAN
-			"XF86MonBrightnessDown" '(system "brightnessctl set 5%-")
-			"XF86MonBrightnessUp" '(system "brightnessctl set +5%")
 		   )
 
-; 	   "XF86HomePage" '(system "/usr/bin/x-www-browser &")
-; 	   "XF86Mail" '(system "/usr/bin/x-www-browser --app=https://mail.google.com/mail/u/0/#inbox")
-; 	   "XF86Search" '(system "/usr/bin/x-www-browser &")
-; 	   "XF86Tools" '(system "/usr/bin/x-www-browser --app=http://music.163.com/#/my/")
-; 	   "Print" '(system "/usr/bin/import -window root /tmp/screen.png")
-; 	"M-C-l" '(system "sudo /etc/acpi/sleepbtn.sh")
-; 	"XF86Sleep" '(system "sudo /etc/acpi/sleepbtn.sh")
+;; 	   "XF86HomePage" '(system "/usr/bin/x-www-browser &")
+;; 	   "XF86Mail" '(system "/usr/bin/x-www-browser --app=https://mail.google.com/mail/u/0/#inbox")
+;; 	   "XF86Search" '(system "/usr/bin/x-www-browser &")
+;; 	   "XF86Tools" '(system "/usr/bin/x-www-browser --app=http://music.163.com/#/my/")
+;; 	"M-C-l" '(system "sudo /etc/acpi/sleepbtn.sh")
+;; 	"XF86Sleep" '(system "sudo /etc/acpi/sleepbtn.sh")

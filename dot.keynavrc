@@ -31,10 +31,10 @@ h cut-left
 j cut-down
 k cut-up
 l cut-right
-y cut-left,cut-up
-u cut-right,cut-up
-b cut-left,cut-down
-n cut-right,cut-down
+i cut-left,cut-up
+o cut-right,cut-up
+comma cut-left,cut-down
+period cut-right,cut-down
 shift+h move-left
 shift+j move-down
 shift+k move-up
@@ -67,6 +67,8 @@ ctrl+n cut-right,cut-down
 
 # Record keynav actions
 q record
+
+shift+at playback
 
 ### Example using the 'sh' command.
 # Make firefox the active window
