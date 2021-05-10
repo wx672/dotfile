@@ -20,7 +20,7 @@ myTerminal :: String
 myTerminal = "x-terminal-emulator"
 
 myBrowser :: String
-myBrowser = "qutebrowser"
+myBrowser = "x-www-browser"
 
 myEmacs :: String
 myEmacs = "emacsclient -c -a 'emacs' "
@@ -28,9 +28,9 @@ myEmacs = "emacsclient -c -a 'emacs' "
 myKeys :: [(String, X ())]
 myKeys =
     -- Xmonad
-        [ ("M-C-r", spawn "xmonad --recompile")  -- Recompiles xmonad
-        , ("M-S-r", spawn "xmonad --restart")    -- Restarts xmonad
-        , ("M-p", spawn "dmenu_run -fn \"xft:DejaVu Sans Mono:bold:size=20\" -i -p \"Run: \"") -- Dmenu
+        [ ("M-C-<Backspace>", spawn "xmonad --recompile")  -- Recompiles xmonad
+        , ("M-<Backspace>", spawn "xmonad --restart")    -- Restarts xmonad
+        , ("M-<Escape>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
 
     -- Useful programs to have a keybinding for launch
         , ("M-S-<Return>", spawn (myTerminal))
@@ -41,9 +41,8 @@ myKeys =
         , ("M-S-.", nextScreen)  -- Switch focus to next monitor
         , ("M-S-,", prevScreen)  -- Switch focus to prev monitor
 
-    -- Set wallpaper with 'feh'. Type 'SUPER+F1' to launch sxiv in the wallpapers directory.
-    -- Then in sxiv, type 'C-x w' to set the wallpaper that you choose.
-        , ("M-<F1>", spawn "sxiv -bq -S2 ~/.keys.png")
+    -- Help window
+        , ("M-<F1>", spawn "timeout 2m sxiv -bq ~/.keys.png")
 
     -- Multimedia Keys
         , ("<XF86MonBrightnessDown>", spawn "brightnessctl set 5%-")
