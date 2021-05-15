@@ -1,6 +1,6 @@
 ;; Sawfish user customization -- do not edit by hand!
 ;; Use the configurator instead.
-;; sawfish version 1.11.90, written Fri May  7 08:56:08 2021
+;; sawfish version 1.11.90, written Tue May 11 13:15:56 2021
 
 (custom-set-keymap (quote global-keymap) (quote (keymap (delete-empty-workspaces . "Super-0") (next-workspace . "Super-.") (run-application . "Super-ESC") (previous-workspace-window . "Super-k") (next-workspace-window . "Super-j") (restart . "Super-S-BS") (cycle-windows . "Super-TAB"))))
 (custom-set-keymap (quote window-keymap) (quote (keymap (iconify-window . "Super-S-RET") (maximize-window-fullscreen-toggle . "Super-RET") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-down pack-window-left))) . "Super-C-h") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-down pack-window-right))) . "Super-C-l") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-right pack-window-down))) . "Super-C-j") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-right pack-window-up))) . "Super-C-k") (send-window-to-previous-head . "Super-Left") (send-window-to-next-head . "Super-Right") ((send-to-workspace 2) . "Super-@") ((send-to-workspace 1) . "Super-!") (destroy-window . "Super-F5") (delete-window . "Super-F4") (slide-window-down . "Super-J") (slide-window-up . "Super-K") (slide-window-left . "Super-H") (slide-window-right . "Super-L"))))

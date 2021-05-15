@@ -31,6 +31,17 @@
 
 (package-initialize)
 
+(defvar quicklisp-path "~/quicklisp")
+
+;; Load slime-helper, this sets up various autoloads:
+(load (concat quicklisp-path "/slime-helper"))
+;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+
+;; Set up slime with whatever modules you decide to use:
+(slime-setup '(slime-fancy slime-mrepl slime-banner slime-tramp
+	       slime-xref-browser slime-highlight-edits
+	       slime-sprof))
+
 (setq inferior-lisp-program "/usr/bin/sbcl") ;; for slime
 
 ;;; Enable use-package
