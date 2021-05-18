@@ -1,4 +1,6 @@
 [ -x $HOME/.cargo/bin/bat ] && alias cat='bat'
+alias lst='exa -snew'
+alias lss='exa -ssize'
 alias ls='/bin/ls -F --color=auto'
 alias rm='/bin/rm -i'
 alias cp='/bin/cp -i'

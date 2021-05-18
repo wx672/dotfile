@@ -1,0 +1,39 @@
+# My config for https://starship.rs/
+# It's minimalistic, I like single-line prompts, features:
+# - show active python version when non-system python is on PATH
+# - show duration only when last command took more than 5s
+
+format="$cmd_duration$custom$directory $git_branch$git_state $character"
+add_newline = false
+
+[git_state]
+format = "[|$state]($style)"
+[git_branch]
+format = "[$symbol$branch]($style)"
+
+[directory]
+format = "[$path]($style)[$read_only]($read_only_style)"
+style = "yellow"
+truncate_to_repo = false
+truncation_length = 1
+truncation_symbol="…/"
+
+[character]
+success_symbol = "[\\$](bold green)"
+error_symbol = "[\\$](bold red)"
+
+# Show duration for commands that took more than 5s only
+[cmd_duration]
+format = "[took $duration]($style)\n"
+min_time = 5000
+show_milliseconds = false
+style = "dimmed"
+
+# Using a custom format to highlight current non-system python in a compact manner
+# - 🐍: python from virtual env is active
+# - 🦎: python from pyenv is active
+[custom.py]
+command = """ pv=$(python --version | grep -Eo "\\d+\\.\\d+"); if [ -n "$VIRTUAL_ENV" ]; then echo "🐍 $pv"; else echo "🦎 $pv"; fi """
+format = "[$output]($style) "
+style = "blue"
+when = """ test -n "$VIRTUAL_ENV" || echo $PATH | grep /pyenv/ """
