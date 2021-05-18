@@ -15,8 +15,15 @@
 % tabular
 \begin{tabular}{*{9}{c}}
 
+% multicolumn
+\multicolumn{5}{|l|}{text}
+
 % makebox
 \makebox[width][position (c,l,r,s)]{text}
 
+% raisebox
+\raisebox{lift}[height][depth]{text}
+
 % minipage
 \begin{minipage}[pos][height][contentpos]{width} text \end{minipage}
+

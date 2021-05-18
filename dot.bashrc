@@ -22,12 +22,13 @@ export HISTIGNORE="&:[ ]*:exit"
 export HISTFILESIZE=2000
 export HISTSIZE=2000
 export BROWSER='/usr/bin/x-www-browser'
-export EDITOR='vim'
-export PAGER='bat'
-export ALTERNATE_EDITOR="vim"
 export PDFVIEWER='mupdf'
-export LESSCHARSET=utf-8
+export EDITOR='vim'
+export ALTERNATE_EDITOR="vim"
+export PAGER='bat'
+export BAT_PAGER='bat'
 export BAT_STYLE="plain"
+export LESSCHARSET=utf-8
 #export IGNOREEOF=2
 #export TESSDATA_PREFIX='/usr/local/share/tesseract-ocr/4.00'
 tabs -4 &>/dev/null
@@ -43,4 +44,4 @@ source "$HOME/.cargo/env"
 export SKIM_DEFAULT_COMMAND="fd --type f || rg --files || find ."
 
 
-#source /home/wx672/.config/broot/launcher/bash/br
+source /home/wx672/.config/broot/launcher/bash/br

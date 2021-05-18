@@ -17,6 +17,7 @@
 ;; (swank)
 
 ;; Basics
+
 (set-font "12x24")
 
 (set-normal-gravity :bottom)
@@ -28,11 +29,19 @@
 ;; Command
 (defcommand windows-left-right () ()
   "Open windows side by side"
-  (run-commands "only" "vsplit"))
+  (run-commands "only" "hsplit"))
 
 (defcommand windows-up-down () ()
   "Open windows up and down"
-  (run-commands "only" "hsplit"))
+  (run-commands "only" "vsplit"))
+
+(defcommand windows-other-only () ()
+  "maximize other window"
+  (run-commands "other" "only"))
+
+(defcommand fnext-pull-from-windowlist () ()
+  "fnext; pull-from-windowlist"
+  (run-commands "fnext" "pull-from-windowlist"))
 
 (defcommand qutebrowser () ()
   (run-or-raise "qutebrowser" '(:class "qutebrowser")))
@@ -78,13 +87,15 @@
 (define-key *top-map* (kbd "s-R") "loadrc") 
 (define-key *top-map* (kbd "s-j") "next") 
 (define-key *top-map* (kbd "s-k") "prev")
-(define-key *top-map* (kbd "s-TAB") "next") 
+(define-key *top-map* (kbd "s-TAB") "other") 
 (define-key *top-map* (kbd "s-o") "other")
+(define-key *top-map* (kbd "s-RET") "only")
 (define-key *top-map* (kbd "s-1") "only")
-(define-key *top-map* (kbd "s--") "windows-left-right")
-(define-key *top-map* (kbd "s-\\") "windows-up-down")
+(define-key *top-map* (kbd "s-0") "windows-other-only")
+(define-key *top-map* (kbd "s-C--") "windows-up-down")
+(define-key *top-map* (kbd "s-\\") "windows-left-right")
 (define-key *top-map* (kbd "s-e") "emacs")
-(define-key *top-map* (kbd "s-l") "pull-from-windowlist")
+(define-key *top-map* (kbd "s-l") "fnext-pull-from-windowlist")
 (define-key *top-map* (kbd "s-L") "grouplist")
 (define-key *top-map* (kbd "s-i") "info")
 (define-key *top-map* (kbd "s-!") "gmove Default")
@@ -105,23 +116,11 @@
 ;; (define-key *toggle-map* (kbd "a") "toggle-always-show")
 ;; (define-key *toggle-map* (kbd "t") "toggle-always-on-top")
 
-;; (define-key *top-map* (kbd "s-r") "rotate-windows")
 ;; (define-key *top-map* (kbd "s-c") "fclear")
-;; (define-key *top-map* (kbd "s-s") "scr")
 
-;; (define-key *top-map* (kbd "XF86MonBrightnessUp") "raise-brightness")
-;; (define-key *top-map* (kbd "XF86MonBrightnessDown") "lower-brightness")
-
-;; (define-key *top-map* (kbd "XF86AudioLowerVolume") "amixer-Master-5-")
-;; (define-key *top-map* (kbd "XF86AudioRaiseVolume") "amixer-Master-5+")
-;; (define-key *top-map* (kbd "XF86AudioMute") "amixer-Master-toggle")
-
-;; (define-key *root-map* (kbd "b") "windowlist")
 ;; (define-key *root-map* (kbd "q") "refresh-stuff")
 ;; (define-key *root-map* (kbd "TAB") "pull-hidden-other")
 
-;; (define-key *groups-map* (kbd "Right") "gnext")
-;; (define-key *groups-map* (kbd "Left") "gprev")
 ;; (define-key *groups-map* (kbd "M-Right") "gnext-with-window")
 ;; (define-key *groups-map* (kbd "M-Left") "gprev-with-window")
 
