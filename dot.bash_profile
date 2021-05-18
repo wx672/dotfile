@@ -19,3 +19,5 @@ export XDG_CONFIG_HOME="$HOME/.config"
 [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- vt1 -keeptty
 
 source "$HOME/.cargo/env"
+
+source /home/wx672/.config/broot/launcher/bash/br

@@ -10,10 +10,19 @@ fdd(){
 	[[ -n "$D" ]] && cd $D
 }
 
+rgpdf(){
+    PATN=${1:-pdf}
+	fd -e pdf | rg $PATN | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)"
+}
+
+lspdf(){
+    rgpdf $1
+}
+
 skpdf(){
-	cd ${1:-.}
+    cd ${1:-.}
 	fd -e pdf | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$'
-	cd - &>/dev/null
+    cd - &>/dev/null
  }
 
 skiv(){
@@ -185,16 +194,32 @@ sicp(){
 }
 
 ffshot(){ # screenshot
-	ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i $DISPLAY -vframes 1 /tmp/screenshot.jpg &>/dev/null
+	ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i $DISPLAY -vframes 1 /tmp/$(date +%Y%m%d%H%M).jpg &>/dev/null
 }
 
-ffcast(){ # capture screen lossy
+# https://gist.github.com/Canx/16245df14c286370ec7958f7be6f6fc4
+#
+# ffmpeg -f x11grab -s 1920x1080 -framerate 10 -i :0.0 \
+#        -c:v libx264 -tune zerolatency -x264-params keyint=5:min_keyint=2 \
+#        -pix_fmt yuv420p -s 1280x800 -threads 0 -f mpegts udp://239.0.0.1:1234
+
+# https://trac.ffmpeg.org/wiki/StreamingGuide
+ffcast(){ # screencast streaming 
+    ffmpeg -f x11grab -video_size 1920x1080 -r 15 -i :0.0 \
+           -vf scale=1366x768 -c:v libx264 -crf 0 -preset ultrafast -f mpegts udp://224.0.0.1:2000
+}
+
+ffclient(){ # multicast client side 
+    ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
+}
+
+ffrec(){ # screen recording lossy
 	ffmpeg -f x11grab -s 1920x1080 -r 25 -i :0.0 \
 		   -c:v libx264 -preset superfast \
 		   $(date +%Y%m%d%H%M).mp4
 }
 
-ffcast_lossless(){ # capture screen losslessly (very large file!)
+ffrec_lossless(){ # screen recording losslessly (very large file!)
 	ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 \
 		   -c:v libx264rgb -crf 0 -preset superfast \
 		   $(date +%Y%m%d%H%M).mkv
@@ -204,7 +229,7 @@ mp4(){ # convert $1 to mp4
 	ffmpeg -i $1 -c:v libx265 -preset ultrafast $1.mp4
 }
 
-ffcast_overlay(){ # capture screen and webcam
+ffrec_overlay(){ # recording screen and webcam
 	# man ffmpeg-filters
 	# use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
 	# 1280x720 960x540 848x480 640x480 640x360
@@ -218,7 +243,7 @@ ffcast_overlay(){ # capture screen and webcam
 		   $(date +%Y%m%d%H%M).mp4
 }
 
-ffwebcam(){ # capture webcam
+ffcam(){ # capture webcam
 	# use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
 
 	ffmpeg -f v4l2 -s 640x480 -r 30 -i /dev/video0 \
