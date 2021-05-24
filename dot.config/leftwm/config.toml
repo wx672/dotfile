@@ -1,0 +1,140 @@
+modkey = "Mod4"
+mousekey = "Mod4"
+workspaces = []
+tags = ["1", "2"]
+layouts = ["MainAndVertStack", "Monocle"]
+disable_current_tag_swap = false
+
+[[keybind]]
+command = "Execute"
+value = "dmenu_run"
+modifier = ["modkey"]
+key = "Escape"
+
+[[keybind]]
+command = "Execute"
+value = "qiv -iCRsfd 120 $HOME/.keys.png"
+modifier = ["modkey"]
+key = "F1"
+
+[[keybind]]
+command = "Execute"
+value = "st -e $HOME/.bin/pdfviewer"
+modifier = ["modkey"]
+key = "F2"
+
+[[keybind]]
+command = "CloseWindow"
+modifier = ["modkey"]
+key = "F12"
+
+[[keybind]]
+command = "Execute"
+value = "import -window root /tmp/screenshot-\"$(date +%Y%m%d%H%M)\".png"
+modifier = ["modkey", "Shift"]
+key = "p"
+
+[[keybind]]
+command = "Execute"
+value = "/usr/bin/emacsclient -c -n"
+modifier = ["modkey"]
+key = "e"
+
+[[keybind]]
+command = "Execute"
+value = "alacritty"
+modifier = ["modkey", "Shift"]
+key = "Return"
+
+[[keybind]]
+command = "HardReload"
+modifier = ["modkey", "Control"]
+key = "r"
+
+[[keybind]]
+command = "SoftReload"
+modifier = ["modkey", "Shift"]
+key = "r"
+
+[[keybind]]
+command = "SwapTags"
+modifier = ["modkey"]
+key = "period"
+
+[[keybind]]
+command = "MoveWindowUp"
+modifier = ["modkey", "Shift"]
+key = "k"
+
+[[keybind]]
+command = "MoveWindowDown"
+modifier = ["modkey", "Shift"]
+key = "j"
+
+[[keybind]]
+command = "MoveWindowTop"
+modifier = ["modkey"]
+key = "Return"
+
+[[keybind]]
+command = "FocusWindowUp"
+modifier = ["modkey"]
+key = "k"
+
+[[keybind]]
+command = "FocusWindowDown"
+modifier = ["modkey"]
+key = "j"
+
+[[keybind]]
+command = "FocusWindowDown"
+modifier = ["modkey"]
+key = "Tab"
+
+[[keybind]]
+command = "NextLayout"
+modifier = ["modkey"]
+key = "space"
+
+[[keybind]]
+command = "SetLayout"
+value = "Monocle"
+modifier = ["modkey"]
+key = "m"
+
+[[keybind]]
+command = "SetLayout"
+value = "MainAndVertStack"
+modifier = ["modkey"]
+key = "t"
+
+[[keybind]]
+command = "SetLayout"
+value = "MainAndDeck"
+modifier = ["modkey", "Shift"]
+key = "d"
+
+[[keybind]]
+command = "GotoTag"
+value = "1"
+modifier = ["modkey"]
+key = "1"
+
+[[keybind]]
+command = "GotoTag"
+value = "2"
+modifier = ["modkey"]
+key = "2"
+
+[[keybind]]
+command = "MoveToTag"
+value = "1"
+modifier = ["modkey", "Shift"]
+key = "1"
+
+[[keybind]]
+command = "MoveToTag"
+value = "2"
+modifier = ["modkey", "Shift"]
+key = "2"
+

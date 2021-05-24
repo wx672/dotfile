@@ -1,6 +1,10 @@
 # xlsx -> csv
 xlsx2csv overseas.xlsx > overseas.csv
 
+# csv/tsv -> xlsx
+csv2xlsx in.csv
+csv2xlsx in.tsv
+
 # viewing
 column -nts, overseas.csv | less -#2NS
 # or

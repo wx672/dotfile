@@ -29,15 +29,15 @@ export QT_QPA_PLATFORMTHEME=gtk3
 export NO_AT_BRIDGE=1 
 
 # see ~/.config/systemd/user/emacs.service
-#[ -x /usr/bin/emacs ] && /usr/bin/emacs --daemon &
 [ -x /usr/bin/udiskie ] && /usr/bin/udiskie -F &
 #[ -x /usr/bin/redshift ] && /usr/bin/redshift &
 [ -x /usr/lib/notification-daemon/notification-daemon ] && /usr/lib/notification-daemon/notification-daemon &
-#[ -x /usr/bin/compton ] && /usr/bin/compton -b
-#[ -x /usr/bin/hsetroot ] && /usr/bin/hsetroot -solid '#000000'
+# -x /usr/bin/picom ] && /usr/bin/picom -b
+# -x /usr/bin/xsetroot ] && /usr/bin/xsetroot -solid black
 /usr/bin/x-terminal-emulator -e tmux &
-[ -x /usr/local/bin/wal ] && wal -R
+# -x /usr/local/bin/wal ] && wal -R
 [ -x /usr/bin/keynav ] && keynav &
+[ -x /usr/bin/xbanish ] && xbanish &
 
 # keep screen on
 xset s off -dpms

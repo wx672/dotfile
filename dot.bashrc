@@ -9,28 +9,25 @@
 [ -f ~/.bin/bash_completion_tmux.sh ] && . ~/.bin/bash_completion_tmux.sh
 [ -f ~/.bin/git-prompt.sh ] && . ~/.bin/git-prompt.sh
 test -f ~/.bin/utils && . ~/.bin/utils
-test -f ~/.bin/web-apps && . ~/.bin/web-apps
-test -f ~/.bin/docs.sh && . ~/.bin/docs.sh
 
 eval "$(lesspipe)"
 
 ## add git info
 PS1='${debian_chroot:+($debian_chroot)}\[\e[0;36m\]\w$(__git_ps1 "(%s)")\$\[\e[0m\] '
 
-if [ -f ~/.lscolors ]; then 
-	eval "$(tty -s && dircolors ~/.lscolors)"
-else 
-	eval "$(dircolors)"
-fi
+[ -f ~/.lscolors ] && eval "$(tty -s && dircolors ~/.lscolors)" || eval "$(dircolors)"
 
 export PROMPT_DIRTRIM=1
 export HISTIGNORE="&:[ ]*:exit"
 export HISTFILESIZE=2000
 export HISTSIZE=2000
-#export BROWSER='/usr/bin/x-www-browser'
+export BROWSER='/usr/bin/x-www-browser'
+export PDFVIEWER='mupdf'
 export EDITOR='vim'
 export ALTERNATE_EDITOR="vim"
-export PDFVIEWER='mupdf'
+export PAGER='bat'
+export BAT_PAGER='bat'
+export BAT_STYLE="plain"
 export LESSCHARSET=utf-8
 #export IGNOREEOF=2
 #export TESSDATA_PREFIX='/usr/local/share/tesseract-ocr/4.00'
@@ -39,17 +36,12 @@ tabs -4 &>/dev/null
 # Use colors for less, man, etc.
 [[ -f ~/.LESS_TERMCAP ]] && tty -s && . ~/.LESS_TERMCAP
 
-#source ~/.xsh
-
 export GPGKEY=0EE277C8D838C7DA
 
-# https://github.com/dylanaraps/pywal/wiki/Getting-Started
-# Import colorscheme from 'wal' asynchronously
-# &   # Run the process in the background.
-# ( ) # Hide shell job control messages.
-#(cat ~/.cache/wal/sequences &)
+eval "$(zoxide init bash)"
 
-# To add support for TTYs this line can be optionally added.
-#source ~/.cache/wal/colors-tty.sh
+source "$HOME/.cargo/env"
+export SKIM_DEFAULT_COMMAND="fd --type f || rg --files || find ."
 
-#source ~/.cache/wal/colors.sh
+
+source /home/wx672/.config/broot/launcher/bash/br

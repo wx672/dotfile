@@ -5,6 +5,54 @@ XPDF="$(which mupdf) -r180 -C FDF6E3"
 QB="/usr/bin/qutebrowser --target window"
 CS6="cs6.swfu.edu.cn"
 
+fdd(){
+	D=$(fd --type d $1 | sk -e)
+	[[ -n "$D" ]] && cd $D
+}
+
+rgpdf(){
+    PATN=${1:-pdf}
+	fd -e pdf | rg $PATN | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)"
+}
+
+lspdf(){
+    rgpdf $1
+}
+
+skpdf(){
+    cd ${1:-.}
+	fd -e pdf | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$'
+    cd - &>/dev/null
+ }
+
+skiv(){
+	cd ${1:-.}
+	fd -e png -e jpg -e gif -e pbm | sk -e --bind 'enter:execute(sxiv {} &)'
+	cd - &>/dev/null
+}
+
+skvi(){
+	cd ${1:-.}
+	x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e \
+			--preview="bat {} --color=always" \
+			--preview-window=up:90%:hidden)"
+
+	[[ -n "$x" ]] && vim "$x"
+	cd - &>/dev/null
+ }
+
+#--preview='bat --color=always {1} | rg -B3 -A$LINES {cq}'
+rgvi(){
+	cd ${1:-.}
+	x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e -d: \
+			--preview='bat --color=always {1}' \
+			--preview-window=up:90%:hidden:+{2}-/3 \
+			-ic 'rg --color=always --line-number "{}"')"
+
+	[[ -n "$x" ]] && vim "$(echo $x|cut -d: -f1)" "+$(echo $x|cut -d: -f2)"
+	cd - &>/dev/null
+}
+
 # vv(){
 # 	declare -A BOOKS=(
 # 		[Slides-lap]="$HOME/lecture_notes/linux-app/slides/lap-b.pdf"
@@ -26,11 +74,11 @@ CS6="cs6.swfu.edu.cn"
 # 	do
 # 		($MUPDF ${BOOKS[$BOOK]} &>/dev/null &)
 # 		break
-# 	done	
+# 	done
 # }
 
 v(){
-	($MUPDF $(cat <<EOF | dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20 -p mupdf
+	cat <<EOF | sk -e --bind "enter:execute($MUPDF {} &)+abort" --ansi --color=always
 $HOME/lecture_notes/os/slides/os-b.pdf
 $HOME/lecture_notes/os/slides/os-a.pdf
 $HOME/lecture_notes/network_basics/net-b.pdf
@@ -41,24 +89,25 @@ $HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf
 $HOME/Documents/os/Modern.Operating.Systems-4e.pdf
 $HOME/Documents/os/Operating.System.Concepts.Essentials-2e.pdf
 $HOME/Documents/os/Operating.Systems-Design.and.Implementation-3e.pdf
-$HOME/Documents/os/Operating.Systems-Internals.and.Design-7e.pdf 
+$HOME/Documents/os/Operating.Systems-Internals.and.Design-7e.pdf
 $HOME/Documents/Beginning.Linux.Programming-4e.pdf
 $HOME/Documents/The.Linux.Programming.Interface.pdf
 $HOME/Documents/network/ComputerNetworks-AST-5e.pdf
 $HOME/Documents/network/TCPIP.Illustrated-v1.pdf
 $HOME/Documents/network/Computer.Networking-A.Top.Down.Approach-6e.pdf
-$HOME/lecture_notes/network_basics/figs/state_stevens-crop.pdf 
+$HOME/lecture_notes/network_basics/figs/state_stevens-crop.pdf
 /usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf
 $HOME/texmf/doc/latex/symbols-a4.pdf
 $HOME/texmf/doc/latex/ch8.pdf
 $HOME/git/syk-netbook/04-ip.pdf
 $HOME/texmf/doc/latex/swfu/timetable/timetable.pdf
 EOF
-		) &>/dev/null &)
 }
 
+# $QB ':set content.proxy none' 
+# dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20
 vl(){
-	($QB ':set content.proxy none' $(cat <<EOF | dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20
+	cat <<EOF | sk -e --bind "enter:execute($QB ':set content.proxy none' {} &)+abort" &>/dev/null
 qute://help
 file:///usr/share/doc/abs-guide/html/xrefindex.html
 file:///$HOME/lecture_notes/linux/c/c_dev.html
@@ -86,11 +135,10 @@ http://i.eastmoney.com/stock.html
 http://i.finance.sina.com.cn
 http://www.timer-tab.com
 EOF
-		 ) &>/dev/null &)
 }
 
 vg(){
-	($QB $(cat <<EOF | dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20
+	cat <<EOF | sk -e --bind "enter:execute($QB {} &)+abort" &>/dev/null
 https://youtube.com
 https://www.google.com/calendar/render
 https://contacts.google.com
@@ -107,7 +155,6 @@ https://www.reddit.com
 https://web.telegram.org
 https://twitter.com
 EOF
-		 ) &>/dev/null &)
 }
 
 gmaps(){
@@ -147,16 +194,32 @@ sicp(){
 }
 
 ffshot(){ # screenshot
-	ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i $DISPLAY -vframes 1 /tmp/screenshot.jpg &>/dev/null
+	ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i $DISPLAY -vframes 1 /tmp/$(date +%Y%m%d%H%M).jpg &>/dev/null
 }
 
-ffscreen(){ # capture screen lossy
+# https://gist.github.com/Canx/16245df14c286370ec7958f7be6f6fc4
+#
+# ffmpeg -f x11grab -s 1920x1080 -framerate 10 -i :0.0 \
+#        -c:v libx264 -tune zerolatency -x264-params keyint=5:min_keyint=2 \
+#        -pix_fmt yuv420p -s 1280x800 -threads 0 -f mpegts udp://239.0.0.1:1234
+
+# https://trac.ffmpeg.org/wiki/StreamingGuide
+ffcast(){ # screencast streaming 
+    ffmpeg -f x11grab -video_size 1920x1080 -r 15 -i :0.0 \
+           -vf scale=1366x768 -c:v libx264 -crf 0 -preset ultrafast -f mpegts udp://224.0.0.1:2000
+}
+
+ffclient(){ # multicast client side 
+    ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
+}
+
+ffrec(){ # screen recording lossy
 	ffmpeg -f x11grab -s 1920x1080 -r 25 -i :0.0 \
 		   -c:v libx264 -preset superfast \
 		   $(date +%Y%m%d%H%M).mp4
 }
 
-ffscreenlossless(){ # capture screen losslessly (very large file!)
+ffrec_lossless(){ # screen recording losslessly (very large file!)
 	ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 \
 		   -c:v libx264rgb -crf 0 -preset superfast \
 		   $(date +%Y%m%d%H%M).mkv
@@ -166,7 +229,7 @@ mp4(){ # convert $1 to mp4
 	ffmpeg -i $1 -c:v libx265 -preset ultrafast $1.mp4
 }
 
-ffoverlay(){ # capture screen and webcam
+ffrec_overlay(){ # recording screen and webcam
 	# man ffmpeg-filters
 	# use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
 	# 1280x720 960x540 848x480 640x480 640x360
@@ -180,9 +243,9 @@ ffoverlay(){ # capture screen and webcam
 		   $(date +%Y%m%d%H%M).mp4
 }
 
-ffwebcam(){ # capture webcam
+ffcam(){ # capture webcam
 	# use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
-	
+
 	ffmpeg -f v4l2 -s 640x480 -r 30 -i /dev/video0 \
 		   -f alsa -i pulse \
 		   -c:v libx264 -preset superfast -qp 0 -c:a aac -b:a 48k \
@@ -200,17 +263,17 @@ function countdown(){
 	echo "Usage: countdown <seconds>"
 	return 1
     }
-    date1=$((`date +%s` + $1)); 
-    while [ "$date1" -ne `date +%s` ]; do 
+    date1=$((`date +%s` + $1));
+    while [ "$date1" -ne `date +%s` ]; do
 	echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
 	sleep 1
     done && ogg123 /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga
 }
 
 function stopwatch(){
-    date1=`date +%s`; 
-    while true; do 
-	echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"; 
+    date1=`date +%s`;
+    while true; do
+	echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
 	sleep 1
     done
 }
@@ -233,15 +296,15 @@ ee(){
 ev(){
 	emacsclient -n -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t
 	if [ "$?" = "1" ]; then
-    	emacsclient -c -n -a "" --eval "(view-file \"$@\")" 
+    	emacsclient -c -n -a "" --eval "(view-file \"$@\")"
 	else
    		emacsclient -n -a "" --eval "(view-file \"$@\")"
 	fi
 }
 
-# viewing markdown file in lynx
+# viewing markdown file in w3m
 mdview(){
-	(pandoc "$1" | lynx -stdin)
+	(cmark "$1" | w3m -T text/html)
 }
 
 speak(){
@@ -303,14 +366,14 @@ config(){
 # find /usr/share/doc/RFC/ -type f -iname "rfc$1.$2*" | xargs less
 # }
 
-rfcgrep(){
+rgrfc(){
 	[[ -n "$1" ]] || { cat <<EOF
-rfcgrep - grep within /usr/share/doc/RFC/rfc-index.txt.gz
-Usage: rfcgrep <string>	
+rgrfc - grep within /usr/share/doc/RFC/rfc-index.txt.gz
+Usage: rgrfc <string>
 EOF
 return 1
 	}
-	zgrep -iB3 "$1" /usr/share/doc/RFC/rfc-index.txt.gz
+	rg -ziC3 --color=always "$1" /usr/share/doc/RFC/rfc-index.txt.gz
 }
 
 booksearch () {
@@ -329,7 +392,7 @@ showcolor () {
 	(for i in {0..255}; do printf "\x1b[38;5;${i}mcolour${i} "; done)
 }
 
-colorshow () { 
+colorshow () {
 for fgbg in 38 48 ; do # Foreground / Background
     for color in {0..255} ; do # Colors
         # Display the color
@@ -343,12 +406,14 @@ for fgbg in 38 48 ; do # Foreground / Background
 done
 }
 
+WAL="/usr/local/bin/wal"
+
 themelight () {
-	(wal -q -n -l --theme base16-atelier-plateau)
+	[ -x "$WAL" ] && ($WAL -q -n -l --theme base16-atelier-plateau)
 }
 
 themedark () {
-	(wal -q -n --theme tempus_autumn -b'#000000')
+	[ -x "$WAL" ] && ($WAL -q -n --theme tempus_autumn -b'#000000')
 }
 
 # update-calibre () {
@@ -374,11 +439,11 @@ xpdf(){
 
 # ydl <output file name> [format]
 # To list all available formats: youtube-dl -F <URL>
-ydl() 
+ydl()
 {
 	fmt=${2:-249}
 	url=$(xclip -selection clipboard -o)
-	
+
 	echo "$1" | grep -q '\.' && outfile="$1" || outfile="$1".webm
 	while ! youtube-dl -f$fmt -o$outfile $url
 	do
@@ -498,6 +563,14 @@ xon () {
 	xset s off -dpms
 }
 
-lh () { 
+lh () {
 	ls --hide=*$1
+}
+
+loremipsum () {
+	if [ "${1}" = "" ] || [ "${2}" = "" ]; then
+		echo "Usage: loremipsum [paragraphs, sentences] [integer]"
+	else
+		curl -s http://metaphorpsum.com/"${1}"/"${2}" && printf "\n"
+	fi
 }

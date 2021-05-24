@@ -15,6 +15,20 @@
 [core]
 	excludesFile = /home/wx672/.gitignore
 	autocrlf = input
+	pager = delta
+[delta]
+    plus-style = "syntax #012800"
+    minus-style = "syntax #340001"
+    syntax-theme = Monokai Extended
+    navigate = true
+	line-numbers = true
+    side-by-side = true
+    #line-numbers-left-format = ""
+    #line-numbers-right-format = "│ "
+
+
+[interactive]
+    diffFilter = delta --color-only
 [push]
 	default = simple
 [sendemail]
