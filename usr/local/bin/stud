@@ -1,11 +1,13 @@
-#/bin/bash
+#!/bin/bash
 
-if pgrep -f 'stud@cs6'; 
+if pgrep -f 'stud@cs6'
 then 
-	zenity 	--error \
-		--width=600 \
-		--timeout=1 \
-		--text='You should press Super-F12 only once.'
+	# zenity 	--error \
+	# 	--width=600 \
+	# 	--timeout=1 \
+	# 	--text='You should press Super-F12 only once.'
+    (echo "Keep hitting on S-F12 won't make you smarter."; sleep 3) | \
+        dzen2 -fg darkred -bg grey80
 else 
 	/usr/bin/mosh stud@cs6.swfu.edu.cn
 fi

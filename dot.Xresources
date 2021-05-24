@@ -4,6 +4,10 @@
 
 XTerm*loginShell: true
 
+dzen2.font: xft:monospace:pixelsize=64:antialias=false:hinting=true
+dzen2.foreground: #22EE11
+dzen2.background: black
+
 !!!font and locale
 XTerm*faceName: Monospace
 XTerm*boldFont: Monospace

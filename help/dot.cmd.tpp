@@ -28,16 +28,16 @@
 ---
 Assuming...
 ---
-* I have a directory called 'homework' for saving my homeworks. So, I've got...
+* I have a directory called 'homework' for saving my files. So, I've got...
 ---
 --beginoutput
 /tmp
 --revon
  └── homework
 --revoff
-     ├── c-homework
+     ├── c
      │   └── hello.c
-     └── python-homework
+     └── python
          ├── a.py
          ├── b.py
          └── hello.py
@@ -73,23 +73,23 @@ Now I am in /tmp/homework/ directory!
 To see what's in /tmp/homework/ ...
 --beginshelloutput
 $ ls /tmp/homework
-c-homework/  python-homework/
+c/  python/
 --endshelloutput
 ---
 
 Or you can just type 'ls' if you're in /tmp/homework directory
 --beginshelloutput
 $ ls
-c-homework/  python-homework/
+c/  python/
 --endshelloutput
 
 --newpage ls & cd (cont)
 --## heading ls & cd (cont)
-Now, let's get into python-homework directory...
+Now, let's get into python/ directory...
 ---
 --beginshelloutput
-$ cd python-homework
-/tmp/homework/python-homework$
+$ cd python
+/tmp/homework/python$
 --endshelloutput
 
 ---
@@ -114,7 +114,7 @@ total 0
 * Use 'pwd' to see where you are...
 --beginshelloutput
 $ pwd
-/tmp/homework/python-homework
+/tmp/homework/python
 --endshelloutput
 
 ---
@@ -124,23 +124,23 @@ $ cd ..
 /tmp/homework$
 ---
 $ ls
-c-homework/  python-homework/
+c/  python/
 --endshelloutput
 
 --newpage mkdir
 --heading mkdir
 * To make a new directory...
 --beginshelloutput
-$ mkdir java-homework
+$ mkdir java
 $ ls
-c-homework/  java-homework/  python-homework/
+c/  java/  python/
 --endshelloutput
 
 ---
 Let's make some more...
 --beginshelloutput
 $ mkdir Music Photo Movie
-c-homework/  java-homework/  Movie/  Music/  Photo/  python-homework/
+c/  java/  Movie/  Music/  Photo/  python/
 --endshelloutput
 ---
 Easy as pie!
@@ -150,9 +150,9 @@ Easy as pie!
 * rm - remove a file
 ---
 
-For example... 4 files in python-homework directory right now.
+For example... 4 files in python/ directory right now.
 --beginshelloutput
-$ ls python-homework
+$ ls python
 a.py  b.py  hello.py
 --endshelloutput
 ---
@@ -160,9 +160,9 @@ a.py  b.py  hello.py
 Now, let's remove a.py...
 ---
 --beginshelloutput
-$ rm python-homework/a.py
-/bin/rm: remove regular empty file ‘python-homework/a.py’? y
-$ ls python-homework
+$ rm python/a.py
+/bin/rm: remove regular empty file ‘python/a.py’? y
+$ ls python
 b.py  hello.py
 --endshelloutput
 ---
@@ -176,12 +176,12 @@ For example,
 --beginshelloutput
 $ cd /tmp/homework
 $ ls
-c-homework/  java-homework/  Movie/  Music/  Photo/  python-homework/
-$ rm -r c-homework java-homework
-/bin/rm: remove directory ‘c-homework/’? y
-/bin/rm: remove directory ‘java-homework/’? y
+c/  java/  Movie/  Music/  Photo/  python/
+$ rm -r c java
+/bin/rm: remove directory ‘c/’? y
+/bin/rm: remove directory ‘java/’? y
 $ ls
-Movie/  Music/  Photo/  python-homework/
+Movie/  Music/  Photo/  python/
 --endshelloutput
 Got the idea?
 
@@ -190,7 +190,7 @@ Got the idea?
 * mv - move a file (rename a file)
 ---
 
-For example, in my python-homework directory, there are 3 files...
+For example, in my python/ directory, there are 3 files...
 --beginshelloutput
 $ ls
 b.py  hello.py

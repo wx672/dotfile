@@ -2,12 +2,13 @@
 
 usage(){
     cat <<EOF
-USAGE: $(basename $0) [-h] [-n] [-c x,y] [-w width] [-s s,t] [-t y,m,d] [-p x,y] [-S picture|text] <background>
+USAGE: $(basename "$0") [-h] [-n] [-c x,y] [-w width] [-s s,t] [-t y,m,d] [-p x,y] [-S picture|text] <background>
 
 EXAMPLES:
-1. $(basename $0) -c'12,6' -w25mm paper.pdf
-2. $(basename $0) -c'12,6' -s'1.4,.85' -t'2020,5,8' -p'15,6' -S'王晓林' paper.pdf
-3. $(basename $0) -c'12,6' -s'1.4,.85' -S'\purisa 2020\quad 5\qquad 8' paper.pdf
+1. $(basename "$0") -w10cm -c'4,13' -S'../analysis-improve.pdf' -n net-20201152-analysis.pdf
+2. $(basename "$0") -c'5,25.2' -p'10.5,25.2' -s'1,1' -S'开卷机试' -t'2021,1,21' -n net-20201152-analysis-signed.pdf
+3. $(basename "$0") -c'4.2,1' -p'12,1' -s'1.2,1' -t'2021,1,20' -S'\sig 王晓林' -n pg_0001.pdf
+4. $(basename "$0") -S'\purisa 2020\quad 5\qquad 8' paper.pdf
 
 background - paper to sign;
         -h - help
@@ -22,13 +23,13 @@ EOF
 }
 
 cleanup(){
-	rm -f $AUX $LOG $TEXFILE
+	rm -f "$AUX" "$LOG" "$TEXFILE"
 }
 
 #######color code########
 ERR="31m"     # red
 SUCCESS="36m" # green
-WARN="32m"    # yellow
+#WARN="32m"    # yellow
 INFO="34m"    # blue
 
 colorEcho(){
@@ -36,7 +37,7 @@ colorEcho(){
 }
 
 grid(){
-	cat <<EOF >> $TEXFILE
+	cat <<EOF >> "$TEXFILE"
 \documentclass[tikz]{standalone}
 \usetikzlibrary{backgrounds}
 \usepackage[scheme=plain]{ctex}
@@ -54,23 +55,23 @@ grid(){
 EOF
 	if [[ -f "$SIG" ]]
 	then # sign with a picture
-		echo "\node at ($XY) {\includegraphics[width=$WIDTH]{$SIG}};" >> $TEXFILE
+		echo "\node at ($XY) {\includegraphics[width=$WIDTH]{$SIG}};" >> "$TEXFILE"
 	else # sign with text
-		SIGSCALE=$(echo $SCALE | cut -d, -f1);
-		echo "\node at ($XY) [scale=$SIGSCALE] {{\sig $SIG}};" >> $TEXFILE
+		SIGSCALE=$(echo "$SCALE" | cut -d, -f1);
+		echo "\node at ($XY) [scale=$SIGSCALE] {$SIG};" >> "$TEXFILE"
 	fi
 
-	[[ -n $TIMESTAMP ]] && {
-		Y=$(echo $TIMESTAMP | cut -d, -f1);
-		M=$(echo $TIMESTAMP | cut -d, -f2);
-		D=$(echo $TIMESTAMP | cut -d, -f3);
-		YMDSCALE=$(echo $SCALE | cut -d, -f2);
-		cat<<EOF >> $TEXFILE;
+	[[ -n "$TIMESTAMP" ]] && {
+		Y=$(echo "$TIMESTAMP" | cut -d, -f1);
+		M=$(echo "$TIMESTAMP" | cut -d, -f2);
+		D=$(echo "$TIMESTAMP" | cut -d, -f3);
+		YMDSCALE=$(echo "$SCALE" | cut -d, -f2);
+		cat<<EOF >> "$TEXFILE";
 \node at ($YMD)[scale=$YMDSCALE,fill=white] {\makebox[8.5em][s]{$Y 年 $M 月 $D 日}};
 EOF
 	}
 
-	cat <<EOF >> $TEXFILE
+	cat <<EOF >> "$TEXFILE"
     \end{scope}
 	\end{tikzpicture}
 \end{document}
@@ -78,7 +79,7 @@ EOF
 }
 
 nogrid(){
-	cat <<EOF >> $TEXFILE
+	cat <<EOF >> "$TEXFILE"
 \documentclass[tikz]{standalone}
 \usetikzlibrary{backgrounds}
 \usepackage[scheme=plain]{ctex}
@@ -91,23 +92,23 @@ nogrid(){
 EOF
 	if [[ -f "$SIG" ]]
 	then # sign with a picture
-		echo "\node at ($XY) {\includegraphics[width=$WIDTH]{$SIG}};" >> $TEXFILE
+		echo "\node at ($XY) {\includegraphics[width=$WIDTH]{$SIG}};" >> "$TEXFILE"
 	else # sign with text
-		SIGSCALE=$(echo $SCALE | cut -d, -f1);
-		echo "\node at ($XY) [scale=$SIGSCALE] {{\sig $SIG}};" >> $TEXFILE
+		SIGSCALE=$(echo "$SCALE" | cut -d, -f1);
+		echo "\node at ($XY) [scale=$SIGSCALE] {$SIG};" >> "$TEXFILE"
 	fi
 
 	[[ -n $TIMESTAMP ]] && {
-		Y=$(echo $TIMESTAMP | cut -d, -f1);
-		M=$(echo $TIMESTAMP | cut -d, -f2);
-		D=$(echo $TIMESTAMP | cut -d, -f3);
-		YMDSCALE=$(echo $SCALE | cut -d, -f2);
-		cat<<EOF >> $TEXFILE;
+		Y=$(echo "$TIMESTAMP" | cut -d, -f1);
+		M=$(echo "$TIMESTAMP" | cut -d, -f2);
+		D=$(echo "$TIMESTAMP" | cut -d, -f3);
+		YMDSCALE=$(echo "$SCALE" | cut -d, -f2);
+		cat<<EOF >> "$TEXFILE";
 \node at ($YMD)[scale=$YMDSCALE,fill=white] {\makebox[8.5em][s]{$Y 年 $M 月 $D 日}};
 EOF
 	}
 	
-	cat <<EOF >> $TEXFILE
+	cat <<EOF >> "$TEXFILE"
     \end{scope}
 	\end{tikzpicture}
 \end{document}
@@ -145,7 +146,7 @@ done
 shift $(( OPTIND - 1 ))
 OPTIND=1
 
-BG="$@"
+BG="$*"
 [[ -f "$BG" ]] || { colorEcho $ERR "ERROR: <${BG:-BACKGROUND}> NOT FOUND."; usage; exit 1; }
 
 TEXFILE="${BG%.pdf}-signed.tex"
@@ -165,10 +166,10 @@ case "$GRID" in
 esac
 
 colorEcho $INFO "Signing <$BG>..."
-xelatex $TEXFILE > /dev/null
+xelatex "$TEXFILE" > /dev/null
 
 [[ -f "$PDF" ]] || { colorEcho $ERR "Failed generating PDF file. Please check <$LOG> file for details"; exit 5;}
 
-{ colorEcho $SUCCESS 'DONE!'; ls -l $PDF; }
+{ colorEcho $SUCCESS 'DONE!'; ls -l "$PDF"; }
 
 

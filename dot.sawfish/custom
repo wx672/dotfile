@@ -1,15 +1,17 @@
 ;; Sawfish user customization -- do not edit by hand!
 ;; Use the configurator instead.
-;; sawfish version 1.11.90, written Mon Dec 21 07:21:40 2020
+;; sawfish version 1.11.90, written Tue May 11 13:15:56 2021
 
-(custom-set-keymap (quote window-keymap) (quote (keymap ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-down pack-window-left))) . "Super-C-h") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-down pack-window-right))) . "Super-C-l") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-right pack-window-down))) . "Super-C-j") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-right pack-window-up))) . "Super-C-k") (send-window-to-previous-head . "Super-Left") ((command-sequence (quote (maximize-window-fullscreen-toggle move-window-center))) . "Super-RET") (iconify-window . "Super-S-RET") (send-window-to-next-head . "Super-Right") ((send-to-workspace 2) . "Super-@") ((send-to-workspace 1) . "Super-!") (destroy-window . "Super-F5") (delete-window . "Super-F4") (slide-group-down . "Super-J") (slide-window-up . "Super-K") (slide-group-left . "Super-H") (slide-window-right . "Super-L"))))
+(custom-set-keymap (quote global-keymap) (quote (keymap (delete-empty-workspaces . "Super-0") (next-workspace . "Super-.") (run-application . "Super-ESC") (previous-workspace-window . "Super-k") (next-workspace-window . "Super-j") (restart . "Super-S-BS") (cycle-windows . "Super-TAB"))))
+(custom-set-keymap (quote window-keymap) (quote (keymap (iconify-window . "Super-S-RET") (maximize-window-fullscreen-toggle . "Super-RET") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-down pack-window-left))) . "Super-C-h") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-down pack-window-right))) . "Super-C-l") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-right pack-window-down))) . "Super-C-j") ((command-sequence (quote (maximize-window-fullscreen halve-window-size grow-window-right pack-window-up))) . "Super-C-k") (send-window-to-previous-head . "Super-Left") (send-window-to-next-head . "Super-Right") ((send-to-workspace 2) . "Super-@") ((send-to-workspace 1) . "Super-!") (destroy-window . "Super-F5") (delete-window . "Super-F4") (slide-window-down . "Super-J") (slide-window-up . "Super-K") (slide-window-left . "Super-H") (slide-window-right . "Super-L"))))
+(custom-set-typed-variable (quote cycle-include-iconified) (quote t) (quote boolean))
+(custom-set-typed-variable (quote match-window-profile) (quote ()) (quote match-window) (quote sawfish.wm.ext.match-window))
+(custom-set-typed-variable (quote edge-actions-enabled) (quote ()) (quote boolean))
+(custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))
 (custom-set-typed-variable (quote ugly-cycle-relative) (quote window) (quote symbol))
 (custom-set-typed-variable (quote grow-pack-bump-obscured) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote grow-is-maximize) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote pack-warp-pointer) (quote always) (quote (choice always maybe never)))
-(custom-set-keymap (quote global-keymap) (quote (keymap (restart . "Super-R") ((xterm "") . "Super-x") (delete-empty-workspaces . "Super-0") (next-workspace . "Super-.") (run-application . "Super-r") (move-viewport-previous . "Super-k") (move-viewport-next . "Super-j") (cycle-windows . "Super-TAB"))))
-(custom-set-typed-variable (quote match-window-profile) (quote ((((WM_CLASS . "^Google-chrome/.*$")) (maximized . fullscreen)) (((WM_CLASS . "^qutebrowser/qutebrowser$")) (viewport 1 . 1) (maximized . fullscreen) (window-icon . "/usr/share/icons/hicolor/scalable/apps/qutebrowser.svg")) (((WM_CLASS . "^St/st$")) (viewport 1 . 1) (maximized . fullscreen) (window-icon . "/usr/share/pixmaps/xterm-color_48x48.xpm")) (((WM_CLASS . "^Sawfish-Configurator/sawfish-configurator$")) (maximized . fullscreen)) (((WM_CLASS . "^MuPDF/mupdf$")) (viewport 1 . 1) (maximized . fullscreen)) (((WM_CLASS . "^mpv/gl$")) (frame-type . none)) (((WM_NAME . "^qiv:.*$")) (frame-type . none)) (((WM_CLASS . "^PacketTracer6/PacketTracer6$")) (maximized . fullscreen)) (((WM_CLASS . "^Zathura/zathura$")) (maximized . fullscreen)) (((WM_CLASS . "^XTerm/xterm$")) (maximized . fullscreen)))) (quote match-window) (quote sawfish.wm.ext.match-window))
-(custom-set-typed-variable (quote default-frame-style) (quote microGUI) (quote frame-style))
 (custom-set-typed-variable (quote prompt-font) (quote ("Pango" . "Sans 48")) (quote font))
 (custom-set-typed-variable (quote run-application:x-offset) (quote 0) (quote (number 0)))
 (custom-set-typed-variable (quote run-application:x-position) (quote nil) (quote (choice (nil "Center") (left "Left") (right "Right"))))
@@ -78,7 +80,6 @@
 (custom-set-typed-variable (quote raise-windows-on-focus) (quote ()) (quote boolean) (quote sawfish.wm.ext.auto-raise))
 (custom-set-typed-variable (quote customize-show-symbols) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote menus-include-shortcuts) (quote ()) (quote boolean))
-(custom-set-typed-variable (quote edge-actions-enabled) (quote t) (quote boolean))
 (custom-set-typed-variable (quote shadows-main-win) (quote ()) (quote boolean))
 (custom-set-typed-variable (quote shadows-enable) (quote t) (quote boolean))
 (custom-set-typed-variable (quote default-window-animator) (quote none) (quote (choice none solid wireframe cross elliptical draft)))

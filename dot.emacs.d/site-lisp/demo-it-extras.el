@@ -34,7 +34,7 @@
 ;;
 ;;; Code:
 
-(require 'cl)
+(require 'cl-lib)
 
 (declare-function demo-it--get-section "demo-it")
 (declare-function demo-it-load-file "demo-it")

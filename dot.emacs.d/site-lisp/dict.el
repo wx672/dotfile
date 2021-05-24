@@ -49,10 +49,7 @@
 ;;; Code:
 
 
-;; (if (version<= emacs-version "24.3") (require 'cl)
-;;   (require 'cl-lib ))
-
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (defgroup Dict nil
   "Browse DICT dictionaries."

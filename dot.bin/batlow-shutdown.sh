@@ -5,6 +5,6 @@
 # BATLOW="/home/wx672/.bin/batlow-shutdown.sh"
 # */10 * * * * $BATLOW
 
-battery_level=`acpi -b | grep -P -o '[0-9]+(?=%)'`
+battery_level=$(cat /sys/class/power_supply/BAT?/capacity)
 
-(acpi -a | grep -q 'on-line') || ( [[ $battery_level < 10 ]] && sudo poweroff )
+[[ $battery_level < 5 ]] && sudo poweroff
