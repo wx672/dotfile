@@ -33,7 +33,7 @@
 
 (defcommand windows-up-down () ()
   "Open windows up and down"
-  (run-commands "only" "vsplit"))
+  (run-commands "vsplit"))
 
 (defcommand windows-other-only () ()
   "maximize other window"
@@ -47,7 +47,7 @@
   (run-or-raise "qutebrowser" '(:class "qutebrowser")))
 
 (defcommand xterm () ()
-  (run-or-raise "x-terminal-emulator --class xterm" '(:class "xterm")))
+  (run-or-raise "x-terminal-emulator --class Alacritty,Xterm" '(:class "Xterm")))
 
 (defcommand emacs () ()
   (run-or-raise "emacsclient -c -n" '(:class "Emacs")))
@@ -55,6 +55,8 @@
 (defcommand screenshot () ()
   (run-shell-command "import -window root /tmp/screenshot-$(date +%Y%m%d%H%M).png"))
 
+(defcommand cheatsheet () ()
+  (run-shell-command "timeout 1m sxiv -bq ~/.keys-stumpwm.png"))
 ;; audio
 (defcommand audiomute () ()
   (run-shell-command "amixer set Master toggle && amixer set PCM toggle"))
@@ -72,12 +74,12 @@
 (defcommand brightnessdown () ()
   (run-shell-command "brightnessctl set 5%-"))
 
-;;
+(qutebrowser)
+(xterm)
 
 (gnewbg "two")
-;;(gnewbg-float "float")
 
-(set-prefix-key (kbd "s-t"))
+(set-prefix-key (kbd "s-T"))
 
 ;; (setf *root-map* (make-sparse-keymap))
 
@@ -89,12 +91,15 @@
 (define-key *top-map* (kbd "s-k") "prev")
 (define-key *top-map* (kbd "s-TAB") "other") 
 (define-key *top-map* (kbd "s-o") "other")
+(define-key *top-map* (kbd "s-n") "fnext")
 (define-key *top-map* (kbd "s-RET") "only")
 (define-key *top-map* (kbd "s-1") "only")
 (define-key *top-map* (kbd "s-0") "windows-other-only")
 (define-key *top-map* (kbd "s-C--") "windows-up-down")
 (define-key *top-map* (kbd "s-\\") "windows-left-right")
 (define-key *top-map* (kbd "s-e") "emacs")
+(define-key *top-map* (kbd "s-q") "qutebrowser")
+(define-key *top-map* (kbd "s-t") "xterm")
 (define-key *top-map* (kbd "s-l") "fnext-pull-from-windowlist")
 (define-key *top-map* (kbd "s-L") "grouplist")
 (define-key *top-map* (kbd "s-i") "info")
@@ -102,6 +107,7 @@
 (define-key *top-map* (kbd "s-@") "gmove two")
 (define-key *top-map* (kbd "s-.") "gnext")
 (define-key *top-map* (kbd "s-P") "screenshot")
+(define-key *top-map* (kbd "s-F1") "cheatsheet")
 (define-key *top-map* (kbd "XF86AudioMute") "audiomute")
 (define-key *top-map* (kbd "XF86AudioLowerVolume") "audiodown")
 (define-key *top-map* (kbd "XF86AudioRaiseVolume") "audioup")
