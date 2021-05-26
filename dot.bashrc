@@ -2,6 +2,9 @@
 
 # shellcheck source=/dev/null
 
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 [ -f /etc/bash.bashrc ] && source /etc/bash.bashrc
 [ -f $HOME/.bash_aliases ] && . $HOME/.bash_aliases
 #[ -f $HOME/.bin/bashmarks.sh ] && . $HOME/.bin/bashmarks.sh
