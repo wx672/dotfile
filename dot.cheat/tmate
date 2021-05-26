@@ -1,0 +1,6 @@
+- use sha256 fingerprint. the md5 example in README.Debian doesn't work.
+- add "-h hostname" option in /etc/default/tmate-ssh-server
+- at client side:
+  1. edit .tmate.conf
+  2. s-C-F12 with stumpwm
+
