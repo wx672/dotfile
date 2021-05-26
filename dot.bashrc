@@ -2,19 +2,21 @@
 
 # shellcheck source=/dev/null
 
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 [ -f /etc/bash.bashrc ] && source /etc/bash.bashrc
 [ -f $HOME/.bash_aliases ] && . $HOME/.bash_aliases
-[ -f $HOME/.bin/bashmarks.sh ] && . $HOME/.bin/bashmarks.sh
-[ -f $HOME/.bin/bash_completion_tmux.sh ] && . $HOME/.bin/bash_completion_tmux.sh
-[ -f $HOME/.bin/git-prompt.sh ] && . $HOME/.bin/git-prompt.sh
+#[ -f $HOME/.bin/bashmarks.sh ] && . $HOME/.bin/bashmarks.sh
+#[ -f $HOME/.bin/git-prompt.sh ] && . $HOME/.bin/git-prompt.sh
 test -f $HOME/.bin/utils && . $HOME/.bin/utils
 
 eval "$(lesspipe)"
 
 ## add git info
-PS1='${debian_chroot:+($debian_chroot)}\[\e[0;36m\]\w$(__git_ps1 "(%s)")\$\[\e[0m\] '
+#PS1='${debian_chroot:+($debian_chroot)}\[\e[0;36m\]\w$(__git_ps1 "(%s)")\$\[\e[0m\] '
 
-[ -f $HOME/.lscolors ] && eval "$(tty -s && dircolors $HOME/.lscolors)" || eval "$(dircolors)"
+#[ -f $HOME/.lscolors ] && eval "$(tty -s && dircolors $HOME/.lscolors)" || eval "$(dircolors)"
 
 export PROMPT_DIRTRIM=1
 export HISTIGNORE="&:[ ]*:exit"
@@ -41,6 +43,6 @@ export GPGKEY=0EE277C8D838C7DA
 [ -x "$HOME/.cargo/bin/starship" ] && eval "$(starship init bash)"
 
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
-[ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
+#[ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
 
 export SKIM_DEFAULT_COMMAND="fd --type f || rg --files || find ."
