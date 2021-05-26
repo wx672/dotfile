@@ -47,7 +47,7 @@
   (run-or-raise "qutebrowser" '(:class "qutebrowser")))
 
 (defcommand xterm () ()
-  (run-or-raise "x-terminal-emulator" '(:class "Alacritty")))
+  (run-or-raise "x-terminal-emulator --class Alacritty,Xterm" '(:class "Xterm")))
 
 (defcommand emacs () ()
   (run-or-raise "emacsclient -c -n" '(:class "Emacs")))
@@ -79,7 +79,7 @@
 
 (gnewbg "two")
 
-(set-prefix-key (kbd "C-t"))
+(set-prefix-key (kbd "s-T"))
 
 ;; (setf *root-map* (make-sparse-keymap))
 

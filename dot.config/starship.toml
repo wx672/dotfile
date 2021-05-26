@@ -9,12 +9,12 @@ format = "[ $symbol$branch]($style)"
 [directory]
 format = "[$path]($style)"
 truncate_to_repo = false
-truncation_length = 1
+truncation_length = 5
 truncation_symbol="…/"
 
 [character]
-success_symbol = "[\\$](bold green)"
-error_symbol = "[\\$](bold red)"
+success_symbol = "[\n\\$](bold green)"
+error_symbol = "[\n\\$](bold red)"
 
 # Show duration for commands that took more than 5s only
 [cmd_duration]
