@@ -61,6 +61,9 @@
 (defcommand stud () ()
   (run-shell-command "x-terminal-emulator -e /usr/local/bin/stud"))
 
+(defcommand ffclient () ()
+  (run-shell-command "/usr/local/bin/ffclient"))
+
 ;; audio
 (defcommand audiomute () ()
   (run-shell-command "amixer set Master toggle && amixer set PCM toggle"))
@@ -113,6 +116,7 @@
 (define-key *top-map* (kbd "s-P") "screenshot")
 (define-key *top-map* (kbd "s-F1") "cheatsheet")
 (define-key *top-map* (kbd "s-F12") "stud")
+(define-key *top-map* (kbd "s-F11") "ffclient")
 (define-key *top-map* (kbd "XF86AudioMute") "audiomute")
 (define-key *top-map* (kbd "XF86AudioLowerVolume") "audiodown")
 (define-key *top-map* (kbd "XF86AudioRaiseVolume") "audioup")

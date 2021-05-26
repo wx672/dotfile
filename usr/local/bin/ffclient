@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if pgrep -f 'ffplay'; then
+	(echo "ffplay is running already.") | \
+		dzen2 -p 3 -fg darkred -bg grey80
+else
+	(echo "Starting ffplay...") | \
+		dzen2 -p 2 -fg darkred -bg grey80
+	ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
+fi
+
