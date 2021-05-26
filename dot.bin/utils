@@ -205,7 +205,7 @@ ffshot(){ # screenshot
 
 # https://trac.ffmpeg.org/wiki/StreamingGuide
 ffcast(){ # screencast streaming 
-    ffmpeg -f x11grab -video_size 1920x1080 -r 15 -i :0.0 \
+    ffmpeg -f x11grab -video_size 1366x768 -r 15 -i :0.0 \
            -vf scale=1366x768 -c:v libx264 -crf 0 -preset ultrafast -f mpegts udp://224.0.0.1:2000
 }
 
