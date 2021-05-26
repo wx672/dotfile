@@ -49,6 +49,9 @@
 (defcommand xterm () ()
   (run-or-raise "x-terminal-emulator --class Alacritty,Xterm" '(:class "Xterm")))
 
+(defcommand tmate () ()
+  (run-shell-command "x-terminal-emulator -e tmate"))
+
 (defcommand emacs () ()
   (run-or-raise "emacsclient -c -n" '(:class "Emacs")))
 
@@ -56,7 +59,14 @@
   (run-shell-command "import -window root /tmp/screenshot-$(date +%Y%m%d%H%M).png"))
 
 (defcommand cheatsheet () ()
-  (run-shell-command "timeout 1m sxiv -bq ~/.keys-stumpwm.png"))
+  (run-shell-command "timeout 1m sxiv -sf -bq ~/.keys-stumpwm.png"))
+
+(defcommand wemux () ()
+  (run-shell-command "x-terminal-emulator -e /usr/local/bin/stud"))
+
+(defcommand ffclient () ()
+  (run-shell-command "/usr/local/bin/ffclient"))
+
 ;; audio
 (defcommand audiomute () ()
   (run-shell-command "amixer set Master toggle && amixer set PCM toggle"))
@@ -91,7 +101,9 @@
 (define-key *top-map* (kbd "s-k") "prev")
 (define-key *top-map* (kbd "s-TAB") "other") 
 (define-key *top-map* (kbd "s-o") "other")
+(define-key *top-map* (kbd "s-h") "fnext")
 (define-key *top-map* (kbd "s-n") "fnext")
+(define-key *top-map* (kbd "s-p") "fprev")
 (define-key *top-map* (kbd "s-RET") "only")
 (define-key *top-map* (kbd "s-1") "only")
 (define-key *top-map* (kbd "s-0") "windows-other-only")
@@ -100,14 +112,20 @@
 (define-key *top-map* (kbd "s-e") "emacs")
 (define-key *top-map* (kbd "s-q") "qutebrowser")
 (define-key *top-map* (kbd "s-t") "xterm")
-(define-key *top-map* (kbd "s-l") "fnext-pull-from-windowlist")
+(define-key *top-map* (kbd "s-w") "fnext-pull-from-windowlist")
+(define-key *top-map* (kbd "s-l") "pull-from-windowlist")
 (define-key *top-map* (kbd "s-L") "grouplist")
 (define-key *top-map* (kbd "s-i") "info")
+(define-key *top-map* (kbd "s-g") "abort")
+(define-key *top-map* (kbd "s-DEL") "fullscreen")
 (define-key *top-map* (kbd "s-!") "gmove Default")
 (define-key *top-map* (kbd "s-@") "gmove two")
 (define-key *top-map* (kbd "s-.") "gnext")
 (define-key *top-map* (kbd "s-P") "screenshot")
 (define-key *top-map* (kbd "s-F1") "cheatsheet")
+(define-key *top-map* (kbd "s-F12") "wemux")
+(define-key *top-map* (kbd "s-C-F12") "tmate")
+(define-key *top-map* (kbd "s-F11") "ffclient")
 (define-key *top-map* (kbd "XF86AudioMute") "audiomute")
 (define-key *top-map* (kbd "XF86AudioLowerVolume") "audiodown")
 (define-key *top-map* (kbd "XF86AudioRaiseVolume") "audioup")

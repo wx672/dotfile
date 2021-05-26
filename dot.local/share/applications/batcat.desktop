@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=batcat
+GenericName=batcat
+Comment=View plain text files
+TryExec=batcat
+Exec=batcat %F
+Terminal=true
+Type=Application
+Keywords=bat;
+Categories=Utility;
+StartupNotify=false
+MimeType=text/plain;
+X-Desktop-File-Install-Version=0.23
