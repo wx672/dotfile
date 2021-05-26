@@ -56,7 +56,11 @@
   (run-shell-command "import -window root /tmp/screenshot-$(date +%Y%m%d%H%M).png"))
 
 (defcommand cheatsheet () ()
-  (run-shell-command "timeout 1m sxiv -bq ~/.keys-stumpwm.png"))
+  (run-shell-command "timeout 1m sxiv -sf -bq ~/.keys-stumpwm.png"))
+
+(defcommand stud () ()
+  (run-shell-command "x-terminal-emulator -e /usr/local/bin/stud"))
+
 ;; audio
 (defcommand audiomute () ()
   (run-shell-command "amixer set Master toggle && amixer set PCM toggle"))
@@ -108,6 +112,7 @@
 (define-key *top-map* (kbd "s-.") "gnext")
 (define-key *top-map* (kbd "s-P") "screenshot")
 (define-key *top-map* (kbd "s-F1") "cheatsheet")
+(define-key *top-map* (kbd "s-F12") "stud")
 (define-key *top-map* (kbd "XF86AudioMute") "audiomute")
 (define-key *top-map* (kbd "XF86AudioLowerVolume") "audiodown")
 (define-key *top-map* (kbd "XF86AudioRaiseVolume") "audioup")
