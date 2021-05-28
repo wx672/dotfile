@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=mdless
+GenericName=Markdown less
+Comment=View markdown files
+TryExec=mdless
+Exec=mdless %F
+Terminal=true
+Type=Application
+Keywords=markdown;
+Categories=Utility;
+StartupNotify=false
+MimeType=text/markdown;
+X-Desktop-File-Install-Version=0.23

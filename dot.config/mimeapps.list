@@ -1,18 +1,14 @@
 
 [Default Applications]
-image/png=pqiv.desktop
-image/pnm=pqiv.desktop
-image/ppm=pqiv.desktop
-image/pbm=pqiv.desktop
-image/pgm=pqiv.desktop
-image/tif=pqiv.desktop
-image/gif=pqiv.desktop
+image/png=sxiv.desktop
+image/jpeg=sxiv.desktop
+image/pnm=sxiv.desktop
+image/ppm=sxiv.desktop
+image/pbm=sxiv.desktop
+image/pgm=sxiv.desktop
+image/tif=sxiv.desktop
+image/gif=sxiv.desktop
 application/pdf=mupdf.desktop
 text/plain=less.desktop
-text/x-bibtex=emacs-term.desktop
-text/html=qutebrowser.desktop
-x-scheme-handler/http=qutebrowser.desktop
-x-scheme-handler/https=qutebrowser.desktop
-x-scheme-handler/about=qutebrowser.desktop
-x-scheme-handler/unknown=qutebrowser.desktop
-image/jpeg=usr-usercreated-1.desktop;
+text/x-bibtex=nvim.desktop
+text/markdown=mdless.desktop
