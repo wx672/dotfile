@@ -1,0 +1,10 @@
+At server side:
+- server started by systemd.
+- add "-h hostname" option in /etc/default/tmate-ssh-server
+
+At client side:
+- use sha256 fingerprint. the md5 example in README.Debian doesn't work.
+- at client side:
+  1. edit .tmate.conf
+  2. s-C-F12 with stumpwm
+
