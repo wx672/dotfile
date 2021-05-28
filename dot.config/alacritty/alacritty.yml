@@ -588,4 +588,5 @@ color_schemes:
       cyan: '0x8FBCBB'
       white: '0xECEFF4'
       
-colors: *nord
+colors: *ayu_dark
+
