@@ -49,6 +49,9 @@
 (defcommand xterm () ()
   (run-or-raise "x-terminal-emulator --class Alacritty,Xterm" '(:class "Xterm")))
 
+(defcommand tmate () ()
+  (run-shell-command "x-terminal-emulator -e tmate"))
+
 (defcommand emacs () ()
   (run-or-raise "emacsclient -c -n" '(:class "Emacs")))
 
@@ -98,7 +101,8 @@
 (define-key *top-map* (kbd "s-k") "prev")
 (define-key *top-map* (kbd "s-TAB") "other") 
 (define-key *top-map* (kbd "s-o") "other")
-(define-key *top-map* (kbd "s-n") "fnext")
+(define-key *top-map* (kbd "s-h") "fnext")
+(define-key *top-map* (kbd "s-l") "fnext")
 (define-key *top-map* (kbd "s-RET") "only")
 (define-key *top-map* (kbd "s-1") "only")
 (define-key *top-map* (kbd "s-0") "windows-other-only")
@@ -107,7 +111,7 @@
 (define-key *top-map* (kbd "s-e") "emacs")
 (define-key *top-map* (kbd "s-q") "qutebrowser")
 (define-key *top-map* (kbd "s-t") "xterm")
-(define-key *top-map* (kbd "s-l") "fnext-pull-from-windowlist")
+(define-key *top-map* (kbd "s-w") "fnext-pull-from-windowlist")
 (define-key *top-map* (kbd "s-L") "grouplist")
 (define-key *top-map* (kbd "s-i") "info")
 (define-key *top-map* (kbd "s-!") "gmove Default")
@@ -116,6 +120,7 @@
 (define-key *top-map* (kbd "s-P") "screenshot")
 (define-key *top-map* (kbd "s-F1") "cheatsheet")
 (define-key *top-map* (kbd "s-F12") "stud")
+(define-key *top-map* (kbd "s-C-F12") "tmate")
 (define-key *top-map* (kbd "s-F11") "ffclient")
 (define-key *top-map* (kbd "XF86AudioMute") "audiomute")
 (define-key *top-map* (kbd "XF86AudioLowerVolume") "audiodown")
