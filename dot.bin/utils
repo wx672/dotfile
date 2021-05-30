@@ -25,6 +25,14 @@ skpdf(){
     cd - &>/dev/null
  }
 
+skrm(){
+    local file;
+    cd ${1:-.};
+    file="$(/bin/ls -lhS | awk '{print $5,$9}' | sk -em -p'rm ')"
+    [[ -n "$file" ]] && rm -i $(echo "$file" | awk '{print $2}')
+    cd - &>/dev/null
+}
+
 skiv(){
 	cd ${1:-.}
 	fd -e png -e jpg -e gif -e pbm | sk -e --bind 'enter:execute(sxiv {} &)'
@@ -204,7 +212,12 @@ ffshot(){ # screenshot
 #        -pix_fmt yuv420p -s 1280x800 -threads 0 -f mpegts udp://239.0.0.1:1234
 
 # https://trac.ffmpeg.org/wiki/StreamingGuide
-ffcast(){ # screencast streaming 
+ffcast(){ # screencast streaming
+
+    trap 'pkill screenkey' INT EXIT TERM ERR
+
+    (screenkey --no-systray --opacity .3 --font-color red --font "Fira Code SemiBold" &)
+    
     ffmpeg -f x11grab -video_size 1366x768 -r 15 -i :0.0 \
            -vf scale=1366x768 -c:v libx264 -crf 0 -preset ultrafast -f mpegts udp://224.0.0.1:2000
 }
@@ -214,6 +227,11 @@ ffclient(){ # multicast client side
 }
 
 ffrec(){ # screen recording lossy
+
+    trap 'pkill screenkey' INT EXIT TERM ERR
+
+    (screenkey --no-systray --opacity .3 --font-color red --font "Fira Code SemiBold" &)
+    
 	ffmpeg -f x11grab -s 1920x1080 -r 25 -i :0.0 \
 		   -c:v libx264 -preset superfast \
 		   $(date +%Y%m%d%H%M).mp4
