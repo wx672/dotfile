@@ -1,0 +1,16 @@
+{
+"server":"hk-14.fyvvv.com",
+"server_port":2020,
+"local_address":"127.0.0.1",
+"local_port":1080,
+"password":"FYuGaEtyS",
+"timeout":300,
+"udp_timeout":60,
+"method":"chacha20-ietf",
+"protocol":"auth_aes128_md5",
+"protocol_param":"58920:pqy19947271..",
+"obfs":"tls1.2_ticket_auth",
+"obfs_param":"02f6258920.msn.microsoft.com",
+"fast_open":false,
+"workers":1
+}

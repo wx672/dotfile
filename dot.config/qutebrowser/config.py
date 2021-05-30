@@ -1,4 +1,3 @@
-#https://search.bilibili.com/all?keyword=%E5%B0%8F%E7%89%9B%E8%B4%A2%E6%83%85&from_source=webtop_search&spm_id_from=333.851 https://search.bilibili.com/all?keyword=%E5%B0%8F%E7%89%9B%E8%B4%A2%E6%83%85&from_source=webtop_search&spm_id_from=333.851-https://search.bilibili.com/all?keyword=%E5%B0%8F%E7%89%9B%E8%B4%A2%E6%83%85&from_source=webtop_search&spm_id_from=333.851--------------------------------------------------
 # file:     $XDG_CONFIG_HOME/qutebrowser/config.py
 # vim:fenc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=python:
 # ---------------------------------------------------
@@ -69,18 +68,25 @@ c.url.searchengines = {
 'a':'https://wiki.archlinux.org/?search={}',
 'p':'http://thepiratebay.org/search/{}',
 'pb':'https://pirate-bays.net/search?q={}',
-'b':'https://search.bilibili.com/all?keyword={}'
+'b':'https://search.bilibili.com/all?keyword={}',
+'x':'https://www.1377x.to/search/{}/1/',
+'xda':'https://www.xda-developers.com/search/?query={}',
+'jd':'https://www.jd.com/pinpai/Search?keyword={}',
+'ks':'https://video.kuaishou.com/search/video?searchKey={}'
 }
 
 # aliases
 # example: :ding
 c.aliases = {
+'calibre':'open -t https://cs6.swfu.edu.cn/calibre',
+'cs6':'open -t https://cs6.swfu.edu.cn/moodle',
+'cs6moodle':'open -t https://cs6.swfu.edu.cn/moodle',
+'cs6lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
 'ding':'open -t https://im.dingtalk.com',
 'gist':'open -t https://gist.github.com',
 'github':'open -t https://github.com',
 'gmail':'open -t https://mail.google.com',
-'lec':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
-'wechat':'open -t https://wx2.qq.com/',
+'wechat':'open -t https://web.wechat.com/',
 'youtube':'open -t https://youtube.com'
 }
 
@@ -155,13 +161,13 @@ c.colors.webpage.darkmode.grayscale.all = True
 
 
 # fonts
-c.fonts.tabs.selected = "20pt Noto Sans Mono"
-c.fonts.tabs.unselected = "20pt Noto Sans Mono"
 c.fonts.statusbar = "20pt Noto Sans Mono"
+c.fonts.tabs.selected = c.fonts.statusbar
+c.fonts.tabs.unselected = c.fonts.statusbar
 c.fonts.downloads = c.fonts.statusbar 
 c.fonts.prompts = c.fonts.statusbar
-c.fonts.hints = "20pt Noto Sans Mono"
-c.fonts.messages.info = "20pt Noto Sans Mono"
+c.fonts.hints = c.fonts.statusbar
+c.fonts.messages.info = c.fonts.statusbar
 c.fonts.keyhint = c.fonts.hints
 c.fonts.messages.warning = c.fonts.messages.info
 c.fonts.messages.error = c.fonts.messages.info

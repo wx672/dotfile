@@ -48,3 +48,36 @@ dot.emacs.d/.lsp-session-v1
 dot.config/stumpwm/Solene's percent %.md
 dot.config/stumpwm/XSteve's StumpWM page.md
 dot.config/fontforge/
+PacketTracer7
+broot
+desktop-directories
+fonts
+fonts.rsync
+icons
+mime
+nvim
+recently-used.xbel
+shadowsocksr
+tldr
+webkitgtk
+xorg
+zathura
+zoxide
+dot.local/share/ssr
+dot.config/xmonad/
+dot.config/picom.conf-save
+dot.local/Baidupan/
+dot.local/v2ray-clash/
+qutebrowser-back-ovfs
+qutebrowser-backup
+dot.config/calibre/dynamic.pickle.json
+dot.config/calibre/global.py.json
+dot.config/calibre/gui.json
+dot.config/calibre/gui.py.json
+dot.config/calibre/fonts/scanner_cache.json
+dot.config/fcitx/profile_AEyCuv
+dot.local/share/lf
+dot.vim/.netrwhist
+dot.local/share/qutebrowser
+dot.config/calibre/
+dot.config/QtProject.conf

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -euC
+
+cd
+
+tmux split-window -v
+
+tmux select-pane -t 0
+tmux resize-pane -U 30
+
+tmux send-keys "ssr jp-751" C-m
+
+tmux split-window -h
+
+tmux select-pane -t 1
+tmux send-keys "cd .local/v2ray-clash" C-m "./clash -f config.yml" C-m
+
+# Local Variables:
+# Ref: https://www.arp242.net/tmux.html
+# End:

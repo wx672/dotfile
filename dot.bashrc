@@ -9,7 +9,8 @@
 [ -f $HOME/.bash_aliases ] && . $HOME/.bash_aliases
 #[ -f $HOME/.bin/bashmarks.sh ] && . $HOME/.bin/bashmarks.sh
 #[ -f $HOME/.bin/git-prompt.sh ] && . $HOME/.bin/git-prompt.sh
-test -f $HOME/.bin/utils && . $HOME/.bin/utils
+#test -f $HOME/.bin/utils && . $HOME/.bin/utils
+[ -f $HOME/.local/bin/utils ] && . $HOME/.local/bin/utils
 
 eval "$(lesspipe)"
 
