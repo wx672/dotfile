@@ -4,77 +4,32 @@
 # environment variables. Some entries may override variables
 # set by alacritty it self.
 env:
-  # TERM env customization.
-  #
-  # If this property is not set, alacritty will set it to xterm-256color.
-  #
-  # Note that some xterm terminfo databases don't declare support for italics.
-  # You can verify this by checking for the presence of `smso` and `sitm` in
-  # `infocmp xterm-256color`.
   TERM: screen-256color
 
 window:
-  # Window dimensions (changes require restart)
-  #
-  # Specified in number of columns/lines, not pixels. If both are zero this
-  # setting is ignored.
   dimensions:
     columns: 0
     lines: 0
 
-  # Window padding (changes require restart)
-  #
-  # Blank space added around the window in pixels. This padding is not scaled by
-  # DPI and the specified value is always added at both opposing sides.
   padding:
     x: 0
     y: 0
 
-  # Spread additional padding evenly around the terminal content.
-  dynamic_padding: false
+  class:
+    instance: Alacritty
+    general: Xterm
 
-  # Window decorations
-  #
-  # Available values:
-  # - full: borders and title bar
-  # - none: neither borders nor title bar
-  # - transparent: title bar, transparent background and title bar buttons
-  # - buttonless: title bar, transparent background, but no title bar buttons
-  decorations: full
+  gtk_theme_variant: None
 
-  # Startup Mode (changes require restart)
-  #
-  # Values for `startup_mode`:
-  #   - Windowed
-  #   - Maximized
-  #   - Fullscreen
-  #
-  startup_mode: Windowed
-
-scrolling:
-  # maximum number of lines in the scrollback buffer. Specifying '0' will
-  # disable scrolling.
-  history: 0
-
-  # Number of lines the viewport will move for every line scrolled when
-  # scrollback is enabled (history > 0).
-  multiplier: 3
-
-# Font configuration (changes require restart)
 font:
-  # The normal (roman) font face to use.
-  # Style can be specified to pick a specific face.
   normal:
     family: "Fira Code"
     style: Retina
-    #style: Light
 
-  # The bold font face
   bold:
     family: "Fira Code"
     #style: Medium
 
-  # The italic font face
   italic:
     family: "Fira Code"
     style: "Light"
@@ -82,103 +37,9 @@ font:
   # Point size of the font
   size: 18.0
 
-  # Offset is the extra space around each character. offset.y can be thought of
-  # as modifying the linespacing, and offset.x as modifying the letter spacing.
-  offset:
-    x: 0
-    y: 0
-
-  # Glyph offset determines the locations of the glyphs within their cells with
-  # the default being at the bottom. Increase the x offset to move the glyph to
-  # the right, increase the y offset to move the glyph upward.
-  glyph_offset:
-    x: 0
-    y: 0
-
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: false
 
-# Use custom cursor colors. If true, display the cursor in the cursor.foreground
-# and cursor.background colors, otherwise invert the colors of the cursor.
-# custom_cursor_colors: false
-
-# Colors
-colors:
-  # Default colours
-  primary:
-    background: '0x000000'
-    foreground: '0xf2f2f2'
-
-  # Colors that should be used to draw the terminal cursor. If these are unset,
-  # the cursor colour will be the inverse of the cell colour.
-  # cursor:
-  #   text: '0x2e2e2d'
-  #   # text: '0x000000'
-  #   cursor: '0xffffff'
-
-  # Normal colors
-  normal:
-    black:   '0x000000'
-    red:     '0xc62828'
-    green:   '0x558b2f'
-    yellow:  '0xf9a825'
-    blue:    '0x1565c0'
-    magenta: '0x6a1e9a'
-    cyan:    '0x00838f'
-    white:   '0xf2f2f2'
-
-  # Bright colors
-  bright:
-    black:   '0x545454'
-    red:     '0xef5350'
-    green:   '0x8bc34a'
-    yellow:  '0xffeb3b'
-    blue:    '0x64b5f6'
-    magenta: '0xba68c8'
-    cyan:    '0x26c6da'
-    white:   '0xe0e0e0'
-
-  # Dim colors (Optional)
-  dim:
-    black:   '0x333333'
-    red:     '0xf2777a'
-    green:   '0x99cc99'
-    yellow:  '0xffcc66'
-    blue:    '0x6699cc'
-    magenta: '0xcc99cc'
-    cyan:    '0x66cccc'
-    white:   '0xdddddd'
-
-  # Indexed Colors
-  #
-  # The indexed colors include all colors from 16 to 256.
-  # When these are not set, they're filled with sensible defaults.
-  #
-  # Example:
-  #   `- { index: 16, color: '0xff00ff' }`
-  #
-  indexed_colors: []
-
-# Visual Bell
-#
-# Any time the BEL code is received, Alacritty "rings" the visual bell. Once
-# rung, the terminal background will be set to white and transition back to the
-# default background color. You can control the rate of this transition by
-# setting the `duration` property (represented in milliseconds). You can also
-# configure the transition function by setting the `animation` property.
-#
-# Possible values for `animation`
-# `Ease`
-# `EaseOut`
-# `EaseOutSine`
-# `EaseOutQuad`
-# `EaseOutCubic`
-# `EaseOutQuart`
-# `EaseOutQuint`
-# `EaseOutExpo`
-# `EaseOutCirc`
-# `Linear`
-#
 # To completely disable the visual bell, set its duration to 0.
 #
 bell:
@@ -283,7 +144,8 @@ background_opacity: 1.0
 #   - AppKeypad
 #
 key_bindings:
-  - { key: V,        mods: Control,       action: Paste                        }
+  - { key: Insert,   mods: Shift,       action: Paste                        }
+# - { key: V,        mods: Control,       action: Paste                        }
 # - { key: C,        mods: Control,       action: Copy                         }
 # - { key: Q,        mods: Control,       action: Quit                         }
 # - { key: N,        mods: Control,       action: SpawnNewInstance             }
@@ -361,46 +223,12 @@ mouse:
   # If this is `true`, the cursor is temporarily hidden when typing.
   hide_when_typing: true
 
-  # URL launcher
-  # url:
-    # This program is executed when clicking on a text which is recognized as a URL.
-    # The URL is always added to the command as the last parameter.
-    #
-    # When set to `None`, URL launching will be disabled completely.
-    #
-    # Default:
-    #   - (macOS) open
-    #   - (Linux) xdg-open
-    #   - (Windows) explorer
-    # launcher:
-    #   program: xdg-open
-    #   args: []
-
-    # These are the modifiers that need to be held down for opening URLs when clicking
-    # on them. The available modifiers are documented in the key binding section.
-    # modifiers: Control|Shift
-
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
   # When set to `true`, selected text will be copied to the primary clipboard.
-  save_to_clipboard: false
+  save_to_clipboard: true
 
-# Mouse bindings
-#
-# Available fields:
-# - mouse
-# - action
-# - mods (optional)
-#
-# Values for `mouse`:
-# - Middle
-# - Left
-# - Right
-# - Numeric identifier such as `5`
-#
-# All available `mods` and `action` values are documented in the key binding
-# section.
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
 
@@ -432,27 +260,273 @@ shell:
   # --command=tmux
 
 debug:
-  # Should display the render timer
   render_timer: false
-
-  # Keep the log file after quitting Alacritty.
   persistent_logging: false
-
-  # Log level
-  #
-  # Values for `log_level`:
-  #   - OFF
-  #   - ERROR
-  #   - WARN
-  #   - INFO
-  #   - DEBUG
-  #   - TRACE
   log_level: OFF
-
-  # Print all received window events.
   print_events: false
-
-  # Record all characters and escape sequences as test data.
   ref_test: false
 
-# vim: nospell
+###### Color schemes ######
+
+color_schemes:
+  ayu_light: &ayu_light
+    primary:
+      background: '0xfafafa'
+      foreground: '0x5c6773'
+
+    cursor:
+      text:   '0x5c6773'
+      cursor: '0xff6a00'
+
+    normal:
+      black:   '0x000000'
+      red:     '0xff3333'
+      green:   '0x86b300'
+      yellow:  '0xf29718'
+      blue:    '0x41a6d9'
+      magenta: '0xf07178'
+      cyan:    '0x4dbf99'
+      white:   '0xffffff'
+        
+    bright:
+      black:   '0x323232'
+      red:     '0xff6565'
+      green:   '0xb8e532'
+      yellow:  '0xffc94a'
+      blue:    '0x73d8ff'
+      magenta: '0xffa3aa'
+      cyan:    '0x7ff1cb'
+      white:   '0xffffff'
+
+    indexed_colors: []
+
+  ayu_dark: &ayu_dark
+    primary:
+      background: '0x0f1419'
+      foreground: '0xe6e1cf'
+
+    normal:
+      black:   '0x000000'
+      red:     '0xf34a4a'
+      green:   '0xbae67e'
+      yellow:  '0xffee99'
+      blue:    '0x73d0ff'
+      magenta: '0xd4bfff'
+      cyan:    '0x83CEC6'
+      white:   '0xf2f2f2'
+
+    bright:
+      black:   '0x737d87'
+      red:     '0xff3333'
+      green:   '0xc2d94c'
+      yellow:  '0xe7c547'
+      blue:    '0x59c2ff'
+      magenta: '0xb77ee0'
+      cyan:    '0x5ccfe6'
+      white:   '0xffffff'
+
+  pink_moon: &pink_moon
+    primary:
+      background: '0x2a2e38'
+      foreground: '0xF0FDFF'
+      
+    normal:
+      black:   '0x2a2e38'
+      red:     '0xd08785'
+      green:   '0x6f98b3'
+      yellow:  '0xfdf8ce'
+      blue:    '0xa6b8cc'
+      magenta: '0xfcdbd9'
+      cyan:    '0xffd17f'
+      white:   '0xf0fdff'
+
+    bright:
+      black:   '0x71798a'
+      red:     '0xff3334'
+      green:   '0x9ec400'
+      yellow:  '0xe7c547'
+      blue:    '0x7aa6da'
+      magenta: '0xb77ee0'
+      cyan:    '0x54ced6'
+      white:   '0xffffff'
+
+    dim:
+      black:   '0x333333'
+      red:     '0xf2777a'
+      green:   '0x99cc99'
+      yellow:  '0xffcc66'
+      blue:    '0x6699cc'
+      magenta: '0xcc99cc'
+      cyan:    '0x66cccc'
+      white:   '0xdddddd'
+
+    cursor:
+      text: '0x2a2e38'
+      # cursor: '0x71798a'
+      # cursor: '0xF0FDFF'
+      # cursor: '0xe6d3c6'
+      cursor: '0xffd17f'
+      
+    selection:
+      text: '0x2a2e38'
+      cursor: '0xF0FDFF'
+
+    indexed_colors: []
+
+  dracula: &dracula
+    primary:
+      background: '0x282a36'
+      foreground: '0xf8f8f2'
+ 
+    normal:
+      black:   '0x000000'
+      red:     '0xff5555'
+      green:   '0x50fa7b'
+      yellow:  '0xf1fa8c'
+      blue:    '0xbd93f9'
+      magenta: '0xff79c6'
+      cyan:    '0x8be9fd'
+      white:   '0xbbbbbb'
+ 
+    bright:
+      black:   '0x555555'
+      red:     '0xff5555'
+      green:   '0x50fa7b'
+      yellow:  '0xf1fa8c'
+      blue:    '0xcaa9fa'
+      magenta: '0xff79c6'
+      cyan:    '0x8be9fd'
+      white:   '0xffffff'
+
+  gruvbox_dark: &gruvbox_dark
+    primary:
+      background: '0x282828'
+      foreground: '0xebdbb2'
+  
+    normal:
+      black:   '0x282828'
+      red:     '0xcc241d'
+      green:   '0x98971a'
+      yellow:  '0xd79921'
+      blue:    '0x458588'
+      magenta: '0xb16286'
+      cyan:    '0x689d6a'
+      white:   '0xa89984'
+  
+    bright:
+      black:   '0x928374'
+      red:     '0xfb4934'
+      green:   '0xb8bb26'
+      yellow:  '0xfabd2f'
+      blue:    '0x83a598'
+      magenta: '0xd3869b'
+      cyan:    '0x8ec07c'
+      white:   '0xebdbb2'
+
+  tomorrow_night: &tomorrow_night
+    primary:
+      background: '0x1d1f21'
+      foreground: '0xc5c8c6'
+  
+    cursor:
+      text: '0x1d1f21'
+      cursor: '0xffffff'
+  
+    normal:
+      black:   '0x1d1f21'
+      red:     '0xcc6666'
+      green:   '0xb5bd68'
+      yellow:  '0xe6c547'
+      blue:    '0x81a2be'
+      magenta: '0xb294bb'
+      cyan:    '0x70c0ba'
+      white:   '0x373b41'
+  
+    bright:
+      black:   '0x666666'
+      red:     '0xff3334'
+      green:   '0x9ec400'
+      yellow:  '0xf0c674'
+      blue:    '0x81a2be'
+      magenta: '0xb77ee0'
+      cyan:    '0x54ced6'
+      white:   '0x282a2e'
+      
+  material: &material
+    primary:
+      background: '0x1e282d'
+      foreground: '0xc4c7d1'
+  
+    normal:
+      black:   '0x666666'
+      red:     '0xeb606b'
+      green:   '0xc3e88d'
+      yellow:  '0xf7eb95'
+      blue:    '0x80cbc4'
+      magenta: '0xff2f90'
+      cyan:    '0xaeddff'
+      white:   '0xffffff'
+  
+    bright:
+      black:   '0xff262b'
+      red:     '0xeb606b'
+      green:   '0xc3e88d'
+      yellow:  '0xf7eb95'
+      blue:    '0x7dc6bf'
+      magenta: '0x6c71c4'
+      cyan:    '0x35434d'
+      white:   '0xffffff'
+      
+  iterm: &iterm
+    primary:
+      background: '0x101421'
+      foreground: '0xfffbf6'
+  
+    normal:
+      black:   '0x2e2e2e'
+      red:     '0xeb4129'
+      green:   '0xabe047'
+      yellow:  '0xf6c744'
+      blue:    '0x47a0f3'
+      magenta: '0x7b5cb0'
+      cyan:    '0x64dbed'
+      white:   '0xe5e9f0'
+  
+    bright:
+      black:   '0x565656'
+      red:     '0xec5357'
+      green:   '0xc0e17d'
+      yellow:  '0xf9da6a'
+      blue:    '0x49a4f8'
+      magenta: '0xa47de9'
+      cyan:    '0x99faf2'
+      white:   '0xffffff'
+      
+  nord: &nord
+    primary:
+      background: '0x2E3440'
+      foreground: '0xD8DEE9'
+    cursor:
+      text: '0x2E3440'
+      cursor: '0xD8DEE9'
+    normal:
+      black: '0x3B4252'
+      red: '0xBF616A'
+      green: '0xA3BE8C'
+      yellow: '0xEBCB8B'
+      blue: '0x81A1C1'
+      magenta: '0xB48EAD'
+      cyan: '0x88C0D0'
+      white: '0xE5E9F0'
+    bright:
+      black: '0x4C566A'
+      red: '0xBF616A'
+      green: '0xA3BE8C'
+      yellow: '0xEBCB8B'
+      blue: '0x81A1C1'
+      magenta: '0xB48EAD'
+      cyan: '0x8FBCBB'
+      white: '0xECEFF4'
+      
+colors: *ayu_dark
+
