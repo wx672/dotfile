@@ -17,7 +17,3 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # make sure libpam-systemd is installed, otherwise XDG_VTNR will be NULL.
 [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- vt1 -keeptty
-
-source "$HOME/.cargo/env"
-
-source /home/wx672/.config/broot/launcher/bash/br
