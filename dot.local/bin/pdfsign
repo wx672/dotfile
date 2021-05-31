@@ -170,6 +170,6 @@ xelatex "$TEXFILE" > /dev/null
 
 [[ -f "$PDF" ]] || { colorEcho $ERR "Failed generating PDF file. Please check <$LOG> file for details"; exit 5;}
 
-{ colorEcho $SUCCESS 'DONE!'; ls -l "$PDF"; }
+{ colorEcho $SUCCESS 'DONE!'; ls -l "$PDF"; xdg-open "$PDF"; }
 
 
