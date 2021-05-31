@@ -22,7 +22,7 @@
  '(cursor-type 'bar)
  '(custom-enabled-themes '(material))
  '(custom-safe-themes
-   '("7922b14d8971cce37ddb5e487dbc18da5444c47f766178e5a4e72f90437c0711" "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" default))
+   '("37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8" "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063" "3325e2c49c8cc81a8cc94b0d57f1975e6562858db5de840b03338529c64f58d1" "7922b14d8971cce37ddb5e487dbc18da5444c47f766178e5a4e72f90437c0711" "e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" default))
  '(debug-on-error nil)
  '(default-major-mode 'org-mode t)
  '(dired-guess-shell-alist-user nil)
@@ -83,7 +83,7 @@
  '(org-ditaa-jar-path "/usr/bin/ditaa")
  '(org-time-stamp-custom-formats '("<%m/%d/%y>" . "<%m/%d/%y>"))
  '(package-selected-packages
-   '(helm-ag rg rust-mode eglot flycheck elisp-slime-nav helm-slime slime elfeed-org elfeed zenburn-theme semi w3m wgrep-helm gnuplot gnuplot-mode helm-unicode elpy markdown-mode outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu))
+   '(ayu-theme nord-theme yaml-mode helm-ag rg rust-mode eglot flycheck elisp-slime-nav helm-slime slime elfeed-org elfeed zenburn-theme semi w3m wgrep-helm gnuplot gnuplot-mode helm-unicode elpy markdown-mode outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(read-mail-command 'ignore)
  '(recentf-max-menu-items 25)
