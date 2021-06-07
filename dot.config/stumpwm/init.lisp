@@ -26,22 +26,37 @@
  *message-window-gravity* :bottom
  *input-window-gravity* :bottom-left)
 
-;; Command
-(defcommand windows-left-right () ()
-  "Open windows side by side"
-  (run-commands "only" "hsplit"))
+;; Window operations
 
-(defcommand windows-up-down () ()
-  "Open windows up and down"
-  (run-commands "vsplit"))
+;; (defcommand windows-left-right () ()
+;;   "Open windows side by side"
+;;   (run-commands "only" "hsplit"))
+
+;; (defcommand windows-up-down () ()
+;;   "Open windows up and down"
+;;   (vsplit))
+
+(defcommand toggle-hsplit () ()
+            "toggle between hsplit and only"
+            (if (sibling) (only) (hsplit)))
+
+(defcommand toggle-vsplit () ()
+            "toggle between vsplit and only"
+            (if (sibling) (only) (vsplit)))
 
 (defcommand windows-other-only () ()
-  "maximize other window"
-  (run-commands "other" "only"))
+            "maximize other window (<C-x 0> in emacs)"
+            (if (sibling) (run-commands "other" "only") (other-window)))
 
-(defcommand fnext-pull-from-windowlist () ()
+(defcommand fother-pull-from-windowlist () ()
   "fnext; pull-from-windowlist"
-  (run-commands "fnext" "pull-from-windowlist"))
+  (run-commands "fother" "pull-from-windowlist"))
+
+(defcommand group-two () ()
+            "move window to group two"
+            (run-commands "gnewbg two" "gmove two"))
+
+;; Apps
 
 (defcommand qutebrowser () ()
   (run-or-raise "qutebrowser" '(:class "qutebrowser")))
@@ -68,6 +83,7 @@
   (run-shell-command "/usr/local/bin/ffclient"))
 
 ;; audio
+
 (defcommand audiomute () ()
   (run-shell-command "amixer set Master toggle && amixer set PCM toggle"))
 
@@ -84,10 +100,8 @@
 (defcommand brightnessdown () ()
   (run-shell-command "brightnessctl set 5%-"))
 
-(qutebrowser)
+;; (qutebrowser)
 ;; (xterm)
-
-(gnewbg "two")
 
 (set-prefix-key (kbd "s-T"))
 
@@ -103,28 +117,28 @@
 (define-key *top-map* (kbd "s-o") "other")
 (define-key *top-map* (kbd "s-h") "fnext")
 (define-key *top-map* (kbd "s-n") "fnext")
-(define-key *top-map* (kbd "s-p") "fprev")
-(define-key *top-map* (kbd "s-RET") "only")
 (define-key *top-map* (kbd "s-1") "only")
 (define-key *top-map* (kbd "s-0") "windows-other-only")
-(define-key *top-map* (kbd "s-C--") "windows-up-down")
-(define-key *top-map* (kbd "s-\\") "windows-left-right")
-(define-key *top-map* (kbd "s-e") "emacs")
-(define-key *top-map* (kbd "s-q") "qutebrowser")
-(define-key *top-map* (kbd "s-t") "xterm")
-(define-key *top-map* (kbd "s-w") "fnext-pull-from-windowlist")
-(define-key *top-map* (kbd "s-l") "pull-from-windowlist")
-(define-key *top-map* (kbd "s-L") "grouplist")
+(define-key *top-map* (kbd "s-C--") "toggle-vsplit")
+(define-key *top-map* (kbd "s-\\")  "toggle-hsplit")
+(define-key *top-map* (kbd "s-RET") "toggle-hsplit")
+(define-key *top-map* (kbd "s-SPC") "toggle-hsplit")
+(define-key *top-map* (kbd "s-l") "fother-pull-from-windowlist")
+(define-key *top-map* (kbd "s-w") "pull-from-windowlist")
 (define-key *top-map* (kbd "s-i") "info")
 (define-key *top-map* (kbd "s-g") "abort")
 (define-key *top-map* (kbd "s-DEL") "fullscreen")
+(define-key *top-map* (kbd "s-L") "grouplist")
 (define-key *top-map* (kbd "s-!") "gmove Default")
-(define-key *top-map* (kbd "s-@") "gmove two")
+(define-key *top-map* (kbd "s-@") "group-two")
 (define-key *top-map* (kbd "s-.") "gnext")
+(define-key *top-map* (kbd "s-e") "emacs")
+(define-key *top-map* (kbd "s-q") "qutebrowser")
+(define-key *top-map* (kbd "s-t") "xterm")
 (define-key *top-map* (kbd "s-P") "screenshot")
 (define-key *top-map* (kbd "s-F1") "cheatsheet")
-(define-key *top-map* (kbd "s-F12") "wemux")
-(define-key *top-map* (kbd "s-C-F12") "tmate")
+(define-key *top-map* (kbd "s-C-F12") "wemux")
+(define-key *top-map* (kbd "s-F12") "tmate")
 (define-key *top-map* (kbd "s-F11") "ffclient")
 (define-key *top-map* (kbd "XF86AudioMute") "audiomute")
 (define-key *top-map* (kbd "XF86AudioLowerVolume") "audiodown")

@@ -218,12 +218,33 @@ ffcast(){ # screencast streaming
 
     (screenkey --no-systray --opacity .3 --font-color red --font "Fira Code SemiBold" &)
     
+    # ffmpeg -f x11grab -video_size 1366x768 -r 15 -i :0.0 \
+    #        -vf scale=1366x768 -c:v libx264 -crf 0 -preset ultrafast -f mpegts udp://224.0.0.1:2000
+
+    # ffmpeg -f x11grab -video_size 1366x768 -r 20 -i :0.0 -max_delay 50 -g 5  -crf 0 -preset ultrafast -tune zerolatency -sc_threshold 5000 -b 100M -f mpegts udp://224.0.0.1:2000
+
     ffmpeg -f x11grab -video_size 1366x768 -r 15 -i :0.0 \
-           -vf scale=1366x768 -c:v libx264 -crf 0 -preset ultrafast -f mpegts udp://224.0.0.1:2000
+           -c:v libx264 -tune zerolatency \
+           -vf "format=yuv420p" -g 30 \
+           -preset ultrafast \
+           -f mpegts udp://224.0.0.1:2000
 }
 
-ffclient(){ # multicast client side 
-    ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
+# https://stackoverflow.com/questions/16658873/how-to-minimize-the-delay-in-a-live-streaming-with-ffmpeg
+ffclient(){ # multicast client side
+
+    mpv udp://224.0.0.1:2000 \
+        --no-resume-playback \
+        --no-audio \
+        --profile=low-latency \
+        --no-cache --untimed --no-demuxer-thread --vd-lavc-threads=1
+
+    # ffplay -fflags nobuffer -sync ext -probesize 32 \
+    #        -threads 1 -analyzeduration 0 \
+    #        udp:224.0.0.1:2000
+
+    # -fflags discardcorrupt -fflags flush_packets \
+    #         -flags low_delay -framedrop -avioflags direct -strict experimental \
 }
 
 ffrec(){ # screen recording lossy
