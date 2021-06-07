@@ -29,6 +29,8 @@
 ;; (add-to-list 'org-export-filter-paragraph-functions
 ;;              'eh-org-clean-space)
 
+(use-package ox-md)
+
 (use-package ox-html
   :config
   (setq org-html-link-org-files-as-html nil

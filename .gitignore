@@ -63,5 +63,15 @@ webkitgtk
 xorg
 zathura
 zoxide
-dot.local/share/qute*
+dot.local/Baidupan
+dot.local/share/qutebrowser
+dot.local/share/qutebrowser-back-ovfs
+dot.local/share/qutebrowser-backup
+dot.local/share/ssr
+dot.local/v2ray-clash/
+dot.config/xmonad/
+dot.config/picom.conf-save
 dot.local/state
+dot.vim/.netrwhist
+dot.local/share/lf
+dot.config/psd/.psd.conf
