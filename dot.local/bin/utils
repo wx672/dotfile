@@ -11,7 +11,7 @@ fdd(){
 }
 
 rgpdf(){
-    PATN=${1:-pdf}
+    local PATN=${1:-pdf}
 	fd -e pdf | rg $PATN | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)"
 }
 
@@ -317,7 +317,7 @@ function stopwatch(){
     done
 }
 
-dict () { (/usr/bin/dict "$@" 2>&1 | less;) }
+dict () { (/usr/bin/dict "$@" 2>&1 | bat;) }
 
 ec(){
     (/usr/bin/env emacsclient -t -a "" "$@")
@@ -461,7 +461,8 @@ themedark () {
 
 pdf () {
 	# (libreoffice --convert-to pdf:writer_pdf_Export "$1")
-	libreoffice --headless --print-to-file $@
+	# libreoffice --headless --print-to-file $@
+    unoconv "$@"
 }
 
 ppt () {
@@ -548,16 +549,6 @@ cb() {
     fi
   fi
 }
-# Aliases / functions leveraging the cb() function
-# ------------------------------------------------
-# Copy contents of a file
-function cbf() { cat "$1" | cb; }
-# Copy SSH public key
-alias cbssh="cbf ~/.ssh/id_rsa.pub"
-# Copy current working directory
-alias cbwd="pwd | cb"
-# Copy most recent command in bash history
-alias cbhs="cat $HISTFILE | tail -n 1 | cb"
 
 # https://stackoverflow.com/questions/660613/how-do-you-hide-the-mouse-pointer-under-linux-x11
 setmouse () {
@@ -565,6 +556,18 @@ setmouse () {
 	do
 		DISPLAY=":0" xinput --$1 $i
 	done
+}
+
+rcb () { # remote clipboard
+    
+    local PORT=${1:-33333}
+
+    echo using port "$PORT" ...
+
+    # at remote side (cs6) do, for example, 'echo hello | nc -4l 33333'
+    { nc -4W1 cs6 "$PORT" || echo nc failed.; } | xsel -bi
+
+    xsel -bo
 }
 
 moff () {
@@ -600,10 +603,6 @@ xoff () {
 
 xon () {
 	xset s off -dpms
-}
-
-lh () {
-	ls --hide=*$1
 }
 
 loremipsum () {

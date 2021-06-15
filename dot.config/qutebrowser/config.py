@@ -148,13 +148,13 @@ c.colors.webpage.darkmode.grayscale.all = True
 
 
 # fonts
-c.fonts.tabs.selected = "20pt Noto Sans Mono"
-c.fonts.tabs.unselected = "20pt Noto Sans Mono"
-c.fonts.statusbar = "20pt Noto Sans Mono"
+c.fonts.statusbar = "14pt Noto Sans Mono"
+c.fonts.tabs.selected = c.fonts.statusbar 
+c.fonts.tabs.unselected = c.fonts.statusbar 
 c.fonts.downloads = c.fonts.statusbar 
 c.fonts.prompts = c.fonts.statusbar
-c.fonts.hints = "20pt Noto Sans Mono"
-c.fonts.messages.info = "20pt Noto Sans Mono"
+c.fonts.hints = c.fonts.statusbar 
+c.fonts.messages.info = c.fonts.statusbar 
 c.fonts.keyhint = c.fonts.hints
 c.fonts.messages.warning = c.fonts.messages.info
 c.fonts.messages.error = c.fonts.messages.info
