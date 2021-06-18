@@ -28,14 +28,6 @@
 
 ;; Window operations
 
-;; (defcommand windows-left-right () ()
-;;   "Open windows side by side"
-;;   (run-commands "only" "hsplit"))
-
-;; (defcommand windows-up-down () ()
-;;   "Open windows up and down"
-;;   (vsplit))
-
 (defcommand toggle-hsplit () ()
             "toggle between hsplit and only"
             (if (sibling) (only) (hsplit)))
@@ -55,6 +47,14 @@
 (defcommand group-two () ()
             "move window to group two"
             (run-commands "gnewbg two" "gmove two"))
+
+(defcommand floating () ()
+            "make a window floating."
+            (run-commands "gnewbg-float floating" "gmove floating" "gselect floating"))
+
+(defcommand unfloating () ()
+            "make a window unfloating."
+            (run-commands "gmove Default" "gselect Default"))
 
 ;; Apps
 
@@ -110,7 +110,7 @@
 (define-key *top-map* (kbd "s-;") "colon")
 (define-key *top-map* (kbd "s-:") "eval")
 (define-key *top-map* (kbd "s-ESC") "run-shell-command")
-(define-key *top-map* (kbd "s-R") "loadrc") 
+(define-key *top-map* (kbd "s-C-r") "loadrc") 
 (define-key *top-map* (kbd "s-j") "next") 
 (define-key *top-map* (kbd "s-k") "prev")
 (define-key *top-map* (kbd "s-TAB") "other") 
@@ -119,7 +119,7 @@
 (define-key *top-map* (kbd "s-n") "fnext")
 (define-key *top-map* (kbd "s-1") "only")
 (define-key *top-map* (kbd "s-0") "windows-other-only")
-(define-key *top-map* (kbd "s-C--") "toggle-vsplit")
+(define-key *top-map* (kbd "s-C--") "vsplit")
 (define-key *top-map* (kbd "s-\\")  "toggle-hsplit")
 (define-key *top-map* (kbd "s-RET") "toggle-hsplit")
 (define-key *top-map* (kbd "s-SPC") "toggle-hsplit")
@@ -131,11 +131,12 @@
 (define-key *top-map* (kbd "s-L") "grouplist")
 (define-key *top-map* (kbd "s-!") "gmove Default")
 (define-key *top-map* (kbd "s-@") "group-two")
+(define-key *top-map* (kbd "s-f") "floating")
 (define-key *top-map* (kbd "s-.") "gnext")
 (define-key *top-map* (kbd "s-e") "emacs")
 (define-key *top-map* (kbd "s-q") "qutebrowser")
 (define-key *top-map* (kbd "s-t") "xterm")
-(define-key *top-map* (kbd "s-P") "screenshot")
+(define-key *top-map* (kbd "s-C-p") "screenshot")
 (define-key *top-map* (kbd "s-F1") "cheatsheet")
 (define-key *top-map* (kbd "s-C-F12") "wemux")
 (define-key *top-map* (kbd "s-F12") "tmate")
