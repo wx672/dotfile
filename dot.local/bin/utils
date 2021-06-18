@@ -11,7 +11,7 @@ fdd(){
 }
 
 rgpdf(){
-    PATN=${1:-pdf}
+    local PATN=${1:-pdf}
 	fd -e pdf | rg $PATN | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)"
 }
 
@@ -60,30 +60,6 @@ rgvi(){
 	[[ -n "$x" ]] && vim "$(echo $x|cut -d: -f1)" "+$(echo $x|cut -d: -f2)"
 	cd - &>/dev/null
 }
-
-# vv(){
-# 	declare -A BOOKS=(
-# 		[Slides-lap]="$HOME/lecture_notes/linux-app/slides/lap-b.pdf"
-# 		[Slides-os]="$HOME/lecture_notes/os/slides/os-b.pdf"
-#     	[Slides-net]="$HOME/lecture_notes/network_basics/net-b.pdf"
-#     	[Slides-linux]="$HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf"
-#     	[Handouts-lap]="$HOME/lecture_notes/linux-app/slides/lap-a.pdf"
-#     	[Handouts-os]="$HOME/lecture_notes/os/slides/os-a.pdf"
-#     	[Handouts-net]="$HOME/lecture_notes/network_basics/net-a.pdf"
-#     	[Beginning Linux Programming 4e]="$HOME/Documents/Beginning.Linux.Programming-4e.pdf"
-#     	[The Linux Programming Interface]="$HOME/Documents/The.Linux.Programming.Interface.pdf"
-#     	[Computer Networks 5e]="$HOME/Documents/network/ComputerNetworks-AST-5e.pdf"
-#     	[Tikz/PGF manual]="/usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf"
-#     	[The Comprehensive LaTeX Symbol List]="$HOME/texmf/doc/latex/symbols-a4.pdf"
-#     	[Chapter 8 - Higher Mathematics]="$HOME/texmf/doc/latex/ch8.pdf"
-#     	[My class schedule]="$HOME/texmf/doc/latex/swfu/timetable/timetable.pdf"
-# 	)
-# 	select BOOK in "${!BOOKS[@]}" # Mind the double quotes!
-# 	do
-# 		($MUPDF ${BOOKS[$BOOK]} &>/dev/null &)
-# 		break
-# 	done
-# }
 
 v(){
 	cat <<EOF | sk -e --bind "enter:execute($MUPDF {} &)+abort" --ansi --color=always
@@ -205,12 +181,6 @@ ffshot(){ # screenshot
 	ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i $DISPLAY -vframes 1 /tmp/$(date +%Y%m%d%H%M).jpg &>/dev/null
 }
 
-# https://gist.github.com/Canx/16245df14c286370ec7958f7be6f6fc4
-#
-# ffmpeg -f x11grab -s 1920x1080 -framerate 10 -i :0.0 \
-#        -c:v libx264 -tune zerolatency -x264-params keyint=5:min_keyint=2 \
-#        -pix_fmt yuv420p -s 1280x800 -threads 0 -f mpegts udp://239.0.0.1:1234
-
 # https://trac.ffmpeg.org/wiki/StreamingGuide
 ffcast(){ # screencast streaming
 
@@ -218,11 +188,6 @@ ffcast(){ # screencast streaming
 
     (screenkey --no-systray --opacity .3 --font-color red --font "Fira Code SemiBold" &)
     
-    # ffmpeg -f x11grab -video_size 1366x768 -r 15 -i :0.0 \
-    #        -vf scale=1366x768 -c:v libx264 -crf 0 -preset ultrafast -f mpegts udp://224.0.0.1:2000
-
-    # ffmpeg -f x11grab -video_size 1366x768 -r 20 -i :0.0 -max_delay 50 -g 5  -crf 0 -preset ultrafast -tune zerolatency -sc_threshold 5000 -b 100M -f mpegts udp://224.0.0.1:2000
-
     ffmpeg -f x11grab -video_size 1366x768 -r 15 -i :0.0 \
            -c:v libx264 -tune zerolatency \
            -vf "format=yuv420p" -g 30 \
@@ -238,13 +203,6 @@ ffclient(){ # multicast client side
         --no-audio \
         --profile=low-latency \
         --no-cache --untimed --no-demuxer-thread --vd-lavc-threads=1
-
-    # ffplay -fflags nobuffer -sync ext -probesize 32 \
-    #        -threads 1 -analyzeduration 0 \
-    #        udp:224.0.0.1:2000
-
-    # -fflags discardcorrupt -fflags flush_packets \
-    #         -flags low_delay -framedrop -avioflags direct -strict experimental \
 }
 
 ffrec(){ # screen recording lossy
@@ -319,11 +277,7 @@ function stopwatch(){
 
 dict () { (/usr/bin/dict "$@" 2>&1 | bat;) }
 
-ec(){
-    (/usr/bin/env emacsclient -t -a "" "$@")
-}
-
-ee(){
+e(){
 	emacsclient -n -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t
 	if [ "$?" = "1" ]; then
     	emacsclient -c -n -a "" "$@"
@@ -332,26 +286,13 @@ ee(){
 	fi
 }
 
-ev(){
-	emacsclient -n -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t
-	if [ "$?" = "1" ]; then
-    	emacsclient -c -n -a "" --eval "(view-file \"$@\")"
-	else
-   		emacsclient -n -a "" --eval "(view-file \"$@\")"
-	fi
-}
-
-# viewing markdown file in w3m
+# viewing markdown file in w3m. an alternative to mdless/mdcat
 mdview(){
 	(cmark "$1" | w3m -T text/html)
 }
 
 speak(){
-	(/usr/bin/espeak -s 140 -v mb-en1 "$*";)
-	sleep 1;
 	(/usr/bin/espeak -s 140 -v mb-us1 "$*";)
-	sleep 1;
-	(/usr/bin/espeak -s 140 -v mb-us2 "$*";)
 }
 
 # srtplay(){
@@ -460,8 +401,6 @@ themedark () {
 # }
 
 pdf () {
-	# (libreoffice --convert-to pdf:writer_pdf_Export "$1")
-	# libreoffice --headless --print-to-file $@
     unoconv "$@"
 }
 
@@ -549,16 +488,18 @@ cb() {
     fi
   fi
 }
-# Aliases / functions leveraging the cb() function
-# ------------------------------------------------
-# Copy contents of a file
-function cbf() { cat "$1" | cb; }
-# Copy SSH public key
-alias cbssh="cbf ~/.ssh/id_rsa.pub"
-# Copy current working directory
-alias cbwd="pwd | cb"
-# Copy most recent command in bash history
-alias cbhs="cat $HISTFILE | tail -n 1 | cb"
+
+rcb () { # remote clipboard
+    
+    local PORT=${1:-33333}
+
+    echo using port "$PORT" ...
+
+    # at remote side (cs6) do, for example, 'echo hello | nc -4l 33333'
+    { nc -4W1 cs6 "$PORT" || echo nc failed.; } | xsel -bi
+
+    xsel -bo
+}
 
 # https://stackoverflow.com/questions/660613/how-do-you-hide-the-mouse-pointer-under-linux-x11
 setmouse () {
@@ -601,10 +542,6 @@ xoff () {
 
 xon () {
 	xset s off -dpms
-}
-
-lh () {
-	ls --hide=*$1
 }
 
 loremipsum () {
