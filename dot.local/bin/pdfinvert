@@ -1,6 +1,0 @@
-#!/bin/bash
-
-gs -o ${1%pdf}inverted.pdf    \
-   -sDEVICE=pdfwrite  \
-   -c "{1 exch sub}{1 exch sub}{1 exch sub}{1 exch sub} setcolortransfer" \
-   -f $1

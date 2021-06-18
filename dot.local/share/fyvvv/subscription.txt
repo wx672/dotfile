@@ -1,1 +1,0 @@
-https://cdnapi.fyapi.net/index.php?m=fyzhujicloudpane&command=FYAUTHAPISsrJsonSub&port=5549&authcode=FYZHUJI09221vVxiTUOREymcHE

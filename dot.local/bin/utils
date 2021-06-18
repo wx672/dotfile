@@ -317,7 +317,7 @@ function stopwatch(){
     done
 }
 
-dict () { (/usr/bin/dict "$@" 2>&1 | less;) }
+dict () { (/usr/bin/dict "$@" 2>&1 | bat;) }
 
 ec(){
     (/usr/bin/env emacsclient -t -a "" "$@")
@@ -461,7 +461,8 @@ themedark () {
 
 pdf () {
 	# (libreoffice --convert-to pdf:writer_pdf_Export "$1")
-	libreoffice --headless --print-to-file $@
+	# libreoffice --headless --print-to-file $@
+    unoconv "$@"
 }
 
 ppt () {

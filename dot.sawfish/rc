@@ -57,6 +57,8 @@
 		   "Super-x" '(x-terminal-emulator "")
 		   "Super-t" '(jump-or-exec "Term" "x-terminal-emulator -e tmux" nil #:match-class t)
 		   "Super-e" '(jump-or-exec "Emacs" "/usr/bin/emacsclient -c -n" nil #:match-class t)
+           "Super-q" '(jump-or-exec "Qutebrowser" "x-www-browser" nil #:match-class t)
+           "Super-c" '(jump-or-exec "Qutebrowser" "x-www-browser" nil #:match-class t)
 		   "Super-F1" '(system "timeout 1m sxiv -bq ~/.keys-sawfish.png &")
 		   "Super-F2" '(system "bash -c \"gromit-mpx -a -o .5 --key F2\" &")
 		   "Super-F12" '(system "x-terminal-emulator -e /usr/local/bin/stud &")
