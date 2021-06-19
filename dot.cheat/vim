@@ -1,3 +1,12 @@
+# Folding
+
+zfip	fold a paragraph
+zf20j	fold the next 20 lines
+za		toggle
+zo		open
+zc		close
+zd		remove
+
 # File management
 
 :e              reload file
