@@ -59,20 +59,21 @@ c.zoom.levels = ["100%","125%","150%","175%","200%","225%","250%","275%","300%",
 # example: :open ddg hello
 c.url.searchengines = {
 'DEFAULT':'http://www.google.com/search?q={}',
-'d':'https://duckduckgo.com/?q={}',
-'w':'https://en.wikipedia.org/?search={}',
-'y':'https://www.youtube.com/results?search_query={}',
-'gh':'https://github.com/search?q={}',
-'t':'https://twitter.com/{}',
-'r':'https://reddit.com/r/{}',
 'a':'https://wiki.archlinux.org/?search={}',
+'b':'https://search.bilibili.com/all?keyword={}',
+'d':'https://duckduckgo.com/?q={}',
+'gh':'https://github.com/search?q={}',
+'jd':'https://www.jd.com/pinpai/Search?keyword={}',
+'ks':'https://video.kuaishou.com/search/video?searchKey={}',
+'r':'https://reddit.com/r/{}',
+'s':'https://unix.stackexchange.com/search?q={}',
+'t':'https://twitter.com/{}',
 'p':'http://thepiratebay.org/search/{}',
 'pb':'https://pirate-bays.net/search?q={}',
-'b':'https://search.bilibili.com/all?keyword={}',
+'w':'https://en.wikipedia.org/?search={}',
 'x':'https://www.1377x.to/search/{}/1/',
 'xda':'https://www.xda-developers.com/search/?query={}',
-'jd':'https://www.jd.com/pinpai/Search?keyword={}',
-'ks':'https://video.kuaishou.com/search/video?searchKey={}'
+'y':'https://www.youtube.com/results?search_query={}'
 }
 
 # aliases

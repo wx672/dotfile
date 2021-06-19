@@ -12,6 +12,18 @@
 #test -f $HOME/.bin/utils && . $HOME/.bin/utils
 [ -f $HOME/.local/bin/utils ] && . $HOME/.local/bin/utils
 
+# Use bash-completion, if available
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
+
+compdir="$HOME/.local/share/bash-completion/completions"
+if [ -d "$compdir" ]; then
+	for f in "$compdir"/*; do
+		. "$f"
+	done
+	unset f compdir
+fi
+	
 eval "$(lesspipe)"
 
 ## add git info
@@ -21,8 +33,8 @@ eval "$(lesspipe)"
 
 export PROMPT_DIRTRIM=1
 export HISTIGNORE="&:[ ]*:exit"
-export HISTFILESIZE=2000
-export HISTSIZE=2000
+export HISTFILESIZE=10000
+export HISTSIZE=10000
 export BROWSER='/usr/bin/x-www-browser'
 export PDFVIEWER='mupdf'
 export EDITOR='vim'
@@ -40,10 +52,10 @@ tabs -4 &>/dev/null
 
 export GPGKEY=0EE277C8D838C7DA
 
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -x "/usr/bin/zoxide" ] && eval "$(zoxide init bash)"
 [ -x "$HOME/.cargo/bin/starship" ] && eval "$(starship init bash)"
 
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 #[ -f "$HOME/.config/broot/launcher/bash/br" ] && source "$HOME/.config/broot/launcher/bash/br"
 
 export SKIM_DEFAULT_COMMAND="fd --type f || rg --files || find ."
