@@ -6,8 +6,8 @@ QB="/usr/bin/qutebrowser --target window"
 CS6="cs6.swfu.edu.cn"
 
 fdd(){
-	D=$(fd --type d $1 | sk -e)
-	[[ -n "$D" ]] && cd $D
+	D=$(fd --type d "$1" | sk -e)
+	[[ -n "$D" ]] && cd "$D"
 }
 
 rgpdf(){
@@ -16,7 +16,7 @@ rgpdf(){
 }
 
 lspdf(){
-    rgpdf $1
+    rgpdf "$1"
 }
 
 skpdf(){
@@ -285,6 +285,8 @@ e(){
    		emacsclient -n -a "" "$@"
 	fi
 }
+
+emacs() { e "$1"; }
 
 # viewing markdown file in w3m. an alternative to mdless/mdcat
 mdview(){

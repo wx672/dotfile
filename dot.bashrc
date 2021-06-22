@@ -35,6 +35,7 @@ export PROMPT_DIRTRIM=1
 export HISTIGNORE="&:[ ]*:exit"
 export HISTFILESIZE=10000
 export HISTSIZE=10000
+export LESSHISTFILE=-
 export BROWSER='/usr/bin/x-www-browser'
 export PDFVIEWER='mupdf'
 export EDITOR='vim'
