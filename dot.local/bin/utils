@@ -432,6 +432,13 @@ ydl()
 	done
 }
 
+ypv()
+{
+	local url=$(xclip -selection clipboard -o)
+
+    proxychains mpv --profile=ypv "$url"
+}
+
 cs2(){
 	(xterm -e mosh ${1:-wx672}@cs2.swfu.edu.cn &)
 }

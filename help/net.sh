@@ -52,9 +52,9 @@ echo "ping baidu.com" | PV; tput setaf 7
 echo "If you can see outputs similar to the following lines, it means 'Ya, I'm online!'." | PV
 tput setaf 3
 cat <<EOF
-        PING cs2.swfu.edu.cn (202.203.132.242) 56(84) bytes of data.
-        64 bytes from cs2.swfu.edu.cn (202.203.132.242): icmp_seq=1 ttl=39 time=125 ms
-        64 bytes from cs2.swfu.edu.cn (202.203.132.242): icmp_seq=3 ttl=39 time=125 ms
+        PING cs6.swfu.edu.cn (202.203.132.242) 56(84) bytes of data.
+        64 bytes from cs6.swfu.edu.cn (202.203.132.242): icmp_seq=1 ttl=39 time=125 ms
+        64 bytes from cs6.swfu.edu.cn (202.203.132.242): icmp_seq=3 ttl=39 time=125 ms
 EOF
 # tput setaf 7; waiting
 # echo "Now, let's see the wireless card (wlan0)." | PV
@@ -71,7 +71,7 @@ EOF
 # echo -e "\tifconfig wlan0" | PV; tput setaf 7;
 # echo "and" | PV 
 # tput setaf 3
-# echo -e "\tping cs2.swfu.edu.cn" | PV; tput setaf 7
+# echo -e "\tping cs6.swfu.edu.cn" | PV; tput setaf 7
 # echo "just like we did before." | PV; waiting
 # echo "If the outputs looks good, you can enjoy the Internet now. :-)" | PV
 havefun2 2>/dev/null

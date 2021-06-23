@@ -51,7 +51,7 @@ OPTIND=1
 #\setmonofont{Monaco Nerd Font Mono}
 #\setmonofont{LMMono12 Nerd Font}
 #\setCJKmonofont{Noto Sans Mono CJK SC}\setCJKmainfont{Noto Serif CJK SC}\setCJKsansfont{Noto Sans CJK SC}
-PREAMBLE='\usepackage{fontspec}\setmonofont{Source Code Pro}\usepackage{xeCJK}\setCJKmonofont{Noto Sans Mono CJK SC}\pagestyle{empty}'
+PREAMBLE='\usepackage{fontspec}\setmonofont{FiraCode Nerd Font}\usepackage{xeCJK}\setCJKmonofont{Noto Sans Mono CJK SC}\pagestyle{empty}'
 
 for f in "$@"; do
 	if [[ -s "$f" ]]; then

@@ -16,6 +16,7 @@ tmux split-window -h
 tmux select-pane -t 1
 tmux send-keys "cd .local/v2ray-clash" C-m "./clash -f config.yml" C-m
 
+tmux select-pane -t 2
 # Local Variables:
 # Ref: https://www.arp242.net/tmux.html
 # End:
