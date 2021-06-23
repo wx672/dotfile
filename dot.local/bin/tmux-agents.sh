@@ -19,6 +19,7 @@ tmux send-keys "cd ~/.config/clash/yml" C-m "clash" C-m
 
 tmux send-keys "cd ~/.config/clash/yml" C-m C-l
 
+tmux select-pane -t 2
 # Local Variables:
 # Ref: https://www.arp242.net/tmux.html
 # End:
