@@ -66,14 +66,16 @@ c.url.searchengines = {
 'a':'https://wiki.archlinux.org/?search={}',
 'b':'https://search.bilibili.com/all?keyword={}',
 'd':'https://duckduckgo.com/?q={}',
+'e':'https://earth.google.com/web/search/{}',
 'gh':'https://github.com/search?q={}',
 'jd':'https://www.jd.com/pinpai/Search?keyword={}',
 'ks':'https://video.kuaishou.com/search/video?searchKey={}',
+'l':'https://www.latexstudio.net/index/lists/barSearch/text/{}',
+'p':'http://thepiratebay.org/search/{}',
+'pb':'https://pirate-bays.net/search?q={}',
 'r':'https://reddit.com/r/{}',
 's':'https://unix.stackexchange.com/search?q={}',
 't':'https://twitter.com/{}',
-'p':'http://thepiratebay.org/search/{}',
-'pb':'https://pirate-bays.net/search?q={}',
 'w':'https://en.wikipedia.org/?search={}',
 'x':'https://www.1377x.to/search/{}/1/',
 'xda':'https://www.xda-developers.com/search/?query={}',
@@ -85,14 +87,12 @@ c.url.searchengines = {
 c.aliases = {
 'calibre':'open -t https://cs6.swfu.edu.cn/calibre',
 'cs6':'open -t https://cs6.swfu.edu.cn/moodle',
-'cs6moodle':'open -t https://cs6.swfu.edu.cn/moodle',
 'cs6lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
 'ding':'open -t https://im.dingtalk.com',
 'gist':'open -t https://gist.github.com',
-'github':'open -t https://github.com',
 'gmail':'open -t https://mail.google.com',
-'wechat':'open -t https://web.wechat.com/',
-'youtube':'open -t https://youtube.com'
+'lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
+'wechat':'open -t https://web.wechat.com/'
 }
 
 # keybinds
@@ -105,8 +105,8 @@ config.unbind('<Ctrl-v>', mode='normal')
 config.unbind('<Ctrl-a>', mode='normal')
 config.unbind('ga', mode='normal')
 config.unbind('r', mode='normal')
-config.bind('<Escape>', 'leave-mode', mode='passthrough')
-config.bind('<Ctrl-i>', 'enter-mode passthrough', mode='normal')
+config.bind('<Escape>', 'mode-leave', mode='passthrough')
+config.bind('<Ctrl-i>', 'mode-enter passthrough', mode='normal')
 config.bind('<Ctrl-/>', 'undo', mode='normal')
 config.unbind('<Ctrl-Tab>', mode='normal')
 config.bind('<Ctrl-Tab>', 'tab-next', mode='normal')
@@ -123,25 +123,25 @@ config.bind('<Ctrl-r>', 'reload', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
-#config.bind('<Ctrl-a><Ctrl-m>', 'config-cycle content.user_stylesheets mhide.css null.css', mode='normal')
-config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080 socks://127.0.0.1:7891', mode='normal')
-#onfig.bind('<Ctrl-a><Ctrl-f>','config-cycle fonts.hints "36pt Noto Sans Mono" "16pt Noto Sans Mono"', mode='normal')
+config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://127.0.0.1:7891 none socks://localhost:1080', mode='normal')
 config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show multiple never')
 config.unbind('b', mode='normal')
-config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
+#config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
-config.bind('<Ctrl-a>i', 'spawn --userscript password_fill', mode='normal')
-
+#config.bind('<Ctrl-a>i', 'spawn --userscript password_fill', mode='normal')
 config.bind(';d', 'hint links spawn aria2c --no-conf --check-certificate=false -x6 {hint-url}')
+config.bind(';a', 'hint links spawn -u xselappend {hint-url}')
 
-config.bind('gi', 'enter-mode insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
+config.bind('gi', 'mode-enter insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
 
-config.bind('gs', 'jseval document.location=\'https://gist.github.com\'', mode="normal")
-config.bind('cs6m', 'jseval document.location=\'https://cs6.swfu.edu.cn/moodle\'', mode="normal")
+#config.bind('gs', 'open -t https://gist.github.com', mode="normal")
 
 #config.bind('gp', 'jseval document.location=\'https://pinboard.in/add?next=same&url=\'+encodeURIComponent(location.href)+\'&title=\'+encodeURIComponent(document.title)', mode="normal")
 
-# ======================= Redline Insert Mode ============= {{{
+## Readline Insert Mode
+config.bind("<Ctrl-u>", "fake-key <Shift-Home><Delete>", "insert")
+config.bind("<Ctrl-k>", "fake-key <Shift-End><Delete>", "insert")
+config.bind("<Ctrl-y>", "insert-text {primary}", "insert")
 config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
 config.bind("<Ctrl-a>", "fake-key <Home>", "insert")
 config.bind("<Ctrl-e>", "fake-key <End>", "insert")
@@ -149,13 +149,13 @@ config.bind("<Ctrl-b>", "fake-key <Left>", "insert")
 config.bind("<Mod1-b>", "fake-key <Ctrl-Left>", "insert")
 config.bind("<Ctrl-f>", "fake-key <Right>", "insert")
 config.bind("<Mod1-f>", "fake-key <Ctrl-Right>", "insert")
-config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
+config.bind("<Ctrl-j>", "fake-key <Down>", "insert")
 config.bind("<Ctrl-n>", "fake-key <Down>", "insert")
+config.bind("<Ctrl-k>", "fake-key <Up>", "insert")
+config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
 config.bind("<Mod1-d>", "fake-key <Ctrl-Delete>", "insert")
 config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
 config.bind("<Mod1-Backspace>", "fake-key <Ctrl-Backspace>", "insert")
-config.bind("<Ctrl-u>", "fake-key <Shift-Home><Delete>", "insert")
-config.bind("<Ctrl-k>", "fake-key <Shift-End><Delete>", "insert")
 config.bind("<Ctrl-x><Ctrl-e>", "open-editor", "insert")
 
 ## colors

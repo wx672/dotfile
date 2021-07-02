@@ -27,9 +27,23 @@ OPTIND=1
 
 [[ -n "$1" ]] || { usage; exit 1; }
 
-RFCDIR="/usr/share/doc/RFC/"
-
-DOCS=$(find $RFCDIR -type f -iname "rfc$1.*")
+if [ -d "/usr/share/doc/RFC/" ]; then
+    RFCBASE="/usr/share/doc/RFC/"
+    if type -p fd; then
+        DOCS=$(fd -t file "rfc$1.*" "$RFCBASE")
+    else
+        DOCS=$(find "$RFCBASE" -type f -iname "rfc$1.*")
+    fi
+else
+    RFCBASE="https://www.rfc-editor.org/rfc"
+    curl --remote-name-all --output-dir "/tmp" "$RFCBASE"/rfc"$1".{txt,html}
+    if grep -q "not found" /tmp/rfc"$1".*; then
+        echo RFC"$1" is not found on "$RFCBASE".
+        exit 1
+    else
+        DOCS=$(/bin/ls /tmp/rfc"$1".*)
+    fi
+fi
 
 [[ -z "$DOCS" ]] && { echo "RFC $1 is not found."; exit 1; }
 
