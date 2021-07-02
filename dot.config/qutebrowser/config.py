@@ -158,7 +158,10 @@ config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
 config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
 config.bind("<Ctrl-x><Ctrl-e>", "edit-text", "insert")
 
-# ======================= Redline Insert Mode ============= {{{
+## Readline Insert Mode
+config.bind("<Ctrl-u>", "fake-key <Shift-Home><Delete>", "insert")
+config.bind("<Ctrl-k>", "fake-key <Shift-End><Delete>", "insert")
+config.bind("<Ctrl-y>", "insert-text {primary}", "insert")
 config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
 config.bind("<Ctrl-a>", "fake-key <Home>", "insert")
 config.bind("<Ctrl-e>", "fake-key <End>", "insert")
@@ -166,13 +169,13 @@ config.bind("<Ctrl-b>", "fake-key <Left>", "insert")
 config.bind("<Mod1-b>", "fake-key <Ctrl-Left>", "insert")
 config.bind("<Ctrl-f>", "fake-key <Right>", "insert")
 config.bind("<Mod1-f>", "fake-key <Ctrl-Right>", "insert")
-config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
+config.bind("<Ctrl-j>", "fake-key <Down>", "insert")
 config.bind("<Ctrl-n>", "fake-key <Down>", "insert")
+config.bind("<Ctrl-k>", "fake-key <Up>", "insert")
+config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
 config.bind("<Mod1-d>", "fake-key <Ctrl-Delete>", "insert")
 config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
 config.bind("<Mod1-Backspace>", "fake-key <Ctrl-Backspace>", "insert")
-config.bind("<Ctrl-u>", "fake-key <Shift-Home><Delete>", "insert")
-config.bind("<Ctrl-k>", "fake-key <Shift-End><Delete>", "insert")
 config.bind("<Ctrl-x><Ctrl-e>", "open-editor", "insert")
 
 ## colors
