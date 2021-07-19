@@ -176,7 +176,7 @@ config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
 config.bind("<Mod1-d>", "fake-key <Ctrl-Delete>", "insert")
 config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
 config.bind("<Mod1-Backspace>", "fake-key <Ctrl-Backspace>", "insert")
-config.bind("<Ctrl-x><Ctrl-e>", "open-editor", "insert")
+config.bind("<Ctrl-x><Ctrl-e>", "edit-text", "insert")
 
 ## colors
 c.colors.tabs.even.fg = "white"
