@@ -83,24 +83,13 @@
  '(org-ditaa-jar-path "/usr/bin/ditaa")
  '(org-time-stamp-custom-formats '("<%m/%d/%y>" . "<%m/%d/%y>"))
  '(package-selected-packages
-   '(ox-gfm ox-pandoc ayu-theme nord-theme yaml-mode helm-ag rg rust-mode eglot flycheck elisp-slime-nav helm-slime slime elfeed-org elfeed zenburn-theme semi w3m wgrep-helm gnuplot gnuplot-mode helm-unicode elpy markdown-mode outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu))
+   '(pyim-basedict ox-gfm ox-pandoc ayu-theme nord-theme yaml-mode helm-ag rg rust-mode eglot flycheck elisp-slime-nav helm-slime slime elfeed-org elfeed zenburn-theme semi w3m wgrep-helm gnuplot gnuplot-mode helm-unicode elpy markdown-mode outline-magic yasnippet-classic-snippets material-theme graphviz-dot-mode nov csv-nav wgrep-ag nasm-mode web-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview org-chinese-utils htmlize helm-gtags helm-c-yasnippet exec-path-from-shell csv-mode cider-eval-sexp-fu use-package anzu))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(read-mail-command 'ignore)
  '(recentf-max-menu-items 25)
  '(recentf-max-saved-items 25)
  '(recentf-mode t)
  '(recentf-save-file "~/.recentf")
- '(safe-local-variable-values
-   '((From . "ltpi, Listing 52-4")
-     (From . blp4e)
-     (From . "tlpi, Listing 44-2")
-     (Usage . "/tmp/a.out 'string'")
-     (ref . https://unix\.stackexchange\.com/questions/187666/why-do-we-have-to-pass-the-file-name-twice-in-exec-functions/187673)
-     (ref . "http://stackoverflow.com/questions/5255320/reason-for-segmentation-fault")
-     (ref . "https://en.wikibooks.org/wiki/LaTeX/Title_Creation")
-     (TeX─master . t)
-     (reftex-default-bibliography "./os.bib")
-     (Ref . https://www\.arp242\.net/tmux\.html)))
  '(scheme-program-name "guile")
  '(scroll-bar-mode nil)
  '(select-enable-clipboard t)
@@ -122,6 +111,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 240 :family "DejaVuSansMono Nerd Font"))))
- '(mode-line ((t (:height 160 :family "DejaVuSansMono Nerd Font"))))
+ '(default ((t (:height 240 :family "FiraCode Nerd Font"))))
+ '(mode-line ((t (:height 180 :family "FiraCode Nerd Font"))))
  '(org-table ((t (:background "gray25" :foreground "light gray" :family "Noto Sans Mono CJK SC")))))

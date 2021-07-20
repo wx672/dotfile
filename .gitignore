@@ -71,5 +71,6 @@ dot.local/share/ssr
 dot.local/v2ray-clash/
 dot.config/xmonad/
 dot.config/picom.conf-save
-dot.config/fcitx/profile_AEyCuv
+dot.local/state
 dot.vim/.netrwhist
+dot.local/share/lf

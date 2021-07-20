@@ -35,7 +35,6 @@ export NO_AT_BRIDGE=1
 [ -x /usr/bin/picom ] && /usr/bin/picom -b
 [ -x /usr/bin/hsetroot ] && /usr/bin/hsetroot -solid '#000000'
 /usr/bin/x-terminal-emulator -e tmux &
-# -x /usr/local/bin/wal ] && wal -R
 [ -x /usr/bin/keynav ] && keynav &
 [ -x /usr/bin/xbanish ] && xbanish &
 

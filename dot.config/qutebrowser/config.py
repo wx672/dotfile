@@ -1,7 +1,10 @@
-#https://search.bilibili.com/all?keyword=%E5%B0%8F%E7%89%9B%E8%B4%A2%E6%83%85&from_source=webtop_search&spm_id_from=333.851 https://search.bilibili.com/all?keyword=%E5%B0%8F%E7%89%9B%E8%B4%A2%E6%83%85&from_source=webtop_search&spm_id_from=333.851-https://search.bilibili.com/all?keyword=%E5%B0%8F%E7%89%9B%E8%B4%A2%E6%83%85&from_source=webtop_search&spm_id_from=333.851--------------------------------------------------
 # file:     $XDG_CONFIG_HOME/qutebrowser/config.py
 # vim:fenc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=python:
 # ---------------------------------------------------
+
+import subprocess
+import os
+from qutebrowser.api import interceptor
 
 # general settings
 c.auto_save.session = True
@@ -16,9 +19,7 @@ c.content.javascript.can_open_tabs_automatically = True
 #.content.javascript.can_close_tabs = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
-c.content.proxy = "socks://localhost:1080/"
-#c.content.user_stylesheets = ["null.css", "mhide.css"]
-#.content.headers.user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML like Gecko) Firefox/68.0'
+c.content.proxy = "none"
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
 c.downloads.location.prompt = False
@@ -26,7 +27,7 @@ c.downloads.location.remember = False
 c.downloads.location.suggestion = 'path'
 c.downloads.open_dispatcher = None
 c.downloads.position = 'top'
-c.editor.command = ["xterm", "-e", "vim", "{}"]
+c.editor.command = ["xterm", "-e", "vim", "-f", "{file}", "-c", "normal {line}G{column0}1"]
 c.hints.auto_follow = 'always'
 c.hints.auto_follow_timeout = 0
 c.hints.border = "1px solid #CCCCCC"
@@ -60,28 +61,36 @@ c.zoom.levels = ["100%","125%","150%","175%","200%","225%","250%","275%","300%",
 # example: :open ddg hello
 c.url.searchengines = {
 'DEFAULT':'http://www.google.com/search?q={}',
-'d':'https://duckduckgo.com/?q={}',
-'w':'https://en.wikipedia.org/?search={}',
-'y':'https://www.youtube.com/results?search_query={}',
-'gh':'https://github.com/search?q={}',
-'t':'https://twitter.com/{}',
-'r':'https://reddit.com/r/{}',
 'a':'https://wiki.archlinux.org/?search={}',
+'b':'https://search.bilibili.com/all?keyword={}',
+'d':'https://duckduckgo.com/?q={}',
+'e':'https://earth.google.com/web/search/{}',
+'gh':'https://github.com/search?q={}',
+'jd':'https://www.jd.com/pinpai/Search?keyword={}',
+'ks':'https://video.kuaishou.com/search/video?searchKey={}',
+'l':'https://www.latexstudio.net/index/lists/barSearch/text/{}',
 'p':'http://thepiratebay.org/search/{}',
 'pb':'https://pirate-bays.net/search?q={}',
-'b':'https://search.bilibili.com/all?keyword={}'
+'r':'https://reddit.com/r/{}',
+'s':'https://unix.stackexchange.com/search?q={}',
+'t':'https://twitter.com/{}',
+'w':'https://en.wikipedia.org/?search={}',
+'x':'https://www.1377x.to/search/{}/1/',
+'xda':'https://www.xda-developers.com/search/?query={}',
+'y':'https://www.youtube.com/results?search_query={}'
 }
 
 # aliases
 # example: :ding
 c.aliases = {
+'calibre':'open -t https://cs6.swfu.edu.cn/calibre',
+'cs6':'open -t https://cs6.swfu.edu.cn/moodle',
+'cs6lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
 'ding':'open -t https://im.dingtalk.com',
 'gist':'open -t https://gist.github.com',
-'github':'open -t https://github.com',
 'gmail':'open -t https://mail.google.com',
-'lec':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
-'wechat':'open -t https://wx2.qq.com/',
-'youtube':'open -t https://youtube.com'
+'lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
+'wechat':'open -t https://web.wechat.com/'
 }
 
 # keybinds
@@ -94,8 +103,8 @@ config.unbind('<Ctrl-v>', mode='normal')
 config.unbind('<Ctrl-a>', mode='normal')
 config.unbind('ga', mode='normal')
 config.unbind('r', mode='normal')
-config.bind('<Escape>', 'leave-mode', mode='passthrough')
-config.bind('<Ctrl-i>', 'enter-mode passthrough', mode='normal')
+config.bind('<Escape>', 'mode-leave', mode='passthrough')
+config.bind('<Ctrl-i>', 'mode-enter passthrough', mode='normal')
 config.bind('<Ctrl-/>', 'undo', mode='normal')
 config.unbind('<Ctrl-Tab>', mode='normal')
 config.bind('<Ctrl-Tab>', 'tab-next', mode='normal')
@@ -112,23 +121,40 @@ config.bind('<Ctrl-r>', 'reload', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
-#config.bind('<Ctrl-a><Ctrl-m>', 'config-cycle content.user_stylesheets mhide.css null.css', mode='normal')
-config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:1080 socks://127.0.0.1:7891', mode='normal')
-#onfig.bind('<Ctrl-a><Ctrl-f>','config-cycle fonts.hints "36pt Noto Sans Mono" "16pt Noto Sans Mono"', mode='normal')
+config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://127.0.0.1:7891 none socks://localhost:1080', mode='normal')
 config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show multiple never')
 config.unbind('b', mode='normal')
-config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
+#config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
-config.bind('<Ctrl-a>i', 'spawn --userscript password_fill', mode='normal')
-
+#config.bind('<Ctrl-a>i', 'spawn --userscript password_fill', mode='normal')
 config.bind(';d', 'hint links spawn aria2c --no-conf --check-certificate=false -x6 {hint-url}')
+config.bind(';a', 'hint links spawn -u xselappend {hint-url}')
 
-config.bind('gi', 'enter-mode insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
+config.bind('gi', 'mode-enter insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
 
-config.bind('gs', 'jseval document.location=\'https://gist.github.com\'', mode="normal")
-config.bind('cs6m', 'jseval document.location=\'https://cs6.swfu.edu.cn/moodle\'', mode="normal")
+#config.bind('gs', 'open -t https://gist.github.com', mode="normal")
 
 #config.bind('gp', 'jseval document.location=\'https://pinboard.in/add?next=same&url=\'+encodeURIComponent(location.href)+\'&title=\'+encodeURIComponent(document.title)', mode="normal")
+
+## Readline Insert Mode
+config.bind("<Ctrl-u>", "fake-key <Shift-Home><Delete>", "insert")
+config.bind("<Ctrl-k>", "fake-key <Shift-End><Delete>", "insert")
+config.bind("<Ctrl-y>", "insert-text {primary}", "insert")
+config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
+config.bind("<Ctrl-a>", "fake-key <Home>", "insert")
+config.bind("<Ctrl-e>", "fake-key <End>", "insert")
+config.bind("<Ctrl-b>", "fake-key <Left>", "insert")
+config.bind("<Mod1-b>", "fake-key <Ctrl-Left>", "insert")
+config.bind("<Ctrl-f>", "fake-key <Right>", "insert")
+config.bind("<Mod1-f>", "fake-key <Ctrl-Right>", "insert")
+config.bind("<Ctrl-j>", "fake-key <Down>", "insert")
+config.bind("<Ctrl-n>", "fake-key <Down>", "insert")
+config.bind("<Ctrl-k>", "fake-key <Up>", "insert")
+config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
+config.bind("<Mod1-d>", "fake-key <Ctrl-Delete>", "insert")
+config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
+config.bind("<Mod1-Backspace>", "fake-key <Ctrl-Backspace>", "insert")
+config.bind("<Ctrl-x><Ctrl-e>", "open-editor", "insert")
 
 ## colors
 c.colors.tabs.even.fg = "white"
@@ -155,13 +181,13 @@ c.colors.webpage.darkmode.grayscale.all = True
 
 
 # fonts
-c.fonts.tabs.selected = "20pt Noto Sans Mono"
-c.fonts.tabs.unselected = "20pt Noto Sans Mono"
 c.fonts.statusbar = "20pt Noto Sans Mono"
+c.fonts.tabs.selected = c.fonts.statusbar
+c.fonts.tabs.unselected = c.fonts.statusbar
 c.fonts.downloads = c.fonts.statusbar 
 c.fonts.prompts = c.fonts.statusbar
-c.fonts.hints = "20pt Noto Sans Mono"
-c.fonts.messages.info = "20pt Noto Sans Mono"
+c.fonts.hints = c.fonts.statusbar
+c.fonts.messages.info = c.fonts.statusbar
 c.fonts.keyhint = c.fonts.hints
 c.fonts.messages.warning = c.fonts.messages.info
 c.fonts.messages.error = c.fonts.messages.info

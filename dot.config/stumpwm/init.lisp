@@ -100,8 +100,7 @@
 (defcommand brightnessdown () ()
   (run-shell-command "brightnessctl set 5%-"))
 
-;; (qutebrowser)
-;; (xterm)
+(qutebrowser)
 
 (set-prefix-key (kbd "s-T"))
 

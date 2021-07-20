@@ -13,13 +13,13 @@ truncation_length = 5
 truncation_symbol="…/"
 
 [character]
-success_symbol = "[\n\\$](bold green)"
-error_symbol = "[\n\\$](bold red)"
+success_symbol = "[\\$](bold green)"
+error_symbol = "[\\$](bold red)"
 
 # Show duration for commands that took more than 5s only
 [cmd_duration]
-format = "[took $duration]($style)\n"
-min_time = 5000
+format = "[took $duration]($style) "
+min_time = 3000
 show_milliseconds = false
 style = "dimmed"
 

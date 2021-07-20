@@ -6,84 +6,45 @@ QB="/usr/bin/qutebrowser --target window"
 CS6="cs6.swfu.edu.cn"
 
 fdd(){
-	D=$(fd --type d $1 | sk -e)
-	[[ -n "$D" ]] && cd $D
-}
-
-rgpdf(){
-    PATN=${1:-pdf}
-	fd -e pdf | rg $PATN | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)"
+	D=$(fd --type d "$1" | sk -e)
+	cd "$D" || exit 1
 }
 
 lspdf(){
-    rgpdf $1
+    local PATN=${1:-pdf}
+	fd -e pdf | rg -i "$PATN" | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)"
 }
 
 skpdf(){
-    cd ${1:-.}
-	fd -e pdf | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$'
-    cd - &>/dev/null
- }
-
-skrm(){
-    local file;
-    cd ${1:-.};
-    file="$(/bin/ls -lhS | awk '{print $5,$9}' | sk -em -p'rm ')"
-    [[ -n "$file" ]] && rm -i $(echo "$file" | awk '{print $2}')
-    cd - &>/dev/null
+    (cd "${1:-.}" || exit 1;
+	 fd -e pdf | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$')
 }
 
 skiv(){
-	cd ${1:-.}
-	fd -e png -e jpg -e gif -e pbm | sk -e --bind 'enter:execute(sxiv {} &)'
-	cd - &>/dev/null
+	(cd "${1:-.}" || exit 1;
+	 fd -e png -e jpg -e gif -e pbm | sk -e --bind 'enter:execute(sxiv {} &)')
 }
 
 skvi(){
-	cd ${1:-.}
-	x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e \
-			--preview="bat {} --color=always" \
-			--preview-window=up:90%:hidden)"
+	(cd "${1:-.}" || exit 1;
+     
+	 x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e \
+			 --preview="bat {} --color=always" \
+             --preview-window=up:90%:hidden)"
 
-	[[ -n "$x" ]] && vim "$x"
-	cd - &>/dev/null
+	[[ -n "$x" ]] && vim "$x")
  }
 
 #--preview='bat --color=always {1} | rg -B3 -A$LINES {cq}'
 rgvi(){
-	cd ${1:-.}
-	x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e -d: \
-			--preview='bat --color=always {1}' \
-			--preview-window=up:90%:hidden:+{2}-/3 \
-			-ic 'rg --color=always --line-number "{}"')"
+	(cd "${1:-.}" || exit 1;
+	 x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e -d: \
+             --preview='bat --color=always {1}' \
+			 --preview-window="up:90%:hidden:+{2}-/3" \
+			 -ic 'rg -i --color=always --line-number "{}"')"
 
-	[[ -n "$x" ]] && vim "$(echo $x|cut -d: -f1)" "+$(echo $x|cut -d: -f2)"
-	cd - &>/dev/null
+	[[ -n "$x" ]] && vim "$(echo "$x"|cut -d: -f1)" "+$(echo "$x"|cut -d: -f2)")
 }
-
-# vv(){
-# 	declare -A BOOKS=(
-# 		[Slides-lap]="$HOME/lecture_notes/linux-app/slides/lap-b.pdf"
-# 		[Slides-os]="$HOME/lecture_notes/os/slides/os-b.pdf"
-#     	[Slides-net]="$HOME/lecture_notes/network_basics/net-b.pdf"
-#     	[Slides-linux]="$HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf"
-#     	[Handouts-lap]="$HOME/lecture_notes/linux-app/slides/lap-a.pdf"
-#     	[Handouts-os]="$HOME/lecture_notes/os/slides/os-a.pdf"
-#     	[Handouts-net]="$HOME/lecture_notes/network_basics/net-a.pdf"
-#     	[Beginning Linux Programming 4e]="$HOME/Documents/Beginning.Linux.Programming-4e.pdf"
-#     	[The Linux Programming Interface]="$HOME/Documents/The.Linux.Programming.Interface.pdf"
-#     	[Computer Networks 5e]="$HOME/Documents/network/ComputerNetworks-AST-5e.pdf"
-#     	[Tikz/PGF manual]="/usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf"
-#     	[The Comprehensive LaTeX Symbol List]="$HOME/texmf/doc/latex/symbols-a4.pdf"
-#     	[Chapter 8 - Higher Mathematics]="$HOME/texmf/doc/latex/ch8.pdf"
-#     	[My class schedule]="$HOME/texmf/doc/latex/swfu/timetable/timetable.pdf"
-# 	)
-# 	select BOOK in "${!BOOKS[@]}" # Mind the double quotes!
-# 	do
-# 		($MUPDF ${BOOKS[$BOOK]} &>/dev/null &)
-# 		break
-# 	done
-# }
 
 v(){
 	cat <<EOF | sk -e --bind "enter:execute($MUPDF {} &)+abort" --ansi --color=always
@@ -167,49 +128,37 @@ EOF
 
 gmaps(){
 	QUERY=""
-	for WORD in $@; do
+	for WORD in "$@"; do
 		QUERY="$QUERY%20$WORD"
 	done
-	(bash -c "$QB https://www.google.com/maps/search/$QUERY 2>/dev/null &")
+	("$QB https://www.google.com/maps/search/$QUERY 2>/dev/null &")
 }
 
 google(){
-  QUERY=""
-  echo "Googling: $@"
-  for WORD in $@; do
-    QUERY="$QUERY%20$WORD"
-  done
-  (bash -c "$QB https://www.google.com/search?q=$QUERY 2>/dev/null &")
+    QUERY=""
+    echo google: "$@"
+    for WORD in "$@"; do
+        QUERY="$QUERY%20$WORD"
+    done
+    ("$QB https://www.google.com/search?q=$QUERY 2>/dev/null &")
 }
 
 ddg(){
   QUERY=""
-  echo "duckduckgo: $@"
-  for WORD in $@; do
-    QUERY="$QUERY%20$WORD"
+  echo duckduckgo: "$@"
+  for WORD in "$@"; do
+      QUERY="$QUERY%20$WORD"
   done
-  (bash -c "$QB https://duckduckgo.com/?q=$QUERY 2>/dev/null &")
+  ("$QB https://duckduckgo.com/?q=$QUERY 2>/dev/null &")
 }
 
 q(){
-	(bash -c "$QB $1 2>/dev/null &")
-}
-
-sicp(){
-	URL="http://cs6/~wx672/video/sicp"
-	bash -c "wget $URL/lec$1.srt"
-	bash -c "mpv --no-resume-playback --sub-file=lec$1.srt $URL/lec$1.ogv"
+	("$QB $1 2>/dev/null &")
 }
 
 ffshot(){ # screenshot
-	ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i $DISPLAY -vframes 1 /tmp/$(date +%Y%m%d%H%M).jpg &>/dev/null
+	ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i "$DISPLAY" -vframes 1 /tmp/"$(date +%Y%m%d%H%M)".jpg &>/dev/null
 }
-
-# https://gist.github.com/Canx/16245df14c286370ec7958f7be6f6fc4
-#
-# ffmpeg -f x11grab -s 1920x1080 -framerate 10 -i :0.0 \
-#        -c:v libx264 -tune zerolatency -x264-params keyint=5:min_keyint=2 \
-#        -pix_fmt yuv420p -s 1280x800 -threads 0 -f mpegts udp://239.0.0.1:1234
 
 # https://trac.ffmpeg.org/wiki/StreamingGuide
 ffcast(){ # screencast streaming
@@ -238,13 +187,6 @@ ffclient(){ # multicast client side
         --no-audio \
         --profile=low-latency \
         --no-cache --untimed --no-demuxer-thread --vd-lavc-threads=1
-
-    # ffplay -fflags nobuffer -sync ext -probesize 32 \
-    #        -threads 1 -analyzeduration 0 \
-    #        udp:224.0.0.1:2000
-
-    # -fflags discardcorrupt -fflags flush_packets \
-    #         -flags low_delay -framedrop -avioflags direct -strict experimental \
 }
 
 ffrec(){ # screen recording lossy
@@ -255,17 +197,17 @@ ffrec(){ # screen recording lossy
     
 	ffmpeg -f x11grab -s 1920x1080 -r 25 -i :0.0 \
 		   -c:v libx264 -preset superfast \
-		   $(date +%Y%m%d%H%M).mp4
+		   "$(date +%Y%m%d%H%M)".mp4
 }
 
 ffrec_lossless(){ # screen recording losslessly (very large file!)
 	ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 \
 		   -c:v libx264rgb -crf 0 -preset superfast \
-		   $(date +%Y%m%d%H%M).mkv
+		   "$(date +%Y%m%d%H%M)".mkv
 }
 
 mp4(){ # convert $1 to mp4
-	ffmpeg -i $1 -c:v libx265 -preset ultrafast $1.mp4
+	ffmpeg -i "$1" -c:v libx265 -preset ultrafast "$1".mp4
 }
 
 ffrec_overlay(){ # recording screen and webcam
@@ -279,7 +221,7 @@ ffrec_overlay(){ # recording screen and webcam
 		   -filter_complex "overlay=W-w:H-h" \
 		   -map 2:a \
 		   -c:v libx265 -c:a aac -b:a 48k \
-		   $(date +%Y%m%d%H%M).mp4
+		   "$(date +%Y%m%d%H%M)".mp4
 }
 
 ffcam(){ # capture webcam
@@ -288,42 +230,34 @@ ffcam(){ # capture webcam
 	ffmpeg -f v4l2 -s 640x480 -r 30 -i /dev/video0 \
 		   -f alsa -i pulse \
 		   -c:v libx264 -preset superfast -qp 0 -c:a aac -b:a 48k \
-		   $(date +%Y%m%d%H%M).mp4
+		   "$(date +%Y%m%d%H%M)".mp4
 }
 
 # http://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal
-
-# function countdown(){
-# 	START=$(date +%s) watch -tpn1 echo $(($START - $(date +%s) + $1))
-# }
 
 function countdown(){
     [ -n "$1" ] || {
 	echo "Usage: countdown <seconds>"
 	return 1
     }
-    date1=$((`date +%s` + $1));
-    while [ "$date1" -ne `date +%s` ]; do
-	echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
-	sleep 1
-    done && ogg123 /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga
+    date1=$(("$(date +%s)" + "$1"));
+    while [ "$date1" -ne "$(date +%s)" ]; do
+	    echo -ne "$(date -u --date @$((date1 - $(date +%s))) +%H:%M:%S)\r";
+	    sleep 1
+    done && mpv /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga
 }
 
 function stopwatch(){
-    date1=`date +%s`;
+    date1="$(date +%s)";
     while true; do
-	echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
-	sleep 1
+	    echo -ne "$(date -u --date @$(($(date +%s) - date1)) +%H:%M:%S)\r";
+	    sleep 1
     done
 }
 
 dict () { (/usr/bin/dict "$@" 2>&1 | bat;) }
 
-ec(){
-    (/usr/bin/env emacsclient -t -a "" "$@")
-}
-
-ee(){
+e(){
 	emacsclient -n -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t
 	if [ "$?" = "1" ]; then
     	emacsclient -c -n -a "" "$@"
@@ -332,26 +266,15 @@ ee(){
 	fi
 }
 
-ev(){
-	emacsclient -n -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t
-	if [ "$?" = "1" ]; then
-    	emacsclient -c -n -a "" --eval "(view-file \"$@\")"
-	else
-   		emacsclient -n -a "" --eval "(view-file \"$@\")"
-	fi
-}
+emacs() { e "$1"; }
 
-# viewing markdown file in w3m
+# viewing markdown file in w3m. an alternative to mdless/mdcat
 mdview(){
 	(cmark "$1" | w3m -T text/html)
 }
 
 speak(){
-	(/usr/bin/espeak -s 140 -v mb-en1 "$*";)
-	sleep 1;
 	(/usr/bin/espeak -s 140 -v mb-us1 "$*";)
-	sleep 1;
-	(/usr/bin/espeak -s 140 -v mb-us2 "$*";)
 }
 
 # srtplay(){
@@ -359,8 +282,8 @@ speak(){
 # }
 
 ssh() {
-    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
-        tmux rename-window "$(echo $* | cut -d . -f 1)"
+    if [ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm=)" = "tmux" ]; then
+        tmux rename-window "$(echo "$*" | cut -d . -f 1)"
         command ssh -X "$@"
         tmux set-window-option automatic-rename "on" 1>/dev/null
     else
@@ -369,8 +292,8 @@ ssh() {
 }
 
 mosh() {
-    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm= | cut -b-4)" = "tmux" ]; then
-        tmux rename-window "$(echo $* | cut -d . -f 1)"
+    if [ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm= | cut -b-4)" = "tmux" ]; then
+        tmux rename-window "$(echo "$*" | cut -d . -f 1)"
         command mosh "$@"
         tmux set-window-option automatic-rename "on" 1>/dev/null
     else
@@ -384,30 +307,13 @@ propstring () {
   echo '}'
 }
 
-config(){
-	case "$1" in
-		f) vim $HOME/.config/fontconfig/fonts.conf ;;
-		q) vim $HOME/.config/qutebrowser/config.py ;;
-		u) vim $HOME/.bin/utils ;;
-		*) echo "Usage: config f|q|u" ;;
-	esac
+rfc_remote(){
+    w3m https://www.rfc-editor.org/rfc/rfc"$1".txt
 }
-
-# rfc(){
-# 	[[ -n "$1" ]] || { cat <<EOF
-# rfc - Command line RFC viewer
-# Usage: rfc <index> [format]
-# EOF
-# return 1
-# 	}
-
-# 	[[ -n "$2" ]] || FMT='txt'
-# find /usr/share/doc/RFC/ -type f -iname "rfc$1.$2*" | xargs less
-# }
 
 rgrfc(){
 	[[ -n "$1" ]] || { cat <<EOF
-rgrfc - grep within /usr/share/doc/RFC/rfc-index.txt.gz
+rgrfc - ripgrep in /usr/share/doc/RFC/rfc-index.txt.gz
 Usage: rgrfc <string>
 EOF
 return 1
@@ -418,9 +324,9 @@ return 1
 booksearch () {
 	LIBPATH=$HOME/Calibre
 	[[ -n "$1" ]] || { echo Usage: 'booksearch <keywords>'; return 1; }
-	calibredb list -s "$@" --with-library=$LIBPATH/Calibre1
-	calibredb list -s "$@" --with-library=$LIBPATH/Calibre2
-	calibredb list -s "$@" --with-library=$LIBPATH/Calibre3
+	calibredb list -s "$@" --with-library="$LIBPATH"/Calibre1
+	calibredb list -s "$@" --with-library="$LIBPATH"/Calibre2
+	calibredb list -s "$@" --with-library="$LIBPATH"/Calibre3
 }
 
 searchbook () {
@@ -428,16 +334,16 @@ searchbook () {
 }
 
 showcolor () {
-	(for i in {0..255}; do printf "\x1b[38;5;${i}mcolour${i} "; done)
+	(for i in {0..255}; do printf "\x1b[38;5;%smcolour%s " "$i" "$i"; done)
 }
 
 colorshow () {
 for fgbg in 38 48 ; do # Foreground / Background
     for color in {0..255} ; do # Colors
         # Display the color
-        printf "\e[${fgbg};5;%sm  %3s  \e[0m" $color $color
+        printf "\e[%s;5;%sm  %3s  \e[0m" "$fgbg" "$color" "$color"
         # Display 6 colors per lines
-        if [ $((($color + 1) % 8)) == 4 ] ; then
+        if [ $(((color + 1) % 8)) == 4 ] ; then
             echo # New line
         fi
     done
@@ -445,28 +351,12 @@ for fgbg in 38 48 ; do # Foreground / Background
 done
 }
 
-WAL="/usr/local/bin/wal"
-
-themelight () {
-	[ -x "$WAL" ] && ($WAL -q -n -l --theme base16-atelier-plateau)
-}
-
-themedark () {
-	[ -x "$WAL" ] && ($WAL -q -n --theme tempus_autumn -b'#000000')
-}
-
-# update-calibre () {
-# 	sudo -v && wget --no-check-certificate -nv -O- https://download.calibre-ebook.com/linux-installer.py | sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main('$HOME/')"
-# }
-
 pdf () {
-	# (libreoffice --convert-to pdf:writer_pdf_Export "$1")
-	# libreoffice --headless --print-to-file $@
     unoconv "$@"
 }
 
 ppt () {
-	libreoffice --show $@
+	libreoffice --show "$@"
 }
 
 xls2x () { # xls -> xlsx
@@ -477,42 +367,73 @@ xpdf(){
 	($XPDF "$1" 2>/dev/null &)
 }
 
-# ydl <output file name> [format]
 # To list all available formats: youtube-dl -F <URL>
 ydl()
 {
-	fmt=${2:-249}
-	url=$(xclip -selection clipboard -o)
-
-	echo "$1" | grep -q '\.' && outfile="$1" || outfile="$1".webm
-	while ! youtube-dl -f$fmt -o$outfile $url
-	do
-		echo try again...
-	done
+	fmt=${1:-best}
+	urls=$(xsel -bo)
+    for url in $urls; do
+	    while ! youtube-dl --no-playlist -f "$fmt" "$url";	do
+		    echo try again...
+	    done
+    done
+    xsel -bc
 }
 
-cs2(){
-	(xterm -e mosh ${1:-wx672}@cs2.swfu.edu.cn &)
-}
+ypv()
+{
+    # play online media from youtube or bilibili
+    # ypv - youtube best
+    # ypv bestaudio|any_valid_format
+    # ypv b #for bilibili
 
-cs3(){
-	(xterm -e mosh ${1:-wx672}@cs3.swfu.edu.cn &)
+    # in qutebrowser,
+    # ';y' to overwrite the clipboard with selected url.
+    # ';a' to append an url into clipbroad.
+
+    # default to youtube best format
+    # b for bilibili
+    # any other string will be treated as youtube-dl format
+    yb=${1:-best}
+
+    if [ "$yb" != "b" ]; then
+        while read url; do
+            echo playing "$url" '('"$yb"')'
+            youtube-dl --no-playlist -f "$yb" -o - "$url" | mpv --profile=ypv -
+        done <<< $(xsel -bo)
+    else
+        while read url; do
+            echo playing "$url"
+            mpv --profile=ypv "$url"
+        done <<< $(xsel -bo)
+    fi
+    xsel -bc
 }
 
 cs6(){
-	(xterm -e mosh ${1:-wx672}@cs6.swfu.edu.cn &)
-}
-
-cs6a(){
-	(aria2c --no-conf --check-certificate=false -x16 https://cs6.swfu.edu.cn/~wx672/700/a/$1)
+	(xterm -e mosh "${1:-wx672}"@cs6.swfu.edu.cn &)
 }
 
 cs6v(){
-	(aria2c --no-conf --check-certificate=false -x16 https://cs6.swfu.edu.cn/~wx672/$1)
+    url="https://cs6.swfu.edu.cn/~wx672"
+    base=${1:-"700/v"}
+    movies=$(xsel -bo)
+
+    cat <<EOF
+Files to be downloaded:
+
+$movies
+
+EOF
+
+    for m in $movies; do
+        echo Downloading "$url"/"$base"/"$m" ...
+        aria2c --no-conf --check-certificate=false -x16 "$url"/"$base"/"$m"
+    done    
 }
 
 cs6r(){
-	rsync -avLP --inplace --append cs6:public_html/$1 .
+	rsync -avLP --inplace --append cs6:public_html/"$1" .
 }
 
 # https://madebynathan.com/2011/10/04/a-nicer-way-to-use-xclip/
@@ -543,28 +464,30 @@ cb() {
       # Copy input to clipboard
       echo -n "$input" | xclip -selection c
       # Truncate text for status
-      if [ ${#input} -gt 80 ]; then input="$(echo $input | cut -c1-80)$_trn_col...\e[0m"; fi
+      if [ "${#input}" -gt 80 ]; then input="$(echo "$input" | cut -c1-80)$_trn_col...\e[0m"; fi
       # Print status.
       echo -e "$_scs_col""Copied to clipboard:\e[0m $input"
     fi
   fi
 }
-# Aliases / functions leveraging the cb() function
-# ------------------------------------------------
-# Copy contents of a file
-function cbf() { cat "$1" | cb; }
-# Copy SSH public key
-alias cbssh="cbf ~/.ssh/id_rsa.pub"
-# Copy current working directory
-alias cbwd="pwd | cb"
-# Copy most recent command in bash history
-alias cbhs="cat $HISTFILE | tail -n 1 | cb"
+
+rcb () { # remote clipboard
+    
+    local PORT=${1:-33333}
+
+    echo using port "$PORT" ...
+
+    # at remote side (cs6) do, for example, 'echo hello | nc -4l 33333'
+    { nc -4W1 cs6 "$PORT" || echo nc failed.; } | xsel -bi
+
+    xsel -bo
+}
 
 # https://stackoverflow.com/questions/660613/how-do-you-hide-the-mouse-pointer-under-linux-x11
 setmouse () {
 	for i in $(DISPLAY=":0" xinput | grep Mouse | cut -d"=" -f2 | cut -b-2)
 	do
-		DISPLAY=":0" xinput --$1 $i
+		DISPLAY=":0" xinput --"$1" "$i"
 	done
 }
 
@@ -581,7 +504,7 @@ mon () {
 settouchpad() {
 	for i in $(DISPLAY=":0" xinput | grep Touchpad | cut -d"=" -f2 | cut -b-2)
 	do
-		DISPLAY=":0" xinput --$1 $i
+		DISPLAY=":0" xinput --"$1" "$i"
 	done
 }
 
@@ -601,10 +524,6 @@ xoff () {
 
 xon () {
 	xset s off -dpms
-}
-
-lh () {
-	ls --hide=*$1
 }
 
 loremipsum () {
