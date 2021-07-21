@@ -167,11 +167,6 @@ ffcast(){ # screencast streaming
 
     (screenkey --no-systray --opacity .3 --font-color red --font "Fira Code SemiBold" &)
     
-    # ffmpeg -f x11grab -video_size 1366x768 -r 15 -i :0.0 \
-    #        -vf scale=1366x768 -c:v libx264 -crf 0 -preset ultrafast -f mpegts udp://224.0.0.1:2000
-
-    # ffmpeg -f x11grab -video_size 1366x768 -r 20 -i :0.0 -max_delay 50 -g 5  -crf 0 -preset ultrafast -tune zerolatency -sc_threshold 5000 -b 100M -f mpegts udp://224.0.0.1:2000
-
     ffmpeg -f x11grab -video_size 1366x768 -r 15 -i :0.0 \
            -c:v libx264 -tune zerolatency \
            -vf "format=yuv420p" -g 30 \
