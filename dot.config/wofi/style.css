@@ -1,0 +1,47 @@
+* {
+  font-family: "DejaVu Sans Mono";
+  font-size: 28px;
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.7);
+  border: none;
+  margin: 0;
+}
+
+window {
+  margin: 0px;
+  border: 2px solid rgba(94, 129, 172, 0.6);
+  background-color: rgba(46, 52, 64, 0.7);
+  border-radius: 16px;
+}
+
+#input {
+  margin: 6px;
+  color: #e5e9f0;
+  background-color: rgba(94, 129, 172, 0.6);
+  border-radius: 16px;
+}
+
+#inner-box {
+  margin: 6px;
+  border: none;
+}
+
+#outer-box {
+  margin: 6px;
+  border: none;
+  border-radius: 16px;
+  padding-bottom: 8px;
+}
+
+#text {
+  margin: 4px;
+  color: #d8dee9;
+}
+
+#entry:selected {
+  font-weight: bold;
+  border-radius: 0;
+  outline: none;
+  background-color: rgba(94, 129, 172, 0.5);
+  padding: 12px;
+}

@@ -36,7 +36,7 @@ TogglePreedit=
 # Active By Default
 ActiveByDefault=False
 # Share Input State
-ShareInputState=All
+ShareInputState=No
 # Show preedit in application
 PreeditEnabledByDefault=False
 # Show Input Method Information when switch input method
