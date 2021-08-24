@@ -5,8 +5,8 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
-set $display1 HDMI-A-1
-set $display2 eDP-1
+set $display1 eDP-1
+set $display2 HDMI-A-1
 
 # Home row direction keys, like vim
 set $left h
@@ -65,8 +65,9 @@ exec  $term
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 
-output $display1 mode 1920x1080 pos 0,0
-output $display2 mode 1920x1080 pos 0,0
+# output $display1 mode 1920x1080 pos 0,0
+# output $display2 mode 1920x1080 pos 0,0
+
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
@@ -84,14 +85,14 @@ output $display2 mode 1920x1080 pos 0,0
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
-input * {
+input "type:keyboard" {
     xkb_layout "us"
     xkb_variant ""
     xkb_options "ctrl:nocaps"
 }
 input type:keyboard xkb_model "pc105"
 
-input "2:14:ETPS/2_Elantech_Touchpad" {
+input "type:touchpad" {
     dwt enabled
     tap enabled
     natural_scroll enabled
@@ -110,6 +111,7 @@ bindsym $mod+t exec $term
 bindsym $mod+q exec $browser
 bindsym $mod+e exec emacsclient -c -n
 bindsym $mod+l exec $wlist
+bindsym Control+Escape exec makoctl dismiss --all
 
 bindsym $mod+Control+p exec $screenshot
 bindsym $mod+Shift+p exec $screenclip
@@ -221,12 +223,6 @@ mode "resize" {
     bindsym $down resize grow height 10px
     bindsym $up resize shrink height 10px
     bindsym $right resize grow width 10px
-
-    # Ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
 
     # Return to default mode
     bindsym Return mode "default"

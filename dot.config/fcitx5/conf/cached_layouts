@@ -504,7 +504,7 @@ Language=ku
 Label=ku
 
 [keyboard-ir-ku_f]
-Description="Keyboard - Persian - Kurdish (Iran, F)"
+Description="Keyboard - Persian - , F)"
 Language=ku
 Label=ku
 
@@ -1503,7 +1503,7 @@ Description="Keyboard - Filipino - Filipino (Capewell-QWERF 2006, Baybayin)"
 Language=fil
 Label=ph
 
-[keyboard-ph-colemak]
+[keyboard-ph-ak]
 Description="Keyboard - Filipino - Filipino (Colemak, Latin)"
 Language=fil
 Label=ph
@@ -1989,7 +1989,7 @@ Language=hi
 Label=hi
 
 [keyboard-in-hin-wx]
-Description="Keyboard - Indian - Hindi (Wx)"
+Description="Keyboard - Indian - (Wx)"
 Language=hi
 Label=hi
 
@@ -3195,6 +3195,21 @@ Label=tr
 
 [keyboard-tr-otkf]
 Description="Keyboard - Turkish - Old Turkic (F)"
+Language=tr
+Label=tr
+
+[keyboard-tr-ot]
+Description="Keyboard - Turkish - Ottoman"
+Language=tr
+Label=tr
+
+[keyboard-tr-otf]
+Description="Keyboard - Turkish - Ottoman (F)"
+Language=tr
+Label=tr
+
+[keyboard-tr-otk]
+Description="Keyboard - Turkish - Old Turkic"
 Language=tr
 Label=tr
 
