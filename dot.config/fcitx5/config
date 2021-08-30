@@ -1,0 +1,67 @@
+[Hotkey]
+# Enumerate when press trigger key repeatedly
+EnumerateWithTriggerKeys=False
+# Enumerate Input Method Forward
+EnumerateForwardKeys=
+# Enumerate Input Method Backward
+EnumerateBackwardKeys=
+# Skip first input method while enumerating
+EnumerateSkipFirst=True
+# Enumerate Input Method Group Forward
+EnumerateGroupForwardKeys=
+# Enumerate Input Method Group Backward
+EnumerateGroupBackwardKeys=
+# Activate Input Method
+ActivateKeys=
+# Deactivate Input Method
+DeactivateKeys=
+# Default Previous page
+PrevPage=
+# Default Next page
+NextPage=
+# Default Previous Candidate
+PrevCandidate=
+# Default Next Candidate
+NextCandidate=
+# Toggle embedded preedit
+TogglePreedit=
+
+[Hotkey/TriggerKeys]
+0=Shift+space
+
+[Hotkey/AltTriggerKeys]
+0=Shift_L
+
+[Behavior]
+# Active By Default
+ActiveByDefault=False
+# Share Input State
+ShareInputState=All
+# Show preedit in application
+PreeditEnabledByDefault=False
+# Show Input Method Information when switch input method
+ShowInputMethodInformation=True
+# Show Input Method Information when changing focus
+showInputMethodInformationWhenFocusIn=False
+# Show compact input method information
+CompactInputMethodInformation=True
+# Show first input method information
+ShowFirstInputMethodInformation=False
+# Default page size
+DefaultPageSize=5
+# Force Enabled Addons
+EnabledAddons=
+# Preload input method to be used by default
+PreloadInputMethod=True
+
+[Behavior/DisabledAddons]
+0=clipboard
+1=fcitx4frontend
+2=ibusfrontend
+3=imselector
+4=kimpanel
+5=pinyinhelper
+6=spell
+7=table
+8=waylandim
+

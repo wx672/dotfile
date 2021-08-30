@@ -13,10 +13,9 @@ c.completion.web_history.max_items = 1000
 c.content.cache.size = 52428800
 c.content.default_encoding = 'utf-8'
 c.content.blocking.enabled = False
-c.content.fullscreen.window = True
+c.content.fullscreen.window = False
 c.content.javascript.can_access_clipboard = True
 c.content.javascript.can_open_tabs_automatically = True
-#.content.javascript.can_close_tabs = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
 c.content.proxy = "none"
@@ -42,31 +41,28 @@ c.prompt.filebrowser = False
 c.scrolling.smooth = False
 c.session.default_name = None
 c.session.lazy_restore = True
-c.statusbar.show = "never"
+c.statusbar.show = "always"
 c.tabs.background = False
-c.tabs.favicons.show = "never"
+c.tabs.favicons.show = "always"
 c.tabs.last_close = "close"
-c.tabs.show = "switching"
+c.tabs.show = "always"
 c.tabs.show_switching_delay = 3000
-#.tabs.title.format = "{title}"
-c.url.default_page = 'https://google.com'
-#.url.default_page = 'https://duckduckgo.com'
+c.url.default_page = 'https://cs6.swfu.edu.cn'
 c.url.open_base_url = True
-#.url.start_pages = 'https://start.duckduckgo.com'
-c.url.start_pages = 'https://google.com'
-c.zoom.default = "200%"
-c.zoom.levels = ["100%","125%","150%","175%","200%","225%","250%","275%","300%","325%","350%","375%","400%","425%","450%","475%","500%","525%","550%","575%","600%"]
+c.url.start_pages = 'https://cs6.swfu.edu.cn'
+c.zoom.default = "100%"
+c.zoom.levels = ["50%","75%","100%","125%","150%","175%","200%","225%","250%","275%","300%"]
 
 # searches
-# example: :open ddg hello
+# example: :open d hello
 c.url.searchengines = {
-'DEFAULT':'http://www.google.com/search?q={}',
+'DEFAULT':'http://cn.bing.com/search?q={}',
 'a':'https://wiki.archlinux.org/?search={}',
 'b':'https://search.bilibili.com/all?keyword={}',
 'd':'https://duckduckgo.com/?q={}',
 'e':'https://earth.google.com/web/search/{}',
 'gh':'https://github.com/search?q={}',
-'jd':'https://www.jd.com/pinpai/Search?keyword={}',
+'jd':'https://search.jd.com/Search?keyword={}',
 'ks':'https://video.kuaishou.com/search/video?searchKey={}',
 'l':'https://www.latexstudio.net/index/lists/barSearch/text/{}',
 'p':'http://thepiratebay.org/search/{}',
@@ -121,20 +117,16 @@ config.bind('<Ctrl-r>', 'reload', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
-config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://127.0.0.1:7891 none socks://localhost:1080', mode='normal')
-config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show multiple never')
+#config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://127.0.0.1:7891 none socks://localhost:1080', mode='normal')
+config.bind('<Shift-i>', 'config-cycle statusbar.show always never;; config-cycle tabs.show always never')
 config.unbind('b', mode='normal')
 #config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
 #config.bind('<Ctrl-a>i', 'spawn --userscript password_fill', mode='normal')
 config.bind(';d', 'hint links spawn aria2c --no-conf --check-certificate=false -x6 {hint-url}')
-config.bind(';a', 'hint links spawn -u xselappend {hint-url}')
+config.bind(';a', 'hint links spawn -u clipappend {hint-url}')
 
 config.bind('gi', 'mode-enter insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
-
-#config.bind('gs', 'open -t https://gist.github.com', mode="normal")
-
-#config.bind('gp', 'jseval document.location=\'https://pinboard.in/add?next=same&url=\'+encodeURIComponent(location.href)+\'&title=\'+encodeURIComponent(document.title)', mode="normal")
 
 ## Readline Insert Mode
 config.bind("<Ctrl-u>", "fake-key <Shift-Home><Delete>", "insert")
@@ -154,7 +146,7 @@ config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
 config.bind("<Mod1-d>", "fake-key <Ctrl-Delete>", "insert")
 config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
 config.bind("<Mod1-Backspace>", "fake-key <Ctrl-Backspace>", "insert")
-config.bind("<Ctrl-x><Ctrl-e>", "open-editor", "insert")
+config.bind("<Ctrl-x><Ctrl-e>", "edit-text", "insert")
 
 ## colors
 c.colors.tabs.even.fg = "white"
@@ -175,13 +167,9 @@ c.colors.tabs.pinned.selected.odd.fg = "black"
 c.colors.tabs.pinned.selected.odd.bg = "yellow"
 c.colors.hints.bg = "#cccccc"
 c.colors.webpage.bg = "#eeeeee"
-c.colors.webpage.prefers_color_scheme_dark = False
-#c.colors.webpage.darkmode.enabled = False
-c.colors.webpage.darkmode.grayscale.all = True
-
 
 # fonts
-c.fonts.statusbar = "20pt Noto Sans Mono"
+c.fonts.statusbar = "16pt Noto Sans Mono"
 c.fonts.tabs.selected = c.fonts.statusbar
 c.fonts.tabs.unselected = c.fonts.statusbar
 c.fonts.downloads = c.fonts.statusbar 

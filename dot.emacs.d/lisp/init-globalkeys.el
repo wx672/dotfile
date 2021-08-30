@@ -3,21 +3,18 @@
 ;;; Commentary:
 
 ;;; Code:
-;(global-set-key (kbd "C-h") 'delete-backward-char)
-;(global-set-key [M-f1] 'help-command)
+(global-set-key (kbd "C-.") 'helm-imenu-anywhere)
 (global-set-key (kbd "C-<return>") 'delete-other-windows)
 (global-set-key (kbd "C-j") 'reindent-then-newline-and-indent)
 (global-set-key (kbd "<print>") 'ps-print-region-with-faces)
 (global-set-key [f1] 'query-replace-regexp)
 (global-set-key [f2] 'hs-toggle-hiding)
 (global-set-key [f5] 'shell-other-window)
-;(global-set-key [f6] 'hexl-mode)
-;(global-set-key [C-f6] 'hexl-find-file)
 (global-set-key [f9] 'switch-to-other-buffer)
 (global-set-key [f11] 'previous-user-buffer)
 (global-set-key (kbd "M-n") 'next-user-buffer)
 (global-set-key (kbd "M-p") 'previous-user-buffer)
-(global-set-key [f12] 'kill-current-buffer)
+(global-set-key [f12] 'kill-this-buffer)
 (global-set-key (kbd "C-x f") 'find-file-at-point)
 (global-set-key (kbd "C-x C-o") 'browse-url-at-point)
 (global-set-key (kbd "C-x -") 'split-window-below)
@@ -82,12 +79,6 @@ http://ergoemacs.org/emacs/elisp_next_prev_user_buffer.html"
   "Kill the current buffer (prompting if it is modified)."
   (interactive)
   (kill-buffer (current-buffer)))
-
-(defun kill-current-buffer-and-window ()
-  "Kill the current buffer (prompting if it is modified) and its window."
-  (interactive)
-  (kill-buffer (current-buffer))
-  (delete-window))
 
 ;; provide some dired goodies and dired-jump at C-x C-j
 (load "dired-x")

@@ -11,7 +11,7 @@
 (use-package org
   :init
   (setq
-   org-catch-invisible-edits show-and-error
+;;   org-catch-invisible-edits show-and-error
    org-modules '(ol-bibtex ol-info ol-docview)
    org-log-done 'time
    org-reverse-note-order t
@@ -160,12 +160,12 @@
 				(if (not org-timer-current-timer)
 					(org-timer-set-timer '(16))))))	
   
-  (use-package org-chinese-utils
-    :init
-    (ocus-enable)
-	:config
-	(setq ocus-enabled-utils
-		  '(clean-headline-space clean-paragraph-space align-babel-table show-babel-image)))
+;;  (use-package org-chinese-utils
+;;    :init
+;;    (ocus-enable)
+;;	:config
+;;	(setq ocus-enabled-utils
+;;		  '(clean-headline-space clean-paragraph-space align-babel-table show-babel-image)))
 
   (use-package org-pdfview
 	:init (pdf-tools-install)

@@ -9,7 +9,7 @@
   :init
   (setq
    TeX-PDF-mode t
-   TeX-engine 'xetex
+   TeX-engine 'luatex
    TeX-command-default "LaTeXMK"
    latex-run-command "LaTeXMK"
    LaTeX-command "LaTeXMK"

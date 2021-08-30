@@ -155,9 +155,9 @@ key_bindings:
 # - { key: Home,                          chars: "\x1b[H",   mode: ~AppCursor  }
 # - { key: End,                           chars: "\x1bOF",   mode: AppCursor   }
 # - { key: End,                           chars: "\x1b[F",   mode: ~AppCursor  }
-  - { key: Equals,   mods: Super,       action: IncreaseFontSize             }
-  - { key: Minus,    mods: Super,       action: DecreaseFontSize             }
-  - { key: Minus,    mods: Super|Shift, action: ResetFontSize                }
+  - { key: Equals,   mods: Control,       action: IncreaseFontSize             }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize             }
+# - { key: Minus,    mods: Control|Shift, action: ResetFontSize                }
 # - { key: PageUp,   mods: Shift,         chars: "\x1b[5;2~"                   }
 # - { key: PageUp,   mods: Control,       chars: "\x1b[5;5~"                   }
 # - { key: PageUp,                        chars: "\x1b[5~"                     }

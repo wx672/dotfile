@@ -30,7 +30,7 @@ OPTIND=1
 if [ -d "/usr/share/doc/RFC/" ]; then
     RFCBASE="/usr/share/doc/RFC/"
     if type -p fd; then
-        DOCS=$(fd -t file "rfc$1.*" "$RFCBASE")
+        DOCS=$(fd -t file -p "rfc$1\." "$RFCBASE")
     else
         DOCS=$(find "$RFCBASE" -type f -iname "rfc$1.*")
     fi

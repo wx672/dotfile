@@ -1,0 +1,17 @@
+export MOZ_ENABLE_WAYLAND=1
+export XDG_SESSION_TYPE=wayland
+export GDK_BACKEND=wayland
+export XDG_CURRENT_DESKTOP=sway
+export QT_QPA_PLATFORM=wayland
+export QT_QPA_PLATFORMTHEME=gtk3
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+
+#fcitx5 on wayland
+export XIM=fcitx5
+export XIM_PROGRAM=/usr/bin/fcitx5
+export XIM_ARGS=""
+export GTK_IM_MODULE=fcitx5
+export QT_IM_MODULE=fcitx5
+export QT4_IM_MODULE=fcitx5
+export DefaultIMModule=fcitx5
+export XMODIFIERS="@im=fcitx5"

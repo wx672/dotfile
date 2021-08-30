@@ -1,13 +1,54 @@
 #!/bin/bash
 
-MUPDF="$(which mupdf) -r285 -C FDF6E3"
-XPDF="$(which mupdf) -r180 -C FDF6E3"
-QB="/usr/bin/qutebrowser --target window"
+MUPDF="$(command -v mupdf) -C FDF6E3"
+QB="/usr/bin/qutebrowser"
 CS6="cs6.swfu.edu.cn"
 
-fdd(){
-	D=$(fd --type d "$1" | sk -e)
-	cd "$D" || exit 1
+unisk(){
+	chosen=$(uni -q p all U+0000..U+FFFF | sk -e10 | cut -d\' -f2) # sed "s/ .*//"
+	
+	[ -z "$chosen" ] && return # Exit if none chosen.
+
+	printf "$chosen" | xsel -bi
+}
+
+# https://github.com/arp242/uni/blob/master/dmenu-uni
+emoji()
+{
+	chosen=$(uni -q e all | sort --random-sort | rofi -dmenu -i -font "FiraCode Nerd Font Mono 22" | sed "s/ .*//")
+
+	[ -z "$chosen" ] && return # Exit if none chosen.
+
+	printf "$chosen" | xsel -bi
+	xdotool type "$chosen"
+	notify-send "'$chosen' copied to clipboard."
+}
+
+xpdf(){
+	local PDFHIST="$HOME/.pdf_history"
+	[ -e "$PDFHIST" ] || touch "$PDFHIST"
+	
+	if [ -z "$*" ]; then
+		cat $PDFHIST | \
+			sk -e10 --bind "enter:execute($MUPDF {} &)+abort" --ansi --color=always
+	else
+		# look into cwd. select one if multiple matches
+		local PDF=$(fd -IFd1 -epdf.gz -epdf "${1##*/}" $(dirname "$*") | sk -e10)
+		if [ -z "$PDF" ]; then # if not in cwd, look into history
+			local HIST=$(rg -N "$*" $PDFHIST | sk -e10) #select one
+			# in case of empty
+			[ -z "$HIST" ] && { echo File "$*" not found.; return 1; }
+			[[ "$HIST" == *gz ]] \
+				&& (gzip -cd "$HIST" | zathura -) \
+				|| ($MUPDF "$HIST" 2>/dev/null &)
+		else #found in cwd
+			[[ "$PDF" == *gz ]] \
+				&& (gzip -cd "$PDF" | zathura -) \
+				|| ($MUPDF "$PDF" 2>/dev/null &)
+			# if not in PDFHIST, add it
+			rg -q "$PWD/$PDF" "$PDFHIST" || echo "$PWD/$PDF" >> "$PDFHIST"
+		fi
+	fi
 }
 
 lspdf(){
@@ -46,37 +87,8 @@ rgvi(){
 	[[ -n "$x" ]] && vim "$(echo "$x"|cut -d: -f1)" "+$(echo "$x"|cut -d: -f2)")
 }
 
-v(){
-	cat <<EOF | sk -e --bind "enter:execute($MUPDF {} &)+abort" --ansi --color=always
-$HOME/lecture_notes/os/slides/os-b.pdf
-$HOME/lecture_notes/os/slides/os-a.pdf
-$HOME/lecture_notes/network_basics/net-b.pdf
-$HOME/lecture_notes/network_basics/net-a.pdf
-$HOME/lecture_notes/linux-app/slides/lap-b.pdf
-$HOME/lecture_notes/linux-app/slides/lap-a.pdf
-$HOME/lecture_notes/linux/linux_intro/linux_intro-b.pdf
-$HOME/Documents/os/Modern.Operating.Systems-4e.pdf
-$HOME/Documents/os/Operating.System.Concepts.Essentials-2e.pdf
-$HOME/Documents/os/Operating.Systems-Design.and.Implementation-3e.pdf
-$HOME/Documents/os/Operating.Systems-Internals.and.Design-7e.pdf
-$HOME/Documents/Beginning.Linux.Programming-4e.pdf
-$HOME/Documents/The.Linux.Programming.Interface.pdf
-$HOME/Documents/network/ComputerNetworks-AST-5e.pdf
-$HOME/Documents/network/TCPIP.Illustrated-v1.pdf
-$HOME/Documents/network/Computer.Networking-A.Top.Down.Approach-6e.pdf
-$HOME/lecture_notes/network_basics/figs/state_stevens-crop.pdf
-/usr/share/doc/texlive-doc/generic/pgf/pgfmanual.pdf
-$HOME/texmf/doc/latex/symbols-a4.pdf
-$HOME/texmf/doc/latex/ch8.pdf
-$HOME/git/syk-netbook/04-ip.pdf
-$HOME/texmf/doc/latex/swfu/timetable/timetable.pdf
-EOF
-}
-
-# $QB ':set content.proxy none' 
-# dmenu -i -fn 'DejaVu Sans Mono:Bold:pixelsize=32' -l 20
-vl(){
-	cat <<EOF | sk -e --bind "enter:execute($QB ':set content.proxy none' {} &)+abort" &>/dev/null
+q(){
+	cat <<EOF | sk -e --bind "enter:execute($QB {} &)+abort" &>/dev/null
 qute://help
 file:///usr/share/doc/abs-guide/html/xrefindex.html
 file:///$HOME/lecture_notes/linux/c/c_dev.html
@@ -103,11 +115,6 @@ http://pixlr.com/editor
 http://i.eastmoney.com/stock.html
 http://i.finance.sina.com.cn
 http://www.timer-tab.com
-EOF
-}
-
-vg(){
-	cat <<EOF | sk -e --bind "enter:execute($QB {} &)+abort" &>/dev/null
 https://youtube.com
 https://www.google.com/calendar/render
 https://contacts.google.com
@@ -117,13 +124,15 @@ https://keep.google.com
 https://mail.google.com
 https://mail.google.com/mail/mu/?mui=ca
 https://photos.google.com
-https://hangouts.google.com
+https://maps.google.com
 https://github.com
 https://app.grammarly.com
 https://www.reddit.com
 https://web.telegram.org
 https://twitter.com
 EOF
+
+	return 0
 }
 
 gmaps(){
@@ -131,7 +140,7 @@ gmaps(){
 	for WORD in "$@"; do
 		QUERY="$QUERY%20$WORD"
 	done
-	("$QB https://www.google.com/maps/search/$QUERY 2>/dev/null &")
+	($QB https://www.google.com/maps/search/$QUERY 2>/dev/null &)
 }
 
 google(){
@@ -140,7 +149,7 @@ google(){
     for WORD in "$@"; do
         QUERY="$QUERY%20$WORD"
     done
-    ("$QB https://www.google.com/search?q=$QUERY 2>/dev/null &")
+    ($QB https://www.google.com/search?q=$QUERY 2>/dev/null &)
 }
 
 ddg(){
@@ -149,11 +158,7 @@ ddg(){
   for WORD in "$@"; do
       QUERY="$QUERY%20$WORD"
   done
-  ("$QB https://duckduckgo.com/?q=$QUERY 2>/dev/null &")
-}
-
-q(){
-	("$QB $1 2>/dev/null &")
+  ($QB https://duckduckgo.com/?q=$QUERY 2>/dev/null &)
 }
 
 ffshot(){ # screenshot
@@ -277,8 +282,8 @@ speak(){
 # }
 
 ssh() {
-    if [ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm=)" = "tmux" ]; then
-        tmux rename-window "$(echo "$*" | cut -d . -f 1)"
+    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux*" ]; then
+        tmux rename-window "$(echo "$*")"
         command ssh -X "$@"
         tmux set-window-option automatic-rename "on" 1>/dev/null
     else
@@ -287,8 +292,8 @@ ssh() {
 }
 
 mosh() {
-    if [ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm= | cut -b-4)" = "tmux" ]; then
-        tmux rename-window "$(echo "$*" | cut -d . -f 1)"
+    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux*" ]; then
+        tmux rename-window "$(echo "$*")"
         command mosh "$@"
         tmux set-window-option automatic-rename "on" 1>/dev/null
     else
@@ -346,6 +351,16 @@ for fgbg in 38 48 ; do # Foreground / Background
 done
 }
 
+# WAL="/usr/local/bin/wal"
+
+# themelight () {
+# 	[ -x "$WAL" ] && ($WAL -q -n -l --theme base16-atelier-plateau)
+# }
+
+# themedark () {
+# 	[ -x "$WAL" ] && ($WAL -q -n --theme tempus_autumn -b'#000000')
+# }
+
 pdf () {
     unoconv "$@"
 }
@@ -358,21 +373,25 @@ xls2x () { # xls -> xlsx
 	libreoffice --convert-to xlsx "$1"
 }
 
-xpdf(){
-	($XPDF "$1" 2>/dev/null &)
-}
-
 # To list all available formats: youtube-dl -F <URL>
 ydl()
 {
-	fmt=${1:-best}
-	urls=$(xsel -bo)
+    fmt=${1:-best}
+    TMPCLIP="/tmp/tmpclip"
+    
+    if pgrep -f sway; then
+		[ -s "$TMPCLIP" ] && { wl-copy -n < "$TMPCLIP" && rm -f "$TMPCLIP"; }
+		urls=$(wl-paste -n)
+    else
+		urls=$(xsel -bo)
+    fi
+
     for url in $urls; do
-	    while ! youtube-dl --no-playlist -f "$fmt" "$url";	do
-		    echo try again...
-	    done
+		while ! youtube-dl -f "$fmt" "$url"; do
+			echo try again...
+		done
     done
-    xsel -bc
+    pgrep -f sway && wl-copy -c || xsel -bc
 }
 
 ypv()
@@ -390,19 +409,30 @@ ypv()
     # b for bilibili
     # any other string will be treated as youtube-dl format
     yb=${1:-best}
-
+    TMPCLIP="/tmp/tmpclip"
+    
+    if pgrep -f sway; then
+	[ -s "$TMPCLIP" ] && { wl-copy -n < "$TMPCLIP" && rm -f "$TMPCLIP"; }
+	CLIP="wl-paste -n"
+    else
+	CLIP="xsel -bo"
+    fi
+    
     if [ "$yb" != "b" ]; then
         while read url; do
             echo playing "$url" '('"$yb"')'
-            youtube-dl --no-playlist -f "$yb" -o - "$url" | mpv --profile=ypv -
-        done <<< $(xsel -bo)
+	    while ! youtube-dl -f "$yb" -o - "$url" | mpv --profile=ypv - ; do
+		# in case of Ctrl-c
+		echo try again...
+	    done
+        done <<< $($CLIP)
     else
         while read url; do
             echo playing "$url"
             mpv --profile=ypv "$url"
-        done <<< $(xsel -bo)
+        done <<< $($CLIP)
     fi
-    xsel -bc
+    pgrep -f sway && wl-copy -c || xsel -bc
 }
 
 cs6(){
@@ -411,7 +441,7 @@ cs6(){
 
 cs6v(){
     url="https://cs6.swfu.edu.cn/~wx672"
-    base=${1:-"700/v"}
+    base=${1:-"tmp"}
     movies=$(xsel -bo)
 
     cat <<EOF
@@ -523,7 +553,7 @@ xon () {
 
 loremipsum () {
 	if [ "${1}" = "" ] || [ "${2}" = "" ]; then
-		echo "Usage: loremipsum [paragraphs, sentences] [integer]"
+		echo "Usage: loremipsum <paragraphs|sentences> <integer>"
 	else
 		curl -s http://metaphorpsum.com/"${1}"/"${2}" && printf "\n"
 	fi

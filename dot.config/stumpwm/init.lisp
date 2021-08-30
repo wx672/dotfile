@@ -36,25 +36,29 @@
             "toggle between vsplit and only"
             (if (sibling) (only) (vsplit)))
 
-(defcommand windows-other-only () ()
-            "maximize other window (<C-x 0> in emacs)"
-            (if (sibling) (run-commands "other" "only") (other-window)))
+;; (defcommand windows-other-only () ()
+;;             "maximize other window (<C-x 0> in emacs)"
+;;             (if (sibling) (run-commands "other" "only") (other-window)))
 
-(defcommand fother-pull-from-windowlist () ()
-  "fnext; pull-from-windowlist"
-  (run-commands "fother" "pull-from-windowlist"))
+;; (defcommand fother-pull-from-windowlist () ()
+;;   "fnext; pull-from-windowlist"
+;;   (run-commands "fother" "pull-from-windowlist"))
+
+(defcommand shrink-right () ()
+			"resize 1880 1080"
+			(run-commands "only" "hsplit" "fselect 1" "resize 1880 1080"))			
 
 (defcommand group-two () ()
             "move window to group two"
             (run-commands "gnewbg two" "gmove two"))
 
-(defcommand floating () ()
-            "make a window floating."
-            (run-commands "gnewbg-float floating" "gmove floating" "gselect floating"))
+;; (defcommand floating () ()
+;;             "make a window floating."
+;;             (run-commands "gnewbg-float floating" "gmove floating" "gselect floating"))
 
-(defcommand unfloating () ()
-            "make a window unfloating."
-            (run-commands "gmove Default" "gselect Default"))
+;; (defcommand unfloating () ()
+;;             "make a window unfloating."
+;;             (run-commands "gmove Default" "gselect Default"))
 
 ;; Apps
 
@@ -100,9 +104,6 @@
 (defcommand brightnessdown () ()
   (run-shell-command "brightnessctl set 5%-"))
 
-(qutebrowser)
-;; (xterm)
-
 (set-prefix-key (kbd "s-T"))
 
 ;; (setf *root-map* (make-sparse-keymap))
@@ -110,7 +111,9 @@
 (define-key *top-map* (kbd "s-;") "colon")
 (define-key *top-map* (kbd "s-:") "eval")
 (define-key *top-map* (kbd "s-ESC") "run-shell-command")
-(define-key *top-map* (kbd "s-C-r") "loadrc") 
+(define-key *top-map* (kbd "s-C-r") "loadrc")
+(define-key *top-map* (kbd "s-C-l") "shrink-right")
+(define-key *top-map* (kbd "s-C-DEL") "fullscreen")
 (define-key *top-map* (kbd "s-j") "next") 
 (define-key *top-map* (kbd "s-k") "prev")
 (define-key *top-map* (kbd "s-TAB") "other") 
@@ -118,20 +121,18 @@
 (define-key *top-map* (kbd "s-h") "fnext")
 (define-key *top-map* (kbd "s-n") "fnext")
 (define-key *top-map* (kbd "s-1") "only")
-(define-key *top-map* (kbd "s-0") "windows-other-only")
-(define-key *top-map* (kbd "s-C--") "vsplit")
+(define-key *top-map* (kbd "s-0") "remove-split")
+(define-key *top-map* (kbd "s--") "vsplit")
 (define-key *top-map* (kbd "s-\\")  "toggle-hsplit")
-(define-key *top-map* (kbd "s-RET") "toggle-hsplit")
-(define-key *top-map* (kbd "s-SPC") "toggle-hsplit")
-(define-key *top-map* (kbd "s-l") "fother-pull-from-windowlist")
-(define-key *top-map* (kbd "s-w") "pull-from-windowlist")
+(define-key *top-map* (kbd "s-RET") "only")
+(define-key *top-map* (kbd "s-SPC") "only")
+(define-key *top-map* (kbd "s-l") "pull-from-windowlist")
 (define-key *top-map* (kbd "s-i") "info")
 (define-key *top-map* (kbd "s-g") "abort")
-(define-key *top-map* (kbd "s-DEL") "fullscreen")
 (define-key *top-map* (kbd "s-L") "grouplist")
 (define-key *top-map* (kbd "s-!") "gmove Default")
 (define-key *top-map* (kbd "s-@") "group-two")
-(define-key *top-map* (kbd "s-f") "floating")
+;;(define-key *top-map* (kbd "s-f") "floating")
 (define-key *top-map* (kbd "s-.") "gnext")
 (define-key *top-map* (kbd "s-e") "emacs")
 (define-key *top-map* (kbd "s-q") "qutebrowser")
