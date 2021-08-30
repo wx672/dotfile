@@ -34,7 +34,7 @@ TogglePreedit=
 
 [Behavior]
 # Active By Default
-ActiveByDefault=True
+ActiveByDefault=False
 # Share Input State
 ShareInputState=All
 # Show preedit in application

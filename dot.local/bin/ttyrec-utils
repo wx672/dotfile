@@ -10,7 +10,7 @@ resize_window(){
 
 # Show a spinning bar on the screen
 waiting(){
-    echo # waiting in a new line
+    #echo # waiting in a new line
     while true
     do 
 	printf "\r-";  sleep 0.1 

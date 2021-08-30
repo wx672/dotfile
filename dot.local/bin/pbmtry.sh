@@ -6,11 +6,11 @@ ${0##*/} - Convert any image into PBMs with different parameters.
 
 Usage: ${0##*/} <Image file>
 EOF
-				   exit 4;
+	exit 4;
 }
 
 topdf(){
-	ppm2tiff $PBM $TIF && \
+	ppm2tiff -c none $PBM $TIF && \
 		tiff2pdf -zFo $PDF $TIF
 }
 
@@ -20,6 +20,7 @@ topdf(){
 
 trap topdf EXIT
 
+Viewer="$(command -v sxiv)"
 IMG="$1"
 BASE="${IMG%.*}"
 
@@ -28,12 +29,12 @@ PBM="$BASE.pbm"
 TIF="$BASE.tif"
 PDF="$BASE.pdf"
 
-convert $IMG $PPM 
+[[ -f "$PPM" ]] || convert $IMG $PPM 
 
-for T in .5 .49 .48 .45 .42; do
-	for F in 8 4 2 1; do
+for T in .5 .48 .45 .42 .4 .35; do
+	for F in 2 4 8 16 32 64; do
 		mkbitmap -f$F -t$T -o $PBM $PPM && \
-			qiv $PBM
+			$Viewer $PBM
 	done
 done
 

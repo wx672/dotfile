@@ -1,3 +1,0 @@
-# work with tar
-tar -I "pigz -r --best | pv" -cf cargo.bin-$(Date).tgz bin
-

@@ -7,6 +7,8 @@ $xelatex = 'xelatex -interaction=nonstopmode -synctex=1 -8bit -shell-escape %O %
 $bibtex_use = 1;
 $biber = 'biber --debug %O %S';
 
+#$preview_continuous_mode = 1;
 $pdf_previewer = "start xdg-open";
+$view = "pdf";
 
 $clean_ext = '%R.run.xml %R.synctex.gz %R.auxlock %R.ent %R.lol %R.vrb %R.nav %R.tdo %R.xdv %R.lox %R.snm _minted-%R';

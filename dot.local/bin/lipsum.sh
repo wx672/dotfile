@@ -1,9 +1,5 @@
 #!/bin/sh
 
-AMOUNT=5
-WHAT=paras
-START=false
-
 while getopts ":n:wpbls" opt; do
   case $opt in
     n)
@@ -30,4 +26,8 @@ while getopts ":n:wpbls" opt; do
   esac
 done
 
-curl -s -X POST https://lipsum.com/feed/json -d "amount=$AMOUNT" -d "what=$WHAT" -d"start=$START" | jq -r '.feed.lipsum'
+curl -s -X POST https://lipsum.com/feed/json \
+	 -d "amount=${AMOUNT:-5}" \
+	 -d "what=${WHAT:-paras}" \
+	 -d "start=${START:-false}" \
+	| jq -r '.feed.lipsum'

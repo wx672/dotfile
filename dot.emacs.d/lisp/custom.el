@@ -27,7 +27,7 @@
  '(default-major-mode 'org-mode t)
  '(dired-guess-shell-alist-user nil)
  '(dired-omit-extensions
-   '("~" ".a" ".aux" ".bbl" ".bcf" ".blg" ".elc" ".idx" ".lof" ".lot" ".toc" ".snm" ".nav" ".out" ".run.xml"))
+   '("~" ".a" ".aux" ".bbl" ".bcf" ".blg" ".elc" ".idx" ".lof" ".log" ".lot" ".toc" ".snm" ".nav" ".out" ".run.xml" ".synctex.gz"))
  '(dired-omit-files-p t t)
  '(dired-omit-mode t t)
  '(dired-recursive-copies t)

@@ -30,20 +30,18 @@ colorEcho(){
     echo -e "\033[${1}${@:2}\033[0m" 1>& 2
 }
 
-# defaults
-F=4
-T=".5"
-XY='+300+30'
-FS=22
+MKBMP='mkbitmap'
 
-while getopts :hf:t:T:c:F: OPT; do
+while getopts :hif:t:T:c:S:F: OPT; do
 	case $OPT in
 		h) usage; exit 0 ;;
 		f) F="$OPTARG" ;;
 		t) T="$OPTARG" ;;
+		i) MKBMP="mkbitmap -i" ;;
 		T) TXT="$OPTARG" ;;
 		c) XY="$OPTARG" ;;
-		F) FS="$OPTARG" ;;
+		S) FS="$OPTARG" ;;
+		F) FN="$OPTARG" ;;
 		?) usage; exit 2
 	esac
 done
@@ -55,17 +53,16 @@ IMG="$@"
 
 # https://tecadmin.net/how-to-extract-filename-extension-in-shell-script/
 BASE="${IMG%.*}"
-
 PPM="$BASE.ppm"
 PBM="$BASE.pbm"
 TIF="$BASE.tif"
 PDF="$BASE.pdf"
 
-convert $IMG $PPM 
-mkbitmap -f$F -t$T -o $PBM $PPM
+[[ -f "$PPM" ]] || { convert $IMG $PPM; }
 
-# convert -list font | grep CJK
-[[ -n "$TXT" ]] && mogrify -pointsize $FS -font 'Noto-Sans-CJK-SC' -annotate $XY "$TXT" $PBM
+$MKBMP -f${F:-2} -t${T:-.5} -o $PBM $PPM
 
-ppm2tiff -c lzw $PBM $TIF
-tiff2pdf -o $PDF -F $TIF
+[[ "$TXT" ]] && mogrify -pointsize ${FS:-22} -font ${FN:-Noto-Sans-CJK-SC} -annotate ${XY:-+300+30} "$TXT" $PBM
+
+ppm2tiff -c none $PBM $TIF
+tiff2pdf -zFo $PDF $TIF

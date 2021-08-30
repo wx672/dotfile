@@ -9,28 +9,40 @@ Usage: ${0##*/} [-h] [-o image name] [-w width] [-f pointsize] <text>
 Image name - Output file name
      width - canvas width, default to 640x
  pointsize - font size, default to 36
+font family - default to 'Noto-Sans-CJK-SC'
+	 		  (convert -list font | grep CJK)
 EOF
 }
 
-# defaults
-IMG="/tmp/t2.png"
-WIDTH='640x'
-PSIZE='36'
+cleanup(){
+	[[ $TMP ]] && rm -f $TMP
+}
 
-while getopts :ho:w:f: OPT; do
+trap cleanup EXIT
+
+while getopts :ho:w:f:F: OPT; do
 	case $OPT in
 		h) usage; exit 0 ;;
 		o) IMG="$OPTARG" ;;
 		w) WIDTH="$OPTARG" ;;
 		f) PSIZE="$OPTARG" ;;
+		F) FN="$OPTARG" ;;
 		?) usage; exit 2
 	esac
 done
 shift $(( OPTIND - 1 ))
 OPTIND=1
 
-#[ -z "$*" ] && { usage; exit 1; }
-[ -z "$*" ] && read TEXT || TEXT="$1"  #echo hello world | t2png
+[ -z "$*" ] && {
+	TMP=$(mktemp)
+	while read TEXT; do echo $TEXT >> $TMP; done
+	TEXT=$(/bin/cat $TMP)
+} || { TEXT="$1"; } #echo hello world | t2png
 
-# convert -list font | grep CJK
-convert -font 'Noto-Sans-CJK-SC' -pointsize $PSIZE -size $WIDTH caption:"$TEXT" $IMG
+convert -font ${FN:-Noto-Sans-CJK-SC} \
+		-pointsize ${PSIZE:-36} \
+		-size ${WIDTH:-640x} \
+		caption:"$TEXT" \
+		${IMG:-/tmp/t2.png}
+
+

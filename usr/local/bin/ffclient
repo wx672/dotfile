@@ -1,11 +1,9 @@
 #!/bin/sh
 
 if pgrep -f 'mpv'; then
-	(echo "mpv is running already.") | \
-		dzen2 -p 3 -fg darkred -bg grey80
+	dzen2 -p 3 -fg darkred -bg grey80 <<<"mpv is running already."
 else
-	(echo "Starting mpv...") | \
-		dzen2 -p 2 -fg darkred -bg grey80
+	dzen2 -p 2 -fg darkred -bg grey80 <<<"Starting mpv..."
 	#ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
     mpv udp://224.0.0.1:2000 --no-resume-playback --no-audio \
         --profile=low-latency --no-cache --untimed \

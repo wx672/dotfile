@@ -7,10 +7,11 @@ ${0##*/} - draw grid on a picture
 USAGE: ${0##*/} [-h] [-s 'x,y'] [-c color] [-o opacity] [-O outfile] infile
 
 OPTIONS:
- -s spacing    x,y spacing between grid lines. default=200,200;
- -c color      color of grid lines. default="red";
- -o opacity    opacity of grid lines opacity between 0.0 and 1.0. default=1;
- -O outfile    default='/tmp/grid.png'
+ -s spacing    spacing between grid lines. default=200,200
+ -c color      line color. Default to red
+ -o opacity    lines opacity between 0.0 and 1.0. Default to 1
+ -w width      stroke width. Default to 1
+ -O outfile    default to '/tmp/grid.png'
 EOF
 }
 
@@ -24,18 +25,13 @@ colorEcho(){
     echo -e "\033[${1}${@:2}\033[0m" 1>& 2
 }
 
-# set default values
-SPACING='200,200'
-COLOR="red"
-OPACITY='1'
-OUTFILE="/tmp/grid.png"
-
-while getopts :hc:s:o:O: OPT; do
+while getopts :hc:s:w:o:O: OPT; do
 	case $OPT in
 		h) usage; exit 0 ;;
 		s) SPACING="$OPTARG" ;; 
 		c) COLOR="$OPTARG" ;; 
 		o) OPACITY="$OPTARG" ;;
+		w) WIDTH="$OPTARG" ;;
 		O) OUTFILE="$OPTARG" ;;
 		?) usage; exit 2
 	esac
@@ -47,12 +43,13 @@ INFILE="$@"
 [[ -f "$INFILE" ]] || { colorEcho $ERR 'ERROR: NO INPUT FILE SPECIFIED!'; usage; exit 1; }
 
 # get image dimensions
-W=`identify -format "%w" "$INFILE"`
-H=`identify -format "%h" "$INFILE"`
+W=$(identify -format "%w" "$INFILE")
+H=$(identify -format "%h" "$INFILE")
 
 # get spacing values
-xinc=`echo "$SPACING" | cut -d, -f1`
-yinc=`echo "$SPACING" | cut -d, -f2`
+SPACING=${SPACING:-200,200}
+xinc=${SPACING%,*}
+yinc=${SPACING#*,}
 
 # get string for drawing grid lines
 DRAWSTR=""
@@ -65,5 +62,8 @@ for ((i=0; i<=$W; i+=xinc)); do
 done
 
 # process image
-convert $INFILE -flatten -fill none -stroke $COLOR -strokewidth 1 \
-		-draw "stroke-opacity $OPACITY path '$DRAWSTR'" "$OUTFILE"
+convert $INFILE -flatten -fill none -stroke ${COLOR:-red} -strokewidth ${WIDTH:-1} \
+		-draw "stroke-opacity ${OPACITY:-1} path '$DRAWSTR'" \
+		${OUTFILE:-/tmp/grid.png}
+
+

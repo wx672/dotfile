@@ -8,11 +8,11 @@ Usage: ${0##*/} [-h] [-s stroke] [-w width] [-o opacity] [-c "X1,Y1 X2,Y2" ] <Im
 
       Image - the image to be annotated on
          -h - help
-         -c - coordinates of the rectangle to be added, default to '10,100 200,100'
-         -s - stroke color. Default 'red'
+         -o - coordinates of the start point, default to '0,300'
+         -l - line length, default to 600
+         -c - stroke color. Default 'red'
          -w - stroke width. Default '30'
-         -o - stroke opacity. Default '0.5'
-
+         -O - stroke opacity. Default '0.3'
 See http://www.imagemagick.org/Usage/draw/ for more.
 EOF
 }
@@ -27,19 +27,18 @@ colorEcho(){
     echo -e "\033[${1}${@:2}\033[0m" 1>& 2
 }
 
-XY='10,100 200,100'
-WIDTH='30'
-STROKE='red'
-OPACITY='0.3'
+FROM='0,300'
+LEN=600
 
-while getopts :hc:w:s:o: OPT; do
+while getopts :hc:w:l:c:O:o: OPT; do
 	case $OPT in
 		h) usage; exit 0 ;;
-		c) XY="$OPTARG" ;;
-		s) STROKE="$OPTARG" ;;
+		o) FROM="$OPTARG" ;;
+		l) LEN="$OPTARG" ;;
+		c) STROKE="$OPTARG" ;;
 		w) WIDTH="$OPTARG" ;;
-		o) OPACITY="$OPTARG" ;;
-		?) usage; exit 2
+		O) OPACITY="$OPTARG" ;;
+		?) usage; exit 2 ;;
 	esac
 done
 shift $(( OPTIND - 1 ))
@@ -50,6 +49,11 @@ IMG="$@"
 
 OUT="${IMG%.*}-out.png"
 
+X=${FROM%,*}
+Y=${FROM#*,}
+
+TO="$(( X + LEN )),$Y"
+
 # http://www.imagemagick.org/Usage/draw/
-convert $IMG -fill none -stroke $STROKE -strokewidth $WIDTH \
-		-draw "stroke-opacity $OPACITY line $XY" $OUT
+convert $IMG -fill none -stroke ${STROKE:-red} -strokewidth ${WIDTH:-30} \
+		-draw "stroke-opacity ${OPACITY:-.3} line $FROM $TO" $OUT

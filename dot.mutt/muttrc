@@ -1,7 +1,7 @@
 set envelope_from=yes
 set sendmail="/usr/sbin/exim4"
 #set from=your@email.address
-set realname="Your Name"
+set realname="WANG Xiaolin"
 set use_from=yes
 set folder=~/Mail
 set alias_file=~/.mutt/alias
@@ -28,14 +28,14 @@ source ~/.mutt/colors.angdraug
 #source = ~/Mail/.mutt.macros
 #source = ~/Mail/.gnupgp.mutt
 
-#set pop_authenticators=""
-#set pop_user="username"
-#set pop_pass="top secret"
-#set pop_checkinterval=600
-#set pop_host="cs2.swfu.edu.cn"
+set pop_host="pop3.swfu.edu.cn"
+set pop_user="wx672ster@swfu.edu.cn"
+set pop_pass="wx672.Swfu"
+set pop_checkinterval=600
+set pop_reconnect=yes
 
 auto_view text/html application/msword
 
 macro index S "|/usr/bin/razor-report"
 
-subscribe debian-chinese-gb@lists.debian.org debian-laptop@lists.debian.org debian-user@lists.debian.org debian-emacsen@lists.debian.org list-tetex@lists.debian.org
+#subscribe debian-chinese-gb@lists.debian.org debian-laptop@lists.debian.org debian-user@lists.debian.org debian-emacsen@lists.debian.org list-tetex@lists.debian.org

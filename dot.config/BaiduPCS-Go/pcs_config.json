@@ -1,0 +1,29 @@
+{
+ "baidu_active_uid": 555936855,
+ "baidu_user_list": [
+  {
+   "uid": 555936855,
+   "name": "wx672",
+   "sex": "unknown",
+   "age": 8.3,
+   "bduss": "03UDVCQTMzUGxuQnJRfldFR3lzMzlYSU9wb2twZjNHdXNiaGl6U2tZcDlMOVplRUFBQUFBJCQAAAAAAAAAAAEAAABX7CIhd3g2NzIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH2irl59oq5eWG",
+   "ptoken": "cb1f3749d06ed1a2bf95af5d0e2b681e",
+   "stoken": "f281fd9409369b1fcb43c594abe8efefa099de3e1cd06bd11983b5306d04ff73",
+   "workdir": "/movie"
+  }
+ ],
+ "appid": 266719,
+ "cache_size": 65536,
+ "max_parallel": 250,
+ "max_upload_parallel": 8,
+ "max_download_load": 1,
+ "max_download_rate": 0,
+ "max_upload_rate": 0,
+ "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36",
+ "pcs_ua": "",
+ "pan_ua": "netdisk;2.2.51.6;netdisk;10.0.63;PC;android-android",
+ "savedir": "/home/wx672/Downloads",
+ "enable_https": true,
+ "proxy": "",
+ "local_addrs": ""
+}

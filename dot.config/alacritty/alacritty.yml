@@ -8,7 +8,7 @@ env:
 
 window:
   dimensions:
-    columns: 93
+    columns: 91
     lines: 25
 
   padding:
@@ -529,5 +529,5 @@ color_schemes:
       cyan: '0x8FBCBB'
       white: '0xECEFF4'
       
-colors: *ayu_dark
+colors: *nord
 
