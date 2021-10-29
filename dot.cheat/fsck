@@ -1,0 +1,6 @@
+# https://linuxexpresso.wordpress.com/2010/03/31/repair-a-broken-ext4-superblock-in-ubuntu/
+
+sudo mke2fs -n /dev/sdb1 # find superblock backs
+
+sudo e2fsck -b <superblock backup> /dev/sdb1 # repair
+

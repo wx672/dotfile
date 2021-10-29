@@ -1,0 +1,6 @@
+Xephyr -ac -noreset -screen 1280x768 :1
+
+startx -- /usr/bin/Xephyr -ac -noreset -screen 1280x768 :1
+
+DISPLAY=:1 xterm
+

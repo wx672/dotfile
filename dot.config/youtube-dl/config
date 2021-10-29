@@ -3,7 +3,8 @@
 # Do not copy the mtime
 --no-mtime
 # Use this proxy
-#--proxy "socks5://127.0.0.1:7891"
---proxy "127.0.0.1:7890"
+#--proxy "socks5://127.0.0.1:1080"
+--proxy "socks5://127.0.0.1:7891"
+#--proxy "127.0.0.1:7890"
 # Save all videos under Movies directory in your home directory
--o ~/%(title)s.%(ext)s
+-o ~/%(id)s.%(ext)s

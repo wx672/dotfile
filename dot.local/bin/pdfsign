@@ -2,13 +2,13 @@
 
 usage(){
     cat <<EOF
-USAGE: $(basename "$0") [-h] [-n] [-c x,y] [-w width] [-s s,t] [-t y,m,d] [-p x,y] [-S picture|text] <background>
+USAGE: ${0##*/} [-h] [-n] [-c x,y] [-w width] [-s s,t] [-t y,m,d] [-p x,y] [-S picture|text] <background>
 
 EXAMPLES:
-1. $(basename "$0") -w10cm -c'4,13' -S'../analysis-improve.pdf' -n net-20201152-analysis.pdf
-2. $(basename "$0") -c'5,25.2' -p'10.5,25.2' -s'1,1' -S'开卷机试' -t'2021,1,21' -n net-20201152-analysis-signed.pdf
-3. $(basename "$0") -c'4.2,1' -p'12,1' -s'1.2,1' -t'2021,1,20' -S'\sig 王晓林' -n pg_0001.pdf
-4. $(basename "$0") -S'\purisa 2020\quad 5\qquad 8' paper.pdf
+1. ${0##*/} -w10cm -c'4,13' -S'../analysis-improve.pdf' -n net-20201152-analysis.pdf
+2. ${0##*/} -c'5,25.2' -p'10.5,25.2' -s'1,1' -S'开卷机试' -t'2021,1,21' -n net-20201152-analysis-signed.pdf
+3. ${0##*/} -c'4.2,1' -p'12,1' -s'1.2,1' -t'2021,1,20' -S'\sig 王晓林' -n pg_0001.pdf
+4. ${0##*/} -S'\purisa 2020\quad 5\qquad 8' paper.pdf
 
 background - paper to sign;
         -h - help

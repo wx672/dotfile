@@ -1,0 +1,13 @@
+#!/bin/bash
+
+TMPCLIP="/tmp/tmpclip"
+
+if pgrep -f sway; then
+    echo "$1" | wl-copy
+    wl-paste -n >> $TMPCLIP
+else
+    echo "$1" | xsel -ba
+fi
+
+
+

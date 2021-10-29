@@ -5,43 +5,47 @@
 
 \addbibresource{thesis.bib} % 参照教程自己去写一个.bib文件
 
-\pgfkeys{
+\swfusetup{
   Title={${1:论文标题}}, % 论文标题
   enTitle={${2:英文标题}}, % 论文标题（英文）
   Author={${3:作者姓名}}, % 作者姓名
   enAuthor={${4:英文姓名}}, % 作者姓名（英文）
-  Advisor={${5:指导教师姓名}}, % 指导教师姓名
-  AdvisorTitle={${6:指导教师职称}}, % 指导教师职称
-  Year={${7:二〇一九}},
-  Month={${8:六}},
-  Subject={${9:计算机科学与技术专业}}, %专业名称（比如 电子信息工程专业）
+  ID={${5:学号}},%
+  Advisor={${6:导师姓名（职称）}}, % 导师甲（职称），导师乙（职称）
+  Year={${7:2022}},
+  Month={${8:5}},
+  Date={${9:20}},
+  Major={${10:计算机科学与技术专业}}, %专业名称（比如 电子信息工程专业）
+  Signature={\includegraphics[width=6em]{${11:sig}},
 }
 
 \begin{document}
 
 \maketitle
 
+\frontmatter
+
 \begin{abstract} % 摘要
 $0 本文是关于……
-\end{abstract}
 
-\begin{keyword} % 关键词
-  关键词，关键词，关键词……
-\end{keyword}
+   \begin{keyword} % 关键词
+     关键词，关键词，关键词……
+   \end{keyword}
+\end{abstract}
 
 \begin{EAbstract} % 英文摘要
    This project is about...
+
+   \begin{EKeyword} % 英文关键词
+     keyword, keyword, keyword...
+   \end{EKeyword}
 \end{EAbstract}
 
-\begin{EKeyword} % 英文关键词
-   keyword, keyword, keyword...
-\end{EKeyword}
-
 \tableofcontents     % 目录
-\listoffigures       % 插图目录，可以没有
-\listoftables        % 表格目录，可以没有
-\cleardoublepage % keep this line
-\pagenumbering{arabic}
+%\listoffigures       % 插图目录，可以没有
+%\listoftables        % 表格目录，可以没有
+
+\mainmatter
 
 % 参考教程，在chapters目录中单独写各章（ch1.tex, ch2.tex...）
 \include{chapters/ch1} %%% 论文的目录结构大致如下：
@@ -64,6 +68,7 @@ $0 本文是关于……
 
 %%%%% appendix （参考文献、指导教师简介、鸣谢、附录）
 \appendix % keep this line
+
 \makebib % 参考文献
 
 \begin{advisorInfo} % 指导教师简介

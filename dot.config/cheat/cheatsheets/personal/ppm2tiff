@@ -1,0 +1,9 @@
+# https://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
+
+# don't compress (-c none); leave the compression to tiff2pdf
+for f in *.ppm; do ppm2tiff -c none $f ${f%ppm}tif; done
+
+for f in *.pbm; do ppm2tiff -c none  $f ${f%pbm}tif; done
+
+tiff2pdf -jFo out.pdf in.tif
+tiff2pdf -zFo out.pdf in.tif

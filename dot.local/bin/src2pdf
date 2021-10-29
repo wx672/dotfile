@@ -2,7 +2,7 @@
 
 usage(){
     cat <<EOF
-Usage: $(basename $0) [-ha] [-f from] [-t to] [-s style] <source files>
+Usage: ${0##*/} [-ha] [-f from] [-t to] [-s style] <source files>
 -h  help
 -a  output in both default and bw style
 -s  style (pygmentize -L)
@@ -50,23 +50,25 @@ OPTIND=1
 #\setmonofont{Source Code Pro}
 #\setmonofont{Monaco Nerd Font Mono}
 #\setmonofont{LMMono12 Nerd Font}
-#\setCJKmonofont{Noto Sans Mono CJK SC}\setCJKmainfont{Noto Serif CJK SC}\setCJKsansfont{Noto Sans CJK SC}
-PREAMBLE='\usepackage{fontspec}\setmonofont{Source Code Pro}\usepackage{xeCJK}\setCJKmonofont{Noto Sans Mono CJK SC}\pagestyle{empty}'
+#\setCJKmonofont{Noto Sans Mono CJK SC}\setCJKmainfont{Noto Serif CJK SC}\setCJKsansfont{Noto Sans CJK SC}\usepackage{xeCJK}
+
+PREAMBLE='\usepackage{ctex}\usepackage{fontspec}\setmonofont{FiraCode Nerd Font}\setCJKmonofont{Noto Sans Mono CJK SC}\pagestyle{empty}'
 
 for f in "$@"; do
+	BASENAME=${f##*/}
 	if [[ -s "$f" ]]; then
-		pygmentize -f tex -O "style=$STYLE,linenos,full,preamble=$PREAMBLE" $f \
-			| xelatex -jobname=$(basename $f) -output-directory=$SCRATCH
+	    pygmentize -f tex -O "style=$STYLE,linenos,full,preamble=$PREAMBLE" $f \
+		| lualatex -jobname=$BASENAME -output-directory=$SCRATCH
 	else
-		echo $ERR "Error: File <$f> not found." && exit 1
+		echo $ERR "Error: File $f not found." && exit 1
 	fi
 
 	[[ "$STYLE" = "default" ]] \
-		&& pdfcrop $SCRATCH/$(basename $f.pdf) $(basename $f | tr . -).pdf \
-		|| pdfcrop $SCRATCH/$(basename $f.pdf) $(basename $f | tr . -)-$STYLE.pdf
+		&& pdfcrop $SCRATCH/"$BASENAME".pdf ${BASENAME%.*}-.pdf \
+		|| pdfcrop $SCRATCH/"$BASENAME".pdf ${BASENAME%.*}-$STYLE.pdf
 	
 	(( ALL == 1 )) \
 		&& { pygmentize -f tex -O "style=bw,linenos,full,preamble=$PREAMBLE" $f \
-				 | xelatex -jobname=$(basename $f) -output-directory=$SCRATCH; \
-			 pdfcrop $SCRATCH/$(basename $f.pdf) $(basename $f | tr . -)-bw.pdf; }
+				 | lualatex -jobname=$BASENAME -output-directory=$SCRATCH; \
+			 pdfcrop $SCRATCH/"$BASENAME".pdf ${BASENAME%.*}-bw.pdf; }
 done

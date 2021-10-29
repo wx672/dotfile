@@ -4,74 +4,156 @@ MUPDF="$(command -v mupdf) -C FDF6E3"
 QB="/usr/bin/qutebrowser"
 CS6="cs6.swfu.edu.cn"
 
-unisk(){
-	chosen=$(uni -q p all U+0000..U+FFFF | sk -e10 | cut -d\' -f2) # sed "s/ .*//"
+zsk()
+{
+	z $(fd -d3 -td -tl --base-directory ${1:-.} | sk -e10 --ansi --color=always)
+}
+
+unisk()
+{
+	[ -z "$1" ] && { echo usage: "$0 <search string>"; return 1; }
+	chosen=$(uni -q -f "%(char l:3)%(wide_padding)%(cpoint l:8)%(name t)(%(block t))" \
+				 s "$1" | sk -e10 | cut -d' ' -f1)
 	
 	[ -z "$chosen" ] && return # Exit if none chosen.
 
-	printf "$chosen" | xsel -bi
+	printf "$chosen\n" && { printf "$chosen" | xsel -bi 2>/dev/null; }
 }
 
 # https://github.com/arp242/uni/blob/master/dmenu-uni
+# rofi -dmenu -i -font "FiraCode Nerd Font Mono 22" 
 emoji()
 {
-	chosen=$(uni -q e all | sort --random-sort | rofi -dmenu -i -font "FiraCode Nerd Font Mono 22" | sed "s/ .*//")
+	chosen=$(uni -q e ${1:-all} | sort --random-sort | sk -e10 | cut -d' ' -f1) #sed "s/ .*//"
 
 	[ -z "$chosen" ] && return # Exit if none chosen.
 
-	printf "$chosen" | xsel -bi
-	xdotool type "$chosen"
-	notify-send "'$chosen' copied to clipboard."
+	printf "$chosen\n" && { printf "$chosen" | xsel -bi 2>/dev/null; }
+	# xdotool type "$chosen"
+	# notify-send "'$chosen' copied to clipboard."
 }
 
-xpdf(){
+xpdf()
+{
+	local V="$MUPDF"
 	local PDFHIST="$HOME/.pdf_history"
+	
+	while getopts :tc OPT; do
+		case $OPT in
+			t) V="less" ;;
+			c) vim "$PDFHIST"; return 0;;
+			?) echo "Usage: xpdf [-t] [string]"; return 1 ;;
+		esac
+	done
+	shift $(( OPTIND - 1 ))
+	OPTIND=1
+
 	[ -e "$PDFHIST" ] || touch "$PDFHIST"
 	
 	if [ -z "$*" ]; then
 		cat $PDFHIST | \
-			sk -e10 --bind "enter:execute($MUPDF {} &)+abort" --ansi --color=always
+			sk -e10 --bind "enter:execute($V {})+abort" --ansi --color=always
 	else
 		# look into cwd. select one if multiple matches
-		local PDF=$(fd -IFd1 -epdf.gz -epdf "${1##*/}" $(dirname "$*") | sk -e10)
+		local PDF=$(fd -IFd1 -epdf.gz -epdf "${1##*/}" $(dirname "$*") \
+						| sk -e10 --ansi --color=always)
+		
 		if [ -z "$PDF" ]; then # if not in cwd, look into history
 			local HIST=$(rg -N "$*" $PDFHIST | sk -e10) #select one
+			
 			# in case of empty
-			[ -z "$HIST" ] && { echo File "$*" not found.; return 1; }
-			[[ "$HIST" == *gz ]] \
-				&& (gzip -cd "$HIST" | zathura -) \
-				|| ($MUPDF "$HIST" 2>/dev/null &)
+			[ -z "$HIST" ] && { [[ -n "$*" ]] && echo File "$*" not found.; return 1; }
+			
+			if [[ "$HIST" == *gz ]] && [[ "$V" != "less" ]]; then
+				gzip -cd "$HIST" | zathura -
+			else
+				$V "$HIST" 2>/dev/null
+			fi
 		else #found in cwd
-			[[ "$PDF" == *gz ]] \
-				&& (gzip -cd "$PDF" | zathura -) \
-				|| ($MUPDF "$PDF" 2>/dev/null &)
+			if [[ "$PDF" == *gz ]] && [[ "$V" != "less" ]]; then
+				gzip -cd "$PDF" | zathura -
+			else
+				$V "$PDF" 2>/dev/null
+			fi
 			# if not in PDFHIST, add it
-			rg -q "$PWD/$PDF" "$PDFHIST" || echo "$PWD/$PDF" >> "$PDFHIST"
+			rg -q $(realpath "$PDF") "$PDFHIST" || realpath "$PDF" >> "$PDFHIST"
 		fi
 	fi
+	return 0
 }
 
-lspdf(){
-    local PATN=${1:-pdf}
-	fd -e pdf | rg -i "$PATN" | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)"
+zpdf()
+{
+	local V="zathura --fork"
+	local PDFHIST="$HOME/.pdf_history"
+	
+	while getopts :te OPT; do
+		case $OPT in
+			t) V="less" ;;
+			e) vim "$PDFHIST"; return 0;;
+			?) echo "Usage: xpdf [-t] [string]"; return 1 ;;
+		esac
+	done
+	shift $(( OPTIND - 1 ))
+	OPTIND=1
+
+	[ -e "$PDFHIST" ] || touch "$PDFHIST"
+	
+	if [ -z "$*" ]; then
+		cat $PDFHIST | \
+			sk -e10 --bind "enter:execute($V {})+abort" --ansi --color=always
+	else
+		# look into cwd. select one if multiple matches
+		local PDF=$(fd -IFd1 -epdf.gz -epdf "${1##*/}" $(dirname "$*") \
+						| sk -e10 --ansi --color=always)
+		
+		if [ -z "$PDF" ]; then # if not in cwd, look into history
+			local HIST=$(rg -N "$*" $PDFHIST | sk -e10) #select one
+			
+			# in case of empty
+			[ -z "$HIST" ] && { [[ -n "$*" ]] && echo File "$*" not found.; return 1; }
+			
+			if [[ "$HIST" == *gz ]] && [[ "$V" != "less" ]]; then
+				gzip -cd "$HIST" | "$V" -
+			else
+				"$V" "$HIST" 2>/dev/null
+			fi
+		else #found in cwd
+			if [[ "$PDF" == *gz ]] && [[ "$V" != "less" ]]; then
+				gzip -cd "$PDF" | "$V" -
+			else
+				"$V" "$PDF" 2>/dev/null
+			fi
+			# if not in PDFHIST, add it
+			rg -q $(realpath "$PDF") "$PDFHIST" || realpath "$PDF" >> "$PDFHIST"
+		fi
+	fi
+	return 0
 }
 
-skpdf(){
-    (cd "${1:-.}" || exit 1;
-	 fd -e pdf | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$')
-}
+# lspdf()
+# {
+#     local PATN=${1:-pdf}
+# 	fd -e pdf | rg -i "$PATN" | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)"
+# }
+
+# skpdf()
+# {
+#     (cd "${1:-.}" || exit 1;
+# 	 fd -e pdf | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$')
+# }
 
 skiv(){
-	(cd "${1:-.}" || exit 1;
-	 fd -e png -e jpg -e gif -e pbm | sk -e --bind 'enter:execute(sxiv {} &)')
+	cd "${1:-.}" || exit 1;
+	fd -e png -e jpg -e gif -e pbm | sk -e10 --bind 'enter:execute(sxiv {} &)'
 }
 
 skvi(){
 	(cd "${1:-.}" || exit 1;
      
-	 x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e \
-			 --preview="bat {} --color=always" \
-             --preview-window=up:90%:hidden)"
+	 x="$(sk -e10 --ansi --color=always \
+	 		 --bind "ctrl-p:toggle-preview" \
+			 --preview="bat {}" --preview-window=up:90%:hidden)"
 
 	[[ -n "$x" ]] && vim "$x")
  }
@@ -79,60 +161,24 @@ skvi(){
 #--preview='bat --color=always {1} | rg -B3 -A$LINES {cq}'
 rgvi(){
 	(cd "${1:-.}" || exit 1;
-	 x="$(sk --bind "ctrl-p:toggle-preview" --ansi -e -d: \
-             --preview='bat --color=always {1}' \
+	 x="$(sk -e10 --ansi --color=always -d: \
+	 		 --bind "ctrl-p:toggle-preview" \
+             --preview='bat {1}' \
 			 --preview-window="up:90%:hidden:+{2}-/3" \
 			 -ic 'rg -i --color=always --line-number "{}"')"
 
 	[[ -n "$x" ]] && vim "$(echo "$x"|cut -d: -f1)" "+$(echo "$x"|cut -d: -f2)")
 }
 
-q(){
-	cat <<EOF | sk -e --bind "enter:execute($QB {} &)+abort" &>/dev/null
-qute://help
-file:///usr/share/doc/abs-guide/html/xrefindex.html
-file:///$HOME/lecture_notes/linux/c/c_dev.html
-file:///$HOME/lecture_notes/linux/bash/shell_basics.plain.html
-file://$HOME/Documents/network/www.tcpipguide.com/free/t_toc.htm
-https://$CS6/~wx672
-https://$CS6/~wx672/lecture_notes
-https://$CS6/moodle
-https://$CS6/calibre
-http://www.zhihu.com/notifications
-https://pan.baidu.com
-https://im.dingtalk.com
-https://web.wechat.com
-http://w.qq.com
-https://my.alipay.com
-http://jd.com
-http://www.taobao.com
-http://music.163.com/#/my/
-http://www.lizhi.fm/label/24229953853202224
-https://www.ximalaya.com/yinyue/235694/
-https://www.lucidchart.com/documents
-http://km.meituan.com
-http://pixlr.com/editor
-http://i.eastmoney.com/stock.html
-http://i.finance.sina.com.cn
-http://www.timer-tab.com
-https://youtube.com
-https://www.google.com/calendar/render
-https://contacts.google.com
-https://docs.google.com/drawings/create?usp=apps_start&hl=en
-https://drive.google.com/drive/#my-drive
-https://keep.google.com
-https://mail.google.com
-https://mail.google.com/mail/mu/?mui=ca
-https://photos.google.com
-https://maps.google.com
-https://github.com
-https://app.grammarly.com
-https://www.reddit.com
-https://web.telegram.org
-https://twitter.com
-EOF
-
+quickmarks(){
+	cat ~/.config/qutebrowser/quickmarks | \
+		sk -e --bind "enter:execute($QB {-1} &)+abort" &>/dev/null
 	return 0
+}
+
+play(){
+	fd -e mp4 -e mkv -e webm -e m4a -e mp3 -e rmvb -e avi -e flv | \
+		sk -e --bind "enter:execute(mpv {})+abort"
 }
 
 gmaps(){
@@ -149,8 +195,10 @@ google(){
     for WORD in "$@"; do
         QUERY="$QUERY%20$WORD"
     done
-    ($QB https://www.google.com/search?q=$QUERY 2>/dev/null &)
+    ($QB https://www.google.com/search?q="$QUERY" 2>/dev/null &)
 }
+
+g(){ google "$@"; }
 
 ddg(){
   QUERY=""
@@ -207,7 +255,8 @@ ffrec_lossless(){ # screen recording losslessly (very large file!)
 }
 
 mp4(){ # convert $1 to mp4
-	ffmpeg -i "$1" -c:v libx265 -preset ultrafast "$1".mp4
+	#  -preset ultrafast
+	ffmpeg -i "$1" -an -c:v libx265 "$1".mp4
 }
 
 ffrec_overlay(){ # recording screen and webcam
@@ -226,10 +275,10 @@ ffrec_overlay(){ # recording screen and webcam
 
 ffcam(){ # capture webcam
 	# use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
-
+	#  -preset superfast
 	ffmpeg -f v4l2 -s 640x480 -r 30 -i /dev/video0 \
 		   -f alsa -i pulse \
-		   -c:v libx264 -preset superfast -qp 0 -c:a aac -b:a 48k \
+		   -c:v libx264 -qp 0 -c:a aac -b:a 48k \
 		   "$(date +%Y%m%d%H%M)".mp4
 }
 
@@ -244,7 +293,7 @@ function countdown(){
     while [ "$date1" -ne "$(date +%s)" ]; do
 	    echo -ne "$(date -u --date @$((date1 - $(date +%s))) +%H:%M:%S)\r";
 	    sleep 1
-    done && mpv /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga
+    done && espeak "time out"
 }
 
 function stopwatch(){
@@ -307,20 +356,6 @@ propstring () {
   echo '}'
 }
 
-rfc_remote(){
-    w3m https://www.rfc-editor.org/rfc/rfc"$1".txt
-}
-
-rgrfc(){
-	[[ -n "$1" ]] || { cat <<EOF
-rgrfc - ripgrep in /usr/share/doc/RFC/rfc-index.txt.gz
-Usage: rgrfc <string>
-EOF
-return 1
-	}
-	rg -ziC3 --color=always "$1" /usr/share/doc/RFC/rfc-index.txt.gz
-}
-
 booksearch () {
 	LIBPATH=$HOME/Calibre
 	[[ -n "$1" ]] || { echo Usage: 'booksearch <keywords>'; return 1; }
@@ -376,63 +411,95 @@ xls2x () { # xls -> xlsx
 # To list all available formats: youtube-dl -F <URL>
 ydl()
 {
-    fmt=${1:-best}
-    TMPCLIP="/tmp/tmpclip"
-    
-    if pgrep -f sway; then
-		[ -s "$TMPCLIP" ] && { wl-copy -n < "$TMPCLIP" && rm -f "$TMPCLIP"; }
-		urls=$(wl-paste -n)
-    else
-		urls=$(xsel -bo)
-    fi
+	#defaults
+	#YDL="/usr/local/bin/youtube-dl"
+    YDL="/usr/bin/yt-dlp"
+    fmt='b'
+	port='7891'
 
-    for url in $urls; do
-		while ! youtube-dl -f "$fmt" "$url"; do
-			echo try again...
-		done
-    done
-    pgrep -f sway && wl-copy -c || xsel -bc
+	while getopts :f:p:sh OPT; do
+		case $OPT in
+			f) fmt="$OPTARG" ;;
+			p) port="$OPTARG";;
+			s) YDL="$YDL --write-subs --write-auto-subs" ;;
+			h) echo "Usage: ydl [-h] [-f <fmt>] [-p <port>] [-s]"; return 0 ;;
+		esac
+	done
+	shift $(( OPTIND - 1 ))
+	OPTIND=1
+
+    # TMPCLIP="/tmp/tmpclip"
+    # if pgrep -f sway; then
+	# 	[ -s "$TMPCLIP" ] && { wl-copy -n < "$TMPCLIP" && rm -f "$TMPCLIP"; }
+	# 	urls=$(wl-paste -n)
+    # else
+	urls=$(xsel -bo)
+    # fi
+
+	while ! $YDL --proxy "socks5://127.0.0.1:$port" -f "$fmt" "$urls"; do
+		echo try again...
+	done
+	
+    # pgrep -f sway && wl-copy -c ||
+	xsel -bc
 }
 
 ypv()
 {
     # play online media from youtube or bilibili
-    # ypv - youtube best
-    # ypv bestaudio|any_valid_format
-    # ypv b #for bilibili
+    # ypv - youtube best audio
+    # ypv b|ba|bv|any_valid_format
+    # ypv bilibili #for bilibili
 
     # in qutebrowser,
     # ';y' to overwrite the clipboard with selected url.
     # ';a' to append an url into clipbroad.
 
-    # default to youtube best format
-    # b for bilibili
-    # any other string will be treated as youtube-dl format
-    yb=${1:-best}
-    TMPCLIP="/tmp/tmpclip"
+	YDL="/usr/bin/yt-dlp"
+	#YDL="/usr/local/bin/youtube-dl"
+
+    # default to youtube best audio format (ba)
+    # bilibili for bilibili
+    # any other string will be treated as one of the youtube-dl formats
+    fmt='ba'
+	port='7891'
+
+	while getopts :f:p:h OPT; do
+		case $OPT in
+			f) fmt="$OPTARG" ;;
+			p) port="$OPTARG";;
+			h) echo "Usage: ypv [-h] [-f <fmt>] [-p <port>]"; return 1 ;;
+		esac
+	done
+	shift $(( OPTIND - 1 ))
+	OPTIND=1
+	
+    # TMPCLIP="/tmp/tmpclip"
     
-    if pgrep -f sway; then
-	[ -s "$TMPCLIP" ] && { wl-copy -n < "$TMPCLIP" && rm -f "$TMPCLIP"; }
-	CLIP="wl-paste -n"
-    else
-	CLIP="xsel -bo"
-    fi
+    # if pgrep -f sway; then
+	# 	[ -s "$TMPCLIP" ] && { wl-copy -n < "$TMPCLIP" && rm -f "$TMPCLIP"; }
+	# 	CLIP="wl-paste -n"
+    # else
+		CLIP="xsel -bo"
+    # fi
     
-    if [ "$yb" != "b" ]; then
+    if [ "$fmt" != "bilibili" ]; then
         while read url; do
-            echo playing "$url" '('"$yb"')'
-	    while ! youtube-dl -f "$yb" -o - "$url" | mpv --profile=ypv - ; do
-		# in case of Ctrl-c
-		echo try again...
-	    done
+            echo playing "$url" '('"$fmt"')'
+			while ! $YDL --proxy "socks5://127.0.0.1:$port" -f "$fmt" -o - "$url" | \
+					mpv --profile=noproxy - ; do
+				# in case of Ctrl-c
+				echo try again...
+			done
         done <<< $($CLIP)
     else
         while read url; do
             echo playing "$url"
-            mpv --profile=ypv "$url"
+            mpv --profile=noproxy "$url"
         done <<< $($CLIP)
     fi
-    pgrep -f sway && wl-copy -c || xsel -bc
+    # pgrep -f sway && wl-copy -c ||
+			xsel -bc
 }
 
 cs6(){

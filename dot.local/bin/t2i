@@ -1,7 +1,7 @@
 #!/bin/bash
 
 [[ -n "$2" ]] || { cat <<EOF
-`basename $0` - Convert text into an image.
+${0##*/} - Convert text into an image.
 
 Usage: $0 <text> <Image name> [width] [pointsize]
 

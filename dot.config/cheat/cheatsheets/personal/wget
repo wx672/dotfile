@@ -1,0 +1,31 @@
+# https://stackoverflow.com/questions/273743/using-wget-to-recursively-fetch-a-directory-with-arbitrary-files-in-it
+
+wget -r -np -nH --cut-dirs=3 -R "index.html*" -e robots=off https://cs6.swfu.edu.cn/~wx672/lecture_notes/os/src/
+
+# https://stackoverflow.com/questions/4602153/how-do-i-use-wget-to-download-all-images-into-a-single-folder-from-a-url
+
+wget -nd -H -p -A jpg,png,jpeg,gif -e robots=off https://zhuanlan.zhihu.com/p/28232983
+
+wget http://path.to.the/file -O newname
+
+wget -P path/to/directory http://path.to.the/file
+
+wget -c http://path.to.the/file # continue
+
+wget http://www.myserver.com/files-{1..15}.tar.bz2 # download files matching a pattern
+
+wget -r -l1 -A.jpg http://myserver.com/directory # download jpg files
+
+wget -pk http://path.to.the/page.html # mirror whole page
+
+wget -mk http://site.tl/ # mirror whole site
+
+wget URL1 URL2 # To download multiples files with multiple URLs
+
+wget -i url_list.txt # download each one in the list file
+
+# download just the headers of responses (-S --spider) and display them on Stdout (-O -).
+wget -S --spider -O - http://google.com
+
+# Change the User-Agent to 'User-Agent: toto'
+wget -U 'toto' http://google.com

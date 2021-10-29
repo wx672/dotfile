@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-#name : \begin{frame} ... \end{frame}
-# --
-\title{$0} \institute{} \author{Wang Xiaolin\\\\{\small \url{wx672ster@gmail.com}}}
-
-\begin{frame}
-  \titlepage
-\end{frame}
-

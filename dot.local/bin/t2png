@@ -2,9 +2,9 @@
 
 usage(){
 	cat <<EOF
-`basename $0` - Convert text into a png image.
+${0##*/} - Convert text into a png image.
 
-Usage: $(basename $0) [-h] [-o image name] [-w width] [-f pointsize] <text>
+Usage: ${0##*/} [-h] [-o image name] [-w width] [-f pointsize] <text>
 
 Image name - Output file name
      width - canvas width, default to 640x

@@ -4,7 +4,7 @@ usage(){
 	cat <<EOF
 a2pdf - Convert any image into a monochrome PDF file with optional text annotation.
 
-Usage: `basename $0` [-f Filter] [-t Threshold] [-T text] [-c x,y] [-F font size] <Image>
+Usage: ${0##*/} [-f Filter] [-t Threshold] [-T text] [-c x,y] [-F font size] <Image>
 
    Filter - man mkbitmap for details
 Threshold - man mkbitmap for details

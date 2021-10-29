@@ -3,12 +3,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-electric-math '("\\(" . "\\)"))
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    (vector "#ffffff" "#f36c60" "#8bc34a" "#fff59d" "#4dd0e1" "#b39ddb" "#81d4fa" "#263238"))
- '(blink-cursor-mode nil)
+ '(blink-cursor-interval 1)
+ '(blink-cursor-mode t)
  '(bookmark-save-flag 1)
  '(browse-url-browser-function 'browse-url-generic)
  '(browse-url-generic-program (executable-find "x-www-browser"))
@@ -22,7 +22,7 @@
  '(cursor-type '(bar . 4))
  '(custom-enabled-themes '(creame))
  '(custom-safe-themes
-   '("d73fbb04e7050f1c6e100f8899df2f5940170581e5060902d59bb928038fd151" "9cb1617b1f43edf257ddbe0f342085e684374e95af3107bc864e049654569085" "28d43a25c1cefbd1f6913af910288fe17781b84daf7ecd733ae6faa9476beed7" "ffba0482d3548c9494e84c1324d527f73ea4e43fff8dfd0e48faa8fc6d5c2bc7" "2288833bc8b2d1daf1429e24ab382bce6198538a553cc5e031d7821f0dc500eb" default))
+   '("9cb1617b1f43edf257ddbe0f342085e684374e95af3107bc864e049654569085" "d73fbb04e7050f1c6e100f8899df2f5940170581e5060902d59bb928038fd151" default))
  '(debug-on-error nil)
  '(default-major-mode 'org-mode t)
  '(dired-guess-shell-alist-user nil)
@@ -60,7 +60,7 @@
  '(org-ditaa-jar-path "/usr/bin/ditaa")
  '(org-time-stamp-custom-formats '("<%m/%d/%y>" . "<%m/%d/%y>"))
  '(package-selected-packages
-   '(helm-rg imenu-anywhere pyim-basedict ox-gfm ox-pandoc yaml-mode rust-mode elisp-slime-nav helm-slime slime semi w3m gnuplot elpy markdown-mode yasnippet-classic-snippets material-theme graphviz-dot-mode csv-nav nasm-mode yasnippet-snippets async helm auctex diminish helm-config helm-command helm-files ascii-art-to-unicode pyim yatemplate sicp org-pdfview htmlize helm-gtags helm-c-yasnippet csv-mode use-package))
+   '(helm org pdf-tools yasnippet sketch-themes yatemplate markdown-mode outline-magic uniquify yasnippet-snippets yasnippet-classic-snippets yaml-mode web-mode use-package sicp semi rust-mode pyim-basedict pyim ox-pandoc ox-gfm org-pdfview nord-theme nasm-mode material-theme imenu-anywhere htmlize helm-slime helm-rg helm-gtags helm-c-yasnippet graphviz-dot-mode gnuplot fzf elpy elisp-slime-nav diminish csv-mode auctex ascii-art-to-unicode almost-mono-themes))
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(read-mail-command 'ignore)
  '(safe-local-variable-values '((hl-sexp-mode) (rainbow-mode . t)))
@@ -72,27 +72,6 @@
  '(tool-bar-mode nil)
  '(track-eol t)
  '(unibyte-display-via-language-environment t)
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   '((20 . "#f36c60")
-	 (40 . "#ff9800")
-	 (60 . "#fff59d")
-	 (80 . "#8bc34a")
-	 (100 . "#81d4fa")
-	 (120 . "#4dd0e1")
-	 (140 . "#b39ddb")
-	 (160 . "#f36c60")
-	 (180 . "#ff9800")
-	 (200 . "#fff59d")
-	 (220 . "#8bc34a")
-	 (240 . "#81d4fa")
-	 (260 . "#4dd0e1")
-	 (280 . "#b39ddb")
-	 (300 . "#f36c60")
-	 (320 . "#ff9800")
-	 (340 . "#fff59d")
-	 (360 . "#8bc34a")))
- '(vc-annotate-very-old-color nil)
  '(version-control 'never)
  '(view-diary-entries-initially t)
  '(view-read-only t)

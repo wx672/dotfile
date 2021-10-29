@@ -2,9 +2,9 @@
 
 usage() {
 	cat <<EOF
-`basename $0` - draw grid on a picture
+${0##*/} - draw grid on a picture
 
-USAGE: `basename $0` [-h] [-s 'x,y'] [-c color] [-o opacity] [-O outfile] infile
+USAGE: ${0##*/} [-h] [-s 'x,y'] [-c color] [-o opacity] [-O outfile] infile
 
 OPTIONS:
  -s spacing    x,y spacing between grid lines. default=200,200;

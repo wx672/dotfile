@@ -34,8 +34,6 @@
 (set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
 
-(setq tab-width 4)
-
 ;; Chinese Font
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
   (set-fontset-font t charset (font-spec :family "Noto Sans Mono CJK SC" :size 26)))
@@ -43,9 +41,19 @@
 ;; Symbols
 (set-fontset-font t 'symbol (font-spec :family "Symbola"))
 
-(set-fontset-font "fontset-default"  '(#xe200 . #xf4a8) (font-spec :family "DejaVu Sans Mono Nerd Font Complete Mono"))
+(set-fontset-font "fontset-default"  '(#xe104 . #xe1ae) (font-spec :family "Linux Biolinum Keyboard O"))
 
-(set-fontset-font "fontset-default"  '(#x1f000 . #x1f9e6) (font-spec :family "Symbola"))
+(set-fontset-font "fontset-default"  '(#x2500 . #x25ff) (font-spec :family "DejaVuSansMono Nerd Font"))
+(set-fontset-font "fontset-default"  '(#x2600 . #x2aff) (font-spec :family "DejaVuSansMono Nerd Font"))
+(set-fontset-font "fontset-default"  '(#xe200 . #xe2a9) (font-spec :family "DejaVuSansMono Nerd Font"))
+(set-fontset-font "fontset-default"  '(#xe300 . #xe3e3) (font-spec :family "DejaVuSansMono Nerd Font"))
+(set-fontset-font "fontset-default"  '(#xe5fa . #xe62e) (font-spec :family "DejaVuSansMono Nerd Font"))
+(set-fontset-font "fontset-default"  '(#xe700 . #xe7c5) (font-spec :family "DejaVuSansMono Nerd Font"))
+(set-fontset-font "fontset-default"  '(#xf000 . #xf31c) (font-spec :family "DejaVuSansMono Nerd Font"))
+(set-fontset-font "fontset-default"  '(#xf400 . #xf4a9) (font-spec :family "DejaVuSansMono Nerd Font"))
+(set-fontset-font "fontset-default"  '(#xf500 . #xfd46) (font-spec :family "DejaVuSansMono Nerd Font"))
+(set-fontset-font "fontset-default"  '(#x1f300 . #x1f6f8) (font-spec :family "Symbola"))
+
 
 (provide 'init-90-face)
 ;;; init-10-face.el ends here

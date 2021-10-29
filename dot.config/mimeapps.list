@@ -1,3 +1,4 @@
+
 [Default Applications]
 image/png=sxiv.desktop
 image/jpeg=sxiv.desktop
@@ -11,3 +12,5 @@ application/pdf=mupdf.desktop
 text/plain=batcat.desktop
 text/x-bibtex=nvim.desktop
 text/markdown=mdless.desktop
+text/*=emacsclient.desktop
+application/x-desktop=emacsclient.desktop

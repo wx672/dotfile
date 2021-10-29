@@ -1,0 +1,11 @@
+# split pages
+pdftk os-marks burst
+
+# sign a page
+pdfsign -c'4.2,1' -s'1.2,1' -t'2021,1,20' -S'王晓林' -p'12,1' pg_0001.pdf
+
+# sign the analysis page
+pdfsign -c'4,13' -w10cm -S'../analysis-improve.pdf' -n os-analysis.pdf
+
+# join pages
+pdftk pg*signed.pdf cat output os-marks-signed.pdf

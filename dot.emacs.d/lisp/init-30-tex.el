@@ -16,6 +16,7 @@
    TeX-auto-save t
    TeX-parse-self t
    TeX-newline-function 'delete-other-windows
+   TeX-electric-math '("\\(" . "\\)")
 
    TeX-command-list
    '(("LaTeXMK" "latexmk %s" TeX-run-TeX nil t :help "Run latexmk")
@@ -32,6 +33,7 @@
    
    TeX-view-program-selection '((output-pdf "PDF Tools") (output-html "xdg-open"))
    TeX-view-style nil
+   TeX-electric-sub-and-superscript t
    bibtex-maintain-sorted-entries t
    bibtex-align-at-equal-sign t
    ) ; end of setq
@@ -42,11 +44,13 @@
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
   (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "LaTeXMK")))
   (add-hook 'LaTeX-mode-hook '(lambda () (setq TeX-command-default "LaTeXMK")))
-
+  ;; (add-hook 'LaTeX-mode-hook
+  ;;         (lambda () (set (make-variable-buffer-local 'TeX-electric-math)
+  ;; 					 (cons "\\(" "\\)"))))
+  
   (setq-default TeX-master nil)
 
   (use-package latex
-    :bind (:map LaTeX-mode-map ("$" . self-insert-command))
     :config
     (use-package outline
       :config

@@ -20,3 +20,4 @@ export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 
 # make sure libpam-systemd is installed, otherwise XDG_VTNR will be NULL.
 [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- vt1 -keeptty
+#[[ -z $DISPLAY && "$(tty)" = "/dev/tty1" ]] && exec sway

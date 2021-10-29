@@ -1,0 +1,35 @@
+Basic rules:
+
+1. No switches on command line gives default behaviour
+2. If it is not captured, then the packet cannot be examined
+3. A packet is captured in its entirity
+4. Parts of a captured packet can be selected for displayed
+
+Examples:
+
+sudo tshark -i wlp1s0 -c500 -w data.pcap # capture 500 pkts, save to file data.pcap
+sudo tshark -r data.pcap # read from file data.pcap
+
+# fetch (-f) filters
+sudo tshark -f "net 192.168.1.0/24" # capture on a specified network
+sudo tshark -f "multicast or broadcast" -w workers.pcap
+
+# display/yank (-Y) filters
+sudo tshark -Y "ip.addr == 192.168.8.244" -r mycaps.pcap 
+sudo tshark -Y "ip.dst == 192.168.8.244" -r mycaps.pcap
+sudo tshark -f "host 192.168.8.244" -Y "ip.dst == 192.168.8.244"
+
+# &&, ||
+sudo tshark -Y "ip.addr != 192.168.8.244 && ip.len < 1500" -Y "ip.src == 192.168.14.5"
+
+# -V, -O, -T
+sudo tshark -O icmp
+sudo tshark -T fields -e frame.number -e ip.addr -e ip.len
+sudo tshark -T fields -e frame.number -e ip.addr -e ip.len -r mycaptures.pcap
+sudo tshark -O http -T fields -e frame.number -e ip.addr -e ip.len -e data
+sudo tshark -r tmp.pcap -V -Y "frame.number == 1"
+sudo tshark -f "host 192.168.1.192" -T fields -e "eth.addr" -e "ip.src" -e "ip.dst"
+
+# show complete contents of a captured pkt (-x)
+sudo tshard -r mycaptures.pcap -Y "ip.addr == 192.168.8.244" -x
+

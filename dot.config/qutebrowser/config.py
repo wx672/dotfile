@@ -8,6 +8,7 @@ from qutebrowser.api import interceptor
 
 # general settings
 c.auto_save.session = True
+c.changelog_after_upgrade = 'never'
 c.completion.height = "30%"
 c.completion.web_history.max_items = 1000
 c.content.cache.size = 52428800
@@ -27,6 +28,11 @@ c.downloads.location.suggestion = 'path'
 c.downloads.open_dispatcher = None
 c.downloads.position = 'top'
 c.editor.command = ["xterm", "-e", "vim", "-f", "{file}", "-c", "normal {line}G{column0}1"]
+#c.fileselect.folder.command = ["xterm", "-e", "bash", "-c", "nnn -p {}"]
+c.fileselect.folder.command = ["alacritty", "-e", "bash", "-c", "lf -selection-path {}"]
+c.fileselect.multiple_files.command = c.fileselect.folder.command
+c.fileselect.single_file.command = c.fileselect.folder.command
+#c.fileselect.handler = "external"
 c.hints.auto_follow = 'always'
 c.hints.auto_follow_timeout = 0
 c.hints.border = "1px solid #CCCCCC"
@@ -94,11 +100,14 @@ c.aliases = {
 # config.unbind('f', mode='normal')
 # config.bind('f', 'hint all tab', mode='normal')
 # config.bind('F', 'hint', mode='normal')
+config.unbind('<Ctrl-n>', mode='normal')
+config.unbind('<Ctrl-p>', mode='normal')
 config.unbind('<Ctrl-q>', mode='normal')
 config.unbind('<Ctrl-v>', mode='normal')
 config.unbind('<Ctrl-a>', mode='normal')
 config.unbind('ga', mode='normal')
 config.unbind('r', mode='normal')
+config.bind('<Ctrl-Shift-p>', 'tab-pin', mode='normal')
 config.bind('<Escape>', 'mode-leave', mode='passthrough')
 config.bind('<Ctrl-i>', 'mode-enter passthrough', mode='normal')
 config.bind('<Ctrl-/>', 'undo', mode='normal')
@@ -117,14 +126,13 @@ config.bind('<Ctrl-r>', 'reload', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
-#config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://127.0.0.1:7891 none socks://localhost:1080', mode='normal')
-config.bind('<Shift-i>', 'config-cycle statusbar.show always never;; config-cycle tabs.show always never')
+#config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:7891', mode='normal')
+config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show never always')
 config.unbind('b', mode='normal')
-#config.bind('b', 'set-cmd-text -s :bookmark-add', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
-#config.bind('<Ctrl-a>i', 'spawn --userscript password_fill', mode='normal')
 config.bind(';d', 'hint links spawn aria2c --no-conf --check-certificate=false -x6 {hint-url}')
 config.bind(';a', 'hint links spawn -u clipappend {hint-url}')
+config.bind('zl', 'hint links spawn -u qute-pass')
 
 config.bind('gi', 'mode-enter insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
 
@@ -132,20 +140,17 @@ config.bind('gi', 'mode-enter insert ;; jseval --quiet var inputs = document.get
 config.bind("<Ctrl-u>", "fake-key <Shift-Home><Delete>", "insert")
 config.bind("<Ctrl-k>", "fake-key <Shift-End><Delete>", "insert")
 config.bind("<Ctrl-y>", "insert-text {primary}", "insert")
-config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
 config.bind("<Ctrl-a>", "fake-key <Home>", "insert")
 config.bind("<Ctrl-e>", "fake-key <End>", "insert")
 config.bind("<Ctrl-b>", "fake-key <Left>", "insert")
-config.bind("<Mod1-b>", "fake-key <Ctrl-Left>", "insert")
 config.bind("<Ctrl-f>", "fake-key <Right>", "insert")
+config.bind("<Mod1-b>", "fake-key <Ctrl-Left>", "insert")
 config.bind("<Mod1-f>", "fake-key <Ctrl-Right>", "insert")
-config.bind("<Ctrl-j>", "fake-key <Down>", "insert")
-config.bind("<Ctrl-n>", "fake-key <Down>", "insert")
-config.bind("<Ctrl-k>", "fake-key <Up>", "insert")
-config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
 config.bind("<Mod1-d>", "fake-key <Ctrl-Delete>", "insert")
+config.bind("<Ctrl-n>", "fake-key <Down>", "insert")
+config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
+config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
 config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
-config.bind("<Mod1-Backspace>", "fake-key <Ctrl-Backspace>", "insert")
 config.bind("<Ctrl-x><Ctrl-e>", "edit-text", "insert")
 
 ## colors

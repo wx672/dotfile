@@ -1,2 +1,3 @@
 bindkey('0', 'go-leftmost')
 bindkey('x', 'delete-cell')
+options.confirm_overwrite=False

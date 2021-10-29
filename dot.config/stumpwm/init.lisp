@@ -28,6 +28,14 @@
 
 ;; Window operations
 
+;; (defcommand toggle-layout () ()
+;; 	    "cycle through hsplit, vsplit, and only. 
+;; don't know how to define isVsplit/isHsplit"
+;; 	    (if (sibling)
+;; 		(if (?isVsplit) (hsplit) (vsplit))
+;; 		(if (sibling) (hsplit) (vsplit)))
+;; 	    )
+
 (defcommand toggle-hsplit () ()
             "toggle between hsplit and only"
             (if (sibling) (only) (hsplit)))

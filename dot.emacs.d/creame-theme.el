@@ -45,7 +45,7 @@
  '(ido-only-match ((t (:bold t))))
  '(ido-subdir ((t (:italic t))))
  '(ido-virtual ((t (:foreground "#7d7165"))))
- '(org-table ((t (:foreground "#7d7165"))))
+ ;; '(org-table ((t (:foreground "#7d7165"))))
  '(default ((t (:background "#f0e5da" :foreground "#000000")))))
 
 (provide-theme 'creame)

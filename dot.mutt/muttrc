@@ -9,7 +9,7 @@ set postponed=~/Mail/postponed
 set record=~/Mail/sent
 set signature=~/.signature
 set charset="utf-8"
-set send_charset=us-ascii:iso-8859-1:gbk:utf-8
+set send_charset=us-ascii:iso-8859-1:utf-8
 set assumed_charset="gb2312:big5:utf-8"
 set wait_key=yes
 set noconfirmappend

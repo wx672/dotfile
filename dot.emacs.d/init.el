@@ -15,9 +15,12 @@
 (require 'package)
 
 (setq package-archives
-      '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-        ("melpa" . "http://elpa.emacs-china.org/melpa/")
-		("org"   . "http://elpa.emacs-china.org/org/")))
+      '(;; ("gnu"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")
+        ("melpa" . "http://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
+		;; ("org"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
+		;; ("gnu"   . "http://elpa.gnu.org/packages/")
+        ;; ("melpa" . "http://melpa.org/packages/")
+		))
 
 ;; (append package-archives
 ;; 	'(("melpa" . "https://stable.melpa.org/packages/")
@@ -25,7 +28,7 @@
 ;; 	  ("org" . "https://orgmode.org/elpa/")))
 
 ;; no need since the variable package-enable-at-startup is default to t
-;; (package-initialize)
+(package-initialize)
 
 ;;; quicklisp and slime are for playing with stumpwm
 ;;
@@ -79,26 +82,19 @@
 (require 'init-globalkeys)
 (require 'init-pyim)
 (require 'init-40-print)
+(require 'init-50-company)
 (require 'init-50-pdftools)
 (require 'init-90-face)
 
 (use-package yasnippet
   :ensure t
   :config
-  (yas-reload-all)
   (yas-minor-mode)
-  (yas-global-mode 1))
-
-(use-package ispell
-  :custom
-  (ispell-local-dictionary "en_US")
-  (ispell-local-dictionary-alist
-   '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))))
-
-(use-package nasm-mode
-  :config (add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\|nas\\)$" . nasm-mode)))
+  (yas-global-mode 1)
+  (yas-reload-all))
 
 (use-package helm-gtags
+  :ensure t
   :hook
   ((c-mode c++-mode asm-mode nasm-mode) . helm-gtags-mode)
 
@@ -107,12 +103,23 @@
 	      ("M-," . helm-gtags-find-rtag)
 	      ("M-s" . helm-gtags-find-symbol)))
 
-;; https://github.com/jorgenschaefer/elpy
-(use-package elpy
-  ;; :disabled
+(use-package ispell
   :ensure t
-  :init
-  (elpy-enable))
+  :custom
+  (ispell-local-dictionary "en_US")
+  (ispell-local-dictionary-alist
+   '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8))))
+
+(use-package nasm-mode
+  :ensure t
+  :config (add-to-list 'auto-mode-alist '("\\.\\(asm\\|s\\|nas\\)$" . nasm-mode)))
+
+;; https://github.com/jorgenschaefer/elpy
+;; (use-package elpy
+;;   :disabled
+;;   :ensure t
+;;   :init
+;;   (elpy-enable))
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'c-mode-hook
@@ -133,6 +140,7 @@
 
 ;; Nicer naming of buffers for files with identical names
 (use-package uniquify
+  :ensure t
   :custom
   (uniquify-buffer-name-style 'reverse)
   (uniquify-separator " @ ")
@@ -145,10 +153,10 @@
 
 (autoload 'rfcview-mode "rfcview" nil t)
 
-(add-hook 'outline-minor-mode-hook
-          (lambda ()
-            (require 'outline-magic)
-            (define-key outline-minor-mode-map [(tab)] 'outline-cycle)))
+;; (add-hook 'outline-minor-mode-hook
+;;           (lambda ()
+;;             (require 'outline-magic)
+;;             (define-key outline-minor-mode-map [(tab)] 'outline-cycle)))
 
 (require 'server)
 (unless (server-running-p) (server-start))

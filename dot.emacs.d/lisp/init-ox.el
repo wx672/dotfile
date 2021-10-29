@@ -44,7 +44,12 @@
   :config
   (setq
    org-latex-default-packages-alist nil
-   org-latex-packages-alist '(("" "wx672hyperref" nil) ("" "amsmath,amsfonts,amssymb" nil) ("" "graphicx" nil)) ;("" "enumitem" nil) ("" "wx672minted" nil) 
+   org-latex-packages-alist '(("" "wx672hyperref" nil)
+							  ("" "amsmath,amsfonts,amssymb" nil)
+							  ("" "graphicx" nil)
+							  ("" "tabularray" nil)
+							  ;; ("" "wx672minted" nil) 
+							  ) 
    org-latex-classes
    '(("wx672ctexart"
 	  "\\documentclass{wx672ctexart} [PACKAGES] [EXTRA]"
