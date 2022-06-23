@@ -46,7 +46,6 @@ dot.local/share/lf
 dot.local/share/qutebrowser
 dot.local/share/ssr
 dot.local/share/virtualenv/
-dot.local/v2ray-clash/
 dot.sawfish/window-history
 dot.tmux/plugins/
 dot.vim/.netrwhist
@@ -108,9 +107,6 @@ dot.config/ibus/
 dot.config/QtProject.conf
 dot.config/sway/
 dot.local/share/rofi
-dot.local/clash
-dot.config/clash
-dot.config/clash_win/
 dot.emacs.d/todo
 dot.local/share/delta/
 dot.local/v2ray/
@@ -118,3 +114,4 @@ dot.local/Xray
 dot.config/fcitx5/conf
 dot.config/cheat/cheatsheets/community/
 home-setup.sh
+dot.config/fcitx5/conf/pinyin.conf

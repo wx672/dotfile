@@ -85,10 +85,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 240 :family "FiraCode Nerd Font"))))
+ '(default ((t (:height 160 :family "FiraCode Nerd Font"))))
  '(cursor ((t (:background "indian red"))))
  '(helm-selection ((t (:background "light gray" :foreground "black"))))
  '(helm-selection-line ((t (:background "light gray" :distant-foreground "black"))))
  '(hl-line ((t nil)))
- '(mode-line ((t (:height 180 :family "FiraCode Nerd Font"))))
+ '(mode-line ((t (:height 140 :family "FiraCode Nerd Font"))))
  '(org-table ((t (:family "Noto Sans Mono CJK SC")))))

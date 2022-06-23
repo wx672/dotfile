@@ -1,0 +1,30 @@
+#!/bin/bash
+
+usage(){
+	cat <<EOF
+${0##*/} - Removing dead nodes in a clash config file
+
+USAGE: ${0##*/} [-hni] 'L,N' file.yml
+
+	-h - print this help info
+	-n - show matching records
+	-i - remove matching records
+	 L - location, e.g. 香港
+	 N - number, e.g. 5
+EOF
+	return
+}
+
+while getopts :hni OPT; do
+	case $OPT in
+		n) OP='n,p' ;;
+		i) OP='i,d' ;;
+		h) usage; exit 0 ;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+[[ -e "$2" ]] || { echo "Missing input file $2!"; usage; exit 1; }
+
+sed -${OP%,*} "/${1%,*}.* ${1#*,}$/${OP#*,}" $2

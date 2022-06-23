@@ -27,12 +27,13 @@ c.downloads.location.remember = False
 c.downloads.location.suggestion = 'path'
 c.downloads.open_dispatcher = None
 c.downloads.position = 'top'
-c.editor.command = ["xterm", "-e", "vim", "-f", "{file}", "-c", "normal {line}G{column0}1"]
+# c.editor.command = ["xterm", "-e", "vim", "-f", "{file}", "-c", "normal {line}G{column0}1"]
+c.editor.command = ["emacsclient", "-c", "{}"]
 #c.fileselect.folder.command = ["xterm", "-e", "bash", "-c", "nnn -p {}"]
 c.fileselect.folder.command = ["alacritty", "-e", "bash", "-c", "lf -selection-path {}"]
 c.fileselect.multiple_files.command = c.fileselect.folder.command
 c.fileselect.single_file.command = c.fileselect.folder.command
-#c.fileselect.handler = "external"
+c.fileselect.handler = "external"
 c.hints.auto_follow = 'always'
 c.hints.auto_follow_timeout = 0
 c.hints.border = "1px solid #CCCCCC"
@@ -53,33 +54,37 @@ c.tabs.favicons.show = "always"
 c.tabs.last_close = "close"
 c.tabs.show = "always"
 c.tabs.show_switching_delay = 3000
-c.url.default_page = 'https://cs6.swfu.edu.cn'
+c.url.default_page = 'https://google.com'
 c.url.open_base_url = True
-c.url.start_pages = 'https://cs6.swfu.edu.cn'
+c.url.start_pages = 'https://google.com'
 c.zoom.default = "100%"
 c.zoom.levels = ["50%","75%","100%","125%","150%","175%","200%","225%","250%","275%","300%"]
 
 # searches
 # example: :open d hello
 c.url.searchengines = {
-'DEFAULT':'http://cn.bing.com/search?q={}',
+'DEFAULT':'http://www.google.com/search?q={}',
 'a':'https://wiki.archlinux.org/?search={}',
 'b':'https://search.bilibili.com/all?keyword={}',
 'd':'https://duckduckgo.com/?q={}',
 'e':'https://earth.google.com/web/search/{}',
 'gh':'https://github.com/search?q={}',
+'havoc':'https://download.havoc-os.com/?search={}',
 'jd':'https://search.jd.com/Search?keyword={}',
 'ks':'https://video.kuaishou.com/search/video?searchKey={}',
 'l':'https://www.latexstudio.net/index/lists/barSearch/text/{}',
 'p':'http://thepiratebay.org/search/{}',
 'pb':'https://pirate-bays.net/search?q={}',
 'r':'https://reddit.com/r/{}',
-'s':'https://unix.stackexchange.com/search?q={}',
+'rb':'https://rumble.com/search/video?q={}',
+'s':'https://stackexchange.com/search?q={}',
 't':'https://twitter.com/{}',
 'w':'https://en.wikipedia.org/?search={}',
-'x':'https://www.1377x.to/search/{}/1/',
+'x':'https://www.1337xx.to/search/{}/1/',
 'xda':'https://www.xda-developers.com/search/?query={}',
-'y':'https://www.youtube.com/results?search_query={}'
+'ximalaya':'https://www.ximalaya.com/search/{}',
+'y':'https://www.youtube.com/results?search_query={}',
+'ym':'https://www.youmaker.com/search?keywords={}'
 }
 
 # aliases
@@ -126,7 +131,7 @@ config.bind('<Ctrl-r>', 'reload', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
-#config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:7891', mode='normal')
+config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://localhost:7891 none', mode='normal')
 config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show never always')
 config.unbind('b', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
