@@ -6,29 +6,37 @@ CS6="cs6.swfu.edu.cn"
 
 zsk()
 {
-	z $(fd -d3 -td -tl --base-directory ${1:-.} | sk -e10 --ansi --color=always)
-}
-
-unisk()
-{
-	[ -z "$1" ] && { echo usage: "$0 <search string>"; return 1; }
-	chosen=$(uni -q -f "%(char l:3)%(wide_padding)%(cpoint l:8)%(name t)(%(block t))" \
-				 s "$1" | sk -e10 | cut -d' ' -f1)
-	
-	[ -z "$chosen" ] && return # Exit if none chosen.
-
-	printf "$chosen\n" && { printf "$chosen" | xsel -bi 2>/dev/null; }
+	z $(fd --max-depth 3 \
+		   --type directory \
+		   --type symlink \
+		   --base-directory ${1:-.} | sk --exact \
+										 --select-1 --exit-0 \
+										 --ansi --color=always)
 }
 
 # https://github.com/arp242/uni/blob/master/dmenu-uni
 # rofi -dmenu -i -font "FiraCode Nerd Font Mono 22" 
 emoji()
 {
-	chosen=$(uni -q e ${1:-all} | sort --random-sort | sk -e10 | cut -d' ' -f1) #sed "s/ .*//"
+	[ -z "$2" ] && { echo usage: "$0 <search|emoji> <search string>"; return 1; }
+
+	CMD="$1"
+	case $CMD in
+		s*) chosen=$(uni -quiet \
+						 -f "%(char l:3)%(wide_padding)%(cpoint l:8)%(name t)(%(block t))" \
+						 search "$2" | sk --exact \
+										  --select-1 \
+										  --exit-0 | choose 0)
+			;;
+		e*) chosen=$(uni -quiet emoji ${2:-all} | sort --random-sort | sk -e10 | choose 0)
+			;;
+		*) echo usage: "$0 <search|emoji> <search string>"; return 0
+		   ;;
+	esac
 
 	[ -z "$chosen" ] && return # Exit if none chosen.
 
-	printf "$chosen\n" && { printf "$chosen" | xsel -bi 2>/dev/null; }
+	printf "$chosen\n" && { xsel -bi <<<$chosen; }
 	# xdotool type "$chosen"
 	# notify-send "'$chosen' copied to clipboard."
 }
@@ -38,11 +46,12 @@ xpdf()
 	local V="$MUPDF"
 	local PDFHIST="$HOME/.pdf_history"
 	
-	while getopts :tc OPT; do
+	while getopts :htc OPT; do
 		case $OPT in
 			t) V="less" ;;
 			c) vim "$PDFHIST"; return 0;;
-			?) echo "Usage: xpdf [-t] [string]"; return 1 ;;
+			h) echo "Usage: xpdf [-h] [-tc string]"; return 0 ;;
+			?) echo "Usage: xpdf [-h] [-tc string]"; return 1 ;;
 		esac
 	done
 	shift $(( OPTIND - 1 ))
@@ -51,11 +60,12 @@ xpdf()
 	[ -e "$PDFHIST" ] || touch "$PDFHIST"
 	
 	if [ -z "$*" ]; then
-		cat $PDFHIST | \
-			sk -e10 --bind "enter:execute($V {})+abort" --ansi --color=always
+		sk -e10 --bind "enter:execute($V {})+abort" --ansi --color=always < $PDFHIST
 	else
 		# look into cwd. select one if multiple matches
-		local PDF=$(fd -IFd1 -epdf.gz -epdf "${1##*/}" $(dirname "$*") \
+		local PDF=$(fd --no-ignore --fixed-strings --max-depth 3 \
+					   --extension pdf.gz --extension pdf \
+					   "${1##*/}" \
 						| sk -e10 --ansi --color=always)
 		
 		if [ -z "$PDF" ]; then # if not in cwd, look into history
@@ -91,7 +101,7 @@ zpdf()
 		case $OPT in
 			t) V="less" ;;
 			e) vim "$PDFHIST"; return 0;;
-			?) echo "Usage: xpdf [-t] [string]"; return 1 ;;
+			?) echo "Usage: zpdf [-t] [string]"; return 1 ;;
 		esac
 	done
 	shift $(( OPTIND - 1 ))
@@ -100,11 +110,10 @@ zpdf()
 	[ -e "$PDFHIST" ] || touch "$PDFHIST"
 	
 	if [ -z "$*" ]; then
-		cat $PDFHIST | \
-			sk -e10 --bind "enter:execute($V {})+abort" --ansi --color=always
+		sk -e10 --bind "enter:execute($V {})+abort" --ansi --color=always <$PDFHIST
 	else
 		# look into cwd. select one if multiple matches
-		local PDF=$(fd -IFd1 -epdf.gz -epdf "${1##*/}" $(dirname "$*") \
+		local PDF=$(fd -IFd1 -epdf.gz -epdf "${1##*/}" \
 						| sk -e10 --ansi --color=always)
 		
 		if [ -z "$PDF" ]; then # if not in cwd, look into history
@@ -130,18 +139,6 @@ zpdf()
 	fi
 	return 0
 }
-
-# lspdf()
-# {
-#     local PATN=${1:-pdf}
-# 	fd -e pdf | rg -i "$PATN" | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)"
-# }
-
-# skpdf()
-# {
-#     (cd "${1:-.}" || exit 1;
-# 	 fd -e pdf | sk -e --bind "enter:execute($MUPDF {} &>/dev/null &)+abort" --skip-to-pattern '[^/]*$')
-# }
 
 skiv(){
 	cd "${1:-.}" || exit 1;
@@ -171,8 +168,9 @@ rgvi(){
 }
 
 quickmarks(){
-	cat ~/.config/qutebrowser/quickmarks | \
-		sk -e --bind "enter:execute($QB {-1} &)+abort" &>/dev/null
+	sk -e --bind "enter:execute($QB {-1} &)+abort" \
+	   < ~/.config/qutebrowser/quickmarks \
+	   2>/dev/null
 	return 0
 }
 
@@ -218,7 +216,11 @@ ffcast(){ # screencast streaming
 
     trap 'pkill screenkey' INT EXIT TERM ERR
 
-    (screenkey --no-systray --opacity .3 --font-color red --font "Fira Code SemiBold" --font-size small &)
+    (screenkey --no-systray \
+			   --opacity .3 \
+			   --font-color red \
+			   --font "Fira Code SemiBold" \
+			   --font-size small &)
     
     ffmpeg -f x11grab -video_size 1366x768 -r 15 -i :0.0 \
            -c:v libx264 -tune zerolatency \
@@ -285,7 +287,7 @@ ffcam(){ # capture webcam
 # http://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal
 
 function countdown(){
-    [ -n "$1" ] || {
+    [ "$1" ] || {
 	echo "Usage: countdown <seconds>"
 	return 1
     }
@@ -358,7 +360,7 @@ propstring () {
 
 booksearch () {
 	LIBPATH=$HOME/Calibre
-	[[ -n "$1" ]] || { echo Usage: 'booksearch <keywords>'; return 1; }
+	[[ "$1" ]] || { echo Usage: 'booksearch <keywords>'; return 1; }
 	calibredb list -s "$@" --with-library="$LIBPATH"/Calibre1
 	calibredb list -s "$@" --with-library="$LIBPATH"/Calibre2
 	calibredb list -s "$@" --with-library="$LIBPATH"/Calibre3
@@ -414,8 +416,6 @@ ydl()
 	#defaults
 	#YDL="/usr/local/bin/youtube-dl"
     YDL="/usr/bin/yt-dlp"
-    fmt='b'
-	port='7891'
 
 	while getopts :f:p:sh OPT; do
 		case $OPT in
@@ -436,7 +436,7 @@ ydl()
 	urls=$(xsel -bo)
     # fi
 
-	while ! $YDL --proxy "socks5://127.0.0.1:$port" -f "$fmt" "$urls"; do
+	while ! $YDL --proxy "socks5://127.0.0.1:${port:-7891}" -f "${fmt:-b}" "$urls"; do
 		echo try again...
 	done
 	
@@ -461,8 +461,6 @@ ypv()
     # default to youtube best audio format (ba)
     # bilibili for bilibili
     # any other string will be treated as one of the youtube-dl formats
-    fmt='ba'
-	port='7891'
 
 	while getopts :f:p:h OPT; do
 		case $OPT in
@@ -486,7 +484,8 @@ ypv()
     if [ "$fmt" != "bilibili" ]; then
         while read url; do
             echo playing "$url" '('"$fmt"')'
-			while ! $YDL --proxy "socks5://127.0.0.1:$port" -f "$fmt" -o - "$url" | \
+			while ! $YDL --proxy "socks5://127.0.0.1:${port:-7891}" \
+					-f "${fmt:-ba}" -o - "$url" | \
 					mpv --profile=noproxy - ; do
 				# in case of Ctrl-c
 				echo try again...
@@ -508,7 +507,7 @@ cs6(){
 
 cs6v(){
     url="https://cs6.swfu.edu.cn/~wx672"
-    base=${1:-"tmp"}
+    base=${1:-tmp}
     movies=$(xsel -bo)
 
     cat <<EOF
