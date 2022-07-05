@@ -44,15 +44,22 @@
   :config
   (setq
    org-latex-default-packages-alist nil
-   org-latex-packages-alist '(("" "wx672hyperref" nil)
+   org-latex-packages-alist '(("" "hyperref" nil)
 							  ("" "amsmath,amsfonts,amssymb" nil)
 							  ("" "graphicx" nil)
 							  ("" "tabularray" nil)
-							  ;; ("" "wx672minted" nil) 
+							  ("" "minted" nil) 
 							  ) 
    org-latex-classes
    '(("wx672ctexart"
 	  "\\documentclass{wx672ctexart} [PACKAGES] [EXTRA]"
+	  ("\\section{%s}" . "\\section*{%s}")
+	  ("\\subsection{%s}" . "\\subsection*{%s}")
+	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	  ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+	 ("ctexart"
+	  "\\documentclass{ctexart} [PACKAGES] [EXTRA]"
 	  ("\\section{%s}" . "\\section*{%s}")
 	  ("\\subsection{%s}" . "\\subsection*{%s}")
 	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")

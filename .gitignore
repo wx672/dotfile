@@ -113,8 +113,8 @@ dot.local/v2ray/
 dot.local/Xray
 dot.config/fcitx5/conf
 dot.config/cheat/cheatsheets/community/
-home-setup.sh
-dot.config/fcitx5/conf/pinyin.conf
-fy-55549.yaml
-yml
+quickmarks
 dot.local/share/fonts/
+dot.local/share/fcitx5/pinyin
+dot.config/clash/yml
+dot.config/clash/config.yaml

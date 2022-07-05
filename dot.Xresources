@@ -4,6 +4,16 @@
 
 XTerm*loginShell: true
 
+!!! https://wiki.archlinux.org/title/HiDPI
+!Xft.dpi: 192
+! These might also be useful depending on your monitor and personal preference:
+! Xft.autohint: 0
+! Xft.lcdfilter:  lcddefault
+! Xft.hintstyle:  hintfull
+! Xft.hinting: 1
+! Xft.antialias: 1
+! Xft.rgba: rgb
+
 dzen2.font: xft:monospace:pixelsize=64:antialias=false:hinting=true
 dzen2.foreground: #22EE11
 dzen2.background: black

@@ -50,6 +50,7 @@ shift+o move-right,move-up
 shift+n move-left,move-down
 shift+m move-right,move-down
 space warp,click 1,end
+ctrl+space warp,doubleclick 1,end
 semicolon warp,end
 1 warp,click 1,end
 2 warp,click 2,end

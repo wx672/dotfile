@@ -13,21 +13,13 @@ c.completion.height = "30%"
 c.completion.web_history.max_items = 1000
 c.content.cache.size = 52428800
 c.content.default_encoding = 'utf-8'
-<<<<<<< HEAD
-c.content.blocking.enabled = False
-=======
 c.content.blocking.enabled = True
->>>>>>> bd566c5 (updates)
 c.content.fullscreen.window = False
 c.content.javascript.can_access_clipboard = True
 c.content.javascript.can_open_tabs_automatically = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
-<<<<<<< HEAD
-c.content.proxy = "none"
-=======
-c.content.proxy = "socks://localhost:7891/"
->>>>>>> bd566c5 (updates)
+c.content.proxy = "socks://localhost:7891"
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
 c.downloads.location.prompt = False
@@ -35,9 +27,7 @@ c.downloads.location.remember = False
 c.downloads.location.suggestion = 'path'
 c.downloads.open_dispatcher = None
 c.downloads.position = 'top'
-# c.editor.command = ["xterm", "-e", "vim", "-f", "{file}", "-c", "normal {line}G{column0}1"]
 c.editor.command = ["emacsclient", "-c", "{}"]
-#c.fileselect.folder.command = ["xterm", "-e", "bash", "-c", "nnn -p {}"]
 c.fileselect.folder.command = ["alacritty", "-e", "bash", "-c", "lf -selection-path {}"]
 c.fileselect.multiple_files.command = c.fileselect.folder.command
 c.fileselect.single_file.command = c.fileselect.folder.command
@@ -65,8 +55,8 @@ c.tabs.show_switching_delay = 3000
 c.url.default_page = 'https://google.com'
 c.url.open_base_url = True
 c.url.start_pages = 'https://google.com'
-c.zoom.default = "100%"
-c.zoom.levels = ["50%","75%","100%","125%","150%","175%","200%","225%","250%","275%","300%"]
+c.zoom.default = "200%"
+c.zoom.levels = ["100%","125%","150%","175%","200%","225%","250%","275%","300%"]
 
 # searches
 # example: :open d hello
@@ -139,12 +129,13 @@ config.bind('<Ctrl-r>', 'reload', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
-config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://localhost:7891 none', mode='normal')
+config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://localhost:7891 socks://127.0.0.1:1080 none', mode='normal')
 config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show never always')
 config.unbind('b', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
 config.bind(';d', 'hint links spawn aria2c --no-conf --check-certificate=false -x6 {hint-url}')
 config.bind(';a', 'hint links spawn -u clipappend {hint-url}')
+config.bind(';r', 'spawn -u readability')
 config.bind('zl', 'hint links spawn -u qute-pass')
 
 config.bind('gi', 'mode-enter insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
@@ -181,7 +172,6 @@ config.bind("<Ctrl-n>", "fake-key <Down>", "insert")
 config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
 config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
 config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
-config.bind("<Ctrl-x><Ctrl-e>", "edit-text", "insert")
 
 ## colors
 c.colors.tabs.even.fg = "white"
@@ -204,7 +194,7 @@ c.colors.hints.bg = "#cccccc"
 c.colors.webpage.bg = "#eeeeee"
 
 # fonts
-c.fonts.statusbar = "16pt Noto Sans Mono"
+c.fonts.statusbar = "22pt Noto Sans Mono"
 c.fonts.tabs.selected = c.fonts.statusbar
 c.fonts.tabs.unselected = c.fonts.statusbar
 c.fonts.downloads = c.fonts.statusbar 

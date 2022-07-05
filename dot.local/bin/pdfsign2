@@ -5,13 +5,13 @@ usage(){
 USAGE: ${0##*/} [-hD] [-p pattern] [-c xshift,yshift] [-d ysep,msep,dsep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background>
 
 EXAMPLES:
-1. ${0##*/} -p'教师：__' -t'2022,5,30' linux-20211152-marks.pdf
+1. ${0##*/} -p'教师：__' -t'2022,5,30' pg_0001.pdf
    ${0##*/} -p'教师：__' -t'2022,5,30' -S'\sig 王晓林' pg_0002.pdf
    ${0##*/} -p'考试形式' -S'开卷机试' -c'0,25' pg_0003.pdf
 
-2. ${0##*/} -p'考试形式' -S'开卷机试' -c'50,-4' -t'2021,1,21' net-20201152-analysis-signed.pdf
+2. ${0##*/} -w10cm -c'-20,-50' -S'../analysis-improve.pdf' *-analysis.pdf
 
-3. ${0##*/} -w10cm -c'-20pt,-50pt' -S'../analysis-improve.pdf' net-20201152-analysis.pdf
+3. ${0##*/} -p'考试形式' -S'开卷机试' -c'50,25' -d'110,0,0' -t'2022/,6/,26' *-analysis-signed.pdf
 
 background - paper to sign
         -h - help
@@ -61,14 +61,14 @@ getCoordinate(){
 	Y=$(( 842 - ${Y%.*} ))pt
 
 	[[ "$DEBUG" ]] && {
-		echo "XY = $XY" >> $DEBUGFILE
+		echo "XY = $XY" > $DEBUGFILE
 		echo "X = $X" >> $DEBUGFILE
 		echo "Y = $Y" >> $DEBUGFILE
 	}	
 }
 
 signit(){
-	cat <<EOF >> "$TEXFILE"
+	cat <<EOF > "$TEXFILE"
 \documentclass[tikz]{standalone}
 \usetikzlibrary{backgrounds,positioning}
 \usepackage[scheme=plain]{ctex}
@@ -113,7 +113,7 @@ EOF
 Signed with <$SIG>
 	   at (${X:-200pt},${Y:-400pt})
 	   [xshift=${XSHIFT:--60}pt, yshift=${YSHIFT:-0}pt, scale=${SIGSCALE:-1}]
-	   Picture width=${WIDTH:-1cm}
+	   Picture width=${WIDTH:-1cm} if signed with a picture
 EOF
 	}
 
@@ -177,8 +177,8 @@ BG="$*"
 
 [[ -f "$BG" ]] || { colorEcho $ERR "ERROR: <${BG:-BACKGROUND}> NOT FOUND."; usage; exit 1; }
 
-DEBUGFILE="__DEBUG__"
-TEXFILE="${BG%.pdf}-signed.tex"
+DEBUGFILE="__DEBUG__"; > $DEBUGFILE
+TEXFILE="${BG%.pdf}-signed.tex"; > $TEXFILE
 PDF="${TEXFILE%.tex}.pdf"
 LOG="${TEXFILE%.tex}.log"
 AUX="${TEXFILE%.tex}.aux"
