@@ -14,9 +14,9 @@ tmux send-keys "ssr jp-177" C-m
 tmux split-window -h
 
 tmux select-pane -t 1
+
 tmux send-keys "cd ~/.config/clash/yml" C-m "clash" C-m
 
-tmux select-pane -t 2
 tmux send-keys "cd ~/.config/clash/yml" C-m C-l
 
 # Local Variables:

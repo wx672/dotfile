@@ -15,7 +15,3 @@ if [ -z $wid ]; then
 else
 	wmctrl -ia $wid
 fi
-
-
-
-

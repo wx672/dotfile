@@ -117,3 +117,4 @@ home-setup.sh
 dot.config/fcitx5/conf/pinyin.conf
 fy-55549.yaml
 yml
+dot.local/share/fonts/
