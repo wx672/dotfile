@@ -117,3 +117,8 @@ home-setup.sh
 dot.config/fcitx5/conf/pinyin.conf
 fy-55549.yaml
 yml
+dot.local/share/fonts/
+dot.config/clash/yml
+config.yaml
+dot.config/tmux/plugins/
+dot.config/stumpwm/sample-stumpwmrc.lisp

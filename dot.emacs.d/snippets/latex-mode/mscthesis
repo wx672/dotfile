@@ -1,0 +1,112 @@
+# -*- mode: snippet -*-
+#name : SWFU MSc thesis template
+# --
+\documentclass{swfuthesism}
+
+\addbibresource{thesis.bib} % 参照教程自己去写一个.bib文件
+
+\swfusetup{
+  Title={${1:论文标题}},% 论文标题
+  enTitle={${2:英文标题}},% 论文标题（英文）
+  Author={${3:作者姓名}},% 作者姓名
+  enAuthor={${4:英文姓名}},% 作者姓名（英文）
+  AuthorId={${5:学号}},%
+  Advisor={${6:导师姓名}},% 导师姓名
+  AdvisorTitle={${7:导师职称}},%导师职称
+  enAdvisor={${8:导师英文姓名}},%导师英文姓名
+  AdvisorSig={\includegraphics[width=6em]{${9:sig}}},% 导师签名
+  ClsID={${10:分类号}},%分类号
+  Year={${11:2022}},%
+  Month={${12:5}},%
+  DateA={${13:2022/12/16}},%提交论文日期
+  DateB={${14:2022/12/19}},%论文答辩日期
+  DateC={${15:30}},%独创性声明页上的“日”
+  Subject={${16:学科专业}},%学科专业
+  enSubject={${17:学科专业英文}},%学科专业英文
+  Signature={\includegraphics[width=6em]{${18:sig}}},% 签名
+  Chairman={${19:答辩委员会主席（职称）}},% 答辩委员会主席（职称）
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract} % 摘要
+$0 本文是关于……
+\end{abstract}
+
+\begin{keyword} % 关键词
+关键词，关键词，关键词……
+\end{keyword}
+
+\begin{eabstract} % 英文摘要
+   This project is about...
+\end{eabstract}
+
+\begin{ekeyword} % 英文关键词
+keyword, keyword, keyword...
+\end{ekeyword}
+
+\frontmatter
+\tableofcontents     % 目录
+%\listoffigures       % 插图目录，可以没有
+%\listoftables        % 表格目录，可以没有
+
+\cleardoublepage % without this page number gets wrong
+
+\mainmatter
+
+% 参考教程，在chapters目录中单独写各章（ch1.tex, ch2.tex...）
+\include{chapters/ch1} %%% 论文的目录结构大致如下：
+\include{chapters/ch2} % thesis/
+\include{chapters/ch3} %       ├── doc/
+\include{chapters/ch4} %       │      ├── thesis.tex
+\include{chapters/ch5} %       │      ├── chapters/
+\include{chapters/ch6} %       │      │   ├── ch1.tex
+\include{chapters/ch7} %       │      │   ├── ch2.tex
+\include{chapters/ch8} %       │      │   ├── ch3.tex
+\include{chapters/ch9} %       │      │   └── ...
+\include{chapters/cha} %       │      ├── figs/
+\include{chapters/chb} %       │      │   ├── flowchart.pdf
+\include{chapters/chc} %       │      │   └── ...
+\include{chapters/chd} %       │      └── ...
+\include{chapters/che} %       └── src/
+\include{chapters/chf} %              ├── hello.c
+\include{chapters/chg} %              └── ...
+\include{chapters/chh} %%%
+
+%%%%% appendix （参考文献、指导教师简介、鸣谢、附录）
+\appendix % keep this line
+
+\makebib % 参考文献
+
+% 附录章节放在这里
+%\singlespacing
+
+%\include{chapters/xxx}
+
+\doublespacing
+
+% 作者简介
+\begin{authorInfo}
+  某研究生，初从文，三年不中；后习武，校场发一矢，中鼓吏，逐之出；遂学医，有所成。自撰一良方，服之，卒。
+\end{authorInfo}
+
+% 导师简介
+\begin{advisorInfo}
+  某教授，初从文，三年不中；后习武，校场发一矢，中鼓吏，逐之出；遂学医，有所成。自撰一良方，服之，卒。
+\end{advisorInfo}
+
+\publication{key1,key2,key3,key4,} %获得成果目录
+
+% 致谢
+\begin{acknowledgment}
+  感谢人民，感谢党，感谢政府，感谢祖国，感谢新社会，感谢领导，感谢新闻联播，感谢无处不在的摄像头……
+\end{acknowledgment}
+
+\end{document} % 结束。不要动下面几行！
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

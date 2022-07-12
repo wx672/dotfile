@@ -1,0 +1,53 @@
+[user]
+	name = Wang Xiaolin
+	email = wx672ster@gmail.com
+[color]
+	status = auto
+	diff = auto
+	branch = auto
+    interactive = auto
+[alias]
+    st = status
+    ci = commit
+    co = checkout
+	br = branch
+	ls = ls-files
+	lga = log --graph --pretty=oneline --abbrev-commit --decorate --all
+[core]
+	excludesFile = /home/wx672/.gitignore
+	autocrlf = input
+	pager = delta
+[delta]
+    plus-style = "syntax #012800"
+    minus-style = "syntax #340001"
+    syntax-theme = Monokai Extended
+    navigate = true
+	line-numbers = true
+    side-by-side = true
+    #line-numbers-left-format = ""
+    #line-numbers-right-format = "│ "
+
+
+[interactive]
+    diffFilter = delta --color-only
+[push]
+	default = simple
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = wx672ster@gmail.com
+	smtpserverport = 587
+[http]
+ 	sslVerify = false
+	lowSpeedLimit = 0
+	lowSpeedTime = 999999
+	postBuffer = 1048576000
+# 	proxy = socks5://127.0.0.1:1080
+[https]
+ 	sslVerify = false
+	lowSpeedLimit = 0
+	lowSpeedTime = 999999
+	postBuffer = 1048576000
+# 	proxy = socks5://127.0.0.1:1080
+[pull]
+	rebase = false

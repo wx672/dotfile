@@ -13,7 +13,7 @@ c.completion.height = "30%"
 c.completion.web_history.max_items = 1000
 c.content.cache.size = 52428800
 c.content.default_encoding = 'utf-8'
-c.content.blocking.enabled = False
+c.content.blocking.enabled = True
 c.content.fullscreen.window = False
 c.content.javascript.can_access_clipboard = True
 c.content.javascript.can_open_tabs_automatically = True
@@ -27,9 +27,7 @@ c.downloads.location.remember = False
 c.downloads.location.suggestion = 'path'
 c.downloads.open_dispatcher = None
 c.downloads.position = 'top'
-# c.editor.command = ["xterm", "-e", "vim", "-f", "{file}", "-c", "normal {line}G{column0}1"]
 c.editor.command = ["emacsclient", "-c", "{}"]
-#c.fileselect.folder.command = ["xterm", "-e", "bash", "-c", "nnn -p {}"]
 c.fileselect.folder.command = ["alacritty", "-e", "bash", "-c", "lf -selection-path {}"]
 c.fileselect.multiple_files.command = c.fileselect.folder.command
 c.fileselect.single_file.command = c.fileselect.folder.command
@@ -57,8 +55,8 @@ c.tabs.show_switching_delay = 3000
 c.url.default_page = 'https://google.com'
 c.url.open_base_url = True
 c.url.start_pages = 'https://google.com'
-c.zoom.default = "100%"
-c.zoom.levels = ["50%","75%","100%","125%","150%","175%","200%","225%","250%","275%","300%"]
+c.zoom.default = "200%"
+c.zoom.levels = ["100%","125%","150%","175%","200%","225%","250%","275%","300%"]
 
 # searches
 # example: :open d hello
@@ -87,17 +85,19 @@ c.url.searchengines = {
 'ym':'https://www.youmaker.com/search?keywords={}'
 }
 
-# aliases
-# example: :ding
+## Aliases for commands. The keys of the given dictionary are the
+## aliases, while the values are the commands they map to.
+## Type: Dict
 c.aliases = {
-'calibre':'open -t https://cs6.swfu.edu.cn/calibre',
-'cs6':'open -t https://cs6.swfu.edu.cn/moodle',
-'cs6lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
-'ding':'open -t https://im.dingtalk.com',
-'gist':'open -t https://gist.github.com',
-'gmail':'open -t https://mail.google.com',
-'lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
-'wechat':'open -t https://web.wechat.com/'
+    'proxy':'set content.proxy',
+    'calibre':'open -t https://cs6.swfu.edu.cn/calibre',
+    'cs6':'open -t https://cs6.swfu.edu.cn/moodle',
+    'cs6lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
+    'ding':'open -t https://im.dingtalk.com',
+    'gist':'open -t https://gist.github.com',
+    'gmail':'open -t https://mail.google.com',
+    'lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
+    'wechat':'open -t https://web.wechat.com/'
 }
 
 # keybinds
@@ -131,12 +131,13 @@ config.bind('<Ctrl-r>', 'reload', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
-config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://localhost:7891 none', mode='normal')
+config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://localhost:7891 socks://127.0.0.1:1080 none', mode='normal')
 config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show never always')
 config.unbind('b', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
 config.bind(';d', 'hint links spawn aria2c --no-conf --check-certificate=false -x6 {hint-url}')
 config.bind(';a', 'hint links spawn -u clipappend {hint-url}')
+config.bind(';r', 'spawn -u readability')
 config.bind('zl', 'hint links spawn -u qute-pass')
 
 config.bind('gi', 'mode-enter insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
@@ -158,38 +159,60 @@ config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
 config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
 config.bind("<Ctrl-x><Ctrl-e>", "edit-text", "insert")
 
+## Readline Insert Mode
+config.bind("<Ctrl-u>", "fake-key <Shift-Home><Delete>", "insert")
+config.bind("<Ctrl-k>", "fake-key <Shift-End><Delete>", "insert")
+config.bind("<Ctrl-y>", "insert-text {primary}", "insert")
+config.bind("<Ctrl-a>", "fake-key <Home>", "insert")
+config.bind("<Ctrl-e>", "fake-key <End>", "insert")
+config.bind("<Ctrl-b>", "fake-key <Left>", "insert")
+config.bind("<Ctrl-f>", "fake-key <Right>", "insert")
+config.bind("<Mod1-b>", "fake-key <Ctrl-Left>", "insert")
+config.bind("<Mod1-f>", "fake-key <Ctrl-Right>", "insert")
+config.bind("<Mod1-d>", "fake-key <Ctrl-Delete>", "insert")
+config.bind("<Ctrl-n>", "fake-key <Down>", "insert")
+config.bind("<Ctrl-p>", "fake-key <Up>", "insert")
+config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
+config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
+
 ## colors
-c.colors.tabs.even.fg = "white"
-c.colors.tabs.even.bg = "black"
-c.colors.tabs.odd.fg = "white"
-c.colors.tabs.odd.bg = "black"
-c.colors.tabs.selected.even.fg = "black"
-c.colors.tabs.selected.even.bg = "yellow"
-c.colors.tabs.selected.odd.fg = "black"
-c.colors.tabs.selected.odd.bg = "yellow"
-c.colors.tabs.pinned.even.fg = "white"
-c.colors.tabs.pinned.even.bg = "black"
-c.colors.tabs.pinned.odd.fg = "white"
-c.colors.tabs.pinned.odd.bg = "black"
+c.colors.tabs.even.fg                 = "white"
+c.colors.tabs.even.bg                 = "black"
+c.colors.tabs.odd.fg                  = "white"
+c.colors.tabs.odd.bg                  = "black"
+c.colors.tabs.selected.even.fg        = "black"
+c.colors.tabs.selected.even.bg        = "yellow"
+c.colors.tabs.selected.odd.fg         = "black"
+c.colors.tabs.selected.odd.bg         = "yellow"
+c.colors.tabs.pinned.even.fg          = "white"
+c.colors.tabs.pinned.even.bg          = "black"
+c.colors.tabs.pinned.odd.fg           = "white"
+c.colors.tabs.pinned.odd.bg           = "black"
 c.colors.tabs.pinned.selected.even.fg = "black"
 c.colors.tabs.pinned.selected.even.bg = "yellow"
-c.colors.tabs.pinned.selected.odd.fg = "black"
-c.colors.tabs.pinned.selected.odd.bg = "yellow"
-c.colors.hints.bg = "#cccccc"
-c.colors.webpage.bg = "#eeeeee"
+c.colors.tabs.pinned.selected.odd.fg  = "black"
+c.colors.tabs.pinned.selected.odd.bg  = "yellow"
+c.colors.hints.bg                     = "#cccccc"
+c.colors.webpage.bg                   = "#eeeeee"
 
 # fonts
-c.fonts.statusbar = "16pt Noto Sans Mono"
-c.fonts.tabs.selected = c.fonts.statusbar
-c.fonts.tabs.unselected = c.fonts.statusbar
-c.fonts.downloads = c.fonts.statusbar 
-c.fonts.prompts = c.fonts.statusbar
-c.fonts.hints = c.fonts.statusbar
-c.fonts.messages.info = c.fonts.statusbar
-c.fonts.keyhint = c.fonts.hints
-c.fonts.messages.warning = c.fonts.messages.info
-c.fonts.messages.error = c.fonts.messages.info
-c.fonts.completion.entry = c.fonts.statusbar
-c.fonts.completion.category = c.fonts.statusbar
+c.fonts.default_family      = ["Noto Sans Mono"]
+c.fonts.default_size        = '18pt'
+c.fonts.statusbar           = "default_size default_family"
+c.fonts.tabs.selected       = "default_size default_family"
+c.fonts.tabs.unselected     = "default_size default_family"
+c.fonts.downloads           = "default_size default_family"
+c.fonts.prompts             = "default_size default_family"
+c.fonts.hints               = "default_size default_family"
+c.fonts.messages.info       = "default_size default_family"
+c.fonts.keyhint             = "bold default_size default_family"
+c.fonts.messages.warning    = "default_size default_family"
+c.fonts.messages.error      = "default_size default_family"
+c.fonts.completion.entry    = "default_size default_family"
+c.fonts.completion.category = "default_size default_family"
+c.fonts.web.size.default    = 18
+c.fonts.web.size.default_fixed = 16
 
+
+## Don't load settings done via the GUI.
 config.load_autoconfig(False)

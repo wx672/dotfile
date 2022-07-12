@@ -24,7 +24,10 @@
 
 (setf
  *message-window-gravity* :bottom
- *input-window-gravity* :bottom-left)
+ *input-window-gravity* :bottom-left
+ *run-or-raise-all-groups* nil
+ *run-or-raise-all-screens* nil
+)
 
 ;; Window operations
 
@@ -107,10 +110,10 @@
 
 ;; brightness
 (defcommand brightnessup () ()
-  (run-shell-command "brightnessctl set +5%"))
+  (run-shell-command "brightnessctl set +2%"))
 
 (defcommand brightnessdown () ()
-  (run-shell-command "brightnessctl set 5%-"))
+  (run-shell-command "brightnessctl set 2%-"))
 
 (set-prefix-key (kbd "s-T"))
 

@@ -8,8 +8,9 @@ env:
 
 window:
   dimensions:
-    columns: 0
-    lines: 0
+    columns: 91
+    lines: 25
+  opacity: .95
 
   padding:
     x: 0
@@ -35,7 +36,7 @@ font:
     style: Italic
 
   # Point size of the font
-  size: 14.0
+  size: 20.0
 
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: false
@@ -46,10 +47,6 @@ bell:
   animation: EaseOutExpo
   color: '0xffffff'
   duration: 0
-
-# Background opacity
-#background_opacity: 1.0
-window.opacity: 1.0
 
 # Key bindings
 #

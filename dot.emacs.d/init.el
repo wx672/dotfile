@@ -1,10 +1,6 @@
 ;;; init.el --- init
 
 ;;; Commentary:
-;; Calls my Emacs configuration files after installing use-package, which is
-;; necessary for operation.  See also:
-;;      http://www.cachestocaches.com/2015/8/getting-started-use-package/
-;;
 ;; Code inspired by:
 ;;      http://stackoverflow.com/a/10093312/3672986
 ;;      http://www.lunaryorn.com/2015/01/06/my-emacs-configuration-with-use-package.html
@@ -18,14 +14,9 @@
       '(;; ("gnu"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")
         ("melpa" . "http://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
 		;; ("org"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
-		;; ("gnu"   . "http://elpa.gnu.org/packages/")
+		("gnu"   . "http://elpa.gnu.org/packages/")
         ;; ("melpa" . "http://melpa.org/packages/")
 		))
-
-;; (append package-archives
-;; 	'(("melpa" . "https://stable.melpa.org/packages/")
-;; 	  ("gnu" . "https://elpa.gnu.org/packages/")
-;; 	  ("org" . "https://orgmode.org/elpa/")))
 
 ;; no need since the variable package-enable-at-startup is default to t
 (package-initialize)
@@ -49,42 +40,49 @@
 ;;; HINT: 'c-h P' to see package details
 (require 'use-package)
 (require 'diminish)
-(require 'bind-key)
+;;(require 'bind-key) ; use general.el instead
 
-(mapc #'(lambda (path)
-	  (add-to-list 'load-path
-		       (expand-file-name path user-emacs-directory)))
-      '("lisp" "site-lisp"))
+(require 'server)
+(unless (server-running-p) (server-start))
 
-(setq custom-file (expand-file-name "lisp/custom.el" user-emacs-directory))
-(load custom-file 'noerror)
-(load (expand-file-name "registers" user-emacs-directory) 'noerror)
+;; https://config.daviwil.com/emacs
+;; Change the user-emacs-directory to keep unwanted things out of ~/.emacs.d
+(setq
+ user-emacs-directory (expand-file-name "~/.cache/emacs/")
+ url-history-file (expand-file-name "url/history" user-emacs-directory))
 
-;; (use-package socks
-;;   :disabled
-;;   :ensure url
-;;   :init
-;;   (setq socks-override-functions 1
-;; 	url-gateway-method 'socks
-;; 	socks-noproxy '("localhost")
-;; 	socks-server '("Default server" "localhost" 7891 5)))
+;; Use no-littering to automatically set common paths to the new user-emacs-directory
+(use-package no-littering)
 
-(show-paren-mode 1)
-(electric-pair-mode 1)
-(save-place-mode 1)
-(setq save-place-forget-unreadable-files t)
-(setq-default tab-width 4)
+;; Keep customization settings in a temporary file (thanks Ambrevar!)
+(setq custom-file
+      (if (boundp 'server-socket-dir)
+          (expand-file-name "custom.el" server-socket-dir)
+        (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
+(load custom-file t)
 
-(require 'init-20-helm)
-(require 'init-30-tex)
-(require 'init-31-org)
-(require 'init-35-web)
-(require 'init-globalkeys)
-(require 'init-pyim)
-(require 'init-40-print)
-(require 'init-50-company)
-(require 'init-50-pdftools)
-(require 'init-90-face)
+;; Add my library path to load-path
+;;(push (expand-file-name "lisp" startup--xdg-config-home-emacs) load-path)
+(push "~/.emacs.d/lisp" load-path)
+
+(set-default-coding-systems 'utf-8)
+(set-language-environment "UTF-8")
+(prefer-coding-system 'utf-8)
+
+(require '10-common)
+(require '15-keys)
+(require '15-minors)
+(require '20-consult); or helm
+;; (require '25-persp)
+(require '25-citar)
+(require '30-tex)
+(require '31-org)
+(require '35-web)
+(require '37-pyim)
+(require '40-print)
+(require '50-company)
+(require '50-pdftools)
+(require '90-face)
 
 (use-package yasnippet
   :ensure t
@@ -92,16 +90,6 @@
   (yas-minor-mode)
   (yas-global-mode 1)
   (yas-reload-all))
-
-(use-package helm-gtags
-  :ensure t
-  :hook
-  ((c-mode c++-mode asm-mode nasm-mode) . helm-gtags-mode)
-
-  :bind (:map helm-gtags-mode
-	      ("M-." . helm-gtags-find-tag)
-	      ("M-," . helm-gtags-find-rtag)
-	      ("M-s" . helm-gtags-find-symbol)))
 
 (use-package ispell
   :ensure t
@@ -122,8 +110,16 @@
 ;;   (elpy-enable))
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
+
 (add-hook 'c-mode-hook
           (lambda() (local-set-key (kbd "C-c C-c") #'compile)))
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+              (ggtags-mode 1))))
+
+(setq gdb-many-windows t)
 
 ;;; Enable disabled commands
 
@@ -139,13 +135,13 @@
 (put 'LaTeX-narrow-to-environment 'disabled nil)
 
 ;; Nicer naming of buffers for files with identical names
-(use-package uniquify
-  :ensure t
-  :custom
-  (uniquify-buffer-name-style 'reverse)
-  (uniquify-separator " @ ")
-  (uniquify-after-kill-buffer-p t)
-  (uniquify-ignore-buffers-re "^\\*"))
+;; (use-package uniquify
+;;   :ensure t
+;;   :custom
+;;   (uniquify-buffer-name-style 'reverse)
+;;   (uniquify-separator " @ ")
+;;   (uniquify-after-kill-buffer-p t)
+;;   (uniquify-ignore-buffers-re "^\\*"))
 
 (setq auto-mode-alist
       (cons '("/rfc[0-9]+\\.txt\\(\\.gz\\)?\\'" . rfcview-mode)
@@ -158,8 +154,9 @@
 ;;             (require 'outline-magic)
 ;;             (define-key outline-minor-mode-map [(tab)] 'outline-cycle)))
 
-(require 'server)
-(unless (server-running-p) (server-start))
+(add-hook 'diary-list-entries-hook 'diary-sort-entries t)
+(add-hook 'diary-list-entries-hook 'diary-include-other-diary-files)
+(add-hook 'diary-mark-entries-hook 'diary-mark-included-diary-files)
 
 (provide 'init)
 ;;; init.el ends here
