@@ -1,0 +1,1 @@
+tiffcrop -U px -m 90,30,100,15 *.tif cropped.tif

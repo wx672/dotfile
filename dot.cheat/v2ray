@@ -1,0 +1,2 @@
+sudo v2ray -config /etc/v2ray/cs6.json
+

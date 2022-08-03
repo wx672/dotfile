@@ -1,0 +1,17 @@
+# start a server accepting connection from any host
+xpra start --encoding=h264 --bind-tcp=202.203.132.242:12345 #server
+xpra attach tcp:202.203.132.242:12345 #client
+
+# shadowing
+xpra shadow tcp:202.203.132.242:12345 #client
+
+# clipboard sharing
+xpra shadow --no-printing --no-windows --no-speaker --no-cursors ssh:SERVERHOST #client
+
+# ssh
+xpra start #server
+xpra attach --ssh='ssh -i .ssh/id_rsa' ssh://cs2 #client
+
+# websockify (not working, connection refused)
+ssh cs2 -4L 2222:localhost:9876 # setup port forwarding
+xpra start --bind-tcp=0.0.0.0:9876 --html=on --start-child=xterm # at cs2

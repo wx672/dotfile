@@ -1,0 +1,9 @@
+# show tcp connection states
+# nc -l 3333; nc localhost 3333
+watch -n.1 'ss -4ant "( sport = 3333 or dport = 3333 )"'
+
+# show zombies
+watch -n.1 'ps -el | grep Z'
+
+# print only the name of PID 42
+watch -n.1 'ps -o comm= -q 42'

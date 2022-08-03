@@ -1,0 +1,5 @@
+# 1.
+mkdir ppm
+# 2.
+pdfimages orig.pdf ppm/ppm
+

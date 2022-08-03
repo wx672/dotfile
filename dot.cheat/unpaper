@@ -1,0 +1,14 @@
+# https://github.com/Flameeyes/unpaper/blob/master/doc/image-processing.md
+# http://src.gnu-darwin.org/ports/graphics/unpaper/work/doc/index.html
+# https://flameeyes.blog/tag/unpaper/
+
+# remove black border with unpaper (optional, slow)
+unpaper old.pbm new.pbm
+
+# complex example
+unpaper -T -t pbm --overwrite --pre-border 100,100,100,100 --no-blackfilter
+  --no-noisefilter --no-blurfilter --no-grayfilter --no-mask-scan --no-mask-center
+  --no-deskew --no-wipe csapp-%04d.ppm new-%04d.ppm
+
+unpaper --overwrite -bx 300,500,4600,6200 --pre-border 300,250,100,300 ../000.pbm
+  000.pbm

@@ -1,7 +1,10 @@
 # 4-lualatex; 5-xelatex; 1-pdflatex
 $pdf_mode = 4;
+
 $postscript_mode = $dvi_mode = 0;
+
 $lualatex = 'lualatex --interaction=nonstopmode --synctex=1 --8bit --shell-escape %O %S';
+
 $xelatex = 'xelatex -interaction=nonstopmode -synctex=1 -8bit -shell-escape %O %S';
 
 $bibtex_use = 1;

@@ -1,0 +1,3 @@
+for f in *.pbm; do convert $f -crop 1500x2360+230+200 ocr/$f; done
+for f in *.pbm; do tesseract $f $f -l chi_sim+eng; done
+for f in *.tif; do tesseract ${$f%.tif} -l chi_sim+eng pdf; done
