@@ -3,22 +3,53 @@ add_newline = false
 
 [git_state]
 format = "[|$state]($style)"
+style = "dimmed"
+
 [git_branch]
-format = "[ $symbol$branch]($style)"
+symbol = ""
+format = "[ $symbol$branch ]($style)"
+style = "dimmed"
 
 [directory]
 format = "[$path]($style)"
 truncate_to_repo = false
 truncation_length = 5
 truncation_symbol="…/"
+style = "dimmed"
 
+# [directory.substitutions]
+# "~" = "🏠"
+# "Documents" = "📄"
+# "doc" = "📄"
+# "bin" = "⚙"
+# "src" = "謹"
+# "dot.config" = "襁"
+# ".config" = "襁"
+# ".dotfile" = "🛠 "
+# "home" = "🏘 "
+# "figs" = " "
+# "Downloads" = "📥"
+# "Music" = "🎜"
+# "Pictures" = "📷"
+# "Video" = " "
+# "Calibre" = "📚"
+# "android" = " "
+# "Android" = " "
+# "cs6" = "囹"
+# "lectures" = "㉆"
+# "clash" = "切"
+# "Mail" = "📧"
+# "public_html" = "慎"
+# "linux" = " "
+
+#🖧
 [character]
 success_symbol = "[\\$](bold green)"
 error_symbol = "[\\$](bold red)"
 
-# Show duration for commands that took more than 5s only
+# Show duration for commands that took more than 3s only
 [cmd_duration]
-format = "[took $duration]($style) "
+format = "[🔃$duration]($style) "
 min_time = 3000
 show_milliseconds = false
 style = "dimmed"
@@ -26,8 +57,8 @@ style = "dimmed"
 # Using a custom format to highlight current non-system python in a compact manner
 # - 🐍: python from virtual env is active
 # - 🦎: python from pyenv is active
-[custom.py]
-command = """ pv=$(python --version | grep -Eo "\\d+\\.\\d+"); if [ -n "$VIRTUAL_ENV" ]; then echo "🐍 $pv"; else echo "🦎 $pv"; fi """
-format = "[$output]($style) "
-style = "blue"
-when = """ test -n "$VIRTUAL_ENV" || echo $PATH | grep /pyenv/ """
+# [custom.py]
+# command = """ pv=$(python --version | grep -Eo "\\d+\\.\\d+"); if [ -n "$VIRTUAL_ENV" ]; then echo "🐍 $pv"; else echo "🦎 $pv"; fi """
+# format = "[$output]($style) "
+# style = "blue"
+# when = """ test -n "$VIRTUAL_ENV" || echo $PATH | grep /pyenv/ """

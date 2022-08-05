@@ -2,14 +2,15 @@
 
 usage(){
     cat <<EOF
-USAGE: ${0##*/} [-h] [tv|pc|dup|lr|1k]
+USAGE: ${0##*/} [-h] [tv|pc|dup|4|3|lr|1k]
 
 Example:
-    - ${0##*/} tv   # 2k for external screen; internal screen is off
-    - ${0##*/} pc   # 2k for internal; external is off
-    - ${0##*/} lr   # 2k for both, left right
-    - ${0##*/} dup  # 2k for both, overlap
-    - ${0##*/} 1k   # 2k for internal; 1k for external; side by side
+    - ${0##*/} tv       # 2k for external screen; internal screen is off
+    - ${0##*/} 4k       # 4k for external screen; internal screen is off
+    - ${0##*/} pc       # 2k for internal; external is off
+    - ${0##*/} lr       # 2k for both, left right
+    - ${0##*/} dup|4|3  # 2k for both, overlap
+    - ${0##*/} 1k       # 2k for internal; 1k for external; side by side
 EOF
 }
 
@@ -17,7 +18,10 @@ OPT="$*"
 
 case "$OPT" in
     tv) xrandr \
-	        --output HDMI-A-0 --primary --mode 1920x1080 \
+	        --output HDMI-A-0 --mode 1920x1080 \
+	        --output eDP --off ;;
+    4k) xrandr \
+	        --output HDMI-A-0 --mode 3840x2160 --pos 0x0 \
 	        --output eDP --off ;;
     pc) xrandr \
 	        --output eDP --auto \
@@ -25,9 +29,9 @@ case "$OPT" in
     lr) xrandr \
 	        --output eDP --primary --mode 1920x1080 --pos 0x0 \
 	        --output HDMI-A-0 --mode 1920x1080 --left-of eDP ;;
-    dup) xrandr \
-	         --output eDP --primary --mode 1920x1080 --pos 0x0 \
-	         --output HDMI-A-0 --mode 1920x1080 --left-of eDP ;;
+    dup|3|4) xrandr \
+	         --output eDP      --mode 1920x1080 --pos 0x0 \
+	         --output HDMI-A-0 --mode 1920x1080 --same-as eDP ;;
     1k) xrandr \
 	        --output HDMI-A-0 --primary --mode 1280x1024 --pos 0x0 \
 	        --output eDP --mode 1920x1080 --left-of HDMI-A-0 ;;

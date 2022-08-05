@@ -21,13 +21,15 @@
     "<f1>"       #'query-replace-regexp
     "<f2>"       #'hs-toggle-hiding
     "<f5>"       #'shell-other-window
-    "C-o"        #'switch-to-other-buffer
-	"M-o"        #'other-window
-	"M-k"        #'kill-this-buffer
+	"C-o"        #'other-window
+    "M-o"        #'switch-to-other-buffer
+	"M-<backspace>" #'kill-this-buffer
+	"C-<backspace>" #'backward-kill-word
 	"M-j"        #'next-user-buffer
+	"M-k"        #'previous-user-buffer
 	"M-n"        #'next-buffer
 	"M-p"        #'previous-buffer
-	"M-l"        #'fzf-switch-buffer
+	"M-l"        #'consult-buffer;fzf-switch-buffer
 	"M-C-/"      #'company-complet
 	"C-S-n"      #'forward-paragraph
 	"C-S-p"      #'backward-paragraph
@@ -56,7 +58,18 @@
 	"b" #'org-iswitchb
 	"c" #'org-capture
 	)
-  
+
+  (general-def dired-mode-map
+	"h" #'dired-up-directory
+	"l" #'dired-find-file
+	"j" #'dired-next-line
+	"k" #'dired-previous-line
+	"J" #'dired-goto-file
+	"SPC" #'dired-goto-file
+	"f" #'dired-goto-file
+	"H" #'dired-omit-mode
+	)
+
   (general-unbind Info-mode-map
 	"M-n" nil
 	)

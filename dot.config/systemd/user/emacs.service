@@ -1,3 +1,5 @@
+# use the following instead:
+# emacs-bin-common: /usr/lib/systemd/user/emacs.service
 [Unit]
 Description=Emacs text editor
 Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/

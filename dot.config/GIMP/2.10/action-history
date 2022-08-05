@@ -1,0 +1,16 @@
+# GIMP action-history
+
+(history-item "view-scroll-page-up" 2)
+(history-item "dialogs-preferences" 1)
+(history-item "view-zoom-in" 0)
+(history-item "file-save" 2)
+(history-item "view-scroll-page-down" 0)
+(history-item "file-export" 0)
+(history-item "image-new" 0)
+(history-item "file-open-recent-10" 1)
+(history-item "file-open" 0)
+(history-item "file-save-as" 0)
+(history-item "view-zoom-out" 0)
+(history-item "layers-merge-down" 1)
+
+# end of action-history

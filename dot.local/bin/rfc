@@ -2,163 +2,77 @@
 
 usage(){
 	cat <<EOF
-rfc - Command line RFC viewer
-Usage:
-	- ${0##*/} {show | list | dump} <index>
-	- ${0##*/} search <string>
+${0##*/} - Command line RFC viewer
+
+Example usage:
+	- ${0##*/} 1180
+	- ${0##*/} -s <search string>
+	- ${0##*/} -h
 EOF
-}
-
-fetch(){
-	[ -z "$1" ] && exit 1
-	
-	if [ -d "/usr/share/doc/RFC/" ]; then
-		local RFCBASE="/usr/share/doc/RFC/"
-		if command -v fd &>/dev/null; then
-			DOCS=$(fd -t file -p "rfc$1\." "$RFCBASE")
-		else
-			DOCS=$(find "$RFCBASE" -type f -iname "rfc$1.*")
-		fi
-	else
-		local RFCBASE="https://www.rfc-editor.org/rfc"
-		curl --remote-name-all --output-dir "/tmp" "$RFCBASE"/rfc"$1".{txt,html}
-		if rg -q "not found" /tmp/rfc"$1".*; then
-			echo RFC"$1" is not found on "$RFCBASE".
-			exit 1
-		else
-			DOCS=$(/bin/ls /tmp/rfc"$1".*)
-		fi
-	fi
-
-	[[ -z "$DOCS" ]] && { echo "RFC $1 is not found."; exit 1; }
-}
-
-show(){
-	fetch "$1"
-	local TXT=$(echo $DOCS | tr ' ' '\n' | rg txt)
-	[[ -n "$TXT" ]] && less $TXT || echo "No TXT format found."
-}
-
-list(){
-	fetch "$1"
-	echo $DOCS | tr ' ' '\n'
-}
-
-dump(){
-	fetch "$1"
-	JSON=$(echo $DOCS | tr ' ' '\n' | rg json)
-	[[ -n "$JSON" ]] \
-		&& { cat $JSON | sed 's/,/,\n/g' | cat; } \
-		|| echo "No json file found."
 }
 
 search(){
 	local idx="/usr/share/doc/RFC/rfc-index.txt.gz"
 	[[ -f "$idx" ]] || { echo $idx: file not found.; exit 1; }
 
-	RG="rg -zi -C3 --color=always"
+	IDX=$(gzip -cd $idx | sed -e 's/^$/~/' -e 's/ \+/ /' | tr '\n' ' ' | tr '~' '\n' | \
+			  rg -i --color=always "$PATN" | sk -e10 --ansi | choose 0)
 	
-	if [[ -z "$1" ]]; then
-		echo What do you want to search?
-		echo -n "> "
-		while read w; do
-			$RG "$w" "$idx" | sk -e10 --ansi
-			echo -n "> "
-		done
-	else
-		$RG "$1" "$idx" | sk -e10 --ansi
-	fi
+	rfc $(( 10#$IDX ))
 }
 
-CMD="$1"
-[[ $CMD =~ ^[0-9]+$ ]] && { show $CMD; exit 0; }
+while getopts :hs: OPT; do
+	case $OPT in
+		h) usage; exit 0 ;;
+		s) PATN="$OPTARG"; search; exit 0 ;;
+		?) usage; exit 1 ;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
 
-ARG="$2" # index or string
+[ -z "$*" ] && { usage; exit 1; }
+	
+if [ -d "/usr/share/doc/RFC/" ]; then
+	RFCBASE="/usr/share/doc/RFC/"
 
-case $CMD in
-    show)
-		if [[ $ARG =~ ^[0-9]+$ ]]; then
-			show $ARG
-		else
-			[[ -n "$ARG" ]] \
-				&& echo $ARG is not a valid rfc index number! \
-					|| echo missing rfc index number!
+	DOC=$(sk < <(fd --full-path --type file "rfc$1\." "$RFCBASE") -e10)
+else
+	RFCBASE="https://www.rfc-editor.org/rfc"
+	RFCLOCAL="/usr/local/share/doc/RFC"
+
+	cd $RFCLOCAL || sudo mkdir -p $RFCLOCAL
+
+	DOC=$(sk < <(fd --full-path --type file "rfc$1\." "$RFCLOCAL") -e10)
+	
+	[[ "$DOC" ]] || {
+		sudo curl --remote-name-all --output-dir $RFCLOCAL $RFCBASE/rfc$1.{txt,html}
+		DOC=$(sk < <(/bin/ls $RFCLOCAL/rfc$1.*) -e10)
+		[[ "$DOC" ]] || {
+			echo "rfc-$1 not found."
 			exit 1
-		fi
-		exit 0 ;;        
-    list)
-		if [[ $ARG =~ ^[0-9]+$ ]]; then
-			list $ARG
-		else
-			[[ -n "$ARG" ]] \
-				&& echo $ARG is not a valid rfc index number! \
-					|| echo missing rfc index number!
-			exit 1
-		fi
-		exit 0 ;;
-	dump)
-		if [[ $ARG =~ ^[0-9]+$ ]]; then
-			dump $ARG
-		else
-			[[ -n "$ARG" ]] \
-				&& echo $ARG is not a valid rfc index number! \
-					|| echo missing rfc index number!
-			exit 1;
-		fi
-		exit 0 ;;
-	search)
-		search $ARG
-		exit 0 ;;
-	*) usage; exit 1 ;;
+		}
+	}
+fi
+
+case $DOC in
+	*.txt*)
+		less $DOC; exit 0
+		;;
+	*.html.gz)
+		w3m -T text/html < <(gzip -cd $DOC); exit 0
+		;;
+	*.html)
+		w3m -T text/html $DOC; exit 0
+		;;
+	*.json)
+		jq "." $DOC
+		;;
+	*.pdf)
+		mupdf $DOC; exit 0
+		;;
+	*.pdf.gz)
+		gzip -cd $DOC | zathura -; exit 0
+		;;
+	*) usage; exit 1		
 esac
-
-#############################
-# FMT='txt'
-
-# while getopts :hjlf: OPT; do
-# 	case $OPT in
-# 		h) usage; exit 0 ;;
-# 		f) FMT="$OPTARG" ;;
-# 		j) FMT='json' ;;
-# 		l) FMT='list' ;;
-# 		?) usage; exit 2
-# 	esac
-# done
-# shift $(( OPTIND - 1 ))
-# OPTIND=1
-
-# [[ -n "$1" ]] || { usage; exit 1; }
-
-# if [ -d "/usr/share/doc/RFC/" ]; then
-#     RFCBASE="/usr/share/doc/RFC/"
-#     if type -p fd; then
-#         DOCS=$(fd -t file -p "rfc$1\." "$RFCBASE")
-#     else
-#         DOCS=$(find "$RFCBASE" -type f -iname "rfc$1.*")
-#     fi
-# else
-#     RFCBASE="https://www.rfc-editor.org/rfc"
-#     curl --remote-name-all --output-dir "/tmp" "$RFCBASE"/rfc"$1".{txt,html}
-#     if grep -q "not found" /tmp/rfc"$1".*; then
-#         echo RFC"$1" is not found on "$RFCBASE".
-#         exit 1
-#     else
-#         DOCS=$(/bin/ls /tmp/rfc"$1".*)
-#     fi
-# fi
-
-# [[ -z "$DOCS" ]] && { echo "RFC $1 is not found."; exit 1; }
-
-# case $FMT in
-#     txt) TXT=$(echo $DOCS | tr ' ' '\n' | grep txt)
-# 		 [[ -n "$TXT" ]] && less $TXT || echo "No TXT format found." ;;
-#     html) HT=$(echo $DOCS | tr ' ' '\n' | grep html)
-# 		  [[ -n "$HT" ]] && lynx $HT || echo "No HTML format found." ;;
-#     pdf) PDF=$(echo $DOCS | tr ' ' '\n' | grep pdf)
-# 		 [[ -n "$PDF" ]] && mupdf $PDF || echo "No PDF format found." ;;
-#     json) JSON=$(echo $DOCS | tr ' ' '\n' | grep json)
-# 		  [[ -n "$JSON" ]] && { cat $JSON | sed 's/,/,\n/g' | less; } || echo "No json file found."
-# 		  ;;
-# 	list) echo $DOCS | tr ' ' '\n' ;;
-#     *) echo "No $FMT format found."
-# esac

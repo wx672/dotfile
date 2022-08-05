@@ -1,0 +1,40 @@
+#!/bin/bash
+
+NOTMUCH=$(command -v notmuch)
+
+rm(){
+	local PTN="${1:-tag:unread}"
+	$NOTMUCH search "$PTN"
+	echo
+	PS3="Make a choice: "
+	#  "Delete permanently"
+	select CHOICE in "Tag as 'deleted'" "Quit"; do
+		[[ "$CHOICE" = "Tag as 'deleted'" ]] && {
+			$NOTMUCH tag +deleted -inbox -unread "$PTN"
+			$NOTMUCH new
+		}
+		# [[ "$CHOICE" = "Delete permanently" ]] && {
+		# 	$NOTMUCH search --format=text0 --output=files "$PTN" | \
+		# 		xargs -0 --no-run-if-empty rm
+		# 	$NOTMUCH new
+		# }
+		[[ "$CHOICE" = "Quit" ]] && exit
+		break
+	done
+}
+
+case "$1" in
+	"-h"|"--help"|"help")
+		cat <<EOF
+Example usage: 
+		notmuch rm tag:helloworld
+		notmuch rm date:20071231..2008
+		notmuch rm from:/someone/
+		notmuch rm [-h | --help | help]		 
+EOF
+		exit 0
+		;;
+	*) rm "$1"		
+esac
+
+

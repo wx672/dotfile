@@ -89,9 +89,9 @@
    org-latex-minted-options
    '(("mathescape" "true") ("linenos" "true") ("numbersep" "5pt") ("frame" "lines") ("framesep" "2mm"))
    org-latex-pdf-process
-   '("xelatex --shell-escape -8bit -interaction nonstopmode -output-directory %o %f"
-	 "xelatex --shell-escape -8bit -interaction nonstopmode -output-directory %o %f"
-	 "xelatex --shell-escape -8bit -interaction nonstopmode -output-directory %o %f")))
+   '("lualatex --shell-escape --8bit --interaction nonstopmode --output-directory %o %f"
+	 "lualatex --shell-escape --8bit --interaction nonstopmode --output-directory %o %f"
+	 "lualatex --shell-escape --8bit --interaction nonstopmode --output-directory %o %f")))
 
 (provide 'init-ox)
 ;;; init-ox.el ends here

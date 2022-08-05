@@ -45,8 +45,6 @@ export BROWSER='/usr/bin/x-www-browser'
 export PDFVIEWER='mupdf'
 export EDITOR='vim'
 export ALTERNATE_EDITOR="vim"
-#export PAGER='bat'
-#export BAT_PAGER='bat'
 export BAT_STYLE="plain"
 export LESSCHARSET=utf-8
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
@@ -58,6 +56,9 @@ tabs -4 &>/dev/null
 # Use colors for less, man, etc.
 [[ -f "$HOME/.LESS_TERMCAP" ]] && tty -s && . $HOME/.LESS_TERMCAP
 
+# man gpg-agent
+GPG_TTY=$(tty)
+export GPG_TTY
 export GPGKEY=0EE277C8D838C7DA
 
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"

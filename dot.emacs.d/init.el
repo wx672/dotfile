@@ -12,9 +12,15 @@
 
 (setq package-archives
       '(;; ("gnu"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")
-        ("melpa" . "http://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
+        ;; ("melpa" . "http://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
 		;; ("org"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
-		("gnu"   . "http://elpa.gnu.org/packages/")
+		;; ("gnu" . "http://elpa.emacs-china.org/gnu/")
+		;; ("melpa" . "http://elpa.emacs-china.org/melpa/")
+		;; ("org" . "http://elpa.emacs-china.org/org/")
+		("gnu" . "http://mirrors.ustc.edu.cn/elpa/gnu/")
+		("nongnu" . "http://mirrors.ustc.edu.cn/elpa/nongnu/")
+		("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/")
+		;; ("gnu"   . "http://elpa.gnu.org/packages/")
         ;; ("melpa" . "http://melpa.org/packages/")
 		))
 
@@ -62,27 +68,12 @@
 (load custom-file t)
 
 ;; Add my library path to load-path
+;;(push (expand-file-name "lisp" startup--xdg-config-home-emacs) load-path)
 (push "~/.emacs.d/lisp" load-path)
-;; (push "~/.emacs.d/site-lisp" load-path)
 
 (set-default-coding-systems 'utf-8)
 (set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
-
-(use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config
-  (setq which-key-idle-delay 0.3))
-
-;; (use-package socks
-;;   :disabled
-;;   :ensure url
-;;   :init
-;;   (setq socks-override-functions 1
-;; 	url-gateway-method 'socks
-;; 	socks-noproxy '("localhost")
-;; 	socks-server '("Default server" "localhost" 7891 5)))
 
 (require '10-common)
 (require '15-keys)

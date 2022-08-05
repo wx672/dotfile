@@ -26,6 +26,8 @@ export XMODIFIERS=@im=fcitx
 
 # Let Qt apps use GTK theme to make GUI font size larger.
 export QT_QPA_PLATFORMTHEME=gtk3
+# require qt5ct installed
+#export QT_QPA_PLATFORMTHEME=qt5ct
 
 # stop warning messages
 export NO_AT_BRIDGE=1 

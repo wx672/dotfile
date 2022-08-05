@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# OBSOLETE!!! Use clash instead.
+
 #SSR="$HOME/.local/share/shadowsocksr/shadowsocks/local.py"
 SSR="/usr/local/bin/ssr-client"
 SERVERDIR="$HOME/.local/share/fyvvv"

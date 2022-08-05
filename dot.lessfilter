@@ -15,6 +15,9 @@ case "$1" in
 	*.md)
 		mdless --no-colour "$1"
 		;;
+	*.org)
+		pandoc "$1" | w3m -T text/html
+		;;
     *)
         # We don't handle this format.
         exit 1

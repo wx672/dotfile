@@ -22,7 +22,7 @@ background - paper to sign
 		   	 Default='{.,..}/signature.pdf' if found
 
         -c - 'xshift,yshift' 
-		   	 Default to '-60,-4' in pt if picture
+		   	 Default to '-60,-4' in pt if signed with picture
 			 Default to '-60,0' in pt if signed with \sig font text
 
 		-d - 'ysep,msep,dsep', shift of the "date field"
@@ -54,7 +54,7 @@ getCoordinate(){
 			 head -1 | \
 			 choose -f '"' 5 7)
 
-	[[ -z "$XY" ]] && { colorEcho $ERR "Failed to get coordinate (XY)!"; exit -1; }
+	[[ -z "$XY" ]] && { colorEcho $ERR 'Failed to get coordinate (XY)!'; exit -1; }
 
 	X=${XY% *}pt
 	Y=${XY##* }
@@ -146,7 +146,7 @@ trap cleanup EXIT
 [[ -e signature.pdf ]] && SIG='signature.pdf'
 [[ -e ../signature.pdf ]] && SIG='../signature.pdf'
 
-unset X Y XY XSHIFT YSHIFT YSEP MSEP DSEP DEBUG SCALE WIDTH
+unset X Y XY XSHIFT YSHIFT YSEP MSEP DSEP DEBUG SCALE WIDTH PATN
 
 while getopts :hDc:d:p:s:w:t:S: OPT; do
 	case $OPT in

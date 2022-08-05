@@ -98,15 +98,14 @@
   (run-shell-command "/usr/local/bin/ffclient"))
 
 ;; audio
-
 (defcommand audiomute () ()
-  (run-shell-command "amixer set Master toggle && amixer set PCM toggle"))
+  (run-shell-command "amixer set Master toggle"))
 
 (defcommand audiodown () ()
-  (run-shell-command "amixer set Master 3%- && amixer set PCM 3%-"))
+  (run-shell-command "amixer set Master 3%-"))
 
 (defcommand audioup () ()
-  (run-shell-command "amixer set Master 3%+ && amixer set PCM 3%+"))
+  (run-shell-command "amixer set Master 3%+"))
 
 ;; brightness
 (defcommand brightnessup () ()
@@ -119,6 +118,7 @@
 
 ;; (setf *root-map* (make-sparse-keymap))
 
+;; *top-map*: keybindings that don't use the prefex key
 (define-key *top-map* (kbd "s-;") "colon")
 (define-key *top-map* (kbd "s-:") "eval")
 (define-key *top-map* (kbd "s-ESC") "run-shell-command")

@@ -8,6 +8,7 @@ umask 022
 [ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:${PATH}"
 [ -d "$HOME/.bin" ] && PATH="$HOME/.bin:${PATH}"
 [ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:${PATH}"
+[ -d "$HOME/src/doom/bin" ] && PATH="$HOME/src/doom/bin:${PATH}"
 
 export PATH="${PATH}:/usr/local/sbin:/usr/sbin:/sbin"
 

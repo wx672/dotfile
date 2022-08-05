@@ -1,12 +1,30 @@
 ;;; 15-minors.el --- Minor modes
 
 ;;; Commentary:
-;; vertico, orderless, maginalia, embark
+;; vertico, orderless, maginalia, embark, smartparens, which-key, socks, vterm
 ;; https://github.com/minad/vertico
 ;; info vertico
 ;; https://github.com/Malabarba/beacon
 
 ;;; Code:
+
+;; vterm
+
+(use-package vterm
+  :commands vterm
+  :config
+  (setq vterm-max-scrollback 10000
+		vterm-timer-delay 0.01
+		)
+  (general-unbind vterm-mode-map
+	"M-l" nil
+	"M-j" nil
+	"M-k" nil
+	"M-n" nil
+	"M-p" nil
+	"M-<backspace>" nil
+	)
+  )
 
 ;; Enable vertico
 (use-package vertico
@@ -107,8 +125,6 @@
 ;;   :hook
 ;;   (embark-collect-mode . consult-preview-at-point-mode))
 
-
-
 (use-package beacon
   :config
   (progn
@@ -127,6 +143,37 @@
     (add-to-list 'beacon-dont-blink-major-modes 'term-mode)
 
     (beacon-mode 1)))
+
+;; https://github.com/Fuco1/smartparens
+;; https://ebzzry.com/en/emacs-pairs/
+(use-package smartparens-config
+  :disabled
+  :ensure smartparens
+  :config
+  (progn (show-smartparens-global-mode t))
+  (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+  (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode)
+  )
+
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.3))
+
+;; https://github.com/Fanael/rainbow-delimiters
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+(use-package socks
+  ;; :disabled
+  :ensure url
+  :init
+  (setq socks-override-functions 1
+	url-gateway-method 'socks
+	socks-noproxy '("localhost")
+	socks-server '("Default server" "localhost" 1080 5)))
+
+(display-line-numbers-mode)
 
 (provide '15-minors)
 ;;; 15-minors.el ends here

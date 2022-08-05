@@ -2,14 +2,9 @@
 
 set -euC
 
-CONF="~/.config/clash"
-cd
-
 tmux set -w remain-on-exit on
 
-tmux split-window -h
-tmux split-window -vfl99
+tmux split-window -bl75% "clash.sh fy"
+tmux split-window -hl75% clash.sh
 
-tmux send-keys -t{top-left}  "clash -f $CONF/fy-55549.yaml" C-m
-tmux send-keys -t{top-right} "cd $CONF/yml" C-m "clash" C-m
-tmux send-keys -t{bottom}    "cd $CONF/yml" C-m C-l
+tmux send-keys -t{bottom} C-l

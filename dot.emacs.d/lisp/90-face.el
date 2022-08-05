@@ -11,7 +11,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:height 240 :family "FiraCode Nerd Font"))))
- '(cursor ((t (:background "indian red"))))
+ '(cursor ((t (:background "violet"))));indian red
  '(mode-line ((t (:height 0.8))))
  '(org-table ((t (:family "Noto Sans Mono CJK SC")))))
 
@@ -66,7 +66,6 @@
 (use-package all-the-icons
   :ensure t)
 
-
 (use-package doom-modeline
   :ensure t
   :defer t
@@ -100,6 +99,18 @@
   (doom-modeline-lsp t)
   (doom-modeline-buffer-encoding nil)
   )
+
+;; https://lucidmanager.org/productivity/ricing-org-mode/
+;; https://gitlab.com/jabranham/mixed-pitch
+(use-package mixed-pitch
+  :disabled
+  :hook
+  (text-mode . mixed-pitch-mode)
+  ;; :config
+  ;; (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 240)
+  ;; (set-face-attribute 'fixed-pitch nil :font "Noto Sans Mono CJK SC")
+  ;; (set-face-attribute 'variable-pitch nil :font "DejaVu Sans")
+)
 
 (provide '90-face)
 ;;; 90-face.el ends here

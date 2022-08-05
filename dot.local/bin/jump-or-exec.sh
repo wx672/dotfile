@@ -9,9 +9,18 @@
 wid=$(wmctrl -l | rg -i $* | cut -b 1-10)
 
 if [ -z $wid ]; then
-	[[ $1 == *emacs* ]] && { emacsclient -c -n -a "" "$@"; exit 0; }	
-	[[ $1 == *qute* ]] && { qutebrowser; exit 0; }
-	[[ $1 == *alac* ]] && { alacritty; exit 0; }
+	case "$1" in
+		*emacs*)
+			emacsclient -c -n -a "" ; exit 0;
+			;;
+		*qute*)
+			exec qutebrowser
+			;;
+		*alacritty*)
+			exec alacritty
+			;;
+		*) exit 1;
+	esac
 else
 	wmctrl -ia $wid
 fi

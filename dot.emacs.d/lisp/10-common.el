@@ -5,7 +5,7 @@
 
 ;;; Code:
 
-(blink-cursor-mode nil)
+(blink-cursor-mode -1)
 (column-number-mode t)
 (cua-mode -1)
 (cua-selection-mode -1)
@@ -38,14 +38,17 @@
  cua-auto-tabify-rectangles nil
  debug-on-error nil
  dired-guess-shell-alist-user nil
+ dired-listing-switches "-lAG --group-directories-first --time-style=long-iso"
  dired-omit-extensions '("~" ".a" ".aux" ".bbl" ".bcf" ".blg" ".elc" ".idx" ".lof" ".log" ".lot" ".toc" ".snm" ".nav" ".out" ".run.xml" ".synctex.gz")
  dired-recursive-copies t
  dired-recursive-deletes t
+ display-line-numbers-type 'visual
  display-time-24hr-format t
  display-time-day-and-date t
  display-time-format nil
  display-time-use-mail-icon t
  fill-column 90
+ global-auto-revert-non-file-buffers t
  indent-tabs-mode t
  inhibit-startup-message t
  large-file-warning-threshold nil
@@ -67,7 +70,8 @@
 
 (setq-default
  tab-width 4
- cursor-type '(bar . 4)
+ ;;cursor-type '(bar . 4)
+ cursor-type 'box
  )
 
 (provide '10-common)

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+PDF=$(rofi -dmenu -i -p "mupdf" \
+		   -font "FiraCode Nerd Font Mono 24" \
+		   -theme-str 'window {width: 80%;}' \
+		   -input ~/.pdf_history)
+
+[[ "$PDF" ]] && mupdf "$PDF" || exit 0

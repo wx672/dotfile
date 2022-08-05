@@ -11,7 +11,9 @@ else
 	exit 1
 fi
 
-sed -i '/local\,/a\ - DOMAIN-SUFFIX,sketchviz.com,🎯 全球直连\n - DOMAIN-SUFFIX,overleaf.com,🎯 全球直连\n - DOMAIN-SUFFIX,grammarly.com,🎯 全球直连\n - DOMAIN-SUFFIX,ixigua.com,🎯 全球直连\n - DOMAIN-SUFFIX,gitee.com,🎯 全球直连\n - DOMAIN-SUFFIX,wiki.archlinux.org,🎯 全球直连' "$YML"
+sed -i '/^#/d' "$YML"
+
+sed -i '/local\,/a\  - DOMAIN-SUFFIX,www.kmwatersupply.com,🎯 全球直连\n  - DOMAIN-SUFFIX,sketchviz.com,🎯 全球直连\n  - DOMAIN-SUFFIX,overleaf.com,🎯 全球直连\n  - DOMAIN-SUFFIX,moodle.org,🎯 全球直连\n  - DOMAIN-SUFFIX,grammarly.com,🎯 全球直连\n  - DOMAIN-SUFFIX,ixigua.com,🎯 全球直连\n  - DOMAIN-SUFFIX,gitee.com,🎯 全球直连\n  - DOMAIN-SUFFIX,wiki.archlinux.org,🎯 全球直连' "$YML"
 
 sed -i '/^proxies:/i dns:\n  enable: true\n  ipv6: false\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 1.0.0.1\n  nameserver:\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback:\n    - https://1.0.0.1/dns-query\n    - https://1.1.1.1/dns-query\n    - https://public.dns.iij.jp/dns-query' "$YML"
 
