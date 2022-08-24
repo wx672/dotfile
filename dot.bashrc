@@ -13,6 +13,18 @@
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
     . /usr/share/bash-completion/bash_completion
 
+vterm_printf(){
+    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
 compdir="$HOME/.local/share/bash-completion/completions"
 if [ -d "$compdir" ]; then
 	for f in "$compdir"/*; do
@@ -33,8 +45,6 @@ export BROWSER='/usr/bin/x-www-browser'
 export PDFVIEWER='mupdf'
 export EDITOR='vim'
 export ALTERNATE_EDITOR="vim"
-#export PAGER='bat'
-#export BAT_PAGER='bat'
 export BAT_STYLE="plain"
 export LESSCHARSET=utf-8
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
@@ -46,7 +56,9 @@ tabs -4 &>/dev/null
 # Use colors for less, man, etc.
 [[ -f "$HOME/.LESS_TERMCAP" ]] && tty -s && . $HOME/.LESS_TERMCAP
 
-export GPGKEY=0EE277C8D838C7DA
+# man gpg-agent
+GPG_TTY=$(tty)
+export GPG_TTY
 
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -x "/usr/bin/zoxide" ] && eval "$(zoxide init bash)"

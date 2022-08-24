@@ -12,9 +12,15 @@
 
 (setq package-archives
       '(;; ("gnu"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")
-        ("melpa" . "http://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
+        ;; ("melpa" . "http://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
 		;; ("org"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
-		("gnu"   . "http://elpa.gnu.org/packages/")
+		;; ("gnu" . "http://elpa.emacs-china.org/gnu/")
+		;; ("melpa" . "http://elpa.emacs-china.org/melpa/")
+		;; ("org" . "http://elpa.emacs-china.org/org/")
+		("gnu" . "http://mirrors.ustc.edu.cn/elpa/gnu/")
+		("nongnu" . "http://mirrors.ustc.edu.cn/elpa/nongnu/")
+		("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/")
+		;; ("gnu"   . "http://elpa.gnu.org/packages/")
         ;; ("melpa" . "http://melpa.org/packages/")
 		))
 

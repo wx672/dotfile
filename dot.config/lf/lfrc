@@ -72,11 +72,12 @@ cmd copyto ${{
 cmd setbg "$1"
 cmd bulkrename $vidir
 
-# Bindings
-map <c-f> $lf -remote "send $id select '$(fzf)'"
-map J $lf -remote "send $id cd $(cut -d'	' -f2 ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
-map gh
-map g top
+### Bindings
+# map <c-f> $lf -remote "send $id select '$(fzf)'"
+# map J $lf -remote "send $id cd $(cut -d'	' -f2 ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
+map gh cd ~
+map gt cd /tmp
+map gg top
 map D delete
 map E extract
 map C copyto
@@ -101,6 +102,7 @@ map b $setbg $f
 map <c-e> down
 map <c-y> up
 map V push :!nvim<space>
+#map Z push :!z<space>
 
 # Source Bookmarks
 #source "~/.config/lf/shortcutrc"

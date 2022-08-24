@@ -26,7 +26,7 @@ daemonize
 
 ctrl+semicolon start
 Escape end
-ctrl+bracketleft end
+r restart
 h cut-left
 j cut-down
 k cut-up
@@ -51,10 +51,11 @@ shift+n move-left,move-down
 shift+m move-right,move-down
 space warp,click 1,end
 ctrl+space warp,doubleclick 1,end
-semicolon warp,end
+#semicolon warp,end
 1 warp,click 1,end
 2 warp,click 2,end
 3 warp,click 3
+semicolon warp,click 3,end
 
 # Zoom to the current window
 w windowzoom
@@ -81,11 +82,11 @@ shift+at playback
 
 ### Example using the 'sh' command.
 # Make firefox the active window
-f sh "xdotool windowactivate $(xdotool search -title -- '- Mozilla Firefox')", end
+#f sh "xdotool windowactivate $(xdotool search -title -- '- Mozilla Firefox')", end
 # Make a new tab in google chrome:
-t sh "xdotool windowactivate $(xdotool search --title -- '- Google Chrome' | head -1); xdotool key ctrl+t",end
+#t sh "xdotool windowactivate $(xdotool search --title -- '- Google Chrome' | head -1); xdotool key ctrl+t",end
 # Paste
-v sh "xdotool key shift+Insert"
+#v sh "xdotool key shift+Insert"
 
 ### Drag examples
 # Start drag holding the left mouse button

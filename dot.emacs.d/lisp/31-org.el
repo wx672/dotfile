@@ -16,6 +16,7 @@
    org-log-done 'time
    org-reverse-note-order t
    org-deadline-warning-days 7
+   org-hide-block-startup t
    org-hide-leading-stars t
    org-use-fast-todo-selection t
    org-use-fast-tag-selection 'auto
@@ -207,6 +208,14 @@ With a prefix ARG, remove start location."
                            (org-noter--pretty-print-location location))))))))
   (with-eval-after-load 'pdf-annot
     (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
+
+;; https://github.com/yilkalargaw/org-auto-tangle
+(use-package org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t)
+)
 
 ;; https://github.com/integral-dw/org-superstar-mode
 (use-package org-superstar

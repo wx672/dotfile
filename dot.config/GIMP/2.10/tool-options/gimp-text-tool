@@ -1,0 +1,10 @@
+# GIMP gimp-text-tool options
+
+(foreground (color-rgb 0.40000000596046448 0.40000000596046448 0.40000000596046448))
+(palette "Color History")
+(font "DejaVu Sans")
+(font-size 36)
+(hint-style none)
+(box-mode fixed)
+
+# end of gimp-text-tool options

@@ -3,6 +3,17 @@ $# --- Number of command-line arguments or positional parameters
 $* --- All of the positional parameters, seen as a single word. "$*" must be quoted.
 $@ --- Same as $*, but each parameter is a quoted string, that is, the parameters are passed on intact, without interpretation or expansion. This means, among other things, that each parameter in the argument list is seen as a separate word. Of course, "$@" should be quoted.
 
+# basename and dirname
+BASE="${IMG%.*}" # remove .suffix
+
+path=/the/path/of/foo.txt
+echo "${path##*/}" # basename  ${parameter##[pattern]}
+echo "${path%/*}"  #  dirname  ${parameter%[pattern]}
+
+# mapfile with process substitution
+# https://www.computerhope.com/unix/bash/mapfile.htm
+mapfile < <(echo hello world)
+
 # To implement a case command:
 case "$1"
 in

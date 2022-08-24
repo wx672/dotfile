@@ -1,45 +1,72 @@
 1337xx https://www.1337xx.to
-htpl5v bertolottie's syndrome https://www.youtube.com/results?search_query=bertolotti%27s+syndrome
+abs-guide file:///usr/share/doc/abs-guide/html/xrefindex.html
+archlinux	wiki https://wiki.archlinux.org
+bilibili https://www.bilibili.com
 clash http://clash.razord.top/#/proxies
-clash linux tutorial https://codeswift.top/posts/clash-linux/
-cs6 calibre https://cs6.swfu.edu.cn/calibre
-cs6 lecture https://cs6.swfu.edu.cn/~wx672/lecture_notes
-cs6 moodle https://cs6.swfu.edu.cn/moodle
+clash	linux	tutorial https://codeswift.top/posts/clash-linux/
+clash	sub-convert https://converter.niallapi.top/
+cs6	calibre https://cs6.swfu.edu.cn/calibre
+cs6	lecture https://cs6.swfu.edu.cn/~wx672/lecture_notes
+cs6	moodle https://cs6.swfu.edu.cn/moodle
 ddg https://duckduckgo.com
+debian	package	building	tutorial https://wiki.debian.org/BuildingTutorial
+debian	packaging	intro	tutorial https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
+debian	packaging	tutorial https://wiki.debian.org/Packaging/Learn
 dingtalk https://im.dingtalk.com
+dwm	config	example https://blog.yjl.im/2011/07/two-weeks-with-dwm.html
+dwm	debian	build https://forums.debian.net/viewtopic.php?f=16&t=65110
+dwm	dtos	distrotube https://gitlab.com/dtos
+dwm	patch	tutorial https://www.maketecheasier.com/useful-patches-improve-dwm/
+dwm	tags https://github.com/w0ng/wongdev.com/blob/master/content/dwm-tags-are-not-workspaces.md
+dwm	tutorial https://dwm.suckless.org/tutorial/
+dwm.c	suckless https://stackoverflow.com/questions/61101757/x-dwm-help-me-fix-a-bug-in-c-source-code
+emacs	doom	docs https://docs.doomemacs.org/latest/
+emacs	doom	faq https://github.com/doomemacs/doomemacs/blob/master/docs/faq.org
+emacs	dotfile	daviwil https://config.daviwil.com/emacs#table-of-contents
+emacs	evil	guide https://github.com/noctuid/evil-guide
+emacs	general.el https://github.com/noctuid/general.el
+emacs	general.el	reddit https://www.reddit.com/r/emacs/comments/ogiiyp/in_2021_what_is_the_state_of_the_art_in_emacs/
+emacs	sachachua https://sachachua.com/dotemacs/index.html#
+gist https://gist.github.com
+git	branch	tag https://stackoverflow.com/questions/1457103/how-is-a-tag-different-from-a-branch-in-git-which-should-i-use-here
+git	objects	blobs https://medium.com/@pawan_rawal/demystifying-git-internals-a004f0425a70
+git	tag https://stackoverflow.com/questions/35979642/what-is-git-tag-how-to-create-tags-how-to-checkout-git-remote-tags
+gitee https://gitee.com/
+github https://github.com
 gmail https://mail.google.com
-google earth https://earth.google.com
-google http://www.google.com
+google	drive https://drive.google.com/drive/u/0/my-drive
+groff	fonts	chinese https://kleshwong.com/blog/post/composing-pdf-on-linux-happily-as-an-non-latin-coder/
+havoc https://download.havoc-os.com/?search=ginkgo
 jd https://jd.com
 jw.swfu.edu.cn https://jw.swfu.edu.cn:8089/xtgl/login_slogin.html
-tech latex ref index http://latexref.xyz/Index.html
-tech pgfkeys https://tex.stackexchange.com/questions/34312/how-to-create-a-command-with-key-values/34318#34318
+latex	pgfkeys https://tex.stackexchange.com/questions/34312/how-to-create-a-command-with-key-values/34318#34318
+latexref	index http://latexref.xyz/Index.html
+latexstudio https://www.latexstudio.net
+nexus7	flo	lineageos	19	guide https://forum.xda-developers.com/t/guide-tutorial-howto-google-nexus-7-2013-stock-to-android-12.4275457/
+nexus7	flo	lineageos	19 https://forum.xda-developers.com/t/rom-flo-deb-unofficial-lineageos-19-1-2022-06-16.3569067/
+nftables	quick	howto https://home.regit.org/netfilter-en/nftables-quick-howto/
+pdf	convert	swifdoo.com https://www.swifdoo.com/convert-to-pdf
 pirate-bays https://pirate-bays.net
-reddit https://reddit.com
-sub-convert https://converter.niallapi.top/
-tech abs-guide file:///usr/share/doc/abs-guide/html/xrefindex.html
-tech archlinux https://wiki.archlinux.org
-tech emacs dotfile daviwil https://config.daviwil.com/emacs#table-of-contents
-tech emacs evil guide https://github.com/noctuid/evil-guide
-tech emacs general.el reddit https://www.reddit.com/r/emacs/comments/ogiiyp/in_2021_what_is_the_state_of_the_art_in_emacs/
-tech emacs sachachua https://sachachua.com/dotemacs/index.html#
-tech gist https://gist.github.com
-tech gitee https://gitee.com/
-tech github https://github.com
-tech havoc https://download.havoc-os.com/?search=ginkgo
-tech latexstudio https://www.latexstudio.net
-tech stackexchange https://stackexchange.com
-tech xda-developers https://www.xda-developers.com
+stumpwm	quicklisp	slime	sbcl http://www.kaashif.co.uk/2015/06/28/hacking-stumpwm-with-common-lisp/index.html
 thepiratebay http://thepiratebay.org
+tmux	wiki https://github.com/tmux/tmux/wiki
+tty	terminal	console	1 https://web.archive.org/web/20170713151526/http://unix.palash90.in/2017/07/terminal-console-shell-kernel-commands.html
+tty	terminal	console	2 https://askubuntu.com/questions/14284/why-is-a-virtual-terminal-virtual-and-what-why-where-is-the-real-terminal
+tty	terminal	console https://unix.stackexchange.com/questions/4126/what-is-the-exact-difference-between-a-terminal-a-shell-a-tty-and-a-con
 twitter https://twitter.com
-video bilibili https://www.bilibili.com
-video kuaishou https://video.kuaishou.com
-video rumble https://rumble.com/
-video ximalaya https://www.ximalaya.com
-video youtube https://www.youtube.com/
+video	kuaishou https://video.kuaishou.com
+video	rumble https://rumble.com/
 wechat https://web.wechat.com/
-wikipedia https://en.wikipedia.org/
-tech git branch tag https://stackoverflow.com/questions/1457103/how-is-a-tag-different-from-a-branch-in-git-which-should-i-use-here
-tech git tag https://stackoverflow.com/questions/35979642/what-is-git-tag-how-to-create-tags-how-to-checkout-git-remote-tags
-tech git objects blobs https://medium.com/@pawan_rawal/demystifying-git-internals-a004f0425a70
-google drive https://drive.google.com/drive/u/0/my-drive
+wmctrl	run-or-raise https://www.willharris.dev/garden/run-or-raise
+ximalaya https://www.ximalaya.com
+xuexi https://teacher.higher.smartedu.cn/h/subject/summer2022/
+youtube https://www.youtube.com/
+bash mapfile array process substitution https://www.computerhope.com/unix/bash/mapfile.htm
+bash array https://opensource.com/article/18/5/you-dont-know-bash-intro-bash-arrays
+lf wiki https://github.com/gokcehan/lf/wiki
+awesome cli apps https://github.com/agarrharr/awesome-cli-apps
+inotify example https://github.com/denilsonsa/small_scripts/blob/master/sleep_until_modified.sh
+sed tutorial https://www.grymoire.com/Unix/Sed.html
+sed examples https://edoras.sdsu.edu/doc/sed-oneliners.html
+sed example https://gist.github.com/wookietreiber/6901420
+riru fingerprintpay https://github.com/eritpchy/FingerprintPay

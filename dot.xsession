@@ -26,6 +26,8 @@ export XMODIFIERS=@im=fcitx
 
 # Let Qt apps use GTK theme to make GUI font size larger.
 export QT_QPA_PLATFORMTHEME=gtk3
+# require qt5ct installed
+#export QT_QPA_PLATFORMTHEME=qt5ct
 
 # stop warning messages
 export NO_AT_BRIDGE=1 
@@ -34,8 +36,8 @@ export NO_AT_BRIDGE=1
 [ -x /usr/bin/udiskie ] && /usr/bin/udiskie -F &
 #[ -x /usr/bin/redshift ] && /usr/bin/redshift &
 [ -x /usr/lib/notification-daemon/notification-daemon ] && /usr/lib/notification-daemon/notification-daemon &
-[ -x /usr/bin/picom ] && /usr/bin/picom -b
-[ -x /usr/bin/hsetroot ] && /usr/bin/hsetroot -solid '#000000'
+# -x /usr/bin/picom ] && /usr/bin/picom -b
+# -x /usr/bin/hsetroot ] && /usr/bin/hsetroot -solid '#000000'
 
 fcitx5 -d --replace
 # fcitx5 first

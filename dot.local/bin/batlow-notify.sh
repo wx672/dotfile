@@ -6,9 +6,10 @@
 # */10 * * * * $BATLOW
 
 battery_level=$(cat /sys/class/power_supply/BAT?/capacity)
-if [ $battery_level -le 15 ]
-then
-	echo "Battery low!" | dzen2 -fg red -bg white -p -e 'key_Escape=ungrabkeys,exit'
+
+(( $battery_level < 15 )) && { 
+	dzen2 -fg red -bg white -p -e 'onstart=grabkeys;key_Escape=ungrabkeys,exit' <<< 'Battery low!';
 	# zenity --warning --title "Bettary low" --text "Battery level is ${battery_level}%!"
 	# notify-send "Battery low" "Battery level is ${battery_level}%!"
-fi
+} || exit 0
+

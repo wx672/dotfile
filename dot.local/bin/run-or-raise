@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# USAGE:   run-or-raise <string> <command> [command options]
+# EXAMPLE: run-or-raise emacs emacsclient -c -n -a ""
+#
+# This script is supposed to be invoked via shortcut keys configured in wm init files.
+#
+# $1 should be a string indicating window name or window class, 
+# such as emacs, qutebrowser, alacritty
+# 
+# $2 should be the command name, such as emacsclient, qutebrowser, alacritty
+#
+# $3+ should be options/parameters passed to the command
+
+wmctrl -xa $1 || { shift; "$@"; }

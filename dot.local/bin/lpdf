@@ -1,0 +1,97 @@
+#!/bin/bash
+
+usage(){
+	cat <<EOF
+${0##*/} - A lazy PDF viewer.
+
+Usage: ${0##*/} [-hDtcn] [pattern string]
+	   -h  help
+	   -D  enable debug mode
+	   -t  text mode
+	   -c  edit $HOME/.pdf_history file
+	   -n  output full path to the file
+EOF
+}
+
+MUPDF="$(command -v mupdf) -C FDF6E3"
+V="setsid -f $MUPDF"
+PDFHIST="$HOME/.pdf_history"
+DEBUG=""
+
+[ -e "$PDFHIST" ] || touch "$PDFHIST"
+
+while getopts :Dhtcn OPT; do
+	case $OPT in
+		t) V="less" ;;
+		c) vim "$PDFHIST"; exit 0 ;;
+		n) V="realpath" ;;
+		D) DEBUG="YES" ;;
+		h) usage; exit 0 ;;
+		?) usage; exit 1 ;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+PATTERN="$*"
+
+chkPATTERN(){
+	# empty
+	[[ "$PATTERN" ]] || return 0;
+
+	# valid file, e.g. /tmp/tmp.pdf or tmp.pdf
+	[[ $(file --mime-type -b "$PATTERN") == application/pdf ]] && return 1;
+
+	# any string
+	return 2;
+}
+
+searchPDF(){ # when $PATTERN is a random string
+	PDFFILE=$(sk < <(fd --no-ignore --fixed-strings --max-depth 3 \
+						--extension pdf.gz --extension pdf \
+						"${PATTERN##*/}") \
+				 -e10 --ansi --color=always)
+
+	# if no matching found in CWD
+	[[ "$PDFFILE" ]] || { # check in $PDFHIST
+		HIST=$(sk < <(rg -N "$PATTERN" $PDFHIST) -e10)
+
+		[[ "$HIST" ]] || { # not found in $PDFHIST
+			echo "$PATTERN": No match found in neither $PWD nor $PDFHIST.
+			exit 1
+		}
+
+		if [[ "$HIST" == *gz ]] && [[ "$V" != "less" ]]; then
+			gzip -cd "$HIST" | zathura -
+			exit 0
+		else
+			$V "$HIST" 2>/dev/null
+			exit 0
+		fi
+	}
+
+	# Found in CWD
+	# if not in PDFHIST, add it
+	rg -q $(realpath "$PDFFILE") "$PDFHIST" || realpath "$PDFFILE" >> "$PDFHIST"
+
+	if [[ "$PDFFILE" == *gz ]] && [[ "$V" != "less" ]]; then
+		gzip -cd "$PDFFILE" | zathura -
+		exit 0
+	else
+		$V "$PDFFILE" 2>/dev/null
+		exit 0
+	fi
+}
+
+chkPATTERN
+
+case $? in
+	0) sk < $PDFHIST \
+			  --bind "enter:execute($V {} &)+abort" \
+			  -e10 --ansi --color=always
+		   exit 0
+		   ;; 
+	1) $V "$PATTERN"; exit 0
+		   ;;
+	*) searchPDF; exit 0		
+esac

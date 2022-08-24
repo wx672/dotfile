@@ -45,7 +45,6 @@ Suggested bindings similar to Uzbl's `formfiller` script:
 """
 
 EPILOG = """Dependencies: tldextract (Python 3 module), pass, pass-otp (optional).
-For issues and feedback please use: https://github.com/cryzed/qutebrowser-userscripts.
 
 WARNING: The login details are viewable as plaintext in qutebrowser's debug log (qute://log) and might be shared if
 you decide to submit a crash report!"""
@@ -77,6 +76,8 @@ argument_parser.add_argument('--password-store', '-p',
                              help='Path to your pass password-store (only used in pass-mode)', type=expanded_path)
 argument_parser.add_argument('--mode', '-M', choices=['pass', 'gopass'], default="pass",
                              help='Select mode [gopass] to use gopass instead of the standard pass.')
+argument_parser.add_argument('--prefix', type=str,
+                             help='Search only the given subfolder of the store (only used in gopass-mode)')
 argument_parser.add_argument('--username-pattern', '-u', default=r'.*/(.+)',
                              help='Regular expression that matches the username')
 argument_parser.add_argument('--username-target', '-U', choices=['path', 'secret'], default='path',
@@ -132,7 +133,10 @@ def find_pass_candidates(domain, unfiltered=False):
     candidates = []
 
     if arguments.mode == "gopass":
-        all_passwords = subprocess.run(["gopass", "list", "--flat" ], stdout=subprocess.PIPE).stdout.decode("UTF-8").splitlines()
+        gopass_args = ["gopass", "list", "--flat"]
+        if arguments.prefix:
+            gopass_args.append(arguments.prefix)
+        all_passwords = subprocess.run(gopass_args, stdout=subprocess.PIPE).stdout.decode("UTF-8").splitlines()
 
         for password in all_passwords:
             if unfiltered or domain in password:
@@ -183,7 +187,7 @@ def dmenu(items, invocation):
 def fake_key_raw(text):
     for character in text:
         # Escape all characters by default, space requires special handling
-        sequence = '" "' if character == ' ' else '\{}'.format(character)
+        sequence = '" "' if character == ' ' else r'\{}'.format(character)
         qute_command('fake-key {}'.format(sequence))
 
 

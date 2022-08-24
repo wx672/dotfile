@@ -4,16 +4,13 @@ MUPDF="$(command -v mupdf) -C FDF6E3"
 QB="/usr/bin/qutebrowser"
 CS6="cs6.swfu.edu.cn"
 
-zsk()
-{
-	z $(fd --max-depth 3 \
-		   --type directory \
-		   --type symlink \
-		   --base-directory ${1:-.} | \
-			sk --exact \
-			   --select-1 --exit-0 \
-			   --ansi --color=always)
-}
+### cd C-t
+# zsk()
+# {
+# 	z $(sk --exact --select-1 --exit-0 --ansi --color=always \
+# 		   < <(fd --max-depth 3 --type directory --type symlink \
+# 				  --base-directory ${1:-.}))
+# }
 
 # https://github.com/arp242/uni/blob/master/dmenu-uni
 # rofi -dmenu -i -font "FiraCode Nerd Font Mono 22" 
@@ -42,85 +39,6 @@ emoji()
 	# notify-send "'$chosen' copied to clipboard."
 }
 
-xpdf()
-{
-	local V="$MUPDF"
-	local PDFHIST="$HOME/.pdf_history"
-	local DEBUG=""
-
-	while getopts :Dhtc OPT; do
-		case $OPT in
-			t) V="less" ;;
-			c) vim "$PDFHIST"; return 0 ;;
-			D) DEBUG="YES" ;;
-			h) echo "Usage: xpdf [-hct] [pattern]"; return 0 ;;
-			?) echo "Usage: xpdf [-hct] [pattern]"; return 1 ;;
-		esac
-	done
-	shift $(( OPTIND - 1 ))
-	OPTIND=1
-
-	[ -e "$PDFHIST" ] || touch "$PDFHIST"
-
-	PATTERN="$*"; [[ "$DEBUG" ]] && { echo '$*' is "$*"; }
-
-	if [ -z "$PATTERN" ]; then
-		[[ "$DEBUG" ]] && { echo '$*' is empty, reading "$PDFHIST"...; }
-		sk < $PDFHIST \
-		   --bind "enter:execute($V {})+abort" \
-		   -e10 --ansi --color=always 
-	elif [[ "$PATTERN" == /* && -e "$PATTERN" ]]; then # pattern begins with a /
-		[[ "$DEBUG" ]] && { 
-			cat <<EOF;
-'$*' is "$*" beginning with a /, thus treated as a full file name.
-EOF
-		}
-		$V "$PATTERN"
-	else
-		[[ "$DEBUG" ]] && { 
-			cat <<EOF;
-\$PATTERN is "$PATTERN", neither empty nor beginning with a /.
-Looking into ${PWD}...
-EOF
-		}
-		# look into cwd. select one if multiple matches
-		local PDF=$(fd --no-ignore --fixed-strings --max-depth 3 \
-					   --extension pdf.gz --extension pdf \
-					   "${1##*/}" \
-						| sk -e10 --ansi --color=always)
-		
-		if [ -z "$PDF" ]; then # if not in cwd, look into history
-			[[ "$DEBUG" ]] && {
-				echo "Nothing found in $PWD. Looking into $PDFHIST...";
-			}
-			local HIST=$(rg -N "$PATTERN" $PDFHIST | sk -e10) #select one
-			
-			# if not in history
-			[ -z "$HIST" ] && { 
-				[[ -n "$PATTERN" ]] && {
-					echo File "$PATTERN" not found in ${PDFHIST}.;
-					return 1; }
-			}
-			
-			if [[ "$HIST" == *gz ]] && [[ "$V" != "less" ]]; then
-				gzip -cd "$HIST" | zathura -
-			else
-				$V "$HIST" 2>/dev/null
-			fi
-		else #found in cwd
-			[[ "$DEBUG" ]] && { echo "$PDF" is found in "$PWD"; }
-			if [[ "$PDF" == *gz ]] && [[ "$V" != "less" ]]; then
-				gzip -cd "$PDF" | zathura -
-			else
-				$V "$PDF" 2>/dev/null
-			fi
-			# if not in PDFHIST, add it
-			rg -q $(realpath "$PDF") "$PDFHIST" || realpath "$PDF" >> "$PDFHIST"
-		fi
-	fi
-	return 0
-}
-
 zpdf()
 {
 	local V="zathura --fork"
@@ -141,18 +59,18 @@ zpdf()
 	PATTERN="$*"
 	
 	if [ -z "$PATTERN" ]; then
-		sk <$PDFHIST \
+		sk < $PDFHIST \
 		   --bind "enter:execute($V {})+abort" \
 		   -e10 --ansi --color=always
 	elif [[ "$PATTERN" == "/*" ]] && [[ -e "$PATTERN" ]]; then # pattern begins with a /
 		$V "$PATTERN"
 	else
 		# look into cwd. select one if multiple matches
-		local PDF=$(fd -IFd1 -epdf.gz -epdf "${1##*/}" \
-						| sk -e10 --ansi --color=always)
+		local PDF=$(sk -e10 --ansi --color=always \
+					   < <(fd -IFd1 -epdf.gz -epdf "${1##*/}"))
 		
 		if [ -z "$PDF" ]; then # if not in cwd, look into history
-			local HIST=$(rg -N "$PATTERN" $PDFHIST | sk -e10) #select one
+			local HIST=$(sk -e10 < <(rg -N "$PATTERN" $PDFHIST)) #select one
 			
 			# in case of empty
 			[ -z "$HIST" ] && { 
@@ -180,7 +98,8 @@ zpdf()
 
 skiv(){
 	cd "${1:-.}" || exit 1;
-	fd -e png -e jpg -e gif -e pbm | sk -e10 --bind 'enter:execute(sxiv {} &)'
+	sk < <(fd -e png -e jpg -e gif -e pbm) \
+	   -e10 --bind 'enter:execute(sxiv {} &)'
 }
 
 skvi(){
@@ -207,14 +126,17 @@ rgvi(){
 
 quickmarks(){
 	sk < ~/.config/qutebrowser/quickmarks \
-	   -e --bind "enter:execute($QB {-1} &)+abort" \
+	   --exact --bind "enter:execute($QB {-1} &)+abort" \
 	   2>/dev/null
+
 	return 0
 }
 
 play(){
-	fd -e mp4 -e mkv -e webm -e m4a -e mp3 -e rmvb -e avi -e flv | \
-		sk -e --bind "enter:execute(mpv {})+abort"
+	sk < <(fd -e mp4 -e mkv -e webm -e m4a -e mp3 -e rmvb -e avi -e flv) \
+	   --exact --bind "enter:execute(mpv {})+abort"
+	
+	return 0
 }
 
 gmaps(){
@@ -347,19 +269,22 @@ function stopwatch(){
 dict () { (/usr/bin/dict "$@" 2>&1 | bat;) }
 
 e(){
-	emacsclient -n -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t
-	if [ "$?" = "1" ]; then
-    	emacsclient -c -n -a "" "$@"
+	# if emacsclient -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t; then
+	if wmctrl -xa emacs; then
+		[ "$1" ] && emacsclient -n "$@" || emacsclient -ne "(recentf-open-files)"
 	else
-   		emacsclient -n -a "" "$@"
+		[ "$1" ] && emacsclient -nc "$@" || emacsclient -nce "(recentf-open-files)"
 	fi
 }
 
-emacs() { e "$1"; }
+emacs() { 
+	e "$@"; 
+}
 
 # viewing markdown file in w3m. an alternative to mdless/mdcat
 mdview(){
-	(cmark "$1" | w3m -T text/html)
+	#(cmark "$1" | w3m -T text/html)
+	w3m -T text/html < <(cmark "$1")
 }
 
 speak(){
@@ -542,7 +467,7 @@ ypv()
 }
 
 cs6(){
-	(xterm -e mosh "${1:-wx672}"@cs6.swfu.edu.cn &)
+	(st -e mosh "${1:-wx672}"@cs6.swfu.edu.cn &)
 }
 
 cs6v(){

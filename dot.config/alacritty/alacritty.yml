@@ -10,7 +10,7 @@ window:
   dimensions:
     columns: 91
     lines: 25
-  opacity: .95
+  opacity: 1.0
 
   padding:
     x: 0
@@ -36,7 +36,7 @@ font:
     style: Italic
 
   # Point size of the font
-  size: 20.0
+  size: 16.0
 
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: false
@@ -300,7 +300,8 @@ color_schemes:
 
   ayu_dark: &ayu_dark
     primary:
-      background: '0x0f1419'
+      # background: '0x0f1419'
+      background: '0x000000'
       foreground: '0xe6e1cf'
 
     normal:

@@ -2,7 +2,7 @@
 
 usage(){
 	cat <<EOF
-${0##*/} - Removing dead nodes in a clash config file
+${0##*/} - Removing dead nodes in the given clash config file
 
 USAGE: ${0##*/} [-hni] 'L,N' file.yml
 
@@ -27,4 +27,5 @@ OPTIND=1
 
 [[ -e "$2" ]] || { echo "Missing input file $2!"; usage; exit 1; }
 
-sed -${OP%,*} "/${1%,*}.* ${1#*,}$/${OP#*,}" $2
+sed -${OP%,*} "/${1%,*}.*${1#*,}$/${OP#*,}" $2
+tmux send-keys -t{top-right} C-c
