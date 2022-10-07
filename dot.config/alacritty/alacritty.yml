@@ -8,8 +8,8 @@ env:
 
 window:
   dimensions:
-    columns: 91
-    lines: 25
+    columns: 106
+    lines: 27
   opacity: 1.0
 
   padding:
@@ -36,7 +36,7 @@ font:
     style: Italic
 
   # Point size of the font
-  size: 20.0
+  size: 14.0
 
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: false

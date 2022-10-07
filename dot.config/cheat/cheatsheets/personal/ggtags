@@ -1,0 +1,18 @@
+1. make sure *ggtags* is installed in Emacs
+2. `sudo apt install universal-ctags`
+3. `rm /etc/gtags.conf` (use */etc/gtags/gtags.conf* instead)
+4. in `/etc/gtags/gtags.conf`:
+
+	```
+	#ctags:\
+	#   :tc=exuberant-ctags:tc=htags:
+	ctags:\
+		:tc=universal-ctags:tc=htags:
+	```
+5. Open src dir in Emacs
+   1. `M-x ggtags-create-tags` -> Use ctags backend? `yes` 
+   2. `M-x ggtags-mode`
+   3. Usage examples:
+      - ggtags-find-tag-dwim (`M-.`) 
+	  - ggtags-find-definition (`C-u M-.`)
+	  - xref-go-back (`M-,`)

@@ -70,3 +70,23 @@ sed tutorial https://www.grymoire.com/Unix/Sed.html
 sed examples https://edoras.sdsu.edu/doc/sed-oneliners.html
 sed example https://gist.github.com/wookietreiber/6901420
 riru fingerprintpay https://github.com/eritpchy/FingerprintPay
+uefi boot tutorial https://www.happyassassin.net/posts/2014/01/25/uefi-boot-how-does-that-actually-work-then/
+arp practical networking https://www.practicalnetworking.net/series/arp/address-resolution-protocol/
+kernel sunym1993 https://github.com/sunym1993/flash-linux0.11-talk
+emacs gmail notmuch offlineimap https://www.maketecheasier.com/use-email-within-emacs/
+emacs gnus gmail offlineimap https://www.emacswiki.org/emacs/GnusGmail
+notmuch emacs https://notmuchmail.org/
+notmuch emacs tips tricks https://notmuchmail.org/emacstips/
+bt list https://leeyr.com/270.html
+asus firmware bug acpi bios https://bugzilla.kernel.org/show_bug.cgi?id=215101#c4
+v2rayse clash https://v2rayse.com/
+socks vs https proxy https://brightdata.com/blog/leadership/socks5-proxy-vs-http-proxy
+tcp window scaling https://networkengineering.stackexchange.com/questions/54107/how-can-a-tcp-window-size-be-allowed-to-be-larger-than-the-maximum-size-of-an-et
+tcp window scaling 2 https://www.site24x7.com/learn/linux/tcp-window-scaling.html
+debian handbook admin file:///usr/share/doc/debian-handbook/html/en-US/index.html
+debian new maintainer packaging guide https://www.debian.org/doc/manuals/maint-guide/
+debian developer manuals packaging https://www.debian.org/doc/devel-manuals#debmake-doc
+debian packaging wiki https://wiki.debian.org/Packaging
+mutt multiple accounts https://unix.stackexchange.com/questions/487380/how-to-properly-configure-multiple-accounts-in-mutt
+mutt multiple accounts 2 http://www.df7cb.de/blog/2010/Using_multiple_IMAP_accounts_with_Mutt.html
+mutt multiple accounts 3 https://gist.github.com/miguelmota/9456162

@@ -1,6 +1,6 @@
 configuration {
 	modi: "window,run";
-	font: "FiraCode Nerd Font Mono 32";
+	font: "FiraCode Nerd Font Mono 16";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/

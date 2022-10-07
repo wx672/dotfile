@@ -10,7 +10,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 240 :family "FiraCode Nerd Font"))))
+ '(default ((t (:height 180 :family "FiraCode Nerd Font"))))
  '(cursor ((t (:background "violet"))));indian red
  '(mode-line ((t (:height 0.8))))
  '(org-table ((t (:family "Noto Sans Mono CJK SC")))))
@@ -107,7 +107,7 @@
   :hook
   (text-mode . mixed-pitch-mode)
   ;; :config
-  ;; (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 240)
+  ;; (set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 180)
   ;; (set-face-attribute 'fixed-pitch nil :font "Noto Sans Mono CJK SC")
   ;; (set-face-attribute 'variable-pitch nil :font "DejaVu Sans")
 )

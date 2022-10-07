@@ -83,7 +83,8 @@ c.aliases = {
     'gist':'open -t https://gist.github.com',
     'gmail':'open -t https://mail.google.com',
     'lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
-    'wechat':'open -t https://web.wechat.com/'
+    'wechat':'open -t https://web.wechat.com/',
+    'havoc':'https://havoc-os.com/download'
 }
 
 # keybinds
@@ -99,6 +100,7 @@ config.unbind('<Ctrl-v>', mode='normal')
 config.unbind('<Ctrl-a>', mode='normal')
 config.unbind('ga', mode='normal')
 config.unbind('r', mode='normal')
+config.bind('<Ctrl-l>', 'set-cmd-text -s :open -t')
 config.bind('<Ctrl-Shift-p>', 'tab-pin', mode='normal')
 config.bind('<Escape>', 'mode-leave', mode='passthrough')
 config.bind('<Ctrl-i>', 'mode-enter passthrough', mode='normal')

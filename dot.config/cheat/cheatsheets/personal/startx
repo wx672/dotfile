@@ -1,0 +1,2 @@
+# run multiple WM is easy. For example, on tty2, run
+startx /usr/local/bin/dwm

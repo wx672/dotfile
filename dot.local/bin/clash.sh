@@ -1,6 +1,14 @@
 #!/bin/bash
 
-clash
+fy="clash -f /home/wx672/.config/clash/fy-55549.yaml"
 
-trap clash INT TERM EXIT
+[[ $1 ]] && {
+	$fy
+	trap "$fy" INT TERM EXIT
+} || {
+	clash
+	trap clash INT TERM EXIT
+}
+
+
 

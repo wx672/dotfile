@@ -1,0 +1,15 @@
+man notmuch-search-terms
+
+# delete
+notmuch search --format=text0 --output=files tag:deleted | xargs -0 --no-run-if-empty rm
+
+# search by date
+notmuch search date:20071231..2008
+notmuch search date:..2008
+notmuch search date:2008..
+
+# search by folder
+notmuch search folder:/222301-os/
+
+# search by path
+notmuch search path:/Drafts/
