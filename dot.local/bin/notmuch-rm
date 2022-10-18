@@ -1,26 +1,28 @@
 #!/bin/bash
 
 NOTMUCH=$(command -v notmuch)
+TMP="$(mktemp)"
 
-rm(){
+cleanup(){
+	/bin/rm -f "$TMP"
+}
+
+trap cleanup INT EXIT TERM
+
+remove(){
 	local PTN="${1:-tag:unread}"
-	$NOTMUCH search "$PTN"
-	echo
-	PS3="Make a choice: "
-	#  "Delete permanently"
-	select CHOICE in "Tag as 'deleted'" "Quit"; do
-		[[ "$CHOICE" = "Tag as 'deleted'" ]] && {
+	$NOTMUCH search "$PTN" | tee $TMP
+	[[ -s "$TMP" ]] || { echo no matching mail found.; exit; }
+	printf "\n\tMark these emails as deleted? [y/N]: "
+	read YN
+	case $YN in
+		[yY]|[yY][eE][sS])
 			$NOTMUCH tag +deleted -inbox -unread "$PTN"
 			$NOTMUCH new
-		}
-		# [[ "$CHOICE" = "Delete permanently" ]] && {
-		# 	$NOTMUCH search --format=text0 --output=files "$PTN" | \
-		# 		xargs -0 --no-run-if-empty rm
-		# 	$NOTMUCH new
-		# }
-		[[ "$CHOICE" = "Quit" ]] && exit
-		break
-	done
+			;;
+		*)
+			exit
+	esac
 }
 
 case "$1" in
@@ -34,7 +36,7 @@ Example usage:
 EOF
 		exit 0
 		;;
-	*) rm "$1"		
+	*) remove "$1"		
 esac
 
 

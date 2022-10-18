@@ -38,6 +38,25 @@
   - https: `https://localhost:7890`
   - `/etc/proxychains4.conf`: `socks5	127.0.0.1 7891`
 
+- web-based dashboard
+
+  1. download:
+    [clash-dashboard](https://github.com/Dreamacro/clash-dashboard/tree/gh-pages)
+	
+	`Code` -> `Download zip`
+	
+  2. After unzip, rename the extracted dir to `~/.config/clash/ui`.
+  
+  3. add the following line into `config.yaml`:
+  
+	  ```
+	  external-ui: /home/USER/.config/clash/ui
+	  ```
+	  
+	  Change `USER` to your username.
+	  
+  4. open the dashboard at: http://127.0.0.1:9090/ui
+
 - Free config file update
   - [破解资源君Youtube channel](https://www.youtube.com/channel/UCrGEYuZ1nw3RDj4LDKJmrZw)
   - [阿伟科技Youtube channel](https://www.youtube.com/channel/UCAVXAOB168NaJozwrXT1hkw)

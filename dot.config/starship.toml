@@ -1,5 +1,5 @@
 format="$cmd_duration$custom$directory$git_branch$git_state$character"
-add_newline = false
+add_newline = true
 
 [git_state]
 format = "[|$state]($style)"

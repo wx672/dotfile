@@ -47,14 +47,29 @@ chkPATTERN(){
 }
 
 searchPDF(){ # when $PATTERN is a random string
-	PDFFILE=$(sk < <(fd --no-ignore --fixed-strings --max-depth 3 \
-						--extension pdf.gz --extension pdf \
+	PDFFILE=$(sk < <(fd --no-ignore \
+						--max-depth 3 \
+						--fixed-strings \
+						--extension pdf.gz \
+						--extension pdf \
 						"${PATTERN##*/}") \
-				 -e10 --ansi --color=always)
+				 --exact --select-1 --exit-0 \
+				 --ansi --color=always \
+				 --no-multi \
+				 --keep-right)
 
+	[ $DEBUG ] && echo "[DEBUG]: PDFFILE=$PDFFILE"
+	
 	# if no matching found in CWD
 	[[ "$PDFFILE" ]] || { # check in $PDFHIST
-		HIST=$(sk < <(rg -N "$PATTERN" $PDFHIST) -e10)
+		HIST=$(sk < <(rg --no-line-number \
+						 --fixed-strings \
+						 --max-columns=0 \
+						 "$PATTERN" $PDFHIST) \
+				  --exact --select-1 --exit-0 \
+				  --ansi --color=always \
+				  --no-multi \
+				  --keep-right)
 
 		[[ "$HIST" ]] || { # not found in $PDFHIST
 			echo "$PATTERN": No match found in neither $PWD nor $PDFHIST.
@@ -71,9 +86,13 @@ searchPDF(){ # when $PATTERN is a random string
 	}
 
 	# Found in CWD
+	[ $DEBUG ] && echo "[DEBUG]: found in $PWD"
 	# if not in PDFHIST, add it
-	rg -q $(realpath "$PDFFILE") "$PDFHIST" || realpath "$PDFFILE" >> "$PDFHIST"
+	rg -qF "$(realpath "$PDFFILE")" "$PDFHIST" || \
+		realpath "$PDFFILE" >> "$PDFHIST"
 
+	[ $DEBUG ] && tail $PDFHIST
+	
 	if [[ "$PDFFILE" == *gz ]] && [[ "$V" != "less" ]]; then
 		gzip -cd "$PDFFILE" | zathura -
 		exit 0
@@ -87,11 +106,14 @@ chkPATTERN
 
 case $? in
 	0) sk < $PDFHIST \
-			  --bind "enter:execute($V {} &)+abort" \
-			  -e10 --ansi --color=always
-		   exit 0
-		   ;; 
+		  --bind "enter:execute($V {})+abort" \
+		  --exact --select-1 --exit-0 \
+		  --ansi --color=always \
+		  --no-multi \
+		  --keep-right
+	   exit 0
+	   ;; 
 	1) $V "$PATTERN"; exit 0
-		   ;;
+	   ;;
 	*) searchPDF; exit 0		
 esac

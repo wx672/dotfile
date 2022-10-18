@@ -9,6 +9,3 @@ fy="clash -f /home/wx672/.config/clash/fy-55549.yaml"
 	clash
 	trap clash INT TERM EXIT
 }
-
-
-

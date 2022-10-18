@@ -14,6 +14,7 @@ XTerm*loginShell: true
 ! Xft.antialias: 1
 ! Xft.rgba: rgb
 
+!!! /usr/share/doc/dzen2/README.gz
 dzen2.font: xft:monospace:pixelsize=64:antialias=false:hinting=true
 dzen2.foreground: #22EE11
 dzen2.background: black

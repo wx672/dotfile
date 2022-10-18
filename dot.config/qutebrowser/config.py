@@ -30,6 +30,8 @@ c.downloads.open_dispatcher = None
 c.downloads.position = 'top'
 c.editor.command = ["emacsclient", "-c", "{}"]
 c.fileselect.folder.command = ["st", "-e", "sh", "-c", "lf -selection-path {}"]
+#c.fileselect.folder.command = ["st", "-e", "sh", "-c", "file-chooser-sk.sh", "{}"]
+#c.fileselect.folder.command = ["rofi","-show","fb","-modi","fb:rofi-file-browser.sh","{}"]
 c.fileselect.multiple_files.command = c.fileselect.folder.command
 c.fileselect.single_file.command = c.fileselect.folder.command
 c.fileselect.handler = "external"
@@ -111,6 +113,7 @@ config.unbind('<Ctrl-v>', mode='normal')
 config.unbind('<Ctrl-a>', mode='normal')
 config.unbind('ga', mode='normal')
 config.unbind('r', mode='normal')
+config.bind('<Ctrl-l>', 'set-cmd-text -s :open -t')
 config.bind('<Ctrl-Shift-p>', 'tab-pin', mode='normal')
 config.bind('<Escape>', 'mode-leave', mode='passthrough')
 config.bind('<Ctrl-i>', 'mode-enter passthrough', mode='normal')
