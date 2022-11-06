@@ -267,6 +267,114 @@ debug:
 ###### Color schemes ######
 
 color_schemes:
+
+  solarized_dark: &solarized_dark
+
+    primary:
+      background: '0x002b36'
+      foreground: '0x839496'
+  
+    normal:
+      black:   '0x073642'
+      red:     '0xdc322f'
+      green:   '0x859900'
+      yellow:  '0xb58900'
+      blue:    '0x268bd2'
+      magenta: '0xd33682'
+      cyan:    '0x2aa198'
+      white:   '0xeee8d5'
+  
+    bright:
+      black:   '0x002b36'
+      red:     '0xcb4b16'
+      green:   '0x586e75'
+      yellow:  '0x657b83'
+      blue:    '0x839496'
+      magenta: '0x6c71c4'
+      cyan:    '0x93a1a1'
+      white:   '0xfdf6e3'
+
+  solarized_light: &solarized_light
+
+    primary:
+      background: '0xfdf6e3'
+      foreground: '0x586e75'
+  
+    normal:
+      black:   '0x073642'
+      red:     '0xdc322f'
+      green:   '0x859900'
+      yellow:  '0xb58900'
+      blue:    '0x268bd2'
+      magenta: '0xd33682'
+      cyan:    '0x2aa198'
+      white:   '0xeee8d5'
+  
+    bright:
+      black:   '0x002b36'
+      red:     '0xcb4b16'
+      green:   '0x586e75'
+      yellow:  '0x657b83'
+      blue:    '0x839496'
+      magenta: '0x6c71c4'
+      cyan:    '0x93a1a1'
+      white:   '0xfdf6e3'
+    
+  papercolor_light: &papercolor_light
+
+    primary:
+      background: '0xeeeeee'
+      foreground: '0x444444'
+  
+    cursor:
+      text: '0xeeeeee'
+      cursor: '0x444444'
+  
+    normal:
+      black:   '0xeeeeee'
+      red:     '0xaf0000'
+      green:   '0x008700'
+      yellow:  '0x5f8700'
+      blue:    '0x0087af'
+      magenta: '0x878787'
+      cyan:    '0x005f87'
+      white:   '0x444444'
+  
+    bright:
+      black:   '0xbcbcbc'
+      red:     '0xd70000'
+      green:   '0xd70087'
+      yellow:  '0x8700af'
+      blue:    '0xd75f00'
+      magenta: '0xd75f00'
+      cyan:    '0x005faf'
+      white:   '0x005f87'
+    
+  atom_one_light: &atom_one_light
+    primary:
+      background: '0xf8f8f8'
+      foreground: '0x2a2b33'
+    
+    normal:
+      black:   '0x000000'
+      red:     '0xde3d35'
+      green:   '0x3e953a'
+      yellow:  '0xd2b67b'
+      blue:    '0x2f5af3'
+      magenta: '0xa00095'
+      cyan:    '0x3e953a'
+      white:   '0xbbbbbb'
+    
+    bright:
+      black:   '0x000000'
+      red:     '0xde3d35'
+      green:   '0x3e953a'
+      yellow:  '0xd2b67b'
+      blue:    '0x2f5af3'
+      magenta: '0xa00095'
+      cyan:    '0x3e953a'
+      white:   '0xffffff'
+    
   ayu_light: &ayu_light
     primary:
       background: '0xfafafa'

@@ -22,11 +22,15 @@
     minus-style = "syntax #340001"
     syntax-theme = Monokai Extended
     navigate = true
+	light = false #dark background 
 	line-numbers = true
     side-by-side = true
     #line-numbers-left-format = ""
     #line-numbers-right-format = "│ "
-
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
 
 [interactive]
     diffFilter = delta --color-only

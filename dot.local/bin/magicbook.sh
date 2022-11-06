@@ -1,1 +1,0 @@
-/home/wx672/.screenlayout/magicbook.sh

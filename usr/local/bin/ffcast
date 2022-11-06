@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# screencast streaming
+
+server(){ 
+
+    trap 'pkill screenkey' INT EXIT TERM ERR
+
+    (screenkey --no-systray \
+			   --opacity .3 \
+			   --font-color red \
+			   --font "Fira Code SemiBold" \
+			   --font-size small &)
+    
+    ffmpeg -f x11grab \
+		   -video_size 1366x768 \
+		   -r 15 \
+		   -i :0.0 \
+           -c:v libx264 \
+		   -tune zerolatency \
+           -vf "format=yuv420p" \
+		   -g 30 \
+           -preset ultrafast \
+           -f mpegts \
+		   udp://224.0.0.1:2000
+}
+
+client(){ # multicast client side
+
+	if pgrep -f 'mpv'; then
+		dzen2 -p 3 -fg darkred -bg grey80 <<<"mpv is running already."
+	else
+		[ $DISPLAY ] && {
+		dzen2 -p 2 -fg darkred -bg grey80 <<<"Starting mpv..."
+		#ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
+		mpv udp://224.0.0.1:2000 \
+			--no-resume-playback \
+			--no-audio \
+			--profile=low-latency \
+			--no-cache \
+			--untimed \
+			--no-demuxer-thread \
+			--vd-lavc-threads=1
+		} || {
+			mpv udp://224.0.0.1:2000 \
+				--no-resume-playback \
+				--vo=drm --profile=sw-fast \
+				--no-audio \
+				--profile=low-latency \
+				--no-cache \
+				--untimed \
+				--no-demuxer-thread \
+				--vd-lavc-threads=1
+		}
+	fi
+}
+
+case $1 in
+	client)
+		client
+		;;
+	server)
+		server
+		;;
+	*)
+		echo Usage: $0 '<client|server>';
+		exit 1
+esac
+
+
+# https://trac.ffmpeg.org/wiki/StreamingGuide
+# https://stackoverflow.com/questions/16658873/how-to-minimize-the-delay-in-a-live-streaming-with-ffmpeg

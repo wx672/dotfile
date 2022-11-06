@@ -59,9 +59,12 @@ tabs -4 &>/dev/null
 # man gpg-agent
 GPG_TTY=$(tty)
 export GPG_TTY
+export GPGKEY=0EE277C8D838C7DA
 
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
-[ -x "/usr/bin/zoxide" ] && eval "$(zoxide init bash)"
-[ -x "$HOME/.cargo/bin/starship" ] && eval "$(starship init bash)"
+
+command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
+command -v starship &>/dev/null && eval "$(starship init bash)"
 
 export SKIM_DEFAULT_COMMAND="fd -d1 || rg --files --max-depth 1 || find . -maxdepth 1"
+. "$HOME/.cargo/env"
