@@ -70,9 +70,6 @@
   :ensure t
   :defer t
   :hook (after-init . doom-modeline-mode)
-  :custom-face
-  '(mode-line ((t (:height 0.5))))
-  '(mode-line-inactive ((t (:height 0.5))))
   :custom
   (inhibit-compacting-font-caches t) ;Don’t compact font caches during GC.
   (find-file-visit-truename t)

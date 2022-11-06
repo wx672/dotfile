@@ -1,0 +1,9 @@
+# font size
+
+- https://www.bleepingcomputer.com/forums/t/743402/how-to-change-font-size-in-grub-menu/
+
+Uncomment **GRUB_GFXMODE=640x480** in `/etc/default/grub`, or choose another supported resolution.
+
+## Find out supported video resolutions
+
+	**grub menu** -> c -> **grub>** -> videoinfo (for grub-efi, vbeinfo for grub-pc)

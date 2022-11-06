@@ -1,4 +1,4 @@
-format="$cmd_duration$custom$directory$git_branch$git_state$character"
+format="$hostname$custom$directory$git_branch$git_state$character"
 add_newline = true
 
 [git_state]
@@ -16,6 +16,13 @@ truncate_to_repo = false
 truncation_length = 5
 truncation_symbol="…/"
 style = "dimmed"
+
+[hostname]
+ssh_only = true
+format = "[$hostname]($style):"
+trim_at = "."
+style = "bold dimmed"
+disabled = false
 
 # [directory.substitutions]
 # "~" = "🏠"

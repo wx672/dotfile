@@ -30,6 +30,7 @@ client(){ # multicast client side
 	if pgrep -f 'mpv'; then
 		dzen2 -p 3 -fg darkred -bg grey80 <<<"mpv is running already."
 	else
+		[ $DISPLAY ] && {
 		dzen2 -p 2 -fg darkred -bg grey80 <<<"Starting mpv..."
 		#ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
 		mpv udp://224.0.0.1:2000 \
@@ -40,6 +41,17 @@ client(){ # multicast client side
 			--untimed \
 			--no-demuxer-thread \
 			--vd-lavc-threads=1
+		} || {
+			mpv udp://224.0.0.1:2000 \
+				--no-resume-playback \
+				--vo=drm --profile=sw-fast \
+				--no-audio \
+				--profile=low-latency \
+				--no-cache \
+				--untimed \
+				--no-demuxer-thread \
+				--vd-lavc-threads=1
+		}
 	fi
 }
 
