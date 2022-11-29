@@ -67,4 +67,3 @@ command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
 command -v starship &>/dev/null && eval "$(starship init bash)"
 
 export SKIM_DEFAULT_COMMAND="fd -d1 || rg --files --max-depth 1 || find . -maxdepth 1"
-. "$HOME/.cargo/env"

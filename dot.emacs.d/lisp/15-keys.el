@@ -23,8 +23,9 @@
     "<f5>"       #'shell-other-window
 	"C-o"        #'other-window
     "M-o"        #'switch-to-other-buffer
-	"M-<backspace>" #'kill-this-buffer
+	"C-M-k" #'kill-this-buffer
 	"C-<backspace>" #'backward-kill-word
+	"M-<backspace>" #'backward-kill-word
 	"M-j"        #'next-user-buffer
 	"M-k"        #'previous-user-buffer
 	"M-n"        #'next-buffer
@@ -73,6 +74,7 @@
   (general-unbind Info-mode-map
 	"M-n" nil
 	)
+
   );end of use-package general
 
 (add-hook 'prog-mode-hook #'hs-minor-mode)

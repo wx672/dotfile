@@ -21,7 +21,6 @@ export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
 
 # make sure libpam-systemd is installed, otherwise XDG_VTNR will be NULL.
-[[ -z $DISPLAY && $XDG_VTNR -eq 7 ]] && exec startx -- vt7 -keeptty
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- vt1 -keeptty
 #[[ -z $DISPLAY && $XDG_VTNR -eq 2 ]] && exec fbterm
 #[[ -z $DISPLAY && "$(tty)" = "/dev/tty1" ]] && exec sway
-. "$HOME/.cargo/env"
