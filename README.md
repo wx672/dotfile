@@ -4,8 +4,8 @@ Personal dot-files backup for my Debian Testing.
 Used by:
 
 - systemd auto-login
-- startx + sawfish
-- xterm + tmux
+- startx + dwm
+- alacritty + tmux
 - emacs, vim
 - misc.
 

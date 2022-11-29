@@ -16,27 +16,30 @@ Example:
 EOF
 }
 
+HDMI=$(xrandr | rg HDMI | choose 0)
+EDP=$(xrandr | rg eDP | choose 0)
+
 OPT="$*"
 
 case "$OPT" in
     tv) xrandr \
-	        --output HDMI-1 --mode 1920x1080 \
-	        --output eDP-1 --off ;;
+	        --output $HDMI --mode 1920x1080 \
+	        --output $EDP --off ;;
     4k) xrandr \
-	        --output HDMI-1 --mode 3840x2160 --pos 0x0 \
-	        --output eDP-1 --off ;;
+	        --output $HDMI --mode 3840x2160 --pos 0x0 \
+	        --output $EDP --off ;;
     pc) xrandr \
-	        --output eDP-1 --auto \
-	        --output HDMI-1 --off ;;
+	        --output $EDP --auto \
+	        --output $HDMI --off ;;
     lr) xrandr \
-	        --output eDP-1 --primary --mode 1920x1080 --pos 0x0 \
-	        --output HDMI-1 --mode 1920x1080 --left-of eDP-1 ;;
+	        --output $EDP --primary --mode 1920x1080 --pos 0x0 \
+	        --output $HDMI --mode 1920x1080 --left-of $EDP ;;
     dup|3|4) xrandr \
-	         --output eDP-1  --mode 1920x1080 --pos 0x0 \
-	         --output HDMI-1 --mode 1920x1080 --same-as eDP-1 ;;
+	         --output $EDP  --mode 1920x1080 --pos 0x0 \
+	         --output $HDMI --mode 1920x1080 --same-as $EDP ;;
     1k) xrandr \
-	        --output HDMI-1 --primary --mode 1280x1024 --pos 0x0 \
-	        --output eDP-1 --mode 1920x1080 --left-of HDMI-1 ;;
+	        --output $HDMI --primary --mode 1280x1024 --pos 0x0 \
+	        --output $EDP --mode 1920x1080 --left-of $HDMI ;;
 	on) xset s off -dpms ;;
 	off) xset dpms force off; xset dpms force off; xset dpms force off; xset dpms force off
 		 ;;

@@ -74,6 +74,7 @@
   (general-unbind Info-mode-map
 	"M-n" nil
 	)
+
   );end of use-package general
 
 (add-hook 'prog-mode-hook #'hs-minor-mode)

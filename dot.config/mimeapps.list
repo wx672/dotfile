@@ -14,3 +14,4 @@ text/x-bibtex=nvim.desktop
 text/markdown=mdless.desktop
 text/*=emacsclient.desktop
 application/x-desktop=emacsclient.desktop
+application/vnd.adobe.flash.movie=flashplayer.desktop
