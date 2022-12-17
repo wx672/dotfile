@@ -1,0 +1,8 @@
+```sh
+cat /etc/systemd/resolved.conf
+resolvectl
+sudo systemctl status -l systemd-resolved
+ping -6 google.com
+host -6 google.com
+```
+

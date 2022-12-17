@@ -1,6 +1,0 @@
-BASE="${IMG%.*}" # remove .suffix
-
-s=/the/path/foo.txt
-echo "${s##*/}" # basename  ${parameter##[pattern]}
-echo "${s%/*}"  #  dirname  ${parameter%[pattern]}
-

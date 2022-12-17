@@ -1,0 +1,5 @@
+fastboot devices
+
+fastboot boot twrpname.img
+
+fastboot flash recovery twrpname.img

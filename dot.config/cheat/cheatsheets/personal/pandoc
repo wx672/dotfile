@@ -1,2 +1,0 @@
-pandoc source.md --bibliography src.bib -s -o output.rtf
-

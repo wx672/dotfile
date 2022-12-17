@@ -1,0 +1,8 @@
+[Unit]
+Description=Touch Cursor Service
+
+[Service]
+ExecStart=/usr/bin/touchcursor
+
+[Install]
+WantedBy=default.target

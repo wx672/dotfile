@@ -1,0 +1,8 @@
+1. fcitx5 doesn't work in terminal
+3. no run-or-raise, jump-or-exec
+4. keynav doesn't work
+5. no screen mirroring
+
+-- solved
+2. wl-copy doesn't have append option
+

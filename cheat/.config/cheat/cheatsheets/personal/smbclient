@@ -1,0 +1,11 @@
+```sh
+sudo mount --verbose -t cifs -o username=wx672,password=wx672samba,vers=1.0 //192.168.1.1/usbshare /mnt/public/
+
+smbclient //192.168.1.1/usbshare -U wx672%wx672samba
+
+# To display public shares on the server:
+smbclient -L <host> -U%
+
+# To connect to a share:
+smbclient //<host>/<share> -U<user>%<password>
+```

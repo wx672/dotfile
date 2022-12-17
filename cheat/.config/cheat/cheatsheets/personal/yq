@@ -1,0 +1,4 @@
+```sh
+yq e '.proxies[] | select(.name == "sg新加坡+(youtube阿伟科技)")' config.yaml
+```
+
