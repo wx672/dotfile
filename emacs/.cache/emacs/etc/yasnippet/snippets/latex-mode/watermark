@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#name : beamer tikz watermark
+# --
+\begin{tikzpicture}[remember picture, overlay]
+  \node [rotate=${1:15},scale=${2:5},text opacity=${3:0.4},color=${4:red},xshift=${5:0}]
+  at (current page.center) {${0:DRAFT}};
+\end{tikzpicture}

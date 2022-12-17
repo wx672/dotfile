@@ -1,0 +1,20 @@
+# wireplumber
+```sh
+wpctl get-volume @DEFAULT_AUDIO_SINK@
+```
+
+# https://wiki.archlinux.org/title/Volnoti
+# volume indicator examples (can use dzen2 instead of volnoti)
+
+# Increase volume
+"amixer set Master 5%+ && volnoti-show $(amixer get Master | grep -Po "[0-9]+(?=%)" | tail -1)"
+   XF86AudioRaiseVolume
+
+# Decrease volume
+"amixer set Master 5%- && volnoti-show $(amixer get Master | grep -Po "[0-9]+(?=%)" | tail -1)"
+   XF86AudioLowerVolume
+
+# Toggle volume
+"amixer set Master toggle; if amixer get Master | grep -Fq "[off]"; then volnoti-show -m; else volnoti-show $(amixer get Master | grep -Po "[0-9]+(?=%)" | tail -1); fi"
+   XF86AudioMute
+

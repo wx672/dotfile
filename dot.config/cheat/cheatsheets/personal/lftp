@@ -1,3 +1,0 @@
-# https://blog.csdn.net/weixin_43407305/article/details/99977517
-set ftp:charset “gbk”		# 表示服务器使用GBK编码
-set file:charset “utf-8”	# 表示本地使用UTF-8编码

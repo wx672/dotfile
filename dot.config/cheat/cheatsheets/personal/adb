@@ -1,2 +1,0 @@
-adb backup -apk -shared -all -f backup-$(Date).ab
-ddb restore backup.ab

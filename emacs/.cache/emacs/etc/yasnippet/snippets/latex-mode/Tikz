@@ -1,0 +1,38 @@
+# -*- mode: snippet -*-
+#name : Tikz standalone
+# --
+\documentclass[tikz,svgnames]{standalone}
+
+\usepackage{wx672tikz} % wx672fonts loaded here
+
+\begin{document}
+
+% \tikzstyle{every picture}+=[remember picture,overlay]
+% \everymath{\displaystyle}
+% \tikzstyle{arrow} = [thick,->]
+% \tikzstyle{roundbox} += [ellipse,fill=orange!30]
+% \tikzstyle{squarebox} += [fill=blue!20]
+% \tikzstyle{cylinderbox} += [cylinder,shape border rotate=90,aspect=.25,
+  % cylinder uses custom fill,
+  % cylinder body fill=black!30, cylinder end fill=black!50,
+  % minimum width=1.5cm,%minimum height=1cm,
+  % ]
+% \tikzstyle{arrowbox} += [double arrow,rotate=90,scale=.7,fill=gray!50,
+  % inner xsep=.5cm,inner ysep=.5cm,
+  % double arrow tip angle=135,
+  % double arrow head extend=6pt,
+  % ]
+
+\begin{tikzpicture}[
+  decoration={amplitude=1.5pt},
+  penciline={jag ratio=2},
+  thick,
+  ] 
+% example: $NET/figs/http-transaction.tex  
+% example: $linux/c/compilation.tex
+% example: $os/slides/figs/vfs-cp.tex
+% example: $os/slides/figs/chipsets.tex
+% example: $os/slides/figs/mm-fit.tex
+
+\end{tikzpicture}
+\end{document}

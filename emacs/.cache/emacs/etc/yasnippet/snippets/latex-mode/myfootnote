@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+#name : \let\thefootnote\relax\footnote{}
+# --
+\let\thefootnote\relax\footnote{$0}

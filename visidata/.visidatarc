@@ -1,0 +1,8 @@
+bindkey('0', 'go-leftmost')
+bindkey('x', 'delete-cell')
+bindkey('Ctrl+O', 'jump-prev')
+unbindkey('Ctrl+N')
+bindkey('Ctrl+N', 'jump-first')
+options.confirm_overwrite=False
+options.disp_menu=False
+options.quitguard=True

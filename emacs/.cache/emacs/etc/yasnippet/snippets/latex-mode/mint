@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+#name : mint
+# --
+\mintinline{${1:c}}|$2|$0

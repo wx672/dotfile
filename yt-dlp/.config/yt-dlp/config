@@ -1,0 +1,28 @@
+# man youtube-dl
+
+--proxy "socks5://127.0.0.1:7891"
+
+--mark-watched
+
+# Number  of fragments  of  a  dash/hlsnative video  that
+# should be downloaded concurrently (default is 1)
+--concurrent-fragments 5
+
+# Suppress HTTPS certificate validation
+--no-check-certificates
+
+# Do not copy the mtime
+--no-mtime
+
+# Write video description to a .description file
+#--write-description
+
+# Write  video metadata  to a  .info.json file  (this may
+# contain personal information)
+#--write-info-json
+
+# Write a .desktop Linux internet shortcut
+#--write-desktop-link
+
+# Save all videos in home directory
+# -o ~/%(id)s.%(ext)s

@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: beamer handouts
+# --
+\documentclass{wx672handouts} 
+\input{$1}
+
+\begin{document}
+\mode<all>
+\include{$0}
+% \include{intro}
+% \include{shell}
+% \include{cdev}
+% \include{file}
+% \include{proc}
+% \include{ipc}
+% \include{terminal}
+% \include{ui}
+\end{document}
+
+%%% Local Variables:
+%%% reftex-default-bibliography: "ref.bib"
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

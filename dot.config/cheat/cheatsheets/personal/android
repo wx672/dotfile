@@ -1,6 +1,0 @@
-apkinfo whatever.apk # find out package name
-
-# in adb shell
-pm disable package-name # disable a package
-
-

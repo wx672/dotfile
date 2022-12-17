@@ -1,0 +1,2 @@
+pwgen -cnys 25 | xsel -bi
+

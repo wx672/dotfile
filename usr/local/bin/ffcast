@@ -6,8 +6,12 @@ server(){
 
     trap 'pkill screenkey' INT EXIT TERM ERR
 
+	command -v picom &>/dev/null && {
+		pgrep picom || picom -b
+	}
+
     (screenkey --no-systray \
-			   --opacity .3 \
+			   --opacity 0.0 \
 			   --font-color red \
 			   --font "Fira Code SemiBold" \
 			   --font-size small &)
@@ -58,9 +62,11 @@ client(){ # multicast client side
 case $1 in
 	client)
 		client
+		exit 0
 		;;
 	server)
 		server
+		exit 0
 		;;
 	*)
 		echo Usage: $0 '<client|server>';

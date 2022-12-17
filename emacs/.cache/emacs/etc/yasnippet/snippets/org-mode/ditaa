@@ -1,0 +1,5 @@
+#name : ditaa
+# --
+#+BEGIN_SRC ditaa :file ./figs/$1.png :cmdline -r -S
+$0
+#+END_SRC

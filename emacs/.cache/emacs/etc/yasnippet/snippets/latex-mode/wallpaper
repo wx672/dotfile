@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name : beamer tikz wallpaper
+# --
+\usebackgroundtemplate{%
+\tikz\node[opacity=0.3]{\includegraphics[height=\paperheight,width=\paperwidth]{$0}};}

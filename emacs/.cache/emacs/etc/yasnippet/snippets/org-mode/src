@@ -1,0 +1,6 @@
+#name : #+BEGIN_SRC ... #+END_SRC
+# --
+#+srcname: $1
+#+begin_src $2 $3 $4
+$0
+#+end_src

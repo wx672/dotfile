@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+#name : beamer main part
+# --
+${7:%}\documentclass{wx672beamer} % uncomment this if you don't need a companion handouts version
+
+\addbibresource{$6.bib}
+
+\title{${1:title}}
+\subtitle{${2:Lecture Handouts}}
+\author{${3:WANG Xiaolin}\\\\{\small\url{${4:wx672ster@gmail.com}}}}
+\institute{${5:CS School, SWFU}}
+
+\begin{document}
+
+\mode<article>{
+  \maketitle
+  \tableofcontents
+  \printbibliography
+}
+
+\begin{frame}<beamer>
+  \titlepage
+\end{frame}
+
+$0
+
+\end{document}
+% (setq-default TeX-master nil)

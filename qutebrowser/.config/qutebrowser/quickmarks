@@ -1,0 +1,145 @@
+1337xx https://www.1337xx.to
+abs-guide file:///usr/share/doc/abs-guide/html/xrefindex.html
+archlinux	wiki https://wiki.archlinux.org
+bilibili https://www.bilibili.com
+clash http://clash.razord.top/#/proxies
+clash	linux	tutorial https://codeswift.top/posts/clash-linux/
+clash	sub-convert https://converter.niallapi.top/
+cs6	calibre https://cs6.swfu.edu.cn/calibre
+cs6	lecture https://cs6.swfu.edu.cn/~wx672/lecture_notes
+cs6	moodle https://cs6.swfu.edu.cn/moodle
+ddg https://duckduckgo.com
+debian	package	building	tutorial https://wiki.debian.org/BuildingTutorial
+debian	packaging	intro	tutorial https://wiki.debian.org/Packaging/Intro?action=show&redirect=IntroDebianPackaging
+debian	packaging	tutorial https://wiki.debian.org/Packaging/Learn
+dingtalk https://im.dingtalk.com
+dwm	config	example https://blog.yjl.im/2011/07/two-weeks-with-dwm.html
+dwm	debian	build https://forums.debian.net/viewtopic.php?f=16&t=65110
+dwm	dtos	distrotube https://gitlab.com/dtos
+dwm	patch	tutorial https://www.maketecheasier.com/useful-patches-improve-dwm/
+dwm	tags https://github.com/w0ng/wongdev.com/blob/master/content/dwm-tags-are-not-workspaces.md
+dwm	tutorial https://dwm.suckless.org/tutorial/
+dwm.c	suckless https://stackoverflow.com/questions/61101757/x-dwm-help-me-fix-a-bug-in-c-source-code
+emacs	doom	docs https://docs.doomemacs.org/latest/
+emacs	doom	faq https://github.com/doomemacs/doomemacs/blob/master/docs/faq.org
+emacs	dotfile	daviwil https://config.daviwil.com/emacs#table-of-contents
+emacs	evil	guide https://github.com/noctuid/evil-guide
+emacs	general.el https://github.com/noctuid/general.el
+emacs	general.el	reddit https://www.reddit.com/r/emacs/comments/ogiiyp/in_2021_what_is_the_state_of_the_art_in_emacs/
+emacs	sachachua https://sachachua.com/dotemacs/index.html#
+gist https://gist.github.com
+git	branch	tag https://stackoverflow.com/questions/1457103/how-is-a-tag-different-from-a-branch-in-git-which-should-i-use-here
+git	objects	blobs https://medium.com/@pawan_rawal/demystifying-git-internals-a004f0425a70
+git	tag https://stackoverflow.com/questions/35979642/what-is-git-tag-how-to-create-tags-how-to-checkout-git-remote-tags
+gitee https://gitee.com/
+github https://github.com
+gmail https://mail.google.com
+google	drive https://drive.google.com/drive/u/0/my-drive
+groff	fonts	chinese https://kleshwong.com/blog/post/composing-pdf-on-linux-happily-as-an-non-latin-coder/
+havoc https://download.havoc-os.com/?search=ginkgo
+jd https://jd.com
+jw.swfu.edu.cn https://jw.swfu.edu.cn:8089/xtgl/login_slogin.html
+latex	pgfkeys https://tex.stackexchange.com/questions/34312/how-to-create-a-command-with-key-values/34318#34318
+latexref	index http://latexref.xyz/Index.html
+latexstudio https://www.latexstudio.net
+nexus7	flo	lineageos	19	guide https://forum.xda-developers.com/t/guide-tutorial-howto-google-nexus-7-2013-stock-to-android-12.4275457/
+nexus7	flo	lineageos	19 https://forum.xda-developers.com/t/rom-flo-deb-unofficial-lineageos-19-1-2022-06-16.3569067/
+nftables	quick	howto https://home.regit.org/netfilter-en/nftables-quick-howto/
+pdf	convert	swifdoo.com https://www.swifdoo.com/convert-to-pdf
+pirate-bays https://pirate-bays.net
+stumpwm	quicklisp	slime	sbcl http://www.kaashif.co.uk/2015/06/28/hacking-stumpwm-with-common-lisp/index.html
+thepiratebay http://thepiratebay.org
+tmux	wiki https://github.com/tmux/tmux/wiki
+tty	terminal	console	1 https://web.archive.org/web/20170713151526/http://unix.palash90.in/2017/07/terminal-console-shell-kernel-commands.html
+tty	terminal	console	2 https://askubuntu.com/questions/14284/why-is-a-virtual-terminal-virtual-and-what-why-where-is-the-real-terminal
+tty	terminal	console https://unix.stackexchange.com/questions/4126/what-is-the-exact-difference-between-a-terminal-a-shell-a-tty-and-a-con
+twitter https://twitter.com
+video	kuaishou https://video.kuaishou.com
+video	rumble https://rumble.com/
+wechat https://web.wechat.com/
+wmctrl	run-or-raise https://www.willharris.dev/garden/run-or-raise
+ximalaya https://www.ximalaya.com
+xuexi https://teacher.higher.smartedu.cn/h/subject/summer2022/
+youtube https://www.youtube.com/
+bash mapfile array process substitution https://www.computerhope.com/unix/bash/mapfile.htm
+bash array https://opensource.com/article/18/5/you-dont-know-bash-intro-bash-arrays
+lf wiki https://github.com/gokcehan/lf/wiki
+awesome cli apps https://github.com/agarrharr/awesome-cli-apps
+inotify example https://github.com/denilsonsa/small_scripts/blob/master/sleep_until_modified.sh
+sed tutorial https://www.grymoire.com/Unix/Sed.html
+sed examples https://edoras.sdsu.edu/doc/sed-oneliners.html
+sed example https://gist.github.com/wookietreiber/6901420
+riru fingerprintpay https://github.com/eritpchy/FingerprintPay
+uefi boot tutorial https://www.happyassassin.net/posts/2014/01/25/uefi-boot-how-does-that-actually-work-then/
+arp practical networking https://www.practicalnetworking.net/series/arp/address-resolution-protocol/
+kernel sunym1993 https://github.com/sunym1993/flash-linux0.11-talk
+emacs gmail notmuch offlineimap https://www.maketecheasier.com/use-email-within-emacs/
+emacs gnus gmail offlineimap https://www.emacswiki.org/emacs/GnusGmail
+notmuch emacs https://notmuchmail.org/
+notmuch emacs tips tricks https://notmuchmail.org/emacstips/
+bt list https://leeyr.com/270.html
+asus firmware bug acpi bios https://bugzilla.kernel.org/show_bug.cgi?id=215101#c4
+v2rayse clash https://v2rayse.com/
+socks vs https proxy https://brightdata.com/blog/leadership/socks5-proxy-vs-http-proxy
+tcp window scaling https://networkengineering.stackexchange.com/questions/54107/how-can-a-tcp-window-size-be-allowed-to-be-larger-than-the-maximum-size-of-an-et
+tcp window scaling 2 https://www.site24x7.com/learn/linux/tcp-window-scaling.html
+debian handbook admin file:///usr/share/doc/debian-handbook/html/en-US/index.html
+debian new maintainer packaging guide https://www.debian.org/doc/manuals/maint-guide/
+debian developer manuals packaging https://www.debian.org/doc/devel-manuals#debmake-doc
+debian packaging wiki https://wiki.debian.org/Packaging
+mutt multiple accounts https://unix.stackexchange.com/questions/487380/how-to-properly-configure-multiple-accounts-in-mutt
+mutt multiple accounts 2 http://www.df7cb.de/blog/2010/Using_multiple_IMAP_accounts_with_Mutt.html
+mutt multiple accounts 3 https://gist.github.com/miguelmota/9456162
+spark deepin https://www.deepinos.org/u/wx672
+wine debian https://wiki.winehq.org/Debian
+embed binary elf into bash script https://www.xmodulo.com/embed-binary-file-bash-script.html
+makedeb packages https://mpr.makedeb.org/packages
+ffmpeg screencast webcam overlay https://trac.ffmpeg.org/wiki/EncodingForStreamingSites
+kmscon arch wiki https://wiki.archlinux.org/title/KMSCON
+virtual console terminal https://en.wikipedia.org/wiki/Virtual_console
+tty demystified https://www.linusakesson.net/programming/tty/
+clash tun https://www.cnblogs.com/rain-me/p/16621323.html
+clash tun 2 https://docs.cfw.lbyczf.com/contents/tun.html#windows
+clash tun 1 https://blog.icpz.dev/articles/tools/setup-clash-premium-on-linux/
+rust huge https://stackoverflow.com/questions/29008127/why-are-rust-executables-so-huge
+discord https://discord.com/channels/442252698964721669/616119515113062421
+cargo deb https://crates.io/crates/cargo-deb
+covid health code https://ilovexjp.pages.dev/
+telegram https://web.telegram.org/?legacy=1#/im
+masterpiece https://en.wikipedia.org/wiki/List_of_Masterpiece_Classic_episodes
+ilovexjp https://codeberg.org/ilovexjp
+codeberg https://codeberg.org/
+xsession systemd https://goral.net.pl/post/systemd-x-sessions/
+startx systemd https://vincent.bernat.ch/en/blog/2021-startx-systemd
+aloha protocol https://en.wikipedia.org/wiki/ALOHAnet
+wine ubuntu dingtalk https://www.tpfuture.top/views/linux/InstallDingdingWechat.html#%E5%AE%89%E8%A3%85%E9%92%89%E9%92%89
+wine dingtalk https://winegame.net/games/dingtalk/
+whiptail newt_colors https://funprojects.blog/2022/04/06/text-interfaces-with-whiptail-and-dialog/
+xscj https://xscj.cdgdc.edu.cn/#/wel/index
+progress bar bash whiptail pv https://stackoverflow.com/questions/238073/how-to-add-a-progress-bar-to-a-shell-script
+stow dotfile https://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html
+tmpfs https://wiki.archlinux.org/title/tmpfs
+tmpfs 2 https://unix.stackexchange.com/questions/722496/tmp-on-tmpfs-fstab-vs-tmp-mount-with-systemd
+tmpfs tmpfiles.d conf https://www.baeldung.com/linux/systemd-tmpfiles-configure-temporary-files
+debian systemd-boot https://p5r.uk/blog/2020/using-systemd-boot-on-debian-bullseye.html
+moodle git admin https://docs.moodle.org/401/en/Git_for_Administrators
+moodle git https://moodle.org/mod/forum/discuss.php?d=393756
+url check https://stackoverflow.com/questions/161738/what-is-the-best-regular-expression-to-check-if-a-string-is-a-valid-url
+gingko twrp https://www.getdroidtips.com/twrp-recovery-redmi-note-8/
+gingko magisk root https://www.getdroidtips.com/download-latest-magisk-zip-magisk-manager-root-phone/
+gingko common problems https://www.getdroidtips.com/common-problems-in-redmi-note-8/
+messages.google.com https://messages.google.com/web/conversations
+debian installation guide file:///usr/share/doc/installation-guide-amd64/en/index.html
+debian wiki auto install proseed https://wiki.debian.org/DebianInstaller/Preseed
+debian proseed example https://www.librebyte.net/en/systems-deployment/unattended-debian-installation/
+pushbullet https://www.pushbullet.com/#devices
+gpg subkey debian https://wiki.debian.org/Subkeys
+gpg tutorial https://alexcabal.com/creating-the-perfect-gpg-keypair
+gpg best practices https://riseup.net/en/security/message-security/openpgp/gpg-best-practices
+gpg best practices stackexchange https://security.stackexchange.com/questions/31594/what-is-a-good-general-purpose-gnupg-key-setup
+encrypt disk arch wiki https://wiki.archlinux.org/title/Data-at-rest_encryption
+yaml tutorial spacelift https://spacelift.io/blog/yaml
+yq yaml gitbook https://mikefarah.gitbook.io/yq/
+yq yaml martinheinz https://martinheinz.dev/blog/51
+yq yaml baeldung https://www.baeldung.com/linux/yq-utility-processing-yaml
+yq yaml cheatsheet https://betterprogramming.pub/my-yq-cheatsheet-34f2b672ee58

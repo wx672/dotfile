@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Exec=/usr/local/bin/flashplayer %f
+Name=flashplayer
+Comment=Custom definition for flashplayer
+NoDisplay=true

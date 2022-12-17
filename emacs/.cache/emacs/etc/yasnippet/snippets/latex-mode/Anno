@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+#name : annotate picture
+# --
+\documentclass{standalone}
+
+\usepackage{tikz-imagelabels}
+
+\begin{document}
+\begin{annotationimage}[${1:grid}]{width=${2:\textwidth}}{${3:pic.png}}
+	\draw[annotation ${4:left}={${5:text} at ${6:0.3}}] to (${7:.48},${8:.3});
+	$0
+\end{annotationimage}
+\end{document}

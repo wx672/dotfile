@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# This script is supposed to be invoked via hotkeys defined in dwm
+
+gdbar(){
+	awk -F"[][]" '/Left:/ { print $2 }' <(amixer get Master) | \
+		dzen2-gdbar -h '20' | \
+		dzen2 -p 1 -l '1' -w '100' -x '1800'
+}
+
+get(){
+	amixer get Master
+}
+
+inc(){
+	amixer -q set Master 1%+ && gdbar
+}
+
+dec(){
+	amixer -q set Master 1%- && gdbar
+}
+
+mute(){
+	amixer -q set Master toggle
+}
+
+case $1 in
+	get)
+		get; exit
+		;;
+	inc)
+		inc; exit
+		;;
+	dec)
+		dec; exit
+		;;
+	mute)
+		mute; exit
+		;;
+	*)  echo ${0##*/} 'get|inc|dec|mute'
+		exit 1
+esac

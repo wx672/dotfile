@@ -1,0 +1,3 @@
+#name : #+INCLUDE: "..." src ...
+# --
+#+INCLUDE: "$1" src $0

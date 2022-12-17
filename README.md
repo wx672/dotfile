@@ -1,21 +1,12 @@
 # dotfile
-Personal dot-files backup for my Debian Testing.
-
-Used by:
-
-- systemd auto-login
-- startx + dwm
-- alacritty + tmux
-- emacs, vim
-- misc.
+Personal dot-files backup for my Debian. It's organized with `stow`.
 
 ## Differences between j219 and wx672
 
-- dot.aria2/aria2.conf -- user name
-- dot.config/
-  - alacritty/alacritty.yml -- font size
-  - clash/config.yaml 
-  - fontconfig/fonts.conf -- Nerd fonts
-  - git/config -- user name
-  - qutebrowser/config.py -- socks5, font size, search engine, front page
-- 
+- aria2/aria2.conf -- user name
+- alacritty/alacritty.yml -- font size
+- clash/config.yaml 
+- fontconfig/fonts.conf -- Nerd fonts
+- git/config -- user name
+- qutebrowser/config.py -- socks5, font size, search engine, front page
+

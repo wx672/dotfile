@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+#name : \href{}{}
+# --
+\href{${1:link}}{${2:text}}$0

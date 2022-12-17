@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : \includegraphics[width=]{}
+# --
+\begin{center}
+\includegraphics[width=$1\textwidth]{$0}
+\end{center}
