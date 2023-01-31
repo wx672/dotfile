@@ -2,42 +2,32 @@
 
 MUPDF="$(command -v mupdf) -C FDF6E3"
 BROWSER="$(command -v x-www-browser)"
+SAY="$(command -v espeak-ng)"
 CS6="cs6.swfu.edu.cn"
 
-### cd C-t
-# zsk()
-# {
-# 	z $(sk --exact --select-1 --exit-0 --ansi --color=always \
-# 		   < <(fd --max-depth 3 --type directory --type symlink \
-# 				  --base-directory ${1:-.}))
-# }
-
-# https://github.com/arp242/uni/blob/master/dmenu-uni
-# rofi -dmenu -i -font "FiraCode Nerd Font Mono 22" 
 emoji()
 {
-	[ -z "$2" ] && { echo usage: "$0 <search|emoji> <search string>"; return 1; }
+	[[ "$2" ]] || { echo usage: "$0 <search|emoji> <search string>"; return 1; }
 
-	command -v uni || {
+	command -v uni &>/dev/null || {
 		cat <<EOF
 This script requires uni (https://github.com/arp242/uni)
 EOF
 		exit 1
 	}
 
-	command -v sk || {
+	command -v sk &>/dev/null || {
 		cat <<EOF
 This script requires skim (https://github.com/lotabout/skim)
 EOF
 		exit 1
 	}
 
-	command -v xsel || {
+	command -v xsel &>/dev/null || {
 		cat <<EOF
 This script requires xsel (sudo apt install xsel)
 EOF
-		exit 1
-		
+		exit 1		
 	}
 	
 	CMD="$1"
@@ -50,154 +40,15 @@ EOF
 			;;
 		e*) chosen=$(uni -quiet emoji ${2:-all} | sort --random-sort | sk -e10 | choose 0)
 			;;
-		*) echo usage: "$0 <search|emoji> <search string>"; return 0
+		*) echo usage: "$0 <search|emoji> <search string>"; return 1
 		   ;;
 	esac
 
-	[ -z "$chosen" ] && return # Exit if none chosen.
+	[ "$chosen" ] || return
 
 	printf "$chosen\n" && { xsel -bi <<<$chosen; }
 	# xdotool type "$chosen"
 	# notify-send "'$chosen' copied to clipboard."
-}
-
-zpdf()
-{
-	command -v zathura || {
-		cat <<EOF
-This script requires zathura (sudo apt install zathura)
-EOF
-		exit 1		
-	}
-
-	command -v sk || {
-		cat <<EOF
-This script requires skim (https://github.com/lotabout/skim)
-EOF
-		exit 1
-	}
-
-	command -v fd || {
-		cat <<EOF
-This script requires fd-find
-
-	 1) sudo apt install fd-find
-	 2) sudo ln -sf /usr/bin/fdfind /usr/local/bin/fd
-EOF
-		exit 1
-	}
-
-	command -v rg || {
-		cat <<EOF
-This script requires ripgrep (sudo apt install ripgrep)
-EOF
-		exit 1		
-	}
-	
-	local V="zathura --fork"
-	local PDFHIST="$HOME/.pdf_history"
-	
-	while getopts :te OPT; do
-		case $OPT in
-			t) V="less" ;;
-			e) vim "$PDFHIST"; return 0;;
-			?) echo "Usage: zpdf [-te] [string]"; return 1 ;;
-		esac
-	done
-	shift $(( OPTIND - 1 ))
-	OPTIND=1
-
-	[ -e "$PDFHIST" ] || touch "$PDFHIST"
-
-	PATTERN="$*"
-	
-	if [ -z "$PATTERN" ]; then
-		sk < $PDFHIST \
-		   --bind "enter:execute($V {})+abort" \
-		   -e10 --ansi --color=always
-	elif [[ "$PATTERN" == "/*" ]] && [[ -e "$PATTERN" ]]; then # pattern begins with a /
-		$V "$PATTERN"
-	else
-		# look into cwd. select one if multiple matches
-		local PDF=$(sk -e10 --ansi --color=always \
-					   < <(fd -IFd1 -epdf.gz -epdf "${1##*/}"))
-		
-		if [ -z "$PDF" ]; then # if not in cwd, look into history
-			local HIST=$(sk -e10 < <(rg -N "$PATTERN" $PDFHIST)) #select one
-			
-			# in case of empty
-			[ -z "$HIST" ] && { 
-				[[ -n "$PATTERN" ]] && \
-					echo File "$PATTERN" not found.;
-				return 1; }
-			
-			if [[ "$HIST" == *gz ]] && [[ "$V" != "less" ]]; then
-				gzip -cd "$HIST" | "$V" -
-			else
-				"$V" "$HIST" 2>/dev/null
-			fi
-		else #found in cwd
-			if [[ "$PDF" == *gz ]] && [[ "$V" != "less" ]]; then
-				gzip -cd "$PDF" | "$V" -
-			else
-				"$V" "$PDF" 2>/dev/null
-			fi
-			# if not in PDFHIST, add it
-			rg -q $(realpath "$PDF") "$PDFHIST" || realpath "$PDF" >> "$PDFHIST"
-		fi
-	fi
-	return 0
-}
-
-skiv(){
-	cd "${1:-.}" || exit 1;
-	sk < <(fd -e png -e jpg -e gif -e pbm) \
-	   -e10 --bind 'enter:execute(sxiv {} &)'
-}
-
-skvi(){
-	(cd "${1:-.}" || exit 1;
-     
-	 x="$(sk -e10 --ansi --color=always \
-	 		 --bind "ctrl-p:toggle-preview" \
-			 --preview="bat {}" --preview-window=up:90%:hidden)"
-
-	[[ -n "$x" ]] && vim "$x")
- }
-
-#--preview='bat --color=always {1} | rg -B3 -A$LINES {cq}'
-rgvi(){
-	(cd "${1:-.}" || exit 1;
-	 x="$(sk -e10 --ansi --color=always -d: \
-	 		 --bind "ctrl-p:toggle-preview" \
-             --preview='bat {1}' \
-			 --preview-window="up:90%:hidden:+{2}-/3" \
-			 -ic 'rg -i --color=always --line-number "{}"')"
-
-	[[ -n "$x" ]] && vim "$(echo "$x"|cut -d: -f1)" "+$(echo "$x"|cut -d: -f2)")
-}
-
-quickmarks(){
-	sk < ~/.config/qutebrowser/quickmarks \
-	   < <(sqlite3 ~/.local/share/qutebrowser/history.sqlite \
-				   'select url from History' | rg -v '\?.*=' | sort -u) \
-	   --exact --bind "enter:execute($BROWSER {-1} &)+abort" \
-	   2>/dev/null
-
-	return 0
-}
-
-q(){
-	# https://stackoverflow.com/questions/3183444/check-for-valid-link-url
-	local URL='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]+'
-
-	if [[ "$1" ]]; then
-		[[ "$1" =~ $URL ]] && (qutebrowser "$1" &) || google "$@"
-	else
-		quickmarks
-	fi
-
-	return 0
 }
 
 play(){
@@ -213,26 +64,6 @@ gmaps(){
 		QUERY="$QUERY%20$WORD"
 	done
 	($BROWSER https://www.google.com/maps/search/$QUERY 2>/dev/null &)
-}
-
-google(){
-    QUERY=""
-    echo google: "$@"
-    for WORD in "$@"; do
-        QUERY="$QUERY%20$WORD"
-    done
-    ($BROWSER https://www.google.com/search?q="$QUERY" 2>/dev/null &)
-}
-
-g(){ google "$@"; }
-
-ddg(){
-  QUERY=""
-  echo duckduckgo: "$@"
-  for WORD in "$@"; do
-      QUERY="$QUERY%20$WORD"
-  done
-  ($BROWSER https://duckduckgo.com/?q=$QUERY 2>/dev/null &)
 }
 
 ffshot(){ # screenshot
@@ -286,28 +117,6 @@ ffcam(){ # capture webcam
 		   "$(date +%Y%m%d%H%M)".mp4
 }
 
-# http://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal
-
-function countdown(){
-    [ "$1" ] || {
-	echo "Usage: countdown <seconds>"
-	return 1
-    }
-    date1=$(("$(date +%s)" + "$1"));
-    while [ "$date1" -ne "$(date +%s)" ]; do
-	    echo -ne "$(date -u --date @$((date1 - $(date +%s))) +%H:%M:%S)\r";
-	    sleep 1
-    done && espeak "time out"
-}
-
-function stopwatch(){
-    date1="$(date +%s)";
-    while true; do
-	    echo -ne "$(date -u --date @$(($(date +%s) - date1)) +%H:%M:%S)\r";
-	    sleep 1
-    done
-}
-
 dict () { (/usr/bin/dict "$@" 2>&1 | bat;) }
 
 e(){
@@ -329,34 +138,17 @@ mdview(){
 	w3m -T text/html < <(cmark "$1")
 }
 
-speak(){
-	(/usr/bin/espeak -s 140 -v mb-us1 "$*";)
-}
-
-# srtplay(){
-# 	mplayer /dev/zero -demuxer rawvideo -rawvideo w=1024:h=128 -utf8 -sub "$*";
-# }
-
-ssh() {
-	# if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux*" ]; then
-	if [[ $TMUX ]]; then
-        tmux rename-window "$(echo "$*")"
-        command ssh -X "$@"
-        tmux set-window-option automatic-rename "on" 1>/dev/null
-    else
-        command ssh -X "$@"
-    fi
-}
-
-mosh() {
-	# if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux*" ]; then
-	if [[ $TMUX ]]; then
-        tmux rename-window "$(echo "$*")"
-        command mosh "$@"
-        tmux set-window-option automatic-rename "on" 1>/dev/null
-    else
-        command mosh "$@"
-    fi
+say(){
+	while getopts :v: OPT; do
+		case $OPT in
+			v) voice="$OPTARG" ;;
+			*) echo "Usage: say [-h] [-v <voice>] words"; return 0 ;;
+		esac
+	done
+	shift $(( OPTIND - 1 ))
+	OPTIND=1
+	
+	($SAY -s140 -p70 -v${voice:="en-gb"}  "$*";)
 }
 
 propstring () {
@@ -377,34 +169,6 @@ searchbook () {
     (booksearch "$1")
 }
 
-showcolor () {
-	(for i in {0..255}; do printf "\x1b[38;5;%smcolour%s " "$i" "$i"; done)
-}
-
-colorshow () {
-for fgbg in 38 48 ; do # Foreground / Background
-    for color in {0..255} ; do # Colors
-        # Display the color
-        printf "\e[%s;5;%sm  %3s  \e[0m" "$fgbg" "$color" "$color"
-        # Display 6 colors per lines
-        if [ $(((color + 1) % 8)) == 4 ] ; then
-            echo # New line
-        fi
-    done
-    echo # New line
-done
-}
-
-# WAL="/usr/local/bin/wal"
-
-# themelight () {
-# 	[ -x "$WAL" ] && ($WAL -q -n -l --theme base16-atelier-plateau)
-# }
-
-# themedark () {
-# 	[ -x "$WAL" ] && ($WAL -q -n --theme tempus_autumn -b'#000000')
-# }
-
 pdf () {
     unoconv "$@"
 }
@@ -417,102 +181,11 @@ xls2x () { # xls -> xlsx
 	libreoffice --convert-to xlsx "$1"
 }
 
-# To list all available formats: youtube-dl -F <URL>
-ydl()
-{
-	#defaults
-	#YDL="/usr/local/bin/youtube-dl"
-    YDL="/usr/bin/yt-dlp"
-
-	while getopts :f:p:sh OPT; do
-		case $OPT in
-			f) fmt="$OPTARG" ;;
-			p) port="$OPTARG";;
-			s) YDL="$YDL --write-subs --write-auto-subs" ;;
-			h) echo "Usage: ydl [-h] [-f <fmt>] [-p <port>] [-s]"; return 0 ;;
-		esac
-	done
-	shift $(( OPTIND - 1 ))
-	OPTIND=1
-
-    # TMPCLIP="/tmp/tmpclip"
-    # if pgrep -f sway; then
-	# 	[ -s "$TMPCLIP" ] && { wl-copy -n < "$TMPCLIP" && rm -f "$TMPCLIP"; }
-	# 	urls=$(wl-paste -n)
-    # else
-	urls=$(xsel -bo)
-    # fi
-
-	while ! $YDL --proxy "socks5://127.0.0.1:${port:-7891}" -f "${fmt:-b}" "$urls"; do
-		echo try again...
-	done
-	
-    # pgrep -f sway && wl-copy -c ||
-	xsel -bc
-}
-
-ypv()
-{
-    # play online media from youtube or bilibili
-    # ypv - youtube best audio
-    # ypv b|ba|bv|any_valid_format
-    # ypv bilibili #for bilibili
-
-    # in qutebrowser,
-    # ';y' to overwrite the clipboard with selected url.
-    # ';a' to append an url into clipbroad.
-
-	YDL="/usr/bin/yt-dlp"
-	#YDL="/usr/local/bin/youtube-dl"
-
-    # default to youtube best audio format (ba)
-    # bilibili for bilibili
-    # any other string will be treated as one of the youtube-dl formats
-
-	while getopts :f:p:h OPT; do
-		case $OPT in
-			f) fmt="$OPTARG" ;;
-			p) port="$OPTARG";;
-			h) echo "Usage: ypv [-h] [-f <fmt>] [-p <port>]"; return 1 ;;
-		esac
-	done
-	shift $(( OPTIND - 1 ))
-	OPTIND=1
-	
-    # TMPCLIP="/tmp/tmpclip"
-    
-    # if pgrep -f sway; then
-	# 	[ -s "$TMPCLIP" ] && { wl-copy -n < "$TMPCLIP" && rm -f "$TMPCLIP"; }
-	# 	CLIP="wl-paste -n"
-    # else
-		CLIP="xsel -bo"
-    # fi
-    
-    if [ "$fmt" != "bilibili" ]; then
-        while read url; do
-            echo playing "$url" '('"$fmt"')'
-			while ! $YDL --proxy "socks5://127.0.0.1:${port:-7891}" \
-					-f "${fmt:-ba}" -o - "$url" | \
-					mpv --profile=noproxy - ; do
-				# in case of Ctrl-c
-				echo try again...
-			done
-        done <<< $($CLIP)
-    else
-        while read url; do
-            echo playing "$url"
-            mpv --profile=noproxy "$url"
-        done <<< $($CLIP)
-    fi
-    # pgrep -f sway && wl-copy -c ||
-			xsel -bc
-}
-
 cs6(){
 	[ $DISPLAY ] && {
-		(st -e /usr/bin/mosh ${1:-wx672}@cs6.swfu.edu.cn &)
+		(st -e mosh ${1:-wx672}@cs6.swfu.edu.cn &)
 	} || {
-		command mosh ${1:-wx672}@cs6.swfu.edu.cn
+		mosh ${1:-wx672}@cs6.swfu.edu.cn
 	}
 }
 
@@ -551,7 +224,7 @@ rcb () { # remote clipboard
 }
 
 mdcheat(){
-	cheat $1 | mdless
+	mdless <(cheat $1)
 }
 
 # https://stackoverflow.com/questions/660613/how-do-you-hide-the-mouse-pointer-under-linux-x11
@@ -587,14 +260,6 @@ toff () { # touchpad
 ton () {
 	DISPLAY=":0" xdotool mousemove 1366 768 # use xrandr to find out
 	settouchpad enable
-}
-
-xoff () {
-	xset dpms force off; xset dpms force off; xset dpms force off; xset dpms force off
-}
-
-xon () {
-	xset s off -dpms
 }
 
 loremipsum () {

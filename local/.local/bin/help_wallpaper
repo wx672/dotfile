@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# this script is supposed to be invoked by hitting on a dwm hotkey (S-F1)
+# this script is needed because dwm can only accpet absolute path
+# USAGE:
+#   help_wallpaper dwm|stumpwm|sawfish
+
+command -v nsxiv &>/dev/null || exit 1
+
+case $1 in
+	dwm)
+		IMG=$(realpath ~/.local/share/wallpapers/keys-dwm.png)
+		;;
+	stumpwm)
+		IMG=$(realpath ~/.local/share/wallpapers/keys-stumpwm.png)
+		;;
+	sawfish)
+		IMG=$(realpath ~/.local/share/wallpapers/keys-sawfish.png)		
+		;;
+	*) echo USAGE: ${0##*/} 'dwm|stumpwm|sawfish'
+	   exit		
+esac
+
+timeout 2m nsxiv -qbsf $IMG

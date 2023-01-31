@@ -1,16 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
-# USAGE:   run-or-raise <string> <command [options]>
-# EXAMPLE: run-or-raise emacs emacsclient -c -n -a ""
+# This script is supposed to be invoked via shortcut keys configured
+# in wm init files, e.g.  config.h in dwm source code.
 #
-# This script is supposed to be invoked via shortcut keys configured in wm init files, e.g.
-# config.h in dwm source code.
+# USAGE:  run-or-raise <window class> <command [options]>
 #
-# $1 should be a string indicating window name or window class, 
-# such as emacs, qutebrowser, alacritty
+# $1 should be a string indicating window name or window class (xprop),
+# such as emacs, browser, xterm, nsxiv.
 # 
-# $2 should be the command name, such as emacsclient, qutebrowser, alacritty
+# $2 should be the command name, such as emacsclient, x-www-browser,
+# x-terminal-emulator, nsxiv
 #
 # $3+ should be the optional arguments passed to the command
-
+#
+# EXAMPLE:
+#   run-or-raise emacs emacsclient -c -n -a ""
+#   run-or-raise browser x-www-browser
+#   run-or-raise xterm x-terminal-emulator
+#   run-or-raise nsxiv nsxiv -qbsf ~/.local/share/wallpapers/keys-dwm.png
+#
 wmctrl -xa $1 || { shift; "$@"; }
