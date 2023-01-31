@@ -1,0 +1,5 @@
+export MPD_HOST=cs6.swfu.edu.cn 
+export MPD_PORT=6600 
+mpc listall | head | mpc add
+
+mpv http://cs6.swfu.edu.cn:9900

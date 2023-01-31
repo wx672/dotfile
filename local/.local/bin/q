@@ -1,0 +1,120 @@
+#!/bin/bash
+
+shopt -s expand_aliases
+
+[[ $DISPLAY ]] && {
+	BROWSER="$(command -v x-www-browser)"
+} || {
+	BROWSER="$(command -v www-browser)"
+}
+
+HISTORY_DB="$HOME/.local/share/qutebrowser/history.sqlite" 
+
+[[ "$1" ]] || {
+	sk < ~/.config/qutebrowser/quickmarks \
+	   < <(sqlite3 $HISTORY_DB 'select url from History' | rg -v '\?.*=' | sort -u) \
+	   -10 --exact --bind "enter:execute($BROWSER {-1} &)+abort" \
+	   2>/dev/null
+	exit 0
+}
+
+unset QUERY WORD
+alias MKWORD='shift; for WORD in "$@"; do QUERY="$QUERY%20$WORD"; done; QUERY=${QUERY#%20}'
+
+case $1 in
+	imdb)
+		MKWORD
+		echo imdb: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://www.imdb.com/find/?q="$QUERY" &>/dev/null &
+		;;
+	arch)
+		MKWORD
+		echo archlinux: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://wiki.archlinux.org/?search="$QUERY" &>/dev/null &
+		;;
+	x)
+		MKWORD
+		echo 1337xx: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://www.1337xx.to/search/"$QUERY"/1/ &>/dev/null &
+		;;
+	d|ddg)
+		MKWORD
+		echo duckduckgo: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://duckduckgo.com/?q="$QUERY" &>/dev/null &
+		;;
+	en|ludwig)
+		MKWORD
+		echo ludwig.guru: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://ludwig.guru/s/"$QUERY" &>/dev/null &
+		;;
+	gh|github)
+		MKWORD
+		echo github: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://github.com/search?q="$QUERY" &>/dev/null &
+		;;
+	jd)
+		MKWORD
+		echo jd.com: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://search.jd.com/Search?keyword="$QUERY" &>/dev/null &
+		;;
+	r|reddit)
+		MKWORD
+		echo reddit: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://reddit.com/r/"$QUERY" &>/dev/null &
+		;;
+	s|stack)
+		MKWORD
+		echo stackexchange: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://stackexchange.com/search?q="$QUERY" &>/dev/null &
+		;;
+	w|wiki)
+		MKWORD
+		echo wikipedia: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://en.wikipedia.org/?search="$QUERY" &>/dev/null &
+		;;
+	xda)
+		MKWORD
+		echo xda-developers: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://forum.xda-developers.com/search/56259569/?q="$QUERY" &>/dev/null &
+		;;
+	y|youtube)
+		MKWORD
+		echo youtube: $(echo "$QUERY" | tr '%20' ' ')
+		$BROWSER https://www.youtube.com/results?search_query="$QUERY" &>/dev/null &
+		;;
+	-h|h|--help|help)
+		cat <<EOF
+${0##*/} - Quick search with web browser
+
+USAGE EXAMPLES:
+
+    Without any arguments, search quickmarks and history with sk.
+
+	q [site] hello world - search 'hello world' within 'site' (default is google).
+
+    Where site can be any one of:
+		- d|ddg:     https://duckduckgo.com
+		- w|wiki:    https://en.wikipedia.org
+		- y|youtube: https://www.youtube.com
+		- s|stack:   https://stackexchange.com
+		- gh|github: https://github.com
+		- en|ludwig: https://ludwig.guru
+		- arch:      https://wiki.archlinux.org
+	  	- imdb:      https://www.imdb.com
+		- xda:       https://www.xda-developers.com
+		- jd:        https://search.jd.com
+		- r:         https://reddit.co
+		- x:         https://www.1337xx.to
+EOF
+		exit 0
+		;;
+	*)
+		# https://stackoverflow.com/questions/3183444/check-for-valid-link-url
+		# URL='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]+'
+		# URL='[-[:alnum:]\+&@#/%?=~_|!:,.;]+'
+		# [[ "$@" =~ $URL ]] && ($BROWSER "$@" &) || {
+			echo google: "$@"
+			for WORD in "$@"; do QUERY="$QUERY%20$WORD"; done
+			$BROWSER https://www.google.com/search?q="$QUERY" 2>/dev/null &
+		# }
+esac

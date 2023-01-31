@@ -48,6 +48,7 @@ export ALTERNATE_EDITOR="vim"
 export BAT_STYLE="plain"
 export LESSCHARSET=utf-8
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+export MPD_HOST="cs6.swfu.edu.cn"
 
 tabs -4 &>/dev/null
 

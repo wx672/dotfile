@@ -1,0 +1,248 @@
+```sh
+zpdf()
+{
+	command -v zathura &>/dev/null || {
+		cat <<EOF
+This script requires zathura (sudo apt install zathura)
+EOF
+		exit 1		
+	}
+
+	command -v sk &>/dev/null || {
+		cat <<EOF
+This script requires skim (https://github.com/lotabout/skim)
+EOF
+		exit 1
+	}
+
+	command -v fd &>/dev/null || {
+		cat <<EOF
+This script requires fd-find
+
+	 1) sudo apt install fd-find
+	 2) sudo ln -sf /usr/bin/fdfind /usr/local/bin/fd
+EOF
+		exit 1
+	}
+
+	command -v rg &>/dev/null || {
+		cat <<EOF
+This script requires ripgrep (sudo apt install ripgrep)
+EOF
+		exit 1		
+	}
+	
+	local V="zathura --fork"
+	local PDFHIST="$HOME/.pdf_history"
+	
+	while getopts :te OPT; do
+		case $OPT in
+			t) V="less" ;;
+			e) vim "$PDFHIST"; return 0;;
+			?) echo "Usage: zpdf [-te] [string]"; return 1 ;;
+		esac
+	done
+	shift $(( OPTIND - 1 ))
+	OPTIND=1
+
+	[ -e "$PDFHIST" ] || touch "$PDFHIST"
+
+	PATTERN="$*"
+	
+	if [ -z "$PATTERN" ]; then
+		sk < $PDFHIST \
+		   --bind "enter:execute($V {})+abort" \
+		   -e10 --ansi --color=always
+	elif [[ "$PATTERN" == "/*" ]] && [[ -e "$PATTERN" ]]; then # pattern begins with a /
+		$V "$PATTERN"
+	else
+		# look into cwd. select one if multiple matches
+		local PDF=$(sk -e10 --ansi --color=always \
+					   < <(fd -IFd1 -epdf.gz -epdf "${1##*/}"))
+		
+		if [ -z "$PDF" ]; then # if not in cwd, look into history
+			local HIST=$(sk -e10 < <(rg -N "$PATTERN" $PDFHIST)) #select one
+			
+			# in case of empty
+			[ -z "$HIST" ] && { 
+				[[ -n "$PATTERN" ]] && \
+					echo File "$PATTERN" not found.;
+				return 1; }
+			
+			if [[ "$HIST" == *gz ]] && [[ "$V" != "less" ]]; then
+				gzip -cd "$HIST" | "$V" -
+			else
+				"$V" "$HIST" 2>/dev/null
+			fi
+		else #found in cwd
+			if [[ "$PDF" == *gz ]] && [[ "$V" != "less" ]]; then
+				gzip -cd "$PDF" | "$V" -
+			else
+				"$V" "$PDF" 2>/dev/null
+			fi
+			# if not in PDFHIST, add it
+			rg -q $(realpath "$PDF") "$PDFHIST" || realpath "$PDF" >> "$PDFHIST"
+		fi
+	fi
+	return 0
+}
+
+WAL="/usr/local/bin/wal"
+
+themelight () {
+	[ -x "$WAL" ] && ($WAL -q -n -l --theme base16-atelier-plateau)
+}
+
+themedark () {
+	[ -x "$WAL" ] && ($WAL -q -n --theme tempus_autumn -b'#000000')
+}
+
+skiv(){
+	cd "${1:-.}" || exit 1;
+	sk < <(fd -e png -e jpg -e gif -e pbm) \
+	   -e10 --bind 'enter:execute(sxiv {} &)'
+}
+
+skvi(){
+	(cd "${1:-.}" || exit 1;
+     
+	 x="$(sk -e10 --ansi --color=always \
+	 		 --bind "ctrl-p:toggle-preview" \
+			 --preview="bat {}" --preview-window=up:90%:hidden)"
+
+	[[ -n "$x" ]] && vim "$x")
+ }
+
+#--preview='bat --color=always {1} | rg -B3 -A$LINES {cq}'
+rgvi(){
+	(cd "${1:-.}" || exit 1;
+	 x="$(sk -e10 --ansi --color=always -d: \
+	 		 --bind "ctrl-p:toggle-preview" \
+             --preview='bat {1}' \
+			 --preview-window="up:90%:hidden:+{2}-/3" \
+			 -ic 'rg -i --color=always --line-number "{}"')"
+
+	[[ -n "$x" ]] && vim "$(echo "$x"|cut -d: -f1)" "+$(echo "$x"|cut -d: -f2)")
+}
+
+quickmarks(){
+	sk < ~/.config/qutebrowser/quickmarks \
+ 	   < <(sqlite3 ~/.local/share/qutebrowser/history.sqlite \
+ 				   'select url from History' | rg -v '\?.*=' | sort -u) \
+ 	   --exact --bind "enter:execute($BROWSER {-1} &)+abort" \
+ 	   2>/dev/null
+
+ 	return 0
+}
+
+q(){
+ 	# https://stackoverflow.com/questions/3183444/check-for-valid-link-url
+ 	local URL='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]+'
+
+ 	if [[ "$1" ]]; then
+ 		[[ "$1" =~ $URL ]] && (qutebrowser "$1" &) || google "$@"
+ 	else
+ 		quickmarks
+ 	fi
+
+ 	return 0
+}
+
+
+google(){
+    QUERY=""
+    echo google: "$@"
+    for WORD in "$@"; do
+        QUERY="$QUERY%20$WORD"
+    done
+    ($BROWSER https://www.google.com/search?q="$QUERY" 2>/dev/null &)
+}
+
+g(){ google "$@"; }
+
+ddg(){
+  QUERY=""
+  echo duckduckgo: "$@"
+  for WORD in "$@"; do
+      QUERY="$QUERY%20$WORD"
+  done
+  ($BROWSER https://duckduckgo.com/?q=$QUERY 2>/dev/null &)
+}
+
+# http://superuser.com/questions/611538/is-there-a-way-to-display-a-countdown-or-stopwatch-timer-in-a-terminal
+
+function countdown(){
+    [ "$1" ] || {
+	echo "Usage: countdown <seconds>"
+	return 1
+    }
+    date1=$(("$(date +%s)" + "$1"));
+    while [ "$date1" -ne "$(date +%s)" ]; do
+	    echo -ne "$(date -u --date @$((date1 - $(date +%s))) +%H:%M:%S)\r";
+	    sleep 1
+    done && $SAY "time out"
+}
+
+function stopwatch(){
+    date1="$(date +%s)";
+    while true; do
+	    echo -ne "$(date -u --date @$(($(date +%s) - date1)) +%H:%M:%S)\r";
+	    sleep 1
+    done
+}
+
+
+srtplay(){
+	mplayer /dev/zero -demuxer rawvideo -rawvideo w=1024:h=128 -utf8 -sub "$*";
+}
+
+ssh() {
+	# if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux*" ]; then
+	if [[ $TMUX ]]; then
+        tmux rename-window "$(echo "$*")"
+        command ssh -X "$@"
+        tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+        command ssh -X "$@"
+    fi
+}
+
+mosh() {
+	# if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux*" ]; then
+	if [[ $TMUX ]]; then
+        tmux rename-window "$(echo "$*")"
+        command mosh "$@"
+        tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+        command mosh "$@"
+    fi
+}
+
+showcolor () {
+	(for i in {0..255}; do printf "\x1b[38;5;%smcolour%s " "$i" "$i"; done)
+}
+
+colorshow () {
+for fgbg in 38 48 ; do # Foreground / Background
+    for color in {0..255} ; do # Colors
+        # Display the color
+        printf "\e[%s;5;%sm  %3s  \e[0m" "$fgbg" "$color" "$color"
+        # Display 6 colors per lines
+        if [ $(((color + 1) % 8)) == 4 ] ; then
+            echo # New line
+        fi
+    done
+    echo # New line
+done
+}
+
+xoff () {
+	xset dpms force off; xset dpms force off; xset dpms force off; xset dpms force off
+}
+
+xon () {
+	xset s off -dpms
+}
+
+
+```
