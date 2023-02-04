@@ -45,7 +45,7 @@
    org-show-following-heading '((default . t))
    org-show-siblings '((default . t))
    
-   diary-file "~/.cache/emacs/var/Diary.org"
+   diary-file (concat org-directory "Diary.org")
    calendar-mark-diary-entries-flag t
    calendar-view-diary-initially-flag t
    
@@ -101,8 +101,8 @@
   (use-package org-capture
 	:config
 	(setq
-	 org-directory "~/"
-	 org-default-notes-file (concat org-directory ".tmp.org")
+	 org-directory (expand-file-name "org/" no-littering-var-directory)
+	 org-default-notes-file (concat org-directory "draft.org")
 
 	 org-capture-templates
 	 '(("e" "Error" entry (file "~/Errorlog.org")
@@ -142,7 +142,7 @@
      org-agenda-todo-ignore-with-date t
      org-stuck-projects '("LEVEL=2+project/-DONE" ("NEXT" "PENDING") ("single") "")
      org-agenda-include-diary t
-     org-agenda-diary-file "~/.cache/emacs/var/Diary.org"))
+     org-agenda-diary-file  (concat org-directory "Diary.org")))
   
   (use-package org-clock
     :init
@@ -168,46 +168,49 @@
 ;;		  '(clean-headline-space clean-paragraph-space align-babel-table show-babel-image)))
 
 ;; https://github.com/fuxialexander/org-pdftools
-(use-package org-noter
-  :config
-  ;; Your org-noter config ........
-  (require 'org-noter-pdftools))
+  (use-package org-noter
+	:disabled
+	:config
+	;; Your org-noter config ........
+	(require 'org-noter-pdftools))
 
-(use-package org-pdftools
-  :hook (org-mode . org-pdftools-setup-link))
+  (use-package org-pdftools
+	:disabled
+	:hook (org-mode . org-pdftools-setup-link))
 
-(use-package org-noter-pdftools
-  :after org-noter
-  :config
-  ;; Add a function to ensure precise note is inserted
-  (defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
-    (interactive "P")
-    (org-noter--with-valid-session
-     (let ((org-noter-insert-note-no-questions (if toggle-no-questions
-                                                   (not org-noter-insert-note-no-questions)
-                                                 org-noter-insert-note-no-questions))
-           (org-pdftools-use-isearch-link t)
-           (org-pdftools-use-freepointer-annot t))
-       (org-noter-insert-note (org-noter--get-precise-info)))))
+  (use-package org-noter-pdftools
+	:disabled
+	:after org-noter
+	:config
+	;; Add a function to ensure precise note is inserted
+	(defun org-noter-pdftools-insert-precise-note (&optional toggle-no-questions)
+      (interactive "P")
+      (org-noter--with-valid-session
+       (let ((org-noter-insert-note-no-questions (if toggle-no-questions
+													 (not org-noter-insert-note-no-questions)
+                                                   org-noter-insert-note-no-questions))
+			 (org-pdftools-use-isearch-link t)
+			 (org-pdftools-use-freepointer-annot t))
+		 (org-noter-insert-note (org-noter--get-precise-info)))))
 
-  ;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
-  (defun org-noter-set-start-location (&optional arg)
-    "When opening a session with this document, go to the current location.
+	;; fix https://github.com/weirdNox/org-noter/pull/93/commits/f8349ae7575e599f375de1be6be2d0d5de4e6cbf
+	(defun org-noter-set-start-location (&optional arg)
+      "When opening a session with this document, go to the current location.
 With a prefix ARG, remove start location."
-    (interactive "P")
-    (org-noter--with-valid-session
-     (let ((inhibit-read-only t)
-           (ast (org-noter--parse-root))
-           (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
-       (with-current-buffer (org-noter--session-notes-buffer session)
-         (org-with-wide-buffer
-          (goto-char (org-element-property :begin ast))
-          (if arg
-              (org-entry-delete nil org-noter-property-note-location)
-            (org-entry-put nil org-noter-property-note-location
-                           (org-noter--pretty-print-location location))))))))
-  (with-eval-after-load 'pdf-annot
-    (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
+      (interactive "P")
+      (org-noter--with-valid-session
+       (let ((inhibit-read-only t)
+			 (ast (org-noter--parse-root))
+			 (location (org-noter--doc-approx-location (when (called-interactively-p 'any) 'interactive))))
+		 (with-current-buffer (org-noter--session-notes-buffer session)
+           (org-with-wide-buffer
+			(goto-char (org-element-property :begin ast))
+			(if arg
+				(org-entry-delete nil org-noter-property-note-location)
+              (org-entry-put nil org-noter-property-note-location
+							 (org-noter--pretty-print-location location))))))))
+	(with-eval-after-load 'pdf-annot
+      (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
 
 ;; https://github.com/yilkalargaw/org-auto-tangle
 (use-package org-auto-tangle

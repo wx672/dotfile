@@ -18,11 +18,12 @@
    ;; ("gnu" . "http://elpa.emacs-china.org/gnu/")
    ;; ("melpa" . "http://elpa.emacs-china.org/melpa/")
    ;; ("org" . "http://elpa.emacs-china.org/org/")
+   ;; ("org" . "http://mirrors.ustc.edu.cn/elpa/org/")
    ("gnu" . "http://mirrors.ustc.edu.cn/elpa/gnu/")
    ("nongnu" . "http://mirrors.ustc.edu.cn/elpa/nongnu/")
    ("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/")
    ;; ("gnu"   . "http://elpa.gnu.org/packages/")
-   ;; ("melpa" . "http://melpa.org/packages/")
+   ;; ("melpa" . "https://melpa.org/packages/")
    )
  package-user-dir "~/.emacs.d/elpa"
  )

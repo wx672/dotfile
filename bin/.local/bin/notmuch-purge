@@ -1,0 +1,47 @@
+#!/bin/bash
+
+command -v notmuch &>/dev/null || { echo 'Missing notmuch!'; exit 1; }
+
+usage()
+{
+	cat<<EOF
+notmuch purge - Empty the local trash can
+
+NOTE: Currently there isn't a way to propagate the local changes back
+to the remote server. That means if you don't delete the unwanted
+email on the remote server, the purged emails will come back upon next
+offlineimap sync.
+
+EOF
+}
+
+purge()
+{	
+	local N=$(notmuch search --output=files --format=text tag:deleted | wc -l)
+	
+	(( $N > 0 )) || { echo Nothing to be purged.; exit; }
+
+	printf "There are %d emails marked 'deleted'. Proceed? [y/N] " $N
+	
+	read YN
+	case $YN in
+		[yY]|[yY][eE][sS])
+			notmuch search --output=files --format=text0 tag:deleted | xargs -r0 rm
+			notmuch new
+			;;
+		*)
+			exit
+	esac
+}
+
+case "$1" in
+	"-h"|"--help"|"help")
+		usage
+		exit
+		;;
+	*)
+		usage
+		purge
+esac
+
+

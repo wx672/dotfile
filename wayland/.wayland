@@ -3,7 +3,7 @@ export XDG_SESSION_TYPE=wayland
 export GDK_BACKEND=wayland
 export XDG_CURRENT_DESKTOP=sway
 export QT_QPA_PLATFORM=wayland
-export QT_QPA_PLATFORMTHEME=gtk3
+export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
 #fcitx5 on wayland
@@ -13,5 +13,6 @@ export XIM_ARGS=""
 export GTK_IM_MODULE=fcitx5
 export QT_IM_MODULE=fcitx5
 export QT4_IM_MODULE=fcitx5
+export QT5_IM_MODULE=fcitx5
 export DefaultIMModule=fcitx5
 export XMODIFIERS="@im=fcitx5"

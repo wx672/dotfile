@@ -2,4 +2,12 @@
 
 In course page: Administration -> Course Administration -> Users -> Enrolment methods -> Add method -> Cohort sync
 
+# update from git
+
+```sh
+sudo git pull
+# and then checkout the new version
+```
+
+# plugin install
 

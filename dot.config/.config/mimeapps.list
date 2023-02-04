@@ -1,0 +1,18 @@
+
+[Default Applications]
+image/png=nsxiv.desktop
+image/jpeg=nsxiv.desktop
+image/pnm=nsxiv.desktop
+image/ppm=nsxiv.desktop
+image/pbm=nsxiv.desktop
+image/pgm=nsxiv.desktop
+image/tif=nsxiv.desktop
+image/gif=nsxiv.desktop
+application/pdf=mupdf.desktop
+text/plain=batcat.desktop
+text/x-bibtex=nvim.desktop
+text/markdown=mdless.desktop
+text/*=emacsclient.desktop
+application/x-desktop=emacsclient.desktop
+application/vnd.adobe.flash.movie=flashplayer.desktop
+x-scheme-handler/baiduyunguanjia=baidunetdisk.desktop
