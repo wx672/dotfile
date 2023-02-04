@@ -1,11 +1,11 @@
-At server side:
-- [X] server started by systemd.
-- [X] add "-h hostname" option in /etc/default/tmate-ssh-server
+# At server side:
+
+- `/etc/default/tmate-ssh-server`: command line options
+- `/etc/tmate-ssh-server/keys`: don't change file names!
+- server started by systemd.
 - [ ] need websocket server to enable named session
 
-At client side:
+# At client side:
 - use sha256 fingerprint. the md5 example in README.Debian doesn't work.
-- at client side:
-  1. edit .tmate.conf
-  2. s-C-F12 with stumpwm
+- edit `~/.tmate.conf`
 

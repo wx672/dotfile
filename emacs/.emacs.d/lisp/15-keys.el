@@ -13,9 +13,6 @@
   ;; (general-auto-unbind-keys)
 
   (general-def
-	;; "M-x"        #'helm-M-x
-	;; "M-y"        #'helm-show-kill-ring
-	;; "C-."        #'helm-imenu-anywhere
 	"C-<return>" #'delete-other-windows
 	"<print>"    #'ps-print-region-with-faces
     "<f1>"       #'query-replace-regexp
@@ -23,7 +20,7 @@
     "<f5>"       #'shell-other-window
 	"C-o"        #'other-window
     "M-o"        #'switch-to-other-buffer
-	"C-M-k" #'kill-this-buffer
+	"C-M-k"      #'kill-this-buffer
 	"C-<backspace>" #'backward-kill-word
 	"M-<backspace>" #'backward-kill-word
 	"M-j"        #'next-user-buffer
@@ -31,7 +28,7 @@
 	"M-n"        #'next-buffer
 	"M-p"        #'previous-buffer
 	"M-l"        #'consult-buffer;fzf-switch-buffer
-	"M-C-/"      #'company-complet
+	"M-C-/"      #'company-complete
 	"C-S-n"      #'forward-paragraph
 	"C-S-p"      #'backward-paragraph
 	); end general-def

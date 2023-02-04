@@ -1,0 +1,35 @@
+#!/bin/sh
+
+case "$1" in
+    *.bin|*.raw|*.img|*.iso)
+		if [ file "$1" | grep -q "ext2 filesystem data" ]; then
+			hd "$1" | less
+		fi
+		;;
+	*.docx|*.DOCX)
+		command -v docx2txt || { docx2txt is not found.; exit 1; }
+		docx2txt "$1" - | less
+		;;
+	*.xlsx)
+		command -v xlsx2csv || { xlsx2csv is not found.; exit 1; }
+		xlsx2csv "$1" 
+		;;
+	*.md)
+		command -v mdcat || { mdcat is not found.; exit 1; }
+		mdcat "$1"
+		;;
+	*.md.gz)
+		command -v mdcat || { mdcat is not found.; exit 1; }
+		gzip -cd "$1" | mdcat -
+		;;
+	*.org)
+		command -v pandoc || { pandoc is not found.; exit 1; }
+		pandoc "$1" | w3m -T text/html
+		;;
+    *)
+        # We don't handle this format.
+        exit 1
+esac
+
+         # No further processing by lesspipe necessary
+exit 0

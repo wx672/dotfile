@@ -14,14 +14,16 @@ set $down j
 set $up k
 set $right l
 
-set $term "alacritty -e tmux"
-set $browser qutebrowser
+set $term "foot"
+set $browser "qutebrowser"
 set $wlist "~/.config/sway/windowlist.sh"
+set $emacs "emacsclient -c -n"
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $menu dmenu | xargs swaymsg exec --
 
 set $screenshot grim /tmp/$(date +"%Y%m%d%H%M%S").png
 set $screenclip slurp | grim -g - /tmp/$(date +"%Y%m%d%H%M%S").png
@@ -46,13 +48,13 @@ titlebar_border_thickness 0
 titlebar_padding 0
 
 smart_gaps on
-gaps inner 10
+gaps inner 5
 
 # Autostart
+exec foot tmux
 exec --no-startup-id udiskie -F
 exec --no-startup-id fcitx5 -d --replace
 exec --no-startup-id mako
-exec  $term
 # exec --no-startup-id keynav
 # exec --no-startup-id xbanish
 
@@ -109,18 +111,18 @@ input "type:touchpad" {
 #
 bindsym $mod+t exec $term
 bindsym $mod+q exec $browser
-bindsym $mod+e exec emacsclient -c -n
+bindsym $mod+e exec $emacs
 bindsym $mod+l exec $wlist
 bindsym Control+Escape exec makoctl dismiss --all
 
 bindsym $mod+Control+p exec $screenshot
 bindsym $mod+Shift+p exec $screenclip
 
-    # Kill focused window
-    bindsym $mod+Shift+w kill
+# Kill focused window
+bindsym $mod+Control+k kill
 
-    # Start your launcher
-    bindsym $mod+Escape exec $menu
+# Start your launcher
+bindsym $mod+Escape exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -129,11 +131,11 @@ bindsym $mod+Shift+p exec $screenclip
     # mouse button for dragging.
     floating_modifier $mod normal
 
-    # Reload the configuration file
-    bindsym $mod+Shift+r reload
+# Reload the configuration file
+bindsym $mod+Shift+r reload
 
-    # Exit sway (logs you out of your Wayland session)
-#    bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 #
 # Moving around:
@@ -144,58 +146,59 @@ bindsym $mod+Shift+p exec $screenclip
 # bindsym $mod+h focus left
 # bindsym $mod+l focus right
 bindsym $mod+Tab focus next
-# bindsym $mod+o focus last
+bindsym $mod+o focus last
 # bindsym $mod+n focus next
 # bindsym $mod+p focus prev
 bindsym $mod+j focus next
 bindsym $mod+k focus prev
 
 # Move the focused window with the same, but add Shift
-bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
+bindsym $mod+Shift+h move left
 bindsym $mod+Shift+l move right
 
 #
 # Workspaces:
 #
-    # Switch to workspace
-    bindsym $mod+1 workspace number 1
-    bindsym $mod+2 workspace number 2
-    # Move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace number 1
-    bindsym $mod+Shift+2 move container to workspace number 2
-    # Note: workspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
+# Switch to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+# Note: workspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
 
-    bindsym $mod+period workspace next
-    bindsym $mod+o workspace back_and_forth
+bindsym $mod+period workspace next
+#bindsym $mod+o workspace back_and_forth
 
 #
 # Layout stuff:
 #
-    # You can "split" the current object of your focus with
-    # $mod+b or $mod+v, for horizontal and vertical splits
-    # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
 
-    # Switch the current container between different layout styles
+# Switch the current container between different layout styles
 #    bindsym $mod+s layout stacking
 #    bindsym $mod+w layout tabbed
 #    bindsym $mod+e layout toggle split
 bindsym $mod+space layout toggle tabbed split
 
 # Toggle the current focus between tiling and floating mode
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Control+space floating toggle
 
 # Make the current focus fullscreen
 bindsym $mod+backspace fullscreen
+#bindsym $mod+space fullscreen
 
-    # Swap focus between the tiling area and the floating area
-#   bindsym $mod+Shift+space focus mode_toggle
+# Swap focus between the tiling area and the floating area
+bindsym $mod+Shift+space focus mode_toggle
 
-    # Move focus to the parent container
+# Move focus to the parent container
 #   bindsym $mod+a focus parent
 
 #
@@ -214,23 +217,21 @@ bindsym $mod+backspace fullscreen
 #
 # Resizing containers:
 #
+bindsym $mod+r mode "resize"
 mode "resize" {
-    # left will shrink the containers width
-    # right will grow the containers width
-    # up will shrink the containers height
-    # down will grow the containers height
-    bindsym $left resize shrink width 10px
+    bindsym $left resize grow width 10px
+    bindsym $right resize shrink width 10px
     bindsym $down resize grow height 10px
     bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
 
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
 
+#
 # Mode containers
+#
 bindsym $mod+m mode "move"
 mode "move" {
   bindsym h move left 10px
@@ -242,10 +243,13 @@ mode "move" {
   bindsym Escape mode "default"
 }
    
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+#bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+#bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+#bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+#bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 1%+
+bindsym XF86AudioLowerVolume exec amixer -q set Master 1%-
+bindsym XF86AudioMute exec amixer -q set Master toggle
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 # bindsym XF86AudioPlay exec playerctl play-pause

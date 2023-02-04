@@ -1,0 +1,106 @@
+#!/bin/bash
+
+command -v xsel &>/dev/null || { echo "xsel is not found. Quit..."; exit 1; }
+
+YDL="$(command -v yt-dlp)"
+[[ "$YDL" ]] || { echo "yt-dlp is not found. Quit..."; exit 1; }
+
+BROWSER="$(command -v x-www-browser)"
+
+[[ "$1" ]] || {
+	echo youtube...
+	$BROWSER https://www.youtube.com &>/dev/null &
+	exit 0
+}
+
+# TMPCLIP="/tmp/tmpclip"
+# if pgrep -f sway; then
+# 	[ -s "$TMPCLIP" ] && { wl-copy -n < "$TMPCLIP" && rm -f "$TMPCLIP"; }
+# 	urls=$(wl-paste -n)
+# else
+urls="$(xsel -bo)"
+# fi
+
+[[ "$urls" ]] || { echo Clipboard is empty. Quit...; exit 1; }
+
+usage()
+{
+	# in qutebrowser,
+	# ';y' to overwrite the clipboard with selected url.
+	# ';a' to append an url into clipbroad.
+
+	cat<<EOF
+${0##*/} - play or download youtube videos with yt-dlp.
+    If invoked without any arguments, visit youtube.com in x-www-browser.
+
+         ${0##*/} [-f format] [-p port] [-s] [d|p]
+
+Examples:
+    ${0##*/}         # open youtube.com in x-www-browser
+    ${0##*/} -fba p  # play youtube (best audio)
+    ${0##*/} -fb  d  # download youtube (best video and audio)
+
+Sub commands:
+    d - download;  p - play
+
+Options:
+   -f - video format. 'ba' for best audio; 'bv' for best video; 'b' for best both.
+        'yt-dlp -F <URL>' to list all formats. Format can be 'bilibili' if play video.      
+   -p - proxy port, default to 7891
+   -s - download subtitle
+   -h - help
+EOF
+}
+
+unset fmt port
+
+while getopts :f:p:sh OPT; do
+	case $OPT in
+		f) fmt=$OPTARG ;;
+		p) port=$OPTARG ;;
+		s) YDL="$YDL --write-subs --write-auto-subs" ;;
+		h) usage; exit 0 ;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+# echo '$YDL' is $YDL
+# echo '$urls' is $urls
+# echo '$@' is $@
+# echo '$fmt' is $fmt
+# echo '$port' is $port
+# echo 'xsel -bo is' < <(xsel -bo)
+
+case "$@" in
+	d*)
+		while ! $YDL --proxy socks5://127.0.0.1:${port:-7891} -f"${fmt:-ba}" "$urls"
+		do
+			echo try again... # in case of Ctrl-c
+		done
+		;;
+	p*)
+		if [ "$fmt" != "bilibili" ]; then
+			while read url
+			do
+				echo playing "$url" '('"${fmt:-best audio}"')'
+				while ! $YDL --proxy socks5://127.0.0.1:${port:-7891} -f"${fmt:-ba}" \
+						-o - "$url" | mpv --profile=noproxy --no-resume-playback -
+				do					
+					echo try again... # in case of Ctrl-c
+				done
+			done <<<"$urls"
+		else
+			while read url
+			do
+				echo playing "$url"
+				mpv --profile=noproxy "$url"
+			done <<<"$urls"
+		fi
+		;;
+	*)
+		usage; exit
+esac
+
+# pgrep -f sway && wl-copy -c ||
+xsel -bc

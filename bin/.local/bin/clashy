@@ -1,0 +1,181 @@
+#!/bin/bash
+
+command -v xsel &>/dev/null || { echo xsel is not found; exit 1; }
+command -v yq &>/dev/null || { echo yq is not found; exit 1; }
+
+cfgDir="$HOME/.config/clash"
+SELFYML="$cfgDir/wx672.yaml"
+DEFAULTYML="$cfgDir/config.yaml"
+ymlDir="$cfgDir/yml"
+CLIPBOARD="$(xsel -bo)"
+PROXY_ENTRY=""
+PROXY_NAME="$CLIPBOARD"
+
+usage(){
+	cat <<EOF
+${0##*/} - Tweaking clash config file.
+
+USAGE: 
+    ${0##*/} -h  # help
+			    
+    ${0##*/} -i  # insert into $SELFYML
+			    
+    ${0##*/} -r  # remove from $DEFAULTYML
+			    
+    ${0##*/} -s  # search by proxy name
+
+    ${0##*/} [-o output.yaml] -t newly downloaded yaml file  # tweak newly downloaded yaml file
+
+    - Before insert/remove an entry, you need to put its proxy name onto the clipboard first. To list all the proxy names, you can use yq:
+
+        \$ yq '.proxies[].name' config.yaml
+
+    - Prerequiesite: xsel, yq
+EOF
+	return
+}
+
+[ "$1" ] || { usage; exit; }
+
+doublecheck(){
+	local YML="$1"
+	local MSG="$2"
+	
+	PROXY_ENTRY=$(NAME="$PROXY_NAME" yq '.proxies[] | select(.name == strenv(NAME))' "$YML")
+
+	cat <<EOF
+---
+Name: $(echo $PROXY_NAME)
+Proxy entry:
+$(echo $PROXY_ENTRY)
+---
+EOF
+
+	[ -z "$PROXY_ENTRY" ] && { echo "yq: Proxy entry not found in ${YML}!"; exit 1; }
+
+	cat <<EOF
+$2
+--- q to quit, any other key to continue ---
+EOF
+
+	while read -s -n1
+	do
+		case $REPLY in
+			q) exit ;;
+			*) break ;;
+		esac
+	done
+
+	return
+}
+
+insert(){
+	doublecheck "$DEFAULTYML" "Insert the above entry into ${SELFYML##*/}?"
+	
+	sed -i "/^proxies:$/a\  - $PROXY_ENTRY" $SELFYML || { echo 'sed: Failed appending!'; exit 1; }
+	yq '.proxies[0]' $SELFYML || { echo 'yq: Failed updating .proxies[0]!'; exit 1; }
+
+	yq -i '.proxy-groups[1].proxies = [.proxies[0].name] + .proxy-groups[1].proxies' \
+	   $SELFYML || {
+		echo 'yq: Failed updating .proxy-groups[1].proxies!';
+		exit 1;
+	}
+
+	yq '.proxy-groups[1].proxies' $SELFYML || exit 1
+
+	exit
+}
+
+remove()
+{
+	local YML="$1"
+	
+	doublecheck "$YML" "Remove the above entry from ${YML##*/}?"
+	
+	NAME="$PROXY_NAME" yq -i 'del(.proxy-groups[].proxies[] | select(. == strenv(NAME)))' $YML || {
+		cat<<EOF
+yq failed:
+
+NAME="$PROXY_NAME" \
+		yq -i 'del(.proxy-groups[].proxies[] | select(. == strenv(NAME)))' $YML
+EOF
+		exit 1
+	}
+
+	NAME="$PROXY_NAME" yq -i 'del(.proxies[] | select(.name == strenv(NAME)))' $YML || {
+		cat<<EOF
+yq failed:
+
+NAME="$PROXY_NAME" \
+		yq -i 'del(.proxies[] | select(.name == strenv(NAME)))' $YML
+EOF
+		exit 1
+	}
+
+	echo $YML is updated.
+	
+	tmux send-keys -t{top-right} C-c
+
+	exit
+}
+
+tweak(){
+	local YML=${OUTFILE:="aw-$(date +%m%d).yml"}
+
+	if [ -f "$1" ]; then
+		mv "$1" "$ymlDir/$YML"
+		YML="$ymlDir/$YML"
+	else
+		echo File "$1" does not exist.
+		exit 1
+	fi
+
+	sed -i '/^#/d' "$YML"
+
+	sed -i '/local\,/a\  - DOMAIN-SUFFIX,debian.org,🎯 全球直连\n  - DOMAIN-SUFFIX,fai-project.org,🎯 全球直连\n  - DOMAIN-SUFFIX,qemu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,gnu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,winegame.net,🎯 全球直连\n  - DOMAIN-SUFFIX,www.kmwatersupply.com,🎯 全球直连\n  - DOMAIN-SUFFIX,www.playonlinux.com,🎯 全球直连\n  - DOMAIN-SUFFIX,sketchviz.com,🎯 全球直连\n  - DOMAIN-SUFFIX,deepinos.org,🎯 全球直连\n  - DOMAIN-SUFFIX,overleaf.com,🎯 全球直连\n  - DOMAIN-SUFFIX,moodle.org,🎯 全球直连\n  - DOMAIN-SUFFIX,grammarly.com,🎯 全球直连\n  - DOMAIN-SUFFIX,ixigua.com,🎯 全球直连\n  - DOMAIN-SUFFIX,gitee.com,🎯 全球直连\n  - DOMAIN-SUFFIX,wiki.archlinux.org,🎯 全球直连\n  - DOMAIN-SUFFIX,www.gnupg.org,🎯 全球直连' "$YML"
+
+	sed -i '/^proxies:/i dns:\n  enable: true\n  ipv6: true\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 1.0.0.1\n  nameserver:\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback:\n    - https://1.0.0.1/dns-query\n    - https://1.1.1.1/dns-query\n    - https://public.dns.iij.jp/dns-query' "$YML"
+
+	rg -nA8 local, "$YML"
+
+	ln -sf "$YML" "$DEFAULTYML"
+
+	ls -l "$DEFAULTYML"
+
+	exit	
+}
+
+search(){
+	echo Searching for '['${PROXY_NAME}']' ...
+	local YML="$1"
+	local ENTRY=$(NAME="$PROXY_NAME" yq '.proxies[] | select(.name == strenv(NAME))' $YML)
+
+	[ "$ENTRY" ] && { echo $ENTRY | yq;	} || {
+		echo "yq: Proxy entry not found in ${YML}!";
+		exit 1;
+	}
+}
+
+while getopts :hirst:o: OPT; do
+	case $OPT in
+		i) insert
+		   ;;
+		r) shift $(( OPTIND - 1 ))
+		   OPTIND=1
+		   remove ${1:-"$DEFAULTYML"}
+		   ;;
+		s) shift $(( OPTIND - 1 ))
+		   OPTIND=1
+		   search ${1:-"$SELFYML"}
+		   ;;
+		t) tweak "$OPTARG"
+		   ;;
+		o) OUTFILE="$OPTARG"
+		   ;;
+		h) usage; exit
+		   ;;
+		*) usage; exit
+	esac
+done
+# 
+# 

@@ -59,13 +59,13 @@
  save-place-forget-unreadable-files t
  scroll-step 1
  select-enable-clipboard t
- shell-command-with-editor-mode t
+ ;; shell-command-with-editor-mode t
  track-eol t
  use-dialog-box nil
  vc-follow-symlinks t
  version-control 'never
  view-read-only t
- visible-bell t
+ ;;	visible-bell t
 )
 
 (add-to-list 'recentf-exclude no-littering-var-directory)
