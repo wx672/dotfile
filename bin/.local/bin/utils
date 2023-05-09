@@ -215,7 +215,7 @@ rcb () { # remote clipboard
     echo fetching from port "$PORT" ...
 
     # at remote side (cs6) do, for example, 'ls *.mkv | nc -4l 33333'
-    { nc -4W1 cs6 "$PORT" || echo nc failed.; } | xsel -bi
+    { nc -4 cs6 "$PORT" || echo nc failed.; } | xsel -bi
 
     xsel -bo
 }

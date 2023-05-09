@@ -89,6 +89,7 @@ c.url.searchengines = {
 ## aliases, while the values are the commands they map to.
 ## Type: Dict
 c.aliases = {
+    'chatgpt':'open -t https://poe.com/ChatGPT',
     'proxy':'set content.proxy',
     'calibre':'open -t https://cs6.swfu.edu.cn/calibre',
     'cs6':'open -t https://cs6.swfu.edu.cn/moodle',
@@ -98,7 +99,8 @@ c.aliases = {
     'gmail':'open -t https://mail.google.com',
     'lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
     'wechat':'open -t https://web.wechat.com/',
-    'havoc':'https://havoc-os.com/download'
+    'havoc':'open -t https://havoc-os.com/download',
+    'elixir':'https://downloads.projectelixiros.com/thirteen/ginkgo/'
 }
 
 # keybinds

@@ -6,7 +6,7 @@
   <property name="pressureMultiplier" value="1.00000000"/>
   <property name="zoomGesturesEnabled" value="false"/>
   <property name="selectedToolbar" value="Toolbar Right Copy"/>
-  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2022/review"/>
+  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2023/20211159119苏歆然"/>
   <property name="lastOpenPath" value="/home/wx672"/>
   <property name="lastImagePath" value="/tmp"/>
   <property name="edgePanSpeed" value="20.00000000"/>
@@ -14,16 +14,15 @@
   <property name="zoomStep" value="10.00000000"/>
   <property name="zoomStepScroll" value="2.00000000"/>
   <property name="displayDpi" value="149"/>
-  <property name="mainWndWidth" value="1918"/>
-  <property name="mainWndHeight" value="1078"/>
+  <property name="mainWndWidth" value="1874"/>
+  <property name="mainWndHeight" value="1034"/>
   <property name="maximized" value="false"/>
   <property name="showToolbar" value="true"/>
   <property name="showSidebar" value="false"/>
   <property name="sidebarWidth" value="50"/>
   <property name="sidebarOnRight" value="false"/>
   <property name="scrollbarOnLeft" value="false"/>
-  <property name="menubarVisible" value="false"/>
-  <property name="filepathShownInTitlebar" value="false"/>
+  <property name="menubarVisible" value="true"/>
   <property name="numColumns" value="1"/>
   <property name="numRows" value="1"/>
   <property name="viewFixedRows" value="false"/>
@@ -37,7 +36,7 @@
   <property name="fullscreenHideElements" value="mainMenubar,sidebarContents"/>
   <!--Which gui elements are hidden if you are in Presentation mode, separated by a colon (,)-->
   <property name="presentationHideElements" value="mainMenubar,sidebarContents"/>
-  <!--The cursor icon used with a stylus, allowed values are "none", "dot", "big", "arrow"-->
+  <!--The cursor icon used with a stylus, allowed values are "none", "dot", "big"-->
   <property name="stylusCursorType" value="dot"/>
   <property name="highlightPosition" value="true"/>
   <property name="cursorHighlightColor" value="2164260608"/>
@@ -45,7 +44,7 @@
   <property name="cursorHighlightRadius" value="30.00000000"/>
   <property name="cursorHighlightBorderWidth" value="0.00000000"/>
   <property name="darkTheme" value="false"/>
-  <property name="useStockIcons" value="true"/>
+  <property name="useStockIcons" value="false"/>
   <property name="disableScrollbarFadeout" value="true"/>
   <!--Hides scroolbars in the main window, allowed values: "none", "horizontal", "vertical", "both"-->
   <property name="scrollbarHideType" value="none"/>
@@ -117,7 +116,9 @@
   <data name="buttonConfig">
     <data name="default">
       <attribute name="color" type="hex" value="ffff7800"/>
-      <attribute name="tool" type="string" value="text"/>
+      <attribute name="drawingType" type="string" value="line"/>
+      <attribute name="size" type="string" value="thin"/>
+      <attribute name="tool" type="string" value="highlighter"/>
     </data>
     <data name="eraser">
       <attribute name="eraserMode" type="string" value="none"/>
@@ -194,7 +195,7 @@
     </data>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="highlighter"/>
+    <attribute name="current" type="string" value="text"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
@@ -219,18 +220,18 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="highlighter">
-      <attribute name="color" type="hex" value="000000"/>
-      <attribute name="drawingType" type="string" value="ellipse"/>
+      <attribute name="color" type="hex" value="ff0000"/>
+      <attribute name="drawingType" type="string" value="line"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
-      <attribute name="size" type="string" value="BIG"/>
+      <attribute name="size" type="string" value="MEDIUM"/>
     </data>
     <data name="image">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="pen">
       <attribute name="color" type="hex" value="ff0000"/>
-      <attribute name="drawingType" type="string" value="rectangle"/>
+      <attribute name="drawingType" type="string" value="arrow"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
       <attribute name="size" type="string" value="BIG"/>
@@ -240,14 +241,6 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="selectObject">
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="selectPdfTextLinear">
-      <attribute name="color" type="hex" value="000000"/>
-      <attribute name="drawingType" type="string" value="default"/>
-    </data>
-    <data name="selectPdfTextRect">
-      <attribute name="color" type="hex" value="000000"/>
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="selectRect">

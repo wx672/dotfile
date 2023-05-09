@@ -55,3 +55,6 @@
 # 	proxy = socks5://127.0.0.1:1080
 [pull]
 	rebase = false
+[credential "https://git.overleaf.com"]
+    username = wx672ster@gmail.com
+    helper = store

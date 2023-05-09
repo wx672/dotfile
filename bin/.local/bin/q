@@ -8,6 +8,30 @@ shopt -s expand_aliases
 	BROWSER="$(command -v www-browser)"
 }
 
+cs6(){
+	local MOODLE="https://cs6.swfu.edu.cn/moodle"
+	local CALIBRE="https://cs6.swfu.edu.cn/calibre"
+	local INSTALL="https://cs6.swfu.edu.cn/~wx672/debian-install"
+	local LECTURE="https://cs6.swfu.edu.cn/~wx672/lecture_notes"
+	
+	case "$1" in
+		moo* )
+			$BROWSER $MOODLE &>/dev/null &
+			;;
+		cal* )
+			$BROWSER $CALIBRE &>/dev/null &
+			;;
+		deb* )
+			$BROWSER $INSTALL &>/dev/null &
+			;;
+		lec* )
+			$BROWSER $LECTURE &>/dev/null &
+			;;
+		* )
+			$BROWSER $MOODLE &>/dev/null &
+	esac
+}
+
 HISTORY_DB="$HOME/.local/share/qutebrowser/history.sqlite" 
 
 [[ "$1" ]] || {
@@ -22,6 +46,9 @@ unset QUERY WORD
 alias MKWORD='shift; for WORD in "$@"; do QUERY="$QUERY%20$WORD"; done; QUERY=${QUERY#%20}'
 
 case $1 in
+	cs6)
+		cs6 $2
+		;;
 	imdb)
 		MKWORD
 		echo imdb: $(echo "$QUERY" | tr '%20' ' ')

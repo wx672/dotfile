@@ -92,7 +92,8 @@ remove()
 	
 	doublecheck "$YML" "Remove the above entry from ${YML##*/}?"
 	
-	NAME="$PROXY_NAME" yq -i 'del(.proxy-groups[].proxies[] | select(. == strenv(NAME)))' $YML || {
+	NAME="$PROXY_NAME" \
+		yq -i 'del(.proxy-groups[].proxies[] | select(. == strenv(NAME)))' $YML || {
 		cat<<EOF
 yq failed:
 
@@ -102,7 +103,8 @@ EOF
 		exit 1
 	}
 
-	NAME="$PROXY_NAME" yq -i 'del(.proxies[] | select(.name == strenv(NAME)))' $YML || {
+	NAME="$PROXY_NAME" \
+		yq -i 'del(.proxies[] | select(.name == strenv(NAME)))' $YML || {
 		cat<<EOF
 yq failed:
 
@@ -120,7 +122,7 @@ EOF
 }
 
 tweak(){
-	local YML=${OUTFILE:="aw-$(date +%m%d).yml"}
+	local YML=${OUTFILE:="$(date +%m%d).yml"}
 
 	if [ -f "$1" ]; then
 		mv "$1" "$ymlDir/$YML"
@@ -130,17 +132,19 @@ tweak(){
 		exit 1
 	fi
 
-	sed -i '/^#/d' "$YML"
+	sed -i '/^#/d' $YML
 
-	sed -i '/local\,/a\  - DOMAIN-SUFFIX,debian.org,🎯 全球直连\n  - DOMAIN-SUFFIX,fai-project.org,🎯 全球直连\n  - DOMAIN-SUFFIX,qemu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,gnu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,winegame.net,🎯 全球直连\n  - DOMAIN-SUFFIX,www.kmwatersupply.com,🎯 全球直连\n  - DOMAIN-SUFFIX,www.playonlinux.com,🎯 全球直连\n  - DOMAIN-SUFFIX,sketchviz.com,🎯 全球直连\n  - DOMAIN-SUFFIX,deepinos.org,🎯 全球直连\n  - DOMAIN-SUFFIX,overleaf.com,🎯 全球直连\n  - DOMAIN-SUFFIX,moodle.org,🎯 全球直连\n  - DOMAIN-SUFFIX,grammarly.com,🎯 全球直连\n  - DOMAIN-SUFFIX,ixigua.com,🎯 全球直连\n  - DOMAIN-SUFFIX,gitee.com,🎯 全球直连\n  - DOMAIN-SUFFIX,wiki.archlinux.org,🎯 全球直连\n  - DOMAIN-SUFFIX,www.gnupg.org,🎯 全球直连' "$YML"
+	sed -i '/local\,/a\  - DOMAIN-SUFFIX,debian.org,🎯 全球直连\n  - DOMAIN-SUFFIX,fai-project.org,🎯 全球直连\n  - DOMAIN-SUFFIX,qemu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,gnu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,winegame.net,🎯 全球直连\n  - DOMAIN-SUFFIX,www.kmwatersupply.com,🎯 全球直连\n  - DOMAIN-SUFFIX,www.playonlinux.com,🎯 全球直连\n  - DOMAIN-SUFFIX,sketchviz.com,🎯 全球直连\n  - DOMAIN-SUFFIX,deepinos.org,🎯 全球直连\n  - DOMAIN-SUFFIX,overleaf.com,🎯 全球直连\n  - DOMAIN-SUFFIX,moodle.org,🎯 全球直连\n  - DOMAIN-SUFFIX,grammarly.com,🎯 全球直连\n  - DOMAIN-SUFFIX,ixigua.com,🎯 全球直连\n  - DOMAIN-SUFFIX,gitee.com,🎯 全球直连\n  - DOMAIN-SUFFIX,wiki.archlinux.org,🎯 全球直连\n  - DOMAIN-SUFFIX,www.gnupg.org,🎯 全球直连' $YML
 
-	sed -i '/^proxies:/i dns:\n  enable: true\n  ipv6: true\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 1.0.0.1\n  nameserver:\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback:\n    - https://1.0.0.1/dns-query\n    - https://1.1.1.1/dns-query\n    - https://public.dns.iij.jp/dns-query' "$YML"
+	sed -i '1,/^proxies:/d' $YML
 
-	rg -nA8 local, "$YML"
+	sed -i '1i port: 7890\nsocks-port: 7891\nallow-lan: true\nmode: Rule\nlog-level: info\nexternal-controller: 0.0.0.0:9090\ndns:\n  enabled: true\n  ipv6: true\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 119.29.29.29\n    - 1.0.0.1\n  nameserver:\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback:\n    - https://1.0.0.1/dns-query\n    - https://1.1.1.1/dns-query\n    - https://public.dns.iij.jp/dns-query\n    - 8.8.8.8\n    - 8.8.4.4\n    - tls://1.0.0.1:853\n    - tls://dns.google:853\nproxies:' $YML
+	
+	rg -nA8 local, $YML
 
-	ln -sf "$YML" "$DEFAULTYML"
+	ln -sf $YML $DEFAULTYML
 
-	ls -l "$DEFAULTYML"
+	ls -l $DEFAULTYML
 
 	exit	
 }
