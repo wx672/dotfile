@@ -15,4 +15,3 @@ text/*=emacsclient.desktop
 application/x-desktop=emacsclient.desktop
 application/vnd.adobe.flash.movie=flashplayer.desktop
 x-scheme-handler/baiduyunguanjia=baidunetdisk.desktop
-

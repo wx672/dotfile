@@ -112,7 +112,7 @@ ffcam(){ # capture webcam
 	# use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
 	#  -preset superfast
 	ffmpeg -f v4l2 -s 640x480 -r 30 -i /dev/video0 \
-		   -f alsa -i pulse \
+		   -f alsa -i hw:1 \
 		   -c:v libx264 -qp 0 -c:a aac -b:a 48k \
 		   "$(date +%Y%m%d%H%M)".mp4
 }

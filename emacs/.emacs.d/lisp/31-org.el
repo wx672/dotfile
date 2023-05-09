@@ -44,7 +44,8 @@
    org-show-hierarchy-above '((default . t))
    org-show-following-heading '((default . t))
    org-show-siblings '((default . t))
-   
+
+   org-directory (expand-file-name "org/" no-littering-var-directory)
    diary-file (concat org-directory "Diary.org")
    calendar-mark-diary-entries-flag t
    calendar-view-diary-initially-flag t
@@ -101,7 +102,7 @@
   (use-package org-capture
 	:config
 	(setq
-	 org-directory (expand-file-name "org/" no-littering-var-directory)
+	 ;; org-directory (expand-file-name "org/" no-littering-var-directory)
 	 org-default-notes-file (concat org-directory "draft.org")
 
 	 org-capture-templates

@@ -6,7 +6,7 @@
   <property name="pressureMultiplier" value="1.00000000"/>
   <property name="zoomGesturesEnabled" value="false"/>
   <property name="selectedToolbar" value="Toolbar Right Copy"/>
-  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2023/20211159119苏歆然"/>
+  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2023/review/20211159016邓吉林"/>
   <property name="lastOpenPath" value="/home/wx672"/>
   <property name="lastImagePath" value="/tmp"/>
   <property name="edgePanSpeed" value="20.00000000"/>
@@ -14,8 +14,8 @@
   <property name="zoomStep" value="10.00000000"/>
   <property name="zoomStepScroll" value="2.00000000"/>
   <property name="displayDpi" value="149"/>
-  <property name="mainWndWidth" value="1874"/>
-  <property name="mainWndHeight" value="1034"/>
+  <property name="mainWndWidth" value="1152"/>
+  <property name="mainWndHeight" value="1077"/>
   <property name="maximized" value="false"/>
   <property name="showToolbar" value="true"/>
   <property name="showSidebar" value="false"/>
@@ -195,7 +195,7 @@
     </data>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="text"/>
+    <attribute name="current" type="string" value="highlighter"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>

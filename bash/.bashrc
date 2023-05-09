@@ -12,7 +12,7 @@
 
 # Use bash-completion, if available
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
-    . /usr/share/bash-completion/bash_completion
+	. /usr/share/bash-completion/bash_completion
 
 # should be automatically done. See the FAQ in:
 # /usr/share/doc/bash-completion/README.md.gz
@@ -24,14 +24,15 @@ if [ -d "$compdir" ]; then
 	done
 	unset f compdir
 fi
-	
+
 eval "$(lesspipe)"
 
 export PROMPT_DIRTRIM=1
 export HISTIGNORE="&:[ ]*:exit"
 export HISTFILESIZE=10000
 export HISTSIZE=10000
-export HISTCONTROL=ignoreboth
+#export HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoredups:erasedups
 export LESSHISTFILE=-
 export BROWSER='/usr/bin/x-www-browser'
 export PDFVIEWER='mupdf'
@@ -53,13 +54,13 @@ GPG_TTY=$(tty)
 export GPG_TTY
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-    export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+	export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 fi
 
 [ -f "$HOME/.cargo/env" ] && . $HOME/.cargo/env
 
 command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
 command -v starship &>/dev/null && eval "$(starship init bash)"
-command -v vivid &>/dev/null && export LS_COLORS="$(vivid generate dracula)"
+command -v vivid &>/dev/null && export LS_COLORS="$(vivid -m 8-bit generate dracula)"
 
 export SKIM_DEFAULT_COMMAND="fd -d1 || rg --hidden --files --max-depth 1 || find . -maxdepth 1"
