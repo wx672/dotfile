@@ -119,6 +119,10 @@ ffcam(){ # capture webcam
 
 dict () { (/usr/bin/dict "$@" 2>&1 | bat;) }
 
+# dingtalk () {
+# 	(/opt/apps/com.alibabainc.dingtalk/files/Elevator.sh &>/dev/null)
+# }
+
 e(){
 	# if emacsclient -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t; then
 	if wmctrl -xa emacs; then

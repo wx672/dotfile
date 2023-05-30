@@ -6,7 +6,7 @@
   <property name="pressureMultiplier" value="1.00000000"/>
   <property name="zoomGesturesEnabled" value="false"/>
   <property name="selectedToolbar" value="Toolbar Right Copy"/>
-  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2023/review/20211159016邓吉林"/>
+  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2023/review/20191152072孙宇洋基"/>
   <property name="lastOpenPath" value="/home/wx672"/>
   <property name="lastImagePath" value="/tmp"/>
   <property name="edgePanSpeed" value="20.00000000"/>
@@ -14,8 +14,8 @@
   <property name="zoomStep" value="10.00000000"/>
   <property name="zoomStepScroll" value="2.00000000"/>
   <property name="displayDpi" value="149"/>
-  <property name="mainWndWidth" value="1152"/>
-  <property name="mainWndHeight" value="1077"/>
+  <property name="mainWndWidth" value="1914"/>
+  <property name="mainWndHeight" value="1074"/>
   <property name="maximized" value="false"/>
   <property name="showToolbar" value="true"/>
   <property name="showSidebar" value="false"/>
@@ -165,6 +165,10 @@
       <attribute name="deviceClass" type="int" value="1"/>
       <attribute name="deviceSource" type="int" value="6"/>
     </data>
+    <data name="GXTP7863:00 27C6:01E0 Touchpad">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="6"/>
+    </data>
     <data name="HUION Huion Tablet Pen Pen (0)">
       <attribute name="deviceClass" type="int" value="0"/>
       <attribute name="deviceSource" type="int" value="1"/>
@@ -231,7 +235,7 @@
     </data>
     <data name="pen">
       <attribute name="color" type="hex" value="ff0000"/>
-      <attribute name="drawingType" type="string" value="arrow"/>
+      <attribute name="drawingType" type="string" value="line"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
       <attribute name="size" type="string" value="BIG"/>

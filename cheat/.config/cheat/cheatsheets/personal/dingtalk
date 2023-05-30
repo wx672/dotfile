@@ -1,0 +1,14 @@
+- The Deepin version of Dingtalk is the official one (x86_64). It can be installed from spark-store
+
+```sh
+# check dependencies
+lxs /opt/apps/com.alibabainc.dingtalk/files/1.7.0-Release.30424
+
+# in the above dir
+ls *dingtalk*
+
+ls libQt5*
+
+ldd ./dingtalk_dll.so
+ldd ./dingtalk_shell
+```

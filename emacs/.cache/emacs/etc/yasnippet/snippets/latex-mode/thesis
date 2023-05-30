@@ -5,7 +5,7 @@
 
 \addbibresource{thesis.bib} % 参照教程自己去写一个.bib文件
 
-\swfusetup{
+\swfusetup{%
   Title={${1:论文标题}}, % 论文标题
   enTitle={${2:英文标题}}, % 论文标题（英文）
   Author={${3:作者姓名}}, % 作者姓名
@@ -85,9 +85,5 @@ $0 本文是关于……
 \include{chapters/ch5}
 
 
-\end{document} % 结束。不要动下面几行！
+\end{document} % 结束
 
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:

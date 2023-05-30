@@ -28,6 +28,7 @@ alias rdesktop='rdesktop -f -g 1920x1080 -a 32 -z -x b -P'
 alias today='notmuch search date:today'
 alias baiduyunpan='/opt/baidunetdisk/baidunetdisk --no-sandbox'
 #alias recordmydesktop='recordmydesktop --no-cursor --fps 30 --no-sound --no-wm-check --no-frame'
+alias pcpu='procs --sortd cpu' pmem='procs --sortd mem'
 
 # Local Variables:
 # mode: sh

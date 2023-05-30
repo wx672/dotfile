@@ -2,7 +2,7 @@
 
 usage(){
 	cat <<EOF
-a2pdf - Convert any image into a monochrome PDF file with optional text annotation.
+${0##*/} - Convert any image into a monochrome PDF file with optional text annotation.
 
 Usage: ${0##*/} [-f Filter] [-t Threshold] [-T text] [-c x,y] [-F font size] <Image>
 
@@ -15,7 +15,7 @@ EOF
 }
 
 cleanup(){
-	rm -f $TIF $PBM
+	rm -f "$TIF" "$PBM"
 }
 
 trap cleanup EXIT
@@ -30,14 +30,16 @@ colorEcho(){
     echo -e "\033[${1}${@:2}\033[0m" 1>& 2
 }
 
-MKBMP='mkbitmap'
+MKBMP=$(command -v mkbitmap)
+TRACE=''
 
-while getopts :hif:t:T:c:S:F: OPT; do
+while getopts :hixf:t:T:c:S:F: OPT; do
 	case $OPT in
 		h) usage; exit 0 ;;
+		i) MKBMP="$MKBMP -i" ;;
+		x) TRACE="yes" ;;
 		f) F="$OPTARG" ;;
 		t) T="$OPTARG" ;;
-		i) MKBMP="mkbitmap -i" ;;
 		T) TXT="$OPTARG" ;;
 		c) XY="$OPTARG" ;;
 		S) FS="$OPTARG" ;;
@@ -58,11 +60,27 @@ PBM="$BASE.pbm"
 TIF="$BASE.tif"
 PDF="$BASE.pdf"
 
-[[ -f "$PPM" ]] || { convert $IMG $PPM; }
+TYPE=$(file -b --extension "$IMG")
 
-$MKBMP -f${F:-2} -t${T:-.5} -o $PBM $PPM
+case $TYPE in
+    *jpg* )
+        jpegtopnm -quiet "$IMG" > "$PPM"
+        ;;
+    *png* )
+		pngtopnm -mix -background "#FFF" "$IMG" > "$PPM"
+		;;
+	* )
+		convert "$IMG" "$PPM"
+esac
 
-[[ "$TXT" ]] && mogrify -pointsize ${FS:-22} -font ${FN:-Noto-Sans-CJK-SC} -annotate ${XY:-+300+30} "$TXT" $PBM
+$MKBMP -f${F:-16} -t${T:-.4} -o "$PBM" "$PPM"
 
-ppm2tiff -c none $PBM $TIF
-tiff2pdf -zFo $PDF $TIF
+[[ "$TXT" ]] && mogrify -pointsize ${FS:-22} -font ${FN:-Noto-Sans-CJK-SC} -annotate ${XY:-+300+30} "$TXT" "$PBM"
+
+[[ "$TRACE" ]] && {
+	potrace --tight -bpdf "$PBM"
+} || {
+	ppm2tiff -c none "$PBM" "$TIF"
+	tiff2pdf -zFo "$PDF" "$TIF"
+}
+

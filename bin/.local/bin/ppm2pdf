@@ -1,0 +1,68 @@
+#!/bin/bash
+
+command -v ppm2tiff &>/dev/null || {
+	echo ppm2tiff is not found. Installing...
+	sudo apt install -y libtiff-tools
+}
+
+command -v pngtopnm &>/dev/null || {
+	echo pngtopnm is not found. Installing...
+	sudo apt install -y netpbm
+}
+
+usage(){
+	cat <<EOF
+${0##*/} - Convert an image into a much smaller PDF file.
+
+Usage: ${0##*/} <a jpg/png/ppm image>
+
+EOF
+}
+
+cleanup(){
+	mkdir -p ./trash
+	[[ -f "$IMG" ]] && mv "$IMG" ./trash
+	rm -f "$TIF" "$PPM"
+}
+
+trap cleanup EXIT
+
+#######color code########
+ERR="31m"     # red
+SUCCESS="32m" # green
+WARN="33m"    # yellow
+INFO="36m"    # blue
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+}
+
+################
+
+[[ -z "$1" ]] && { usage; exit 1; }
+
+IMG="$@"
+[[ -f "$IMG" ]] || { colorEcho $ERR "Image <$IMG> not found!"; usage; exit 1; }
+
+BASE="${IMG%.*}"
+PPM="$BASE.ppm"
+TIF="$BASE.tif"
+PDF="$BASE.pdf"
+
+TYPE=$(file -b --extension "$IMG")
+
+case $TYPE in
+    *jpg* )
+        jpegtopnm -quiet "$IMG" > "$PPM"
+        ;;
+    *png* )
+		pngtopnm -mix -background "#FFF" "$IMG" > "$PPM"
+		;;
+	* )
+		echo '==========='
+		file "$IMG"
+		echo '==========='
+esac
+
+ppm2tiff -c none "$PPM" "$TIF"
+tiff2pdf -jFo "$PDF" "$TIF"
