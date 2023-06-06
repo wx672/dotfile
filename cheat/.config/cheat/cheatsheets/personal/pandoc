@@ -1,2 +1,34 @@
-pandoc source.md --bibliography src.bib -s -o output.rtf
+# md -> PDF
 
+```sh
+# Output PDF
+pandoc in.md --pdf-engine=lualatex -o out.pdf
+
+#To support Chinese, add the following lines at the beginning of in.md
+# ---
+# CJKmainfont: Noto Serif CJK SC
+# CJKsansfont: Noto Sans CJK SC
+# ...
+```
+
+# md -> man
+
+```sh
+# Beginning of the markdown file should be like:
+#
+# ---
+# title: HELLO
+# section: 1
+# header: User Manual
+# footer: hello 1.0.0
+# date: January 13, 2021
+# ---
+#
+pandoc -s -t man -o hello.1 hello.md
+```
+
+# bibliography
+
+```sh
+pandoc source.md --bibliography src.bib -s -o output.rtf
+```

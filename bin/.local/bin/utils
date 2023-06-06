@@ -5,9 +5,9 @@ BROWSER="$(command -v x-www-browser)"
 SAY="$(command -v espeak-ng)"
 CS6="cs6.swfu.edu.cn"
 
-emoji()
+skemoji()
 {
-	[[ "$2" ]] || { echo usage: "$0 <search|emoji> <search string>"; return 1; }
+	[[ "$2" ]] || { echo usage: "skemoji <search|emoji> <search string>"; return 1; }
 
 	command -v uni &>/dev/null || {
 		cat <<EOF

@@ -134,13 +134,35 @@ tweak(){
 
 	sed -i '/^#/d' $YML
 
-	sed -i '/local\,/a\  - DOMAIN-SUFFIX,debian.org,🎯 全球直连\n  - DOMAIN-SUFFIX,fai-project.org,🎯 全球直连\n  - DOMAIN-SUFFIX,qemu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,gnu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,winegame.net,🎯 全球直连\n  - DOMAIN-SUFFIX,www.kmwatersupply.com,🎯 全球直连\n  - DOMAIN-SUFFIX,www.playonlinux.com,🎯 全球直连\n  - DOMAIN-SUFFIX,sketchviz.com,🎯 全球直连\n  - DOMAIN-SUFFIX,deepinos.org,🎯 全球直连\n  - DOMAIN-SUFFIX,overleaf.com,🎯 全球直连\n  - DOMAIN-SUFFIX,moodle.org,🎯 全球直连\n  - DOMAIN-SUFFIX,grammarly.com,🎯 全球直连\n  - DOMAIN-SUFFIX,ixigua.com,🎯 全球直连\n  - DOMAIN-SUFFIX,gitee.com,🎯 全球直连\n  - DOMAIN-SUFFIX,wiki.archlinux.org,🎯 全球直连\n  - DOMAIN-SUFFIX,www.gnupg.org,🎯 全球直连' $YML
-
 	sed -i '1,/^proxies:/d' $YML
 
 	sed -i '1i port: 7890\nsocks-port: 7891\nallow-lan: true\nmode: Rule\nlog-level: info\nexternal-controller: 0.0.0.0:9090\ndns:\n  enabled: true\n  ipv6: true\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 119.29.29.29\n    - 1.0.0.1\n  nameserver:\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback:\n    - https://1.0.0.1/dns-query\n    - https://1.1.1.1/dns-query\n    - https://public.dns.iij.jp/dns-query\n    - 8.8.8.8\n    - 8.8.4.4\n    - tls://1.0.0.1:853\n    - tls://dns.google:853\nproxies:' $YML
-	
-	rg -nA8 local, $YML
+
+	yq -i '.rules = ["DOMAIN-SUFFIX,debian.org,🎯 全球直连", "DOMAIN-SUFFIX,fai-project.org,🎯 全球直连", "DOMAIN-SUFFIX,qemu.org,🎯 全球直连", "DOMAIN-SUFFIX,gnu.org,🎯 全球直连", "DOMAIN-SUFFIX,winegame.net,🎯 全球直连", "DOMAIN-SUFFIX,www.kmwatersupply.com,🎯 全球直连", "DOMAIN-SUFFIX,www.playonlinux.com,🎯 全球直连", "DOMAIN-SUFFIX,sketchviz.com,🎯 全球直连", "DOMAIN-SUFFIX,deepinos.org,🎯 全球直连", "DOMAIN-SUFFIX,overleaf.com,🎯 全球直连", "DOMAIN-SUFFIX,moodle.org,🎯 全球直连", "DOMAIN-SUFFIX,grammarly.com,🎯 全球直连", "DOMAIN-SUFFIX,ixigua.com,🎯 全球直连", "DOMAIN-SUFFIX,gitee.com,🎯 全球直连", "DOMAIN-SUFFIX,wiki.archlinux.org,🎯 全球直连", "DOMAIN-SUFFIX,www.gnupg.org,🎯 全球直连"] + .rules' $YML
+
+	yq '.rules' $YML | head -15
+
+	sed -i '/中国/d' $YML
+
+# 	yq -i '
+# .port = 7890 |
+# .socks-port = 7891 |
+# .allow-lan = true |
+# .mode = Rule |
+# .log-level = info |
+# .external-controller = "0.0.0.0:9090" |
+# .dns.enabled = true |
+# .dns.ipv6 = true |
+# .dns.listen = "127.0.0.1:8854" |
+# .dns.default-nameserver = ["223.5.5.5", "1.0.0.1", "119.29.29.29"] |
+# .dns.nameserver = ["https://223.6.6.6/dns-query", "https://rubyfish.cn/dns-quer", "https://dns.pub/dns-query"] |
+# .dns.fallback = ["https://1.0.0.1/dns-query", "https://1.1.1.1/dns-query", "https://public.dns.iij.jp/dns-query", "8.8.8.8", "8.8.4.4", "tls://1.0.0.1:853", "tls://dns.google:853"]
+# ' $YML
+
+
+	# sed -i '/local\,/a\  - DOMAIN-SUFFIX,debian.org,🎯 全球直连\n  - DOMAIN-SUFFIX,fai-project.org,🎯 全球直连\n  - DOMAIN-SUFFIX,qemu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,gnu.org,🎯 全球直连\n  - DOMAIN-SUFFIX,winegame.net,🎯 全球直连\n  - DOMAIN-SUFFIX,www.kmwatersupply.com,🎯 全球直连\n  - DOMAIN-SUFFIX,www.playonlinux.com,🎯 全球直连\n  - DOMAIN-SUFFIX,sketchviz.com,🎯 全球直连\n  - DOMAIN-SUFFIX,deepinos.org,🎯 全球直连\n  - DOMAIN-SUFFIX,overleaf.com,🎯 全球直连\n  - DOMAIN-SUFFIX,moodle.org,🎯 全球直连\n  - DOMAIN-SUFFIX,grammarly.com,🎯 全球直连\n  - DOMAIN-SUFFIX,ixigua.com,🎯 全球直连\n  - DOMAIN-SUFFIX,gitee.com,🎯 全球直连\n  - DOMAIN-SUFFIX,wiki.archlinux.org,🎯 全球直连\n  - DOMAIN-SUFFIX,www.gnupg.org,🎯 全球直连' $YML
+
+	# rg -nA8 local, $YML
 
 	ln -sf $YML $DEFAULTYML
 

@@ -60,20 +60,28 @@ PBM="$BASE.pbm"
 TIF="$BASE.tif"
 PDF="$BASE.pdf"
 
+mkdir -p trash
+
 TYPE=$(file -b --extension "$IMG")
 
 case $TYPE in
     *jpg* )
         jpegtopnm -quiet "$IMG" > "$PPM"
+		mv "$IMG" trash
         ;;
     *png* )
 		pngtopnm -mix -background "#FFF" "$IMG" > "$PPM"
+		mv "$IMG" trash
+		;;
+	*ppm* )
+		echo It is already a PPM file.
 		;;
 	* )
 		convert "$IMG" "$PPM"
+		mv "$IMG" trash
 esac
 
-$MKBMP -f${F:-16} -t${T:-.4} -o "$PBM" "$PPM"
+$MKBMP -f${F:-128} -t${T:-.4} -o "$PBM" "$PPM"
 
 [[ "$TXT" ]] && mogrify -pointsize ${FS:-22} -font ${FN:-Noto-Sans-CJK-SC} -annotate ${XY:-+300+30} "$TXT" "$PBM"
 
