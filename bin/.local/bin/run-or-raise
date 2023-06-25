@@ -20,6 +20,6 @@
 #   run-or-raise nsxiv nsxiv -qbsf ~/.local/share/wallpapers/keys-dwm.png
 #
 
-command -v wmctrl &>/dev/null || { notify-send "Missing wmctrl"; exit 1; }
+command -v wmctrl || { notify-send "Missing wmctrl"; exit 1; }
 
 wmctrl -xa $1 || { shift; "$@"; }

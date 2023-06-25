@@ -79,6 +79,6 @@
 (require '50-company)
 (require '50-pdftools)
 (require '90-face)
-
+(require '92-fonts)
 (provide 'init)
 ;;; init.el ends here

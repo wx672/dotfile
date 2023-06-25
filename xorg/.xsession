@@ -51,9 +51,14 @@ command -v xbanish && xbanish &
 # keep screen on
 xset s off -dpms
 
-[[ "$(realpath /etc/alternatives/x-terminal-emulator)" == *alacritty* ]] \
-	&& CLS='--class Xterm' || CLS='-c Xterm'
+# # window class is set to Xterm in alacritty.yml, or config.h for st.
+# [[ "$(realpath /etc/alternatives/x-terminal-emulator)" == *alacritty* ]] \
+# 	&& CLS='--class Xterm' || CLS='-c Xterm'
 
-/usr/bin/x-terminal-emulator $CLS -e tmux &
+# /usr/bin/x-terminal-emulator $CLS -e tmux &
+
+# have to sleep 1 otherwise xterm doesn't start. don't know why.
+sleep 1
+command x-terminal-emulator -e tmux &
 
 exec /usr/bin/x-window-manager

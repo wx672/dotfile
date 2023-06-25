@@ -1,3 +1,9 @@
+# docx -> html
+
+```sh
+pandoc -s -o out.html in.docx
+```
+
 # md -> PDF
 
 ```sh

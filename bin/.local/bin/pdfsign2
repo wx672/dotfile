@@ -22,7 +22,7 @@ background - paper to sign
 		   	 Default='{.,..}/signature.pdf' if found
 
         -c - 'xshift,yshift' 
-		   	 Default to '-60,-4' in pt if signed with picture
+		   	 Default to '-60,10' in pt if signed with picture
 			 Default to '-60,0' in pt if signed with \sig font text
 
 		-d - 'ysep,msep,dsep', shift of the "date field"
@@ -98,7 +98,7 @@ EOF
 	then # sign with the picture. $XY is from getCoordinate()
 		cat <<EOF >> "$TEXFILE"
 		\node (sig) at (${X:-200pt},${Y:-400pt}) [%
-			  xshift=${XSHIFT:--60}pt, yshift=${YSHIFT:--4}pt] {%
+			  xshift=${XSHIFT:--60}pt, yshift=${YSHIFT:-10}pt] {%
 			  \includegraphics[width=${WIDTH:-1cm}]{$SIG}};
 EOF
 	else # sign with text

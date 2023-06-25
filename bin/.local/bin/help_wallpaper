@@ -5,7 +5,7 @@
 # USAGE:
 #   help_wallpaper dwm|stumpwm|sawfish
 
-command -v nsxiv &>/dev/null || exit 1
+IV="$(command -v nsxiv) -qbsf" || IV=$(command -v iv) || IV=$(command -v open) || exit 1
 
 case $1 in
 	dwm)
@@ -21,4 +21,5 @@ case $1 in
 	   exit		
 esac
 
-timeout 2m nsxiv -qbsf $IMG
+#timeout 2m nsxiv -qbsf $IMG
+timeout 2m $IV $IMG

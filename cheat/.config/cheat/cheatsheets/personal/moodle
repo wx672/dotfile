@@ -11,3 +11,16 @@ sudo git pull
 
 # plugin install
 
+# site backup
+
+- https://docs.moodle.org/402/en/Site_backup
+
+```sh
+cd /my/backup/directory
+
+mv moodle-database.sql.gz moodle-database-old.sql.gz
+
+mysqldump --default-character-set=utf8mb4 -u moodleuser --password=mypassword -C -Q -e --create-options moodle > moodle-database.sql
+
+gzip moodle-database.sql
+```
