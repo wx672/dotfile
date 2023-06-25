@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # /usr/share/doc/xfree86-common/examples/xsession
 
@@ -15,6 +15,8 @@ export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export QT4_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
+
+command -v fcitx5 && fcitx5 -d --replace
 
 # This messes up with fcitx5
 # https://fcitx-im.org/wiki/Configure_(Other)
@@ -43,15 +45,15 @@ command -v udiskie && /usr/bin/udiskie -F &
 # command -v picom && /usr/bin/picom -b
 # command -v hsetroot && /usr/bin/hsetroot -solid '#000000'
 
-command -v fcitx5 && fcitx5 -d --replace
-# fcitx5 first
-sleep 1
-/usr/bin/x-terminal-emulator -c xterm -e tmux &
-
 command -v keynav && keynav &
 command -v xbanish && xbanish &
 
 # keep screen on
 xset s off -dpms
+
+[[ "$(realpath /etc/alternatives/x-terminal-emulator)" == *alacritty* ]] \
+	&& CLS='--class Xterm' || CLS='-c Xterm'
+
+/usr/bin/x-terminal-emulator $CLS -e tmux &
 
 exec /usr/bin/x-window-manager
