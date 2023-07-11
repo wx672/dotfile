@@ -1,6 +1,6 @@
 [Hotkey]
 # Enumerate when press trigger key repeatedly
-EnumerateWithTriggerKeys=False
+EnumerateWithTriggerKeys=True
 # Enumerate Input Method Forward
 EnumerateForwardKeys=
 # Enumerate Input Method Backward
@@ -15,10 +15,6 @@ EnumerateGroupBackwardKeys=
 ActivateKeys=
 # Deactivate Input Method
 DeactivateKeys=
-# Default Previous page
-PrevPage=
-# Default Next page
-NextPage=
 # Default Previous Candidate
 PrevCandidate=
 # Default Next Candidate
@@ -31,6 +27,12 @@ TogglePreedit=
 
 [Hotkey/AltTriggerKeys]
 0=Shift_L
+
+[Hotkey/PrevPage]
+0=comma
+
+[Hotkey/NextPage]
+0=period
 
 [Behavior]
 # Active By Default
@@ -49,18 +51,24 @@ CompactInputMethodInformation=True
 ShowFirstInputMethodInformation=False
 # Default page size
 DefaultPageSize=5
+# Override Xkb Option
+OverrideXkbOption=False
+# Custom Xkb Option
+CustomXkbOption=
 # Force Enabled Addons
 EnabledAddons=
 # Preload input method to be used by default
 PreloadInputMethod=True
 
 [Behavior/DisabledAddons]
-0=clipboard
-1=fcitx4frontend
-2=ibusfrontend
-3=imselector
-4=kimpanel
-5=pinyinhelper
-6=spell
-7=table
-8=waylandim
+0=chttrans
+1=emoji
+2=fcitx4frontend
+3=ibusfrontend
+4=imselector
+5=kimpanel
+6=notificationitem
+7=spell
+8=wayland
+9=waylandim
+

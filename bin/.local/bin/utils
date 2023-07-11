@@ -177,6 +177,17 @@ pdf () {
     unoconv "$@"
 }
 
+loconvert () {
+	[ -f $2 ] || {
+		cat <<EOF
+File not found.
+Usage: locovert <to format> <source file>
+EOF
+		return 1
+	}
+	libreoffice --headless --convert-to $@
+}
+
 ppt () {
 	libreoffice --show "$@"
 }
@@ -187,15 +198,15 @@ xls2x () { # xls -> xlsx
 
 cs6(){
 	local KEY=""
-	local USER=""
+	local USR=""
 	
-	while getopts :i:u: OPT; do
+	while getopts :k:u: OPT; do
 		case $OPT in
 			k)
 				KEY="--ssh=\"ssh -i $OPTARG\""
 				;;
 			u)
-				USER="$OPTARG"
+				USR="$OPTARG"
 				;;
 			*)
 				echo "Usage: cs6 [-k key] [-u user]";
@@ -206,9 +217,12 @@ cs6(){
 	OPTIND=1
 		
 	[ $DISPLAY ] && {
-		(st -e mosh ${KEY} ${USER:-wx672}@cs6.swfu.edu.cn &)
+		# echo KEY is "$KEY"
+		# echo USR is $USR
+		# echo st -e mosh ${KEY} ${USR:-wx672}@cs6.swfu.edu.cn
+		(st -e mosh ${KEY} ${USR:-wx672}@cs6.swfu.edu.cn &)
 	} || {
-		mosh ${KEY} ${USER:-wx672}@cs6.swfu.edu.cn
+		mosh ${KEY} ${USR:-wx672}@cs6.swfu.edu.cn
 	}
 }
 

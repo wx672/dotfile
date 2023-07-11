@@ -29,6 +29,7 @@ alias today='notmuch search date:today'
 alias baiduyunpan='/opt/baidunetdisk/baidunetdisk --no-sandbox'
 #alias recordmydesktop='recordmydesktop --no-cursor --fps 30 --no-sound --no-wm-check --no-frame'
 alias pcpu='procs --sortd cpu' pmem='procs --sortd mem'
+alias googleearth='http_proxy=http://127.0.0.1:7890 https_proxy=http://127.0.0.1:7890 /opt/google/earth/pro/googleearth'
 
 # Local Variables:
 # mode: sh

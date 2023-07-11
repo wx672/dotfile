@@ -18,12 +18,12 @@ while getopts :hADL OPT; do
 	esac
 done
 
-sudo iptables -"$OP" INPUT -i eth0 -p tcp -m multiport --dports 22,25,80,443,3333,4000,8080,10022 -j ACCEPT
+DPORTS1="22,25,80,443,1080,1081,3333,4000,8080,8081"
+DPORTS2="8433,8434,9090,9091,10022,39609,59626"
+
+sudo iptables -"$OP" INPUT -i eth0 -p tcp -m multiport --dports $DPORTS1  -j ACCEPT
+sudo iptables -"$OP" INPUT -i eth0 -p tcp -m multiport --dports $DPORTS2  -j ACCEPT
 
 sudo iptables -"$OP" INPUT -i eth0 -p udp -m multiport --dports 60001,5353,323 -j ACCEPT
 
 sudo iptables -"$OP" INPUT -j DROP
-
-# nft add rule ip filter INPUT iifname "eth0" ip protocol tcp tcp dport { 22,25,80,443,3333,4000,8080,10022} counter accept
-# nft add rule ip filter INPUT iifname "eth0" ip protocol udp udp dport { 60001,5353,323} counter accept
-# nft add rule ip filter INPUT counter drop

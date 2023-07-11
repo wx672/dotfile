@@ -1,24 +1,29 @@
+```sh
 # Magisk recommends this way to install its zip file on A/B system (e.g. alioth)
-	fastboot boot twrp.img
+fastboot boot twrp.img
 
-# Unlock the bootloader:
-	fastboot oem unlock
+# Flash twrp.img to both slots
+fastboot flash recovery_a twrp.img
+fastboot flash recovery_b twrp.img
 
-# Relock the bootloader:
-	fastboot oem lock
+# Flash a custom recovery image for non-a/b system
+fastboot flash recovery file.img
 
-# Reboot the device from fastboot mode into fastboot mode again:
-	fastboot reboot bootloader
+# Reboot the device from fastboot mode into fastboot mode again
+fastboot reboot bootloader
 
-# Flash a given image:
-	fastboot flash file.img
+# Flash a given image
+fastboot flash file.img
 
-# Flash a custom recovery image:
-	fastboot flash recovery file.img
+# Display connected devices
+fastboot devices
 
-# Display connected devices:
-	fastboot devices
+# Unlock the bootloader
+fastboot oem unlock
 
-# Display all information of a device:
-	fastboot getvar all
+# Relock the bootloader
+fastboot oem lock
 
+# Display all information of a device
+fastboot getvar all
+```

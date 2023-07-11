@@ -10,7 +10,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 240 :family "FiraCode Nerd Font"))))
+ '(default ((t (:height 280 :family "JetBrainsMonoNL Nerd Font"))))
  '(cursor ((t (:background "violet"))));indian red
  '(mode-line ((t (:height 0.8))))
  '(org-table ((t (:family "Noto Sans Mono CJK SC")))))

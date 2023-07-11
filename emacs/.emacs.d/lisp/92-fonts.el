@@ -32,7 +32,7 @@
   ))
 
 ;; Symbols
-(set-fontset-font t 'symbol (font-spec :family "Noto Sans Symbols2"));Symbola
+;;(set-fontset-font t 'symbol (font-spec :family "Symbola Nerd Font"));JetBrainsMono Nerd Font
 
 ;; (set-fontset-font "fontset-default"  '(#xe104 . #xe1ae) (font-spec :family "Linux Biolinum Keyboard O"))
 ;; (set-fontset-font "fontset-default"  '(#x2500 . #x25ff) (font-spec :family "DejaVuSansMono Nerd Font"));table drawing

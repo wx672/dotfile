@@ -1,0 +1,40 @@
+# 2.15 Specifying Coordinates
+
+```latex
+(30:1cm) % 1cm in direction 30 degree
+
+ +(0cm, 1cm) % 1cm upwards
+++(0cm, 1cm) % 1cm upwards, making this the new specified position
+
+(30:1cm |- 0,0) |- (0,0) % equivalent to the following
+(30:1cm)    ++(0,-.5) -- (0,0) % no draw
+(30:1cm) -- ++(0,-.5) -- (0,0) % draw
+```
+
+# Positioning Nodes on a Line or Curve Explicitly
+
+```latex
+\tikz\draw (0,0) -- (3,0) 
+node[pos=0] {0} 
+node[pos=.5] {1/2} 
+node[pos=.9] {9/10};
+% 0-------1/2------9/10-
+```
+
+# Edges
+
+```latex
+[%
+  every edge quotes/.style={sloped, fill=white, font=\scriptsize\ttfamily},%
+  every edge/.style={draw, ->, bend left=3},%
+]
+
+\path%
+(swfu.70)    edge["② sale.plant.nuts.com?"] (edu.200)%
+(edu.220)    edge["③ 去问 almond.nuts.com"] (swfu.50)%
+(swfu.10)    edge["④ sale.plant.nuts.com?"] (almond.170)%
+(almond.190) edge["⑤ 去问 pack.plant.nuts.com"] (swfu.350)%
+(swfu.320)   edge["⑥ sale.plant.nuts.com?"] (pack.150)%
+(pack.160)   edge["⑦ 172.16.6.4"] (swfu.310);%
+```
+

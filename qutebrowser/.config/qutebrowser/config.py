@@ -146,7 +146,7 @@ config.bind(';a', 'hint links spawn -u clipappend {hint-url}')
 # config.bind(';b', 'hint links spawn mpv --profile=noproxy {hint-url}')
 config.bind('rr', 'spawn -u readability')
 config.unbind('pp', mode='normal')
-config.bind('pp', 'spawn -u qute-pass --password-only')
+config.bind('pp', 'spawn -u qute-pass')
 
 config.bind('gi', 'mode-enter insert ;; jseval --quiet var inputs = document.getElementsByTagName("input"); for(var i = 0; i < inputs.length; i++) { var hidden = false; for(var j = 0; j < inputs[i].attributes.length; j++) { hidden = hidden || inputs[i].attributes[j].value.includes("hidden"); }; if(!hidden) { inputs[i].focus(); break; } }')
 
