@@ -46,13 +46,13 @@
 	lowSpeedLimit = 0
 	lowSpeedTime = 999999
 	postBuffer = 1048576000
-# 	proxy = socks5://127.0.0.1:1080
+ 	proxy = socks5://127.0.0.1:1080
 [https]
  	sslVerify = false
 	lowSpeedLimit = 0
 	lowSpeedTime = 999999
 	postBuffer = 1048576000
-# 	proxy = socks5://127.0.0.1:1080
+ 	proxy = socks5://127.0.0.1:1080
 [pull]
 	rebase = false
 [credential "https://git.overleaf.com"]

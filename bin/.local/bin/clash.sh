@@ -1,8 +1,8 @@
 #!/bin/bash
 
-CLASH="/usr/local/bin/Clash-Meta"
-clash_fy="$CLASH -f /home/wx672/.config/clash/fy-55549.yaml"
-clash_free="$CLASH -f /home/wx672/.config/clash/config.yaml"
+CLASH="/usr/local/bin/clash"
+clash_fy="$CLASH -f $HOME/.config/clash/fy-55549.yaml"
+clash_free="$CLASH -f $HOME/.config/clash/config.yaml"
 
 [[ $1 ]] && {
 	$clash_fy

@@ -1,35 +1,83 @@
 #!/bin/sh
 
 case "$1" in
-    *.bin|*.raw|*.img|*.iso)
-		if [ file "$1" | grep -q "ext2 filesystem data" ]; then
-			hd "$1" | less
-		fi
+	*.iso)
+		command -v isoinfo || {
+			isoinfo not found. You need to install genisoimage.
+			exit 1
+		}
+		isoinfo -l -i "$1"
 		;;
-	*.docx|*.DOCX)
-		command -v docx2txt || { docx2txt is not found.; exit 1; }
-		docx2txt "$1" - | less
+	*.sqfs)
+		command -v unsquashfs || {
+			unsquashfs not found. You need to install squashfs-tools.
+			exit 1
+		}
+		unsquashfs -l "$1"
 		;;
-	*.xlsx)
-		command -v xlsx2csv || { xlsx2csv is not found.; exit 1; }
-		xlsx2csv "$1" 
+	# *.rtf | *.RTF)
+	# 	command -v unrtf || {
+	# 		unrtf not found.
+	# 		exit 1
+	# 	}
+	# 	unrtf --quiet --text "$1"
+	# 	;;
+	*.docx | *.DOCX)
+		command -v docx2txt || {
+			docx2txt is not found.
+			exit 1
+		}
+		docx2txt "$1" -
 		;;
-	*.md)
-		command -v mdcat || { mdcat is not found.; exit 1; }
+	*.xlsx | *.XLSX)
+		command -v xlsx2csv || {
+			xlsx2csv is not found.
+			exit 1
+		}
+		xlsx2csv "$1"
+		;;
+	*.md | *.MD)
+		command -v mdcat || {
+			mdcat is not found.
+			exit 1
+		}
 		mdcat "$1"
 		;;
-	*.md.gz)
-		command -v mdcat || { mdcat is not found.; exit 1; }
+	*.md.gz | *.MD.gz | *.MD.GZ)
+		command -v mdcat || {
+			mdcat is not found.
+			exit 1
+		}
 		gzip -cd "$1" | mdcat -
 		;;
+	*.tpxz)
+		command -v pixz || {
+			pixz is not found.
+			exit 1
+		}
+		pixz -l "$1"
+		;;
 	*.org)
-		command -v pandoc || { pandoc is not found.; exit 1; }
+		command -v pandoc || {
+			pandoc is not found.
+			exit 1
+		}
 		pandoc "$1" | w3m -T text/html
 		;;
-    *)
-        # We don't handle this format.
-        exit 1
+	*.html | *.HTML)
+		w3m "$1"
+		;;
+	*.torrent)
+		aria2c -S "$1"
+		;;
+	*.mp4 | *.mkv)
+		mediainfo "$1"
+		;;
+	*)
+		# We don't handle this format.
+		exit 1
+		;;
 esac
 
-         # No further processing by lesspipe necessary
+# No further processing by lesspipe necessary
 exit 0

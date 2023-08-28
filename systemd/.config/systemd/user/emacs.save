@@ -1,0 +1,15 @@
+# use the following instead:
+# emacs-bin-common: /usr/lib/systemd/user/emacs.service
+[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/emacs --fg-daemon
+ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+Environment="SSH_AUTH_SOCK=%t/keyring/ssh" "LC_CTYPE=zh_CN.UTF-8" "XMODIFIERS=@im=fcitx"
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

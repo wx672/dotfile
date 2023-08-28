@@ -10,8 +10,9 @@
 # trap cleanup INT KILL
 
 export QT_QPA_PLATFORM=xcb
+export QT_QPA_PLATFORMTHEME=qt5ct
 
-export QT_PLUGIN_PATH=/opt/apps/com.alibabainc.dingtalk/files/7.0.40-Release.30706
+export QT_PLUGIN_PATH=/opt/apps/com.alibabainc.dingtalk/files/current
 
 cd $QT_PLUGIN_PATH && ./com.alibabainc.dingtalk &>/dev/null
 

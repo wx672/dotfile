@@ -61,6 +61,6 @@ fi
 
 command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
 command -v starship &>/dev/null && eval "$(starship init bash)"
-command -v vivid &>/dev/null && export LS_COLORS="$(vivid -m 8-bit generate dracula)"
+command -v vivid &>/dev/null && export LS_COLORS="$(vivid generate dracula)"
 
 export SKIM_DEFAULT_COMMAND="fd -d1 || rg --hidden --files --max-depth 1 || find . -maxdepth 1"

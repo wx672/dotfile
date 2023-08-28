@@ -11,6 +11,7 @@ Example:
     - ${0##*/} 4k       # 4k for external screen; internal screen is off
     - ${0##*/} lr       # 2k for both, left right
     - ${0##*/} 1k       # 2k for internal; 1k for external; side by side
+	- ${0##*/} virt     # 2k for VM
 	- ${0##*/} on       # keep laptop screen on
 	- ${0##*/} off      # turn off laptop screen
 EOF
@@ -18,10 +19,12 @@ EOF
 
 HDMI=$(xrandr | rg HDMI | choose 0)
 EDP=$(xrandr | rg eDP | choose 0)
-
+VIRT=$(xrandr | rg Virtual-1 | choose 0)
 OPT="$*"
 
 case "$OPT" in
+	virt) xrandr \
+			  --output $VIRT --mode 1920x1080 ;;
     tv) xrandr \
 	        --output $HDMI --mode 1920x1080 \
 	        --output $EDP --off ;;

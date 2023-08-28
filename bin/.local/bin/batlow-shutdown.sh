@@ -7,5 +7,5 @@
 
 battery_level=$(cat /sys/class/power_supply/BAT?/capacity)
 
-(( $battery_level < 10 )) && poweroff || exit 0
+(( $battery_level < 10 )) && poweroff
 

@@ -20,7 +20,8 @@ c.content.javascript.can_access_clipboard = True
 c.content.javascript.can_open_tabs_automatically = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
-c.content.proxy = "socks://localhost:7891"
+#c.content.proxy = "socks://localhost:7891"
+c.content.proxy = "none"
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
 c.downloads.location.prompt = True
@@ -79,7 +80,7 @@ c.url.searchengines = {
     'r':'https://reddit.com/r/{}',
     's':'https://stackexchange.com/search?q={}',
     'w':'https://en.wikipedia.org/?search={}',
-    'x':'https://www.1337xx.to/search/{}/1/',
+    'x':'https://www.1377x.to/search/{}/1/',
     'xda':'https://www.xda-developers.com/search/?query={}',
     'ximalaya':'https://www.ximalaya.com/search/{}',
     'y':'https://www.youtube.com/results?search_query={}',
@@ -89,18 +90,19 @@ c.url.searchengines = {
 ## aliases, while the values are the commands they map to.
 ## Type: Dict
 c.aliases = {
-    'chatgpt':'open -t https://poe.com/ChatGPT',
     'proxy':'set content.proxy',
+    'chatgpt':'open -t https://poe.com/ChatGPT',
+    'gpt':'open -t https://poe.com/ChatGPT',
+    'yacd':'open -t http://yacd.haishan.me/#/proxies',
+    'dashboard':'open -t http://yacd.haishan.me/#/proxies',
     'calibre':'open -t https://cs6.swfu.edu.cn/calibre',
     'cs6':'open -t https://cs6.swfu.edu.cn/moodle',
     'cs6lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
-    'ding':'open -t https://im.dingtalk.com',
-    'gist':'open -t https://gist.github.com',
-    'gmail':'open -t https://mail.google.com',
     'lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
+    'gmail':'open -t https://mail.google.com',
     'wechat':'open -t https://web.wechat.com/',
-    'havoc':'open -t https://havoc-os.com/download',
-    'elixir':'https://downloads.projectelixiros.com/thirteen/ginkgo/'
+    'elixir':'open -t https://downloads.projectelixiros.com/thirteen/ginkgo/',
+    'projectelixir':'open -t https://downloads.projectelixiros.com/thirteen/ginkgo/'
 }
 
 # keybinds
@@ -114,16 +116,19 @@ config.unbind('<Ctrl-p>', mode='normal')
 config.unbind('<Ctrl-q>', mode='normal')
 config.unbind('<Ctrl-v>', mode='normal')
 config.unbind('<Ctrl-a>', mode='normal')
+config.unbind('wi', mode='normal')
 config.unbind('ga', mode='normal')
 config.unbind('r', mode='normal')
+config.unbind('<Ctrl-Tab>', mode='normal')
+config.bind('<Ctrl-Tab>', 'tab-next', mode='normal')
+config.bind('<Ctrl-Shift-Tab>', 'tab-prev', mode='normal')
+config.bind('<Ctrl-a>n', 'tab-next', mode='normal')
+config.bind('<Ctrl-a>p', 'tab-prev', mode='normal')
 config.bind('<Ctrl-l>', 'set-cmd-text -s :open -t')
 config.bind('<Ctrl-Shift-p>', 'tab-pin', mode='normal')
 config.bind('<Escape>', 'mode-leave', mode='passthrough')
 config.bind('<Ctrl-i>', 'mode-enter passthrough', mode='normal')
 config.bind('<Ctrl-/>', 'undo', mode='normal')
-config.unbind('<Ctrl-Tab>', mode='normal')
-config.bind('<Ctrl-Tab>', 'tab-next', mode='normal')
-config.bind('<Ctrl-Shift-Tab>', 'tab-prev', mode='normal')
 config.unbind('=', mode='normal')
 config.bind('=', 'zoom-in', mode='normal')
 config.unbind('d', mode='normal')
@@ -136,7 +141,8 @@ config.bind('<Ctrl-r>', 'reload', mode='normal')
 config.bind('<Ctrl-Shift-Right>', 'tab-move +', mode='normal')
 config.bind('<Ctrl-Shift-Left>', 'tab-move -', mode='normal')
 config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='normal')
-config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy socks://localhost:7891 socks://127.0.0.1:1080 none', mode='normal')
+config.bind('<Ctrl-a>7', 'set content.proxy socks://localhost:7891', mode='normal')
+config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:7891 socks://127.0.0.1:1080', mode='normal')
 config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show never always')
 config.unbind('b', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')

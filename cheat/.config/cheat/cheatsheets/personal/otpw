@@ -1,0 +1,32 @@
+- https://www.xmodulo.com/secure-ssh-login-one-time-passwords-linux.html
+- https://wiki.archlinux.org/title/One_Time_PassWord
+
+```sh
+sudo apt install libpam-otpw otpw-bin
+```
+
+1. In `/etc/pam.d/sshd`
+
+    ```
+	# Enable One-time password authentication
+	auth       required     pam_otpw.so
+	session    optional     pam_otpw.so
+
+	# Optionally disable static password login
+	#@include common-auth
+	```
+
+2. In `/etc/ssh/sshd_config`
+
+	```
+	UsePAM yes
+	KbdInteractiveAuthentication yes
+	```
+
+3. `sudo service ssh restart`
+
+4. OTPW is configured independently for each user account.
+
+	```sh
+	otpw-gen > ~/otpw_passwords
+	```

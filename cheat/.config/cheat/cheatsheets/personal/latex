@@ -28,4 +28,9 @@
 
 % minipage
 \begin{minipage}[pos][height][contentpos]{width} text \end{minipage}
+
+%%% Remove row spacing in verbatim environment
+\renewcommand{\baselinestretch}{0}
+\AtBeginEnvironment{verbatim}{\setlength{\lineskip}{0pt}}
+
 ```

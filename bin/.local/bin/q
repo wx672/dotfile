@@ -35,8 +35,9 @@ cs6(){
 HISTORY_DB="$HOME/.local/share/qutebrowser/history.sqlite" 
 
 [[ "$1" ]] || {
-	sk < $HOME/.config/qutebrowser/quickmarks \
-	   < <(sqlite3 $HISTORY_DB 'select url from History' | rg -v '\?.*=' | sort -u) \
+	sk < <(cat $HOME/.config/qutebrowser/quickmarks \
+			   <(sqlite3 $HISTORY_DB 'select url from History' | \
+					 rg -v '\?.*=' | sort -u)) \
 	   -10 --exact --bind "enter:execute($BROWSER {-1} &)+abort" \
 	   2>/dev/null
 	exit 0

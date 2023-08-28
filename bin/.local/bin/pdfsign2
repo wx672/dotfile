@@ -5,13 +5,13 @@ usage(){
 USAGE: ${0##*/} [-hD] [-p pattern] [-c xshift,yshift] [-d ysep,msep,dsep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background>
 
 EXAMPLES:
-1. ${0##*/} -p'教师：__' -t'2022,5,30' pg_0001.pdf
-   ${0##*/} -p'教师：__' -t'2022,5,30' -S'\sig 王晓林' pg_0002.pdf
-   ${0##*/} -p'考试形式' -S'开卷机试' -c'0,25' pg_0003.pdf
+1. ${0##*/} -p'教师：__' -t'2024,1,10' pg_0001.pdf
+   ${0##*/} -p'考核方式' -S'开卷机试' -c'0,25' pg_0001-signed.pdf
 
-2. ${0##*/} -w10cm -c'-20,-50' -S'../analysis-improve.pdf' *-analysis.pdf
+2. ${0##*/} -w10cm -c'-20,-50' -S'../analysis-improve.pdf' os-analysis.pdf
+   ${0##*/} -p'考试形式' -S'开卷机试' -c'50,25' -d'110,0,0' -t'2023/,12/,25' os-analysis-signed.pdf
 
-3. ${0##*/} -p'考试形式' -S'开卷机试' -c'50,25' -d'110,0,0' -t'2022/,6/,26' *-analysis-signed.pdf
+3. ${0##*/} -p'教师：__' -t'2022,5,30' -S'\sig 王晓林' pg_0002.pdf
 
 background - paper to sign
         -h - help
@@ -195,5 +195,3 @@ lualatex "$TEXFILE" 1>/dev/null
 [[ -f "$PDF" ]] || { colorEcho $ERR "Failed generating PDF file. Please check <$LOG> file for details"; exit 5;}
 
 { colorEcho $SUCCESS 'DONE!'; ls -l "$PDF"; xdg-open "$PDF"; }
-
-

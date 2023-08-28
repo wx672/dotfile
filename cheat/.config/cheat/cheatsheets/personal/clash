@@ -1,8 +1,3 @@
----
-CJKmainfont: Noto Serif CJK SC
-CJKsansfont: Noto Sans CJK SC
-...
-
 - Download `clash.meta` binary (gzipped)
 
   1. [Github:MetaCubeX/Clash.Meta/releases](https://github.com/MetaCubeX/Clash.Meta/releases)
@@ -47,7 +42,7 @@ CJKsansfont: Noto Sans CJK SC
 - web-based dashboard
 
   1. download:
-    [clash-dashboard](https://github.com/Dreamacro/clash-dashboard)
+    [clash-dashboard](https://github.com/Dreamacro/clash-dashboard/tree/gh-pages)
 	
 	`Code` -> `Download zip`
 	

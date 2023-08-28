@@ -1,0 +1,38 @@
+- https://wiki.archlinux.org/title/ECryptfs#Manual_setup
+
+# Quick start
+
+1. `mkdir ~/mysecretdata`
+
+2. make a new conf file `~/ecryptfs/mysecretdata.conf`
+
+    ```
+    /home/wx672/mysecretdata /home/wx672/mysecretdata ecryptfs
+    ```
+
+3. make a new sig file `~/.ecryptfs/mysecretdata.sig`
+
+    ```
+    xxxxxxxxxxxxxxxx
+    ```
+
+  The above key-sig is from running `ecryptfs-add-passphrase`
+
+4. mount
+
+    ```
+    ecryptfs-add-passphrase
+    mount.ecryptfs_private mysecretdata
+    ```
+
+    In case of "No such file or directory", run:
+
+    ```
+    keyctl session
+    keyctl link @u @s 
+    mount.ecryptfs_private mysecretdata
+    ```
+
+5. put secret data into this mounted dir
+
+6. umount

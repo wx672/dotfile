@@ -1,5 +1,5 @@
 alias less='less -r'
-alias lx='exa --icons --group-directories-first' lxt='lx -snew' lxs='lx -ssize' 
+alias la='eza --icons --group-directories-first' lat='la --sort=modified' las='la --sort=size' 
 alias ls='ls --classify=auto --color=auto -G'
 alias xo='xdg-open'
 alias ip='ip --color=auto'

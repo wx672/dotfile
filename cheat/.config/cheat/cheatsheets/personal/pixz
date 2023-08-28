@@ -1,0 +1,48 @@
+- `man pixz` for examples
+
+# Single Files
+
+```sh
+# Compress a single file (no tarball, just compression), multi-core:
+pixz bar bar.xz
+
+#Decompress it, multi-core:
+pixz -d bar.xz bar
+```
+
+# Tarballs
+
+```sh
+# Compress and index a tarball, multi-core:
+pixz foo.tar foo.tpxz
+
+# Very quickly list the contents of the compressed tarball:
+pixz -l foo.tpxz
+
+# Decompress the tarball, multi-core:
+pixz -d foo.tpxz foo.tar
+
+# Very quickly extract a single file, multi-core, also verifies that contents match index:
+pixz -x dir/file < foo.tpxz | tar x
+
+# Create a tarball using pixz for multi-core compression:
+tar -Ipixz -cf foo.tpxz foo/
+```
+
+# Specifying Input and Output
+
+```sh
+# These are the same (also work for -x, -d and -l as well):
+pixz foo.tar foo.tpxz
+pixz < foo.tar > foo.tpxz
+pixz -i foo.tar -o foo.tpxz
+
+# Extract the files from foo.tpxz into foo.tar:
+pixz -x -i foo.tpxz -o foo.tar file1 file2 ...
+
+# Compress to foo.tpxz, removing the original:
+pixz foo.tar
+
+# Extract to foo.tar, removing the original:
+pixz -d foo.tpxz
+```

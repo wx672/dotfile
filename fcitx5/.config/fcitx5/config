@@ -1,8 +1,6 @@
 [Hotkey]
 # Enumerate when press trigger key repeatedly
 EnumerateWithTriggerKeys=True
-# Enumerate Input Method Forward
-EnumerateForwardKeys=
 # Enumerate Input Method Backward
 EnumerateBackwardKeys=
 # Skip first input method while enumerating
@@ -28,6 +26,9 @@ TogglePreedit=
 [Hotkey/AltTriggerKeys]
 0=Shift_L
 
+[Hotkey/EnumerateForwardKeys]
+0=Control+Shift+Control_L
+
 [Hotkey/PrevPage]
 0=comma
 
@@ -38,7 +39,7 @@ TogglePreedit=
 # Active By Default
 ActiveByDefault=False
 # Share Input State
-ShareInputState=All
+ShareInputState=No
 # Show preedit in application
 PreeditEnabledByDefault=False
 # Show Input Method Information when switch input method
@@ -59,6 +60,12 @@ CustomXkbOption=
 EnabledAddons=
 # Preload input method to be used by default
 PreloadInputMethod=True
+# Allow input method in the password field
+AllowInputMethodForPassword=False
+# Show preedit text when typing password
+ShowPreeditForPassword=False
+# Interval of saving user data in minutes
+AutoSavePeriod=30
 
 [Behavior/DisabledAddons]
 0=chttrans

@@ -1,0 +1,21 @@
+# Reset root password
+
+- There is no need to reset root password. The better way is to use *unix_socket authentication* instead:
+
+```sh
+sudo mysql -u root
+```
+
+- After a fresh install of MariaDB, run `sudo mariadb-secure-installation`.
+
+- In case you really want to set a new root password:
+
+	```sh
+	sudo mysql -u root
+	```
+
+	```sql
+	use mysql;
+	ALTER USER 'root'@'localhost' IDENTIFIED BY 'your_new_password';
+	FLUSH PRIVILEGES;
+	```

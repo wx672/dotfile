@@ -58,6 +58,9 @@ case $TYPE in
     *png* )
 		pngtopnm -mix -background "#FFF" "$IMG" > "$PPM"
 		;;
+	*webp* )
+		dwebp -ppm -o "$PPM" "$IMG"
+		;;
 	* )
 		echo '==========='
 		file "$IMG"

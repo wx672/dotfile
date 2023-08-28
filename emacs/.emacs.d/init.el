@@ -31,6 +31,8 @@
 ;; no need since the variable package-enable-at-startup is default to t
 (package-initialize)
 
+(setq warning-minimum-level :emergency)
+
 ;;; HINT: 'c-h P' to see package details
 (require 'use-package)
 (require 'diminish)
@@ -66,6 +68,8 @@
 (prefer-coding-system 'utf-8)
 
 (require '10-common)
+(require '90-face)
+(require '92-fonts)
 (require '15-keys)
 (require '15-minors)
 (require '20-consult); or helm
@@ -78,7 +82,5 @@
 (require '40-print)
 (require '50-company)
 (require '50-pdftools)
-(require '90-face)
-(require '92-fonts)
 (provide 'init)
 ;;; init.el ends here

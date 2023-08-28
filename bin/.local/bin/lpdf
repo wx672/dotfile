@@ -4,12 +4,12 @@ usage(){
 	cat <<EOF
 ${0##*/} - A lazy PDF viewer.
 
-Usage: ${0##*/} [-hDtcn] [pattern string]
+Usage: ${0##*/} [-h -e] [-t -p -D <pattern string>] 
 	   -h  help
-	   -D  enable debug mode
+	   -e  edit $HOME/.pdf_history file
 	   -t  text mode
-	   -c  edit $HOME/.pdf_history file
-	   -n  output full path to the file
+	   -p  output full path to the file
+	   -D  enable debug mode
 EOF
 }
 
@@ -20,11 +20,11 @@ DEBUG=""
 
 [ -e "$PDFHIST" ] || touch "$PDFHIST"
 
-while getopts :Dhtcn OPT; do
+while getopts :Dhtep OPT; do
 	case $OPT in
 		t) V="less" ;;
-		c) vim "$PDFHIST"; exit 0 ;;
-		n) V="realpath" ;;
+		e) vim "$PDFHIST"; exit 0 ;;
+		p) V="realpath" ;;
 		D) DEBUG="YES" ;;
 		h) usage; exit 0 ;;
 		?) usage; exit 1 ;;
@@ -36,7 +36,7 @@ OPTIND=1
 PATTERN="$*"
 
 chkPATTERN(){
-	# empty
+	# empty?
 	[[ "$PATTERN" ]] || return 0;
 
 	# valid file, e.g. /tmp/tmp.pdf or tmp.pdf

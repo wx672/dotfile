@@ -27,6 +27,7 @@
 	)
   )
 
+;; https://github.com/minad/vertico
 ;; Enable vertico
 (use-package vertico
   :init
@@ -167,7 +168,7 @@
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 (use-package socks
-  ;; :disabled
+  :disabled
   :ensure url
   :init
   (setq socks-override-functions 1

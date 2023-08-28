@@ -16,6 +16,7 @@
    org-log-done 'time
    org-reverse-note-order t
    org-deadline-warning-days 7
+   org-startup-folded 'content
    org-hide-block-startup t
    org-hide-leading-stars t
    org-use-fast-todo-selection t
@@ -51,9 +52,9 @@
    calendar-view-diary-initially-flag t
    
    ;; TODO keywords
-   org-todo-keywords
-   '((sequence "TODO(t)" "STARTED(s!)" "|" "DONE(d!/!)")
-     (sequence "WAITING(w@/!)" "SOMEDAY(S!)" "|" "CANCELLED(c@/!)"))
+   ;; org-todo-keywords
+   ;; '((sequence "TODO(t)" "STARTED(s!)" "|" "DONE(d!/!)")
+   ;;   (sequence "WAITING(w@/!)" "SOMEDAY(S!)" "|" "CANCELLED(c@/!)"))
 
    org-todo-state-tags-triggers
    '(("CANCELLED" ("CANCELLED" . t))
@@ -74,9 +75,21 @@
    "C-c >" #'org-time-stamp-inactive)
 
   :config
-  (add-hook 'org-mode-hook 'visual-line-mode)
-  (add-hook 'org-mode-hook 'org-indent-mode)
-  (add-hook 'org-mode-hook 'yas-minor-mode-on)
+  (add-hook 'org-mode-hook #'visual-line-mode)
+  (add-hook 'org-mode-hook #'org-indent-mode)
+  (add-hook 'org-mode-hook #'yas-minor-mode-on)
+  ;;(remove-hook 'org-mode-hook #'valign-mode)
+
+  ;; https://manateelazycat.github.io/2020/04/02/org-font/
+  ;; (defun org-buffer-face-mode-variable ()
+  ;;   (interactive)
+  ;;   (make-face 'width-font-face)
+  ;;   (set-face-attribute 'width-font-face nil :font "Sarasa Mono SC 32")
+  ;;   (setq buffer-face-mode-face 'width-font-face)
+  ;;   (buffer-face-mode))
+
+  ;; (add-hook 'org-mode-hook 'org-buffer-face-mode-variable)
+
 
   (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -213,23 +226,24 @@ With a prefix ARG, remove start location."
 	(with-eval-after-load 'pdf-annot
       (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
 
-;; https://github.com/yilkalargaw/org-auto-tangle
-(use-package org-auto-tangle
-  :defer t
-  :hook (org-mode . org-auto-tangle-mode)
-  :config
-  (setq org-auto-tangle-default t)
-)
+  ;; https://github.com/yilkalargaw/org-auto-tangle
+  (use-package org-auto-tangle
+	:disabled
+	:defer t
+	:hook (org-mode . org-auto-tangle-mode)
+	:config
+	(setq org-auto-tangle-default t)
+	)
 
-;; https://github.com/integral-dw/org-superstar-mode
-(use-package org-superstar
-  :config
-  (setq
-   inhibit-compacting-font-caches t
-   org-hide-emphasis-markers t
-   )
-  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
-  )
+  ;; https://github.com/integral-dw/org-superstar-mode
+  (use-package org-superstar
+	:config
+	(setq
+	 inhibit-compacting-font-caches t
+	 org-hide-emphasis-markers t
+	 )
+	(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+	)
 
   ;; (use-package org-pdftools
   ;; 	:init (pdf-tools-install)

@@ -33,15 +33,16 @@ usage()
 ${0##*/} - play or download youtube videos with yt-dlp.
     If invoked without any arguments, visit youtube.com in x-www-browser.
 
-         ${0##*/} [-f format] [-p port] [-s] [d|p]
+         ${0##*/} [-f format] [-p port] [-s] [da|dv|p]
 
 Examples:
     ${0##*/}         # open youtube.com in x-www-browser
+    ${0##*/} dv  # download youtube (best video and audio)
+    ${0##*/} da  # download youtube (best audio)
     ${0##*/} -fba p  # play youtube (best audio)
-    ${0##*/} -fb  d  # download youtube (best video and audio)
 
 Sub commands:
-    d - download;  p - play
+    dv|da - download;  p - play
 
 Options:
    -f - video format. 'ba' for best audio; 'bv' for best video; 'b' for best both.
@@ -57,7 +58,9 @@ unset fmt port
 while getopts :f:p:sh OPT; do
 	case $OPT in
 		f) fmt=$OPTARG ;;
-		p) port=$OPTARG ;;
+		p) port=$OPTARG
+		   pon ${port:-7890}
+		   ;;
 		s) YDL="$YDL --write-subs --write-auto-subs" ;;
 		h) usage; exit 0 ;;
 	esac
@@ -73,8 +76,14 @@ OPTIND=1
 # echo 'xsel -bo is' < <(xsel -bo)
 
 case "$@" in
-	d*)
-		while ! $YDL --proxy socks5://127.0.0.1:${port:-7891} -f"${fmt:-ba}" "$urls"
+	da*)
+		while ! $YDL -f"${fmt:-ba}" "$urls"
+		do
+			echo try again... # in case of Ctrl-c
+		done
+		;;
+	dv*)
+		while ! $YDL -f"${fmt:-b}" --write-subs "$urls"
 		do
 			echo try again... # in case of Ctrl-c
 		done
@@ -84,7 +93,7 @@ case "$@" in
 			while read url
 			do
 				echo playing "$url" '('"${fmt:-best audio}"')'
-				while ! $YDL --proxy socks5://127.0.0.1:${port:-7891} -f"${fmt:-ba}" \
+				while ! $YDL -f"${fmt:-ba}" \
 						-o - "$url" | mpv --profile=noproxy --no-resume-playback -
 				do					
 					echo try again... # in case of Ctrl-c

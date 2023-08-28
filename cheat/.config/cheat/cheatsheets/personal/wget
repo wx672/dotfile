@@ -1,20 +1,21 @@
-wget -e robots=off -A.yml -nH -np -r --cut-dirs=2 https://cs6.swfu.edu.cn/~wx672/debian-install/yml
+```sh
+wget -e robots=off --cut-dirs=2 -r -np -nH -A.yml https://cs6.swfu.edu.cn/~wx672/debian-install/yml
 
 # https://stackoverflow.com/questions/273743/using-wget-to-recursively-fetch-a-directory-with-arbitrary-files-in-it
-
-wget -r -np -nH --cut-dirs=3 -R "index.html*" -e robots=off https://cs6.swfu.edu.cn/~wx672/lecture_notes/os/src/
+wget -e robots=off --cut-dirs=3 -r -np -nH -R "index.html*" https://cs6.swfu.edu.cn/~wx672/lecture_notes/os/src/
 
 # https://stackoverflow.com/questions/4602153/how-do-i-use-wget-to-download-all-images-into-a-single-folder-from-a-url
+wget -e robots=off -nd -H -p -A jpg,png,jpeg,gif https://zhuanlan.zhihu.com/p/28232983
 
-wget -nd -H -p -A jpg,png,jpeg,gif -e robots=off https://zhuanlan.zhihu.com/p/28232983
-
+# Give it a new name
 wget http://path.to.the/file -O newname
 
+# Put to a new dir
 wget -P path/to/directory http://path.to.the/file
 
 wget -c http://path.to.the/file # continue
 
-wget http://www.myserver.com/files-{1..15}.tar.bz2 # download files matching a pattern
+wget http://www...com/files-{1..15}.tar.bz2 # download files matching a pattern
 
 wget -r -l1 -A.jpg http://myserver.com/directory # download jpg files
 
@@ -31,3 +32,4 @@ wget -S --spider -O - http://google.com
 
 # Change the User-Agent to 'User-Agent: toto'
 wget -U 'toto' http://google.com
+```

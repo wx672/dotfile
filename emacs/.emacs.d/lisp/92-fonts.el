@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-;; cnfonts doesn't working well
+;; !!!cnfonts doesn't work well!!!
 ;; (require 'cnfonts)
 ;; 让 cnfonts 在 Emacs 启动时自动生效。
 ;; (cnfonts-mode 1)
@@ -12,24 +12,16 @@
 ;; (define-key cnfonts-mode-map (kbd "C--") #'cnfonts-decrease-fontsize)
 ;; (define-key cnfonts-mode-map (kbd "C-=") #'cnfonts-increase-fontsize)
     
-;; Chinese Font
-;; (dolist (charset '(kana han cjk-misc bopomofo))
-;;   (set-fontset-font t charset 
-;; 					(font-spec :family "Noto Sans Mono CJK SC" :size 26)
-;; 					))
-
 ;; Chinese
 ;; (set-fontset-font t 'han (font-spec :family "LXGW Bright"))
-;; (set-fontset-font t 'han (font-spec :family "Noto Sans Mono CJK SC"))
-
-(set-fontset-font 
- t
- 'han
- (cond ; the first matching is used
-  ((member "LXGW Bright GB" (font-family-list)) "LXGW Bright GB")
-  ((member "LXGW Bright TC" (font-family-list)) "LXGW Bright TC")
-  ((member "Noto Sans Mono CJK SC" (font-family-list)) "Noto Sans Mono CJK SC")
-  ))
+;; (set-fontset-font 
+;;  t
+;;  'han
+;;  (cond ; the first matching is used
+;;   ((member "LXGW Bright GB" (font-family-list)) "LXGW Bright GB")
+;;   ((member "LXGW Bright TC" (font-family-list)) "LXGW Bright TC")
+;;   ((member "Noto Sans Mono CJK SC" (font-family-list)) "Noto Sans Mono CJK SC")
+;;   ))
 
 ;; Symbols
 ;;(set-fontset-font t 'symbol (font-spec :family "Symbola Nerd Font"));JetBrainsMono Nerd Font

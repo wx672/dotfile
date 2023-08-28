@@ -1,0 +1,8 @@
+- wgcf: run `~/.local/bin/wgcf-endpoint.sh`
+
+- wg0:
+
+    ```sh
+    sudo systemctl enable wg-quick@wg0.service
+    sudo systemctl start  wg-quick@wg0.service
+    ```
