@@ -62,7 +62,7 @@ case "$1" in
 			pandoc is not found.
 			exit 1
 		}
-		pandoc "$1" | w3m -T text/html
+		pandoc -t markdown "$1" | mdless
 		;;
 	*.html | *.HTML)
 		w3m "$1"

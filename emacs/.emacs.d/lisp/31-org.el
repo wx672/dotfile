@@ -115,11 +115,10 @@
   (use-package org-capture
 	:config
 	(setq
-	 ;; org-directory (expand-file-name "org/" no-littering-var-directory)
-	 org-default-notes-file (concat org-directory "draft.org")
+	 org-default-notes-file (concat org-directory "capture.org")
 
 	 org-capture-templates
-	 '(("e" "Error" entry (file "~/Errorlog.org")
+	 '(("e" "Error" entry (file+headline org-default-notes-file "Errorlog")
 		"* ERROR %?\n%U\n%a\n  %i")
 	   ("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
 		"* TODO %?\n%U\n%a\n  %i" :clock-in t :clock-resume t)
