@@ -4,8 +4,11 @@ usage(){
 	cat <<EOF
 ${0##*/} - Convert any image into a monochrome PDF file with optional text annotation.
 
-Usage: ${0##*/} [-f Filter] [-t Threshold] [-T text] [-c x,y] [-F font size] <Image>
+Usage: ${0##*/} [-h -i -x] [-f Filter] [-t Threshold] [-T text] [-c x,y] [-F font size] <Image>
 
+	   -h - help
+	   -i - mkbitmap -i
+	   -x - invoke potrace
    Filter - man mkbitmap for details
 Threshold - man mkbitmap for details
      text - text to be added
@@ -71,6 +74,10 @@ case $TYPE in
         ;;
     *png* )
 		pngtopnm -mix -background "#FFF" "$IMG" > "$PPM"
+		mv "$IMG" trash
+		;;
+	*webp* )
+		dwebp "$IMG" -ppm -o "$PPM"
 		mv "$IMG" trash
 		;;
 	*ppm* )

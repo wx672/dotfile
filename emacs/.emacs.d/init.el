@@ -48,13 +48,13 @@
   :init
   (setq
    user-emacs-directory (expand-file-name "~/.cache/emacs/")
-   url-history-file (expand-file-name "url/history" user-emacs-directory)
+   url-history-file (expand-file-name "var/url/history" user-emacs-directory)
    custom-file (expand-file-name "custom.el" user-emacs-directory)
    )
-  ;; ;; Set eln-cache dir
-  ;; (when (boundp 'native-comp-eln-load-path)
-  ;; 	(startup-redirect-eln-cache
-  ;; 	 (expand-file-name "var/eln-cache/" user-emacs-directory)))
+  ;; Set eln-cache dir
+  (when (boundp 'native-comp-eln-load-path)
+	(startup-redirect-eln-cache
+	 (expand-file-name "eln-cache/" user-emacs-directory)))
   )
 
 (load custom-file t)

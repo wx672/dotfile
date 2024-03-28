@@ -2,12 +2,21 @@
 1. turn off clash
 2. wireless debugging -> pair device with pairing code
 
-```
+```sh
 # adb version should be greater than 30.0  
 adb pair ip:port paircode 
 adb connect ip:anotherport
 ```
 
 # backup restore
+```sh
 adb backup -apk -shared -all -f backup-$(Date).ab
 adb restore backup.ab
+```
+
+# pm
+```sh
+adb shell pm list packages
+adb shell pm uninstall -k --user 0 package.name
+adb shell pm disable-user --user 0 package.name
+```

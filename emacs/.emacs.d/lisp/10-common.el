@@ -9,7 +9,7 @@
 (column-number-mode t)
 (cua-mode -1)
 (cua-selection-mode -1)
-(display-battery-mode t)
+(display-battery-mode -1)
 (display-time-mode)
 (electric-pair-mode 1)
 (global-auto-revert-mode t)
@@ -46,7 +46,7 @@
  display-time-24hr-format t
  display-time-day-and-date t
  display-time-format nil
- display-time-use-mail-icon t
+ display-time-use-mail-icon nil
  fill-column 90
  global-auto-revert-non-file-buffers t
  indent-tabs-mode t

@@ -9,6 +9,7 @@ pandoc -s -o out.html in.docx
 ```sh
 # Output PDF
 pandoc in.md --pdf-engine=lualatex -o out.pdf
+pandoc in.md --pdf-engine=lualatex -o out.pdf --template eisvogel --listings
 
 #To support Chinese, add the following lines at the beginning of in.md (uncommented)
 # ---

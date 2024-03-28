@@ -1,8 +1,36 @@
-# Tools
+# Hello world example for packing a binary Package
 
-- git-buildpackage
-- apt-src
-- debian-builder
+- https://ubuntuforums.org/showthread.php?t=910717
+
+```sh
+mkdir -p helloworld_1.0-1/usr/local/bin
+cp hello.binary helloworld_1.0-1/usr/local/bin
+
+mkdir helloworld_1.0-1/DEBIAN
+edit helloworld_1.0-1/DEBIAN/control
+```
+
+Example `control` file:
+
+```
+Package: helloworld
+Version: 1.0-1
+Section: base
+Priority: optional
+Architecture: i386
+Depends: libsomethingorrather (>= 1.2.13), anotherDependency (>= 1.2.6)
+Maintainer: Your Name <you@email.com>
+Description: Hello World
+ When you need some sunshine, just run this
+ small program!
+
+ (the space before each line in the description is important)
+```
+
+```sh
+dpkg-deb --build helloworld_1.0-1
+```
+done!
 
 # Unpack and repack
 
@@ -20,3 +48,8 @@ ar vx foo.deb    # -> data.tar.gz
 tar xf data.tar.gz
 ```
 
+# Tools
+
+- git-buildpackage
+- apt-src
+- debian-builder

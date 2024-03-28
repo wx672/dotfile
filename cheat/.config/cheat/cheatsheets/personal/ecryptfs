@@ -4,7 +4,7 @@
 
 1. `mkdir ~/mysecretdata`
 
-2. make a new conf file `~/ecryptfs/mysecretdata.conf`
+2. make a new conf file `~/.ecryptfs/mysecretdata.conf`
 
     ```
     /home/wx672/mysecretdata /home/wx672/mysecretdata ecryptfs

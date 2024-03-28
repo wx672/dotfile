@@ -1,6 +1,6 @@
 alias less='less -r'
-alias la='eza --icons --group-directories-first' lat='la --sort=modified' las='la --sort=size' 
-alias ls='ls --classify=auto --color=auto -G'
+alias la='eza --icons --group-directories-first' lat='la --sort=modified' las='la --sort=size' lad='la -ad .*'
+alias ls='ls --classify=auto --color=auto -G' lsd='ls -ad .*'
 alias xo='xdg-open'
 alias ip='ip --color=auto'
 alias grep='grep --color=auto'

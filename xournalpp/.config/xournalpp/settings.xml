@@ -6,7 +6,7 @@
   <property name="pressureMultiplier" value="1"/>
   <property name="zoomGesturesEnabled" value="false"/>
   <property name="selectedToolbar" value="Toolbar Right Copy"/>
-  <property name="lastSavePath" value="/home/wx672/git/syk-netbook/figs"/>
+  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2024/20221159116曾以静"/>
   <property name="lastOpenPath" value="/home/wx672"/>
   <property name="lastImagePath" value="/tmp"/>
   <property name="edgePanSpeed" value="20"/>
@@ -14,8 +14,8 @@
   <property name="zoomStep" value="10"/>
   <property name="zoomStepScroll" value="2"/>
   <property name="displayDpi" value="149"/>
-  <property name="mainWndWidth" value="1914"/>
-  <property name="mainWndHeight" value="1074"/>
+  <property name="mainWndWidth" value="1920"/>
+  <property name="mainWndHeight" value="1080"/>
   <property name="maximized" value="false"/>
   <property name="showToolbar" value="true"/>
   <property name="showSidebar" value="false"/>
@@ -39,7 +39,7 @@
   <!--Which GUI elements are shown in default view mode, separated by a colon (,)-->
   <property name="defaultViewModeAttributes" value="showMenubar,showToolbar,showSidebar"/>
   <!--Which GUI elements are shown in fullscreen view mode, separated by a colon (,)-->
-  <property name="fullscreenViewModeAttributes" value="goFullscren,showToolbar,showSidebar"/>
+  <property name="fullscreenViewModeAttributes" value="goFullscren,showToolbar"/>
   <!--Which GUI elements are shown in presentation view mode, separated by a colon (,)-->
   <property name="presentationViewModeAttributes" value="goFullscren,showToolbar"/>
   <!--The cursor icon used with a stylus, allowed values are "none", "dot", "big", "arrow"-->
@@ -56,9 +56,9 @@
   <property name="darkTheme" value="false"/>
   <property name="useStockIcons" value="false"/>
   <property name="disableScrollbarFadeout" value="true"/>
-  <property name="disableAudio" value="false"/>
+  <property name="disableAudio" value="true"/>
   <!--Hides scroolbars in the main window, allowed values: "none", "horizontal", "vertical", "both"-->
-  <property name="scrollbarHideType" value="none"/>
+  <property name="scrollbarHideType" value="both"/>
   <property name="autoloadMostRecent" value="false"/>
   <property name="autoloadPdfXoj" value="true"/>
   <property name="defaultSaveName" value="%F-Note-%H-%M"/>
@@ -72,7 +72,7 @@
   <property name="drawDirModsEnabled" value="false"/>
   <property name="drawDirModsRadius" value="50"/>
   <property name="snapRotation" value="true"/>
-  <property name="snapRotationTolerance" value="0.3"/>
+  <property name="snapRotationTolerance" value="0.1"/>
   <property name="snapGrid" value="false"/>
   <property name="snapGridTolerance" value="0.5"/>
   <property name="snapGridSize" value="14.17"/>
@@ -126,19 +126,19 @@
   <property name="latexSettings.defaultText" value="x^2"/>
   <property name="latexSettings.globalTemplatePath" value="/usr/share/xournalpp/resources/default_template.tex"/>
   <property name="latexSettings.genCmd" value="lualatex -halt-on-error -interaction=nonstopmode '{}'"/>
-  <property name="latexSettings.sourceViewThemeId" value=""/>
+  <property name="latexSettings.sourceViewThemeId" value="solarized-light"/>
   <property name="latexSettings.editorFont" value="Monospace 12"/>
   <property name="latexSettings.useCustomEditorFont" value="false"/>
   <property name="latexSettings.editorWordWrap" value="true"/>
   <property name="latexSettings.sourceViewAutoIndent" value="true"/>
   <property name="latexSettings.sourceViewSyntaxHighlight" value="true"/>
-  <property name="latexSettings.sourceViewShowLineNumbers" value="false"/>
+  <property name="latexSettings.sourceViewShowLineNumbers" value="true"/>
   <property name="font" font="Noto Serif CJK SC Medium" size="12"/>
   <data name="buttonConfig">
     <data name="default">
       <attribute name="color" type="hex" value="ffff7800"/>
-      <attribute name="drawingType" type="string" value="line"/>
-      <attribute name="size" type="string" value="thin"/>
+      <attribute name="drawingType" type="string" value="rectangle"/>
+      <attribute name="size" type="string" value="thick"/>
       <attribute name="tool" type="string" value="highlighter"/>
     </data>
     <data name="eraser">
@@ -185,6 +185,10 @@
     <data name="ETPS/2 Elantech Touchpad">
       <attribute name="deviceClass" type="int" value="1"/>
       <attribute name="deviceSource" type="int" value="6"/>
+    </data>
+    <data name="GXTP7863:00 27C6:01E0 Mouse">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="0"/>
     </data>
     <data name="GXTP7863:00 27C6:01E0 Touchpad">
       <attribute name="deviceClass" type="int" value="1"/>
@@ -249,7 +253,7 @@
     </data>
     <data name="highlighter">
       <attribute name="color" type="hex" value="ff0000"/>
-      <attribute name="drawingType" type="string" value="line"/>
+      <attribute name="drawingType" type="string" value="rectangle"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
       <attribute name="size" type="string" value="MEDIUM"/>
@@ -295,7 +299,7 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="text">
-      <attribute name="color" type="hex" value="000000"/>
+      <attribute name="color" type="hex" value="ff0000"/>
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="verticalSpace">

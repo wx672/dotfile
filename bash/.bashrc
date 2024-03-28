@@ -42,6 +42,7 @@ export BAT_STYLE="plain"
 export LESSCHARSET=utf-8
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
 export MPD_HOST="cs6.swfu.edu.cn"
+export W3M_DIR="$XDG_CONFIG_HOME/w3m"
 #export CHEAT_USE_FZF=true
 
 tabs -4 &>/dev/null
