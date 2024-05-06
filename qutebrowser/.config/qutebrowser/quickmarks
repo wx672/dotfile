@@ -38,7 +38,7 @@ google	drive https://drive.google.com/drive/u/0/my-drive
 groff	fonts	chinese https://kleshwong.com/blog/post/composing-pdf-on-linux-happily-as-an-non-latin-coder/
 havoc https://download.havoc-os.com/?search=ginkgo
 jd https://jd.com
-jw.swfu.edu.cn https://jw.swfu.edu.cn:8089/xtgl/login_slogin.html
+jw.swfu.edu.cn https://jw.swfu.edu.cn:8089
 latex	pgfkeys https://tex.stackexchange.com/questions/34312/how-to-create-a-command-with-key-values/34318#34318
 latexref	index http://latexref.xyz/Index.html
 latexstudio https://www.latexstudio.net
@@ -263,3 +263,9 @@ crdroid 9 ginkgo https://sourceforge.net/projects/crdroid/files/ginkgo/9.x/
 ginkgo miui https://xiaomifirmwareupdater.com/miui/ginkgo/
 dingtalk docs alidocs https://alidocs.dingtalk.com/i/desktop
 ylks youlingkaishi https://www.youtube.com/@blue-Youtube/videos
+babel chinese https://latex3.github.io/babel/guides/locale-chinese.html
+babel chinese font https://tex.stackexchange.com/questions/483605/creating-a-document-with-mixed-languages
+handdraw https://excalidraw.com/
+kimi ai https://kimi.moonshot.cn/
+tty uart https://waynerv.com/posts/how-tty-system-works/
+yuketang rain https://www.yuketang.cn/v2/web/index

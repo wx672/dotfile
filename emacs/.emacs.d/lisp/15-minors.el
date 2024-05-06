@@ -192,9 +192,13 @@
   ;; (yas-reload-all)
   )
 
+;; https://github.com/leoliu/ggtags
+;; (use-package ggtags-mode
+;;   :hook ((emacs-startup . ggtags-mode)))
+
 ;; https://github.com/Ergus/gtags-mode
-(use-package gtags-mode
-  :hook ((emacs-startup . gtags-mode)))
+;; (use-package gtags-mode
+;;   :hook ((emacs-startup . gtags-mode)))
 
 (use-package ispell
   :ensure t
@@ -231,7 +235,7 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-              (gtags-mode 1))))
+              (ggtags-mode 1))))
 
 (setq gdb-many-windows t)
 

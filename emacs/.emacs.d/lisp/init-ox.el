@@ -43,13 +43,12 @@
 (use-package ox-latex
   :config
   (setq
+   org-latex-compiler "lualatex"
+   org-latex-bib-compiler "Biber"
+   org-latex-pdf-process '("latexmk -f -lualatex -%latex -interaction=nonstopmode -output-directory=%o %f")
    org-latex-default-packages-alist nil
    org-latex-packages-alist '(("" "hyperref" nil)
-							  ("" "amsmath,amsfonts,amssymb" nil)
-							  ("" "graphicx" nil)
-							  ("" "tabularray" nil)
-							  ("" "minted" nil) 
-							  ) 
+							  ("" "amsmath,amsfonts,amssymb" nil))
    org-latex-classes
    '(("wx672ctexart"
 	  "\\documentclass{wx672ctexart} [PACKAGES] [EXTRA]"
@@ -66,7 +65,10 @@
 	  ("\\paragraph{%s}" . "\\paragraph*{%s}")
 	  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 	 ("article"
-	  "\\documentclass{article} [NO-DEFAULT-PACKAGES] [PACKAGES] [EXTRA]"
+	  "\\documentclass{article}
+\\usepackage{wx672babel}
+[PACKAGES]
+[EXTRA]"
 	  ("\\section{%s}" . "\\section*{%s}")
 	  ("\\subsection{%s}" . "\\subsection*{%s}")
 	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -87,11 +89,14 @@
    org-latex-image-default-width ".5\\linewidth"
    org-latex-listings 'minted
    org-latex-minted-options
-   '(("mathescape" "true") ("linenos" "true") ("numbersep" "5pt") ("frame" "lines") ("framesep" "2mm"))
-   org-latex-pdf-process
-   '("lualatex --shell-escape --8bit --interaction nonstopmode --output-directory %o %f"
-	 "lualatex --shell-escape --8bit --interaction nonstopmode --output-directory %o %f"
-	 "lualatex --shell-escape --8bit --interaction nonstopmode --output-directory %o %f")))
+   '(("mathescape" "true") ("linenos" "true") ("numbersep" "5pt") ("frame" "lines") ("framesep" "2mm"))))
 
 (provide 'init-ox)
 ;;; init-ox.el ends here
+
+;; (setq org-latex-pdf-process
+;; '(
+;; "lualatex --shell-escape --8bit --interaction nonstopmode --output-directory %o %f"
+;; "lualatex --shell-escape --8bit --interaction nonstopmode --output-directory %o %f" 
+;; "lualatex --shell-escape --8bit --interaction nonstopmode --output-directory %o %f"
+;; ))

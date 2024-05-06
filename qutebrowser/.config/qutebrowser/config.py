@@ -70,6 +70,7 @@ c.url.searchengines = {
     'b':'https://search.bilibili.com/all?keyword={}',
     'd':'https://duckduckgo.com/?q={}',
     'e':'https://earth.google.com/web/search/{}',
+    'm':'https://www.google.com/maps/search/{}',
     'en':'https://ludwig.guru/s/{}',
     'gh':'https://github.com/search?q={}',
     'imdb':'https://www.imdb.com/find/?q={}',

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# This script is supposed to be invoked via hotkeys defined in dwm
+
+gdbar() {
+	awk -F"," '/Current/ { print $2 }' <(blight status) | tr -d '%' |
+		dzen2-gdbar -h '20' |
+		dzen2 -p 1 -l '1' -w '100' -x '1800'
+}
+
+get() {
+	blight status
+}
+
+inc() {
+	blight inc 3 -s && gdbar
+}
+
+dec() {
+	blight dec 3 -s && gdbar
+}
+
+case $1 in
+get)
+	get
+	exit
+	;;
+inc)
+	inc
+	exit
+	;;
+dec)
+	dec
+	exit
+	;;
+*)
+	echo ${0##*/} 'get|inc|dec'
+	exit 1
+	;;
+esac

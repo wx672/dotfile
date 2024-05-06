@@ -1,3 +1,21 @@
+```sh
+rsync -av --info=progress2 \
+      --include '*.pdf' \
+      --include '*.tex' \
+      --include '*.org' \
+      --include '*.sh' \
+      --include 'backup/***' \ 
+      --exclude '*' \
+      ./ cs6:public_html/ytxx14/
+
+rsync -n -C --del -avs --exclude-from='./.ex' yearly/ cs6:public_html/yearly
+rsync -n -C --del -avs --exclude-from='./.ex' projs/ cs6:public_html/projs/
+
+cs6r () 
+{ 
+    rsync --info=progress2 -avLP --inplace --append cs6:public_html/"$1" .
+}
+
 rsync -avL --inplace --append src dst
 rsync -av --copy-links --partial --progress --inplace --append src dst
 
@@ -18,3 +36,4 @@ rsync -auv /src/foo/ /dest/foo
 
 # Copy file from local to remote over ssh with non standard port 1234 to destination folder in remoteuser's home directory
 rsync -avz -e "ssh -p1234" /source/file1 remoteuser@X.X.X.X:~/destination/
+```

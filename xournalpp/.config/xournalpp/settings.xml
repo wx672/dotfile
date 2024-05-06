@@ -6,7 +6,7 @@
   <property name="pressureMultiplier" value="1"/>
   <property name="zoomGesturesEnabled" value="false"/>
   <property name="selectedToolbar" value="Toolbar Right Copy"/>
-  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2024/20221159116曾以静"/>
+  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/projs/2024/reviews/20221159101_周婷"/>
   <property name="lastOpenPath" value="/home/wx672"/>
   <property name="lastImagePath" value="/tmp"/>
   <property name="edgePanSpeed" value="20"/>
@@ -17,9 +17,9 @@
   <property name="mainWndWidth" value="1920"/>
   <property name="mainWndHeight" value="1080"/>
   <property name="maximized" value="false"/>
-  <property name="showToolbar" value="true"/>
+  <property name="showToolbar" value="false"/>
   <property name="showSidebar" value="false"/>
-  <property name="sidebarWidth" value="50"/>
+  <property name="sidebarWidth" value="86"/>
   <property name="sidebarNumberingStyle" value="1"/>
   <property name="sidebarOnRight" value="false"/>
   <property name="scrollbarOnLeft" value="false"/>
@@ -73,7 +73,7 @@
   <property name="drawDirModsRadius" value="50"/>
   <property name="snapRotation" value="true"/>
   <property name="snapRotationTolerance" value="0.1"/>
-  <property name="snapGrid" value="false"/>
+  <property name="snapGrid" value="true"/>
   <property name="snapGridTolerance" value="0.5"/>
   <property name="snapGridSize" value="14.17"/>
   <property name="strokeRecognizerMinSize" value="40"/>
@@ -96,9 +96,9 @@
   <property name="audioFolder" value=""/>
   <property name="audioInputDevice" value="4"/>
   <property name="audioOutputDevice" value="4"/>
-  <property name="audioSampleRate" value="44100"/>
+  <property name="audioSampleRate" value="16000"/>
   <property name="audioGain" value="1"/>
-  <property name="defaultSeekTime" value="5"/>
+  <property name="defaultSeekTime" value="1"/>
   <property name="pluginEnabled" value=""/>
   <property name="pluginDisabled" value=""/>
   <property name="strokeFilterIgnoreTime" value="150"/>
@@ -224,7 +224,7 @@
     </data>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="text"/>
+    <attribute name="current" type="string" value="highlighter"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
@@ -246,7 +246,7 @@
     <data name="eraser">
       <attribute name="drawingType" type="string" value="default"/>
       <attribute name="size" type="string" value="BIG"/>
-      <attribute name="type" type="string" value="whiteout"/>
+      <attribute name="type" type="string" value="deleteStroke"/>
     </data>
     <data name="hand">
       <attribute name="drawingType" type="string" value="default"/>

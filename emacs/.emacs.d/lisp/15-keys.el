@@ -13,6 +13,7 @@
   ;; (general-auto-unbind-keys)
 
   (general-def
+	"C-z" nil
 	"C-<return>" #'delete-other-windows
 	"<print>"    #'ps-print-region-with-faces
     "<f1>"       #'query-replace-regexp

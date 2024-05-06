@@ -36,12 +36,12 @@ export HISTCONTROL=ignoredups:erasedups
 export LESSHISTFILE=-
 export BROWSER='/usr/bin/x-www-browser'
 export PDFVIEWER='mupdf'
-export EDITOR='vim'
-export ALTERNATE_EDITOR="vim"
+export EDITOR='vi'
+export ALTERNATE_EDITOR="vi"
 export BAT_STYLE="plain"
 export LESSCHARSET=utf-8
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
-export MPD_HOST="cs6.swfu.edu.cn"
+#export MPD_HOST="cs6.swfu.edu.cn"
 export W3M_DIR="$XDG_CONFIG_HOME/w3m"
 #export CHEAT_USE_FZF=true
 

@@ -3,7 +3,7 @@
 command -v xsel &>/dev/null || { echo xsel is not found; exit 1; }
 command -v yq &>/dev/null || { echo yq is not found; exit 1; }
 
-cfgDir="$HOME/.config/clash"
+cfgDir="$HOME/.config/mihomo"
 SELFYML="$cfgDir/wx672.yaml"
 DEFAULTYML="$cfgDir/config.yaml"
 ymlDir="$cfgDir/yml"
@@ -136,7 +136,7 @@ tweak(){
 
 	sed -i '1,/^proxies:/d' $YML
 
-	sed -i '1i port: 7890\nsocks-port: 7891\nallow-lan: true\nmode: Rule\nlog-level: info\nexternal-controller: 0.0.0.0:9090\nexternal-ui: /home/wx672/.config/clash/ui\ndns:\n  enabled: true\n  ipv6: true\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 114.114.114.114\n    - 119.29.29.29\n    - 1.0.0.1\n  nameserver:\n    - https://doh.pub/dns-query\n    - https://dns.alidns.com/dns-query\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback-filter:\n    geoip: false\n    ipcidr:\n      - 240.0.0.0/4\n      - 0.0.0.0/32\nproxies:' $YML
+	sed -i '1i port: 7890\nsocks-port: 7891\nallow-lan: true\nmode: Rule\nlog-level: info\nexternal-controller: 0.0.0.0:9090\nexternal-ui: /home/wx672/.config/mihomo/ui\ndns:\n  enabled: true\n  ipv6: true\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 114.114.114.114\n    - 119.29.29.29\n    - 1.0.0.1\n  nameserver:\n    - https://doh.pub/dns-query\n    - https://dns.alidns.com/dns-query\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback-filter:\n    geoip: false\n    ipcidr:\n      - 240.0.0.0/4\n      - 0.0.0.0/32\nproxies:' $YML
 
 	yq -i '.rules = ["DOMAIN-SUFFIX,debian.org,DIRECT", "DOMAIN-SUFFIX,fai-project.org,DIRECT", "DOMAIN-SUFFIX,qemu.org,DIRECT", "DOMAIN-SUFFIX,gnu.org,DIRECT", "DOMAIN-SUFFIX,winegame.net,DIRECT", "DOMAIN-SUFFIX,www.kmwatersupply.com,DIRECT", "DOMAIN-SUFFIX,www.playonlinux.com,DIRECT", "DOMAIN-SUFFIX,sketchviz.com,DIRECT", "DOMAIN-SUFFIX,deepinos.org,DIRECT", "DOMAIN-SUFFIX,overleaf.com,DIRECT", "DOMAIN-SUFFIX,moodle.org,DIRECT", "DOMAIN-SUFFIX,grammarly.com,DIRECT", "DOMAIN-SUFFIX,ixigua.com,DIRECT", "DOMAIN-SUFFIX,gitee.com,DIRECT", "DOMAIN-SUFFIX,wiki.archlinux.org,DIRECT", "DOMAIN-SUFFIX,www.gnupg.org,DIRECT"] + .rules' $YML
 
