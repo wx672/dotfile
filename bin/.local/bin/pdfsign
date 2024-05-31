@@ -2,16 +2,17 @@
 
 usage(){
     cat <<EOF
-USAGE: ${0##*/} [-hD] [-p pattern] [-c xshift,yshift] [-d ysep,msep,dsep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background>
+USAGE: ${0##*/} [-hD] [-p pattern] [-c xshift,yshift] [-d ysep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background>
 
 EXAMPLES:
-1. ${0##*/} -p'教师：__' -t'2024,1,10' pg_0001.pdf
-   ${0##*/} -p'考核方式' -S'开卷机试' -c'0,25' pg_0001-signed.pdf
+1. ${0##*/} -p'签.*章' -t'2024,6,7' -S'mysig.pdf'  pg_0001.pdf
+   ${0##*/} -p'签.*章' -t'2024,6,7' -S'\sig 王晓林' pg_0002.pdf
+  
+2. ${0##*/} -p'考核方式' -S'开卷机试' -c'60,-2' -s .9 pg_0001-signed.pdf
 
-2. ${0##*/} -w10cm -c'-20,-50' -S'../analysis-improve.pdf' os-analysis.pdf
-   ${0##*/} -p'考试形式' -S'开卷机试' -c'50,25' -d'110,0,0' -t'2023/,12/,25' os-analysis-signed.pdf
+3. ${0##*/} -w10cm -c'-20,-50' -S'../analysis-improve.pdf' os-analysis.pdf
+   ${0##*/} -p'考试形式' -S'开卷机试' -c'50,25' -d'110' -t'2023/,12/,25' os-analysis-signed.pdf
 
-3. ${0##*/} -p'教师：__' -t'2022,5,30' -S'\sig 王晓林' pg_0002.pdf
 
 background - paper to sign
         -h - help
@@ -19,14 +20,13 @@ background - paper to sign
 		-p - search pattern
 
         -S - signature picture or text
-		   	 Default='{.,..}/signature.pdf' if found
+		   	 Default='{.,..}/wangxiaolin.pdf' if found
 
         -c - 'xshift,yshift' 
-		   	 Default to '-60,10' in pt if signed with picture
-			 Default to '-60,0' in pt if signed with \sig font text
+		   	 Default to '28,-18' in pt if signed with picture
+			 Default to '28,-25' in pt if signed with \sig font text
 
-		-d - 'ysep,msep,dsep', shift of the "date field"
-		   	 Default to '180,12,13' in pt
+		-d - ysep, shift of the "date field". Default to 180pt
 
         -t - timestamp, e.g. '2020,5,8'
         -w - width of signature picture. Default to '1cm'
@@ -48,17 +48,17 @@ colorEcho(){
     echo -e "\033[${1}${@:2}\033[0m" 1>&2
 }
 
+# pdftotext -tsv os-marks.pdf - | rg -N "签.*章" | head -1 | choose -o ',' 6 7
+# pdftotext -tsv os-marks.pdf - | rg -N "考试.*日" | head -1 | choose -o ',' 6 7
 getCoordinate(){
-	XY=$(pdftotext -bbox "$BG" - | \
-			 rg -N "$PATN" | \
-			 head -1 | \
-			 choose -f '"' 5 7)
+	XY=$(pdftotext -tsv "$BG" - | \
+			 rg -N "$PATN" | head -1 | \
+			 choose -o ',' 6 7)
 
 	[[ -z "$XY" ]] && { colorEcho $ERR 'Failed to get coordinate (XY)!'; exit -1; }
 
-	X=${XY% *}pt
-	Y=${XY##* }
-	Y=$(( 842 - ${Y%.*} ))pt
+	X=${XY%,*}pt
+	Y=${XY##*,}pt
 
 	[[ "$DEBUG" ]] && {
 		echo "XY = $XY" > $DEBUGFILE
@@ -76,14 +76,14 @@ signit(){
 \newfontfamily\purisa{Purisa}
 
 \begin{document}
-\begin{tikzpicture}[inner sep=0,anchor=south west]
+\begin{tikzpicture}[inner sep=0,anchor=north west,yscale=-1]
     \node (bg) at (0,0) {\includegraphics[width=\paperwidth]{$BG}};
 
 	\begin{scope}
 EOF
 
 	[[ "$DEBUG" ]] && {
-		echo "Enable grid..." >> $DEBUGFILE
+		echo "Draw grid for debugging..." >> $DEBUGFILE
 
 		cat <<EOF >> "$TEXFILE"
 		%%% grid
@@ -97,34 +97,38 @@ EOF
 	if [[ -f "$SIG" ]]
 	then # sign with the picture. $XY is from getCoordinate()
 		cat <<EOF >> "$TEXFILE"
-		\node (sig) at (${X:-200pt},${Y:-400pt}) [%
-			  xshift=${XSHIFT:--60}pt, yshift=${YSHIFT:-10}pt] {%
+		\node (sig) at (${X:-550pt},${Y:-800pt}) [%
+			  xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt] {%
 			  \includegraphics[width=${WIDTH:-1cm}]{$SIG}};
 EOF
 	else # sign with text
 		cat <<EOF >> "$TEXFILE"
-		\node (sig) at (${X:-200pt},${Y:-400pt}) [%
-			  xshift=${XSHIFT:--60}pt, yshift=${YSHIFT:-0}pt,%
+		\node (sig) at (${X:-550pt},${Y:-800pt}) [%
+			  xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--25}pt,%
 			  scale=${SIGSCALE:-1}] {$SIG};
 EOF
 	fi
 	[[ "$DEBUG" ]] && {
 		cat <<EOF >> $DEBUGFILE
 Signed with <$SIG>
-	   at (${X:-200pt},${Y:-400pt})
-	   [xshift=${XSHIFT:--60}pt, yshift=${YSHIFT:-0}pt, scale=${SIGSCALE:-1}]
+	   at (${X:-550pt},${Y:-800pt})
+	   [xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt, scale=${SIGSCALE:-1}]
 	   Picture width=${WIDTH:-1cm} if signed with a picture
+
+	   yshift=${YSHIFT:--25}pt if signed with text
 EOF
 	}
 
 	[[ "$Year" ]] && {
 		cat<<EOF >> "$TEXFILE";
-		\node [right=${YSEP:-180}pt of sig, font=\purisa] {%
-			  $Year\hspace{${MSEP:-12}pt}$Month\hspace{${DSEP:-13}pt}$Day};%
+		\node [right=${YSEP:-183}pt of sig, yshift=-3pt, font=\purisa] {%
+		  $Year\hspace{1.5em}%
+		  \makebox[1em][c]{$Month}\quad%
+		  \makebox[1em][c]{$Day}};%
 EOF
 		[[ "$DEBUG" ]] && {
 			cat <<EOF >> $DEBUGFILE
-<$Year,$Month,$Day> is added at offset: (${YSEP:-180}pt,${MSEP:-12}pt,${DSEP:-13}pt)
+<$Year,$Month,$Day> is added at offset: (${YSEP:-180}pt)
 EOF
 		}
 	}
@@ -143,8 +147,8 @@ EOF
 trap cleanup EXIT
 
 # defaults
-[[ -e signature.pdf ]] && SIG='signature.pdf'
-[[ -e ../signature.pdf ]] && SIG='../signature.pdf'
+[[ -e wangxiaolin.pdf ]] && SIG='wangxiaolin.pdf'
+[[ -e ../wangxiaolin.pdf ]] && SIG='../wangxiaolin.pdf'
 
 unset X Y XY XSHIFT YSHIFT YSEP MSEP DSEP DEBUG SCALE WIDTH PATN
 
@@ -155,10 +159,7 @@ while getopts :hDc:d:p:s:w:t:S: OPT; do
 		c) XSHIFT=${OPTARG%,*}
 		   YSHIFT=${OPTARG#*,}
 		   ;;
-		d) YSEP=${OPTARG%%,*}
-		   MSEP=${OPTARG#*,} && MSEP=${MSEP%,*}
-		   DSEP=${OPTARG##*,}
-		   ;;
+		d) YSEP="$OPTARG" ;;
 		p) PATN="$OPTARG" ;;
 		s) SIGSCALE="$OPTARG" ;;
 		w) WIDTH="$OPTARG" ;;

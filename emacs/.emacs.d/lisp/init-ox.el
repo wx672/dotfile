@@ -57,6 +57,13 @@
 	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
 	  ("\\paragraph{%s}" . "\\paragraph*{%s}")
 	  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+	 ("swfulabreport"
+	  "\\documentclass{swfulabreport}"
+	  ("\\section{%s}" . "\\section*{%s}")
+	  ("\\subsection{%s}" . "\\subsection*{%s}")
+	  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	  ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 	 ("ctexart"
 	  "\\documentclass{ctexart} [PACKAGES] [EXTRA]"
 	  ("\\section{%s}" . "\\section*{%s}")

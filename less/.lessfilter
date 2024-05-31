@@ -36,6 +36,13 @@ case "$1" in
 		}
 		xlsx2csv "$1"
 		;;
+  *.pdf | *.PDF)
+    command -v pdftotext || {
+  		pdftotext is not found.
+  		exit 1
+  	}
+		pdftotext -nopgbrk -layout -eol unix "$1" -
+		;;
 	*.md | *.MD)
 		command -v mdcat || {
 			mdcat is not found.
