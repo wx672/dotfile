@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # This script is supposed to be invoked via hotkeys defined in dwm
+cmdchk blight dzen2 || exit 127
 
 gdbar() {
 	awk -F"," '/Current/ { print $2 }' <(blight status) | tr -d '%' |

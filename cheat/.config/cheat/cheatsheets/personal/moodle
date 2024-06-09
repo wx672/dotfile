@@ -1,3 +1,27 @@
+# batch uploading Users
+
+1. export a xlsx file from jw.swfu.edu.cn:8089 with only name and studid in it
+	
+	> id,name
+
+2. make a csv file
+
+	```sh
+	# username,password,email,group1,cohort1,type1,lastname,firstname
+	xlsx2csv 232401-net-20221152.xlsx | \ 
+	awk -F, '{print $1","$1"," $1"@232401.net,232401-net,232401-net,1,"$2}' \
+	> 232401-net.csv
+	```
+
+3. add a new cohort (232401-net) in moodle -> site admin -> users -> cohorts
+
+	https://cs6.swfu.edu.cn/moodle/cohort/edit.php?contextid=1
+
+4. site admin -> users -> upload users (csv file)
+
+5. Course -> Participants -> enrolment methods -> cohort sync
+
+
 # Enroll a cohort into a course
 
 In course page: Administration -> Course Administration -> Users -> Enrolment methods -> Add method -> Cohort sync

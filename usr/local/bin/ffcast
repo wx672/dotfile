@@ -1,19 +1,19 @@
 #!/bin/bash
-
+#
 # screencast streaming
+#
 
 server(){ 
+	cmdchk screenkey picom ffmpeg || exit 127
 
     trap 'pkill screenkey' INT EXIT TERM ERR
 
-	command -v picom &>/dev/null && {
-		pgrep picom || picom -b
-	}
+	pgrep picom &>/dev/null || picom -b
 
     (screenkey --no-systray \
 			   --opacity 0.0 \
 			   --font-color red \
-			   --font "Fira Code SemiBold" \
+			   --font "monospace" \
 			   --font-size small &)
     
     ffmpeg -f x11grab \
@@ -31,20 +31,26 @@ server(){
 
 client(){ # multicast client side
 
+	cmdchk mpv || rofi -e "mpv is missing!"
+
 	if pgrep -f 'mpv'; then
-		dzen2 -p 3 -fg darkred -bg grey80 <<<"mpv is running already."
+		cmdchk dzen2 \
+			&& dzen2 -p 3 -fg darkred -bg grey80 <<<"mpv is running already." \
+				|| rofi -e "mpv is running already."
 	else
 		[ $DISPLAY ] && {
-		dzen2 -p 2 -fg darkred -bg grey80 <<<"Starting mpv..."
-		#ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
-		mpv udp://224.0.0.1:2000 \
-			--no-resume-playback \
-			--no-audio \
-			--profile=low-latency \
-			--no-cache \
-			--untimed \
-			--no-demuxer-thread \
-			--vd-lavc-threads=1
+			cmdchk dzen2 \
+			&& dzen2 -p 2 -fg darkred -bg grey80 <<<"Starting mpv..." \
+				|| rofi -e "Starting mpv..."
+			#ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
+			mpv udp://224.0.0.1:2000 \
+				--no-resume-playback \
+				--no-audio \
+				--profile=low-latency \
+				--no-cache \
+				--untimed \
+				--no-demuxer-thread \
+				--vd-lavc-threads=1
 		} || {
 			mpv udp://224.0.0.1:2000 \
 				--no-resume-playback \
@@ -60,19 +66,12 @@ client(){ # multicast client side
 }
 
 case $1 in
-	client)
-		client
-		exit 0
-		;;
-	server)
-		server
-		exit 0
-		;;
+	client) client ;;
+	server) server ;;
 	*)
-		echo Usage: $0 '<client|server>';
+		echo Usage: $0 '<client|server>'
 		exit 1
 esac
-
 
 # https://trac.ffmpeg.org/wiki/StreamingGuide
 # https://stackoverflow.com/questions/16658873/how-to-minimize-the-delay-in-a-live-streaming-with-ffmpeg

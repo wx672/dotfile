@@ -1,0 +1,10 @@
+[Unit]
+Description=Fcitx as a systemd service
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/fcitx5 -d --replace
+Environment=GTK_IM_MODULE=fcitx XMODIFIERS="@im=fcitx" QT_IM_MODULE=fcitx
+
+[Install]
+WantedBy=graphical.target

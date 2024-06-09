@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cmdchk sm mpv amixer || exit 127
 SM="/usr/games/sm -n Purisa -f Green -b LightGray "
 BELL="/usr/local/share/sound/school-over.webm"
 END='Bye!'

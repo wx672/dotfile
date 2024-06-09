@@ -1,4 +1,7 @@
 #!/bin/bash
+
+cmdchk fc-match || exit 127
+
 for range in $(fc-match --format='%{charset}\n' "$1"); do
     for n in $(seq "0x${range%-*}" "0x${range#*-}"); do
         printf "%04x\n" "$n"

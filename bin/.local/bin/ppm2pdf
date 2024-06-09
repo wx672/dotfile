@@ -1,20 +1,10 @@
 #!/bin/bash
 
-command -v ppm2tiff &>/dev/null || {
-	echo ppm2tiff is not found. Installing...
-	sudo apt install -y libtiff-tools
-}
-
-command -v pngtopnm &>/dev/null || {
-	echo pngtopnm is not found. Installing...
-	sudo apt install -y netpbm
-}
-
 usage(){
 	cat <<EOF
-${0##*/} - Convert an image into a much smaller PDF file.
+${0##*/} - Convert an image to a much smaller PDF file.
 
-Usage: ${0##*/} <a jpg/png/ppm image>
+Usage: ${0##*/} <a jpg/png/webp/ppm image>
 
 EOF
 }
@@ -50,25 +40,36 @@ TIF="$BASE.tif"
 PDF="$BASE.pdf"
 
 TYPE=$(file -b --extension "$IMG")
+echo "$TYPE" '-> PPM...'
 
 case $TYPE in
-    *jpg* )
+    *jpg* ) 
+		cmdchk jpegtopnm || exit 127
         jpegtopnm -quiet "$IMG" > "$PPM"
         ;;
     *png* )
-		pngtopnm -mix -background "#FFF" "$IMG" > "$PPM"
+		cmdchk pngtopam || exit 127
+		pngtopam -quiet -mix -background="#FFF" "$IMG" > "$PPM"
 		;;
 	*webp* )
+		cmdchk dwebp || exit 127
 		dwebp -ppm -o "$PPM" "$IMG"
 		;;
-	*ppm* )
-		echo It is already a PPM file.
+	*ppm*|*pgm*|*pbm* )
 		;;
 	* )
-		echo '==========='
-		file "$IMG"
-		echo '==========='
+		cmdchk convert || exit 127
+		convert "$IMG" "$PPM"
+		;;
 esac
 
-ppm2tiff -c none "$PPM" "$TIF"
-tiff2pdf -jFo "$PDF" "$TIF"
+echo 'PPM -> PDF...'
+
+ppm2tiff -c none "$PPM" "$TIF" && tiff2pdf -jFo "$PDF" "$TIF" && {
+		echo done.;
+		exit 0;
+	} || {
+		echo ppm -> tiff -> pdf failed;
+		cmdchk ppm2tiff || exit 127
+		exit 1;
+	}

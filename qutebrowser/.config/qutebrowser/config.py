@@ -213,7 +213,7 @@ c.colors.webpage.bg                   = "#eeeeee"
 
 # fonts
 c.fonts.default_family      = ["Noto Sans Mono"]
-c.fonts.default_size        = '22pt'
+c.fonts.default_size        = '24pt'
 c.fonts.statusbar           = "default_size default_family"
 c.fonts.tabs.selected       = "default_size default_family"
 c.fonts.tabs.unselected     = "default_size default_family"
@@ -226,8 +226,8 @@ c.fonts.messages.warning    = "default_size default_family"
 c.fonts.messages.error      = "default_size default_family"
 c.fonts.completion.entry    = "default_size default_family"
 c.fonts.completion.category = "default_size default_family"
-c.fonts.web.size.default    = 22
-c.fonts.web.size.default_fixed = 20
+c.fonts.web.size.default    = 24
+c.fonts.web.size.default_fixed = 22
 
 
 ## Don't load settings done via the GUI.

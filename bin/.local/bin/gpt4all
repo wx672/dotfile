@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cmdchk sk
+
+CACHE_DIR="$XDG_CACHE_HOME/gpt4all"
+APP_DIR="$HOME/gpt4all-cli/bin"
+
+cd $APP_DIR && \
+	./python ./app.py repl -m $(sk -10 < <(/bin/ls $CACHE_DIR)) || \
+		{ echo cannot find $APP_DIR dir.; exit 127; }

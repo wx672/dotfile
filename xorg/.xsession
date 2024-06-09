@@ -39,10 +39,11 @@ export SAL_USE_VCLPLUGIN=qt6
 export NO_AT_BRIDGE=1 
 
 # see ~/.config/systemd/user/emacs.service
+# see ~/.config/systemd/user/picom.service
 command -v udiskie && /usr/bin/udiskie -F &
 #[ -x /usr/bin/redshift ] && /usr/bin/redshift &
 [ -x /usr/lib/notification-daemon/notification-daemon ] && /usr/lib/notification-daemon/notification-daemon &
-# command -v picom && /usr/bin/picom -b
+
 # command -v hsetroot && /usr/bin/hsetroot -solid '#000000'
 
 command -v keynav && keynav &

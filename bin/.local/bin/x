@@ -23,28 +23,19 @@ VIRT=$(xrandr | rg Virtual-1 | choose 0)
 OPT="$*"
 
 case "$OPT" in
-	virt) xrandr \
-			  --output $VIRT --mode 1920x1080 ;;
-    tv) xrandr \
-	        --output $HDMI --mode 1920x1080 \
-	        --output $EDP --off ;;
-    4k) xrandr \
-	        --output $HDMI --mode 3840x2160 --pos 0x0 \
-	        --output $EDP --off ;;
-    pc) xrandr \
-	        --output $EDP --auto \
-	        --output $HDMI --off ;;
-    lr) xrandr \
-	        --output $EDP --primary --mode 1920x1080 --pos 0x0 \
-	        --output $HDMI --mode 1920x1080 --left-of $EDP ;;
-    dup|3|4) xrandr \
-	         --output $EDP  --mode 1920x1080 --pos 0x0 \
-	         --output $HDMI --mode 1920x1080 --same-as $EDP ;;
-    1k) xrandr \
-	        --output $HDMI --primary --mode 1280x1024 --pos 0x0 \
-	        --output $EDP --mode 1920x1080 --left-of $HDMI ;;
+    tv) xrandr --output $HDMI --mode 1920x1080 \
+	           --output $EDP --off ;;
+    4k) xrandr --output $HDMI --mode 3840x2160 --pos 0x0 \
+	           --output $EDP --off ;;
+    pc) xrandr --output $EDP --auto --output $HDMI --off ;;
+    lr) xrandr --output $EDP --primary --mode 1920x1080 --pos 0x0 \
+	           --output $HDMI --mode 1920x1080 --left-of $EDP ;;
+    dup|3|4) xrandr --output $EDP  --mode 1920x1080 --pos 0x0 \
+					--output $HDMI --mode 1920x1080 --same-as $EDP ;;
+    1k) xrandr --output $HDMI --primary --mode 1280x1024 --pos 0x0 \
+	           --output $EDP --mode 1920x1080 --left-of $HDMI ;;
+	virt) xrandr --output $VIRT --mode 1920x1080 ;;
 	on) xset s off -dpms ;;
-	off) xset dpms force off; xset dpms force off; xset dpms force off; xset dpms force off
-		 ;;
+	off) for i in 1 2 3 4; do xset dpms force off; done ;;
     *) usage; exit ;;
 esac

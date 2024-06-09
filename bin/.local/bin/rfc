@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cmdchk sk rg fd || exit 1
+
 usage(){
 	cat <<EOF
 ${0##*/} - Command line RFC viewer
@@ -16,15 +18,15 @@ search(){
 	[[ -f "$idx" ]] || { echo $idx: file not found.; exit 1; }
 
 	IDX=$(gzip -cd $idx | sed -e 's/^$/~/' -e 's/ \+/ /' | tr '\n' ' ' | tr '~' '\n' | \
-			  rg -i --color=always "$PATN" | sk -e10 --ansi | choose 0)
+			  rg -i --color=always "$1" | sk -e10 --ansi | choose 0)
 	
-	rfc $(( 10#$IDX ))
+	rfc $(( 10#$IDX )) # 10# means base 10
 }
 
 while getopts :hs: OPT; do
 	case $OPT in
+		s) search "$OPTARG"; exit 0 ;;
 		h) usage; exit 0 ;;
-		s) PATN="$OPTARG"; search; exit 0 ;;
 		?) usage; exit 1 ;;
 	esac
 done
@@ -60,18 +62,23 @@ case $DOC in
 		less $DOC; exit 0
 		;;
 	*.html.gz)
+		cmdchk w3m || exit 1
 		w3m -T text/html < <(gzip -cd $DOC); exit 0
 		;;
 	*.html)
+		cmdchk w3m || exit 1
 		w3m -T text/html $DOC; exit 0
 		;;
 	*.json)
-		jq "." $DOC
+		cmdchk jless || exit 1
+		jless $DOC
 		;;
 	*.pdf)
+		cmdchk mupdf || exit 1
 		mupdf $DOC; exit 0
 		;;
 	*.pdf.gz)
+		cmdchk zathura || exit 1
 		gzip -cd $DOC | zathura -; exit 0
 		;;
 	*) usage; exit 1		

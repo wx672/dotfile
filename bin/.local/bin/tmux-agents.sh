@@ -2,8 +2,6 @@
 
 set -euC
 
-#tmux a || tmux
-
 tmux set -w remain-on-exit on
 
 tmux split-window -bl35% "clash.sh fy"

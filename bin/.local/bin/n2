@@ -4,8 +4,7 @@
 
 case "$1" in
 	[hH]*) 
-		NUM=$(echo $1 | cut -b 2-)
-		NUM=$(echo $NUM | tr [:lower:] [:upper:])
+		NUM=$(echo $1 | cut -b 2- | tr [:lower:] [:upper:])
 		printf "\tHex\t\tDec\t\tBin\n" 
 		printf "\t0x%s\t\t%s\t\t%s\n" \
 			$NUM \
@@ -13,8 +12,7 @@ case "$1" in
 			$(bc <<< "ibase=16;obase=2;$NUM")	
 		;;
 	0[xX]*)
-		NUM=$(echo $1 | cut -b 3-)
-		NUM=$(echo $NUM | tr [:lower:] [:upper:])
+		NUM=$(echo $1 | cut -b 3- | tr [:lower:] [:upper:])
 		printf "\tHex\t\tDec\t\tBin\n" 
 		printf "\t0x%s\t\t%s\t\t%s\n" \
 			$NUM \

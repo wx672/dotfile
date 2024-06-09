@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cmdchk mkbitmap
+
 usage(){
 	cat <<EOF
 ${0##*/} - Convert any image into a monochrome PDF file with optional text annotation.
@@ -66,36 +68,46 @@ PDF="$BASE.pdf"
 mkdir -p trash
 
 TYPE=$(file -b --extension "$IMG")
+echo -n "$TYPE" '-> PPM...'
 
 case $TYPE in
-    *jpg* )
+    *jpg* ) cmdchk jpegtopnm
         jpegtopnm -quiet "$IMG" > "$PPM"
 		mv "$IMG" trash
         ;;
-    *png* )
-		pngtopnm -mix -background "#FFF" "$IMG" > "$PPM"
+    *png* ) cmdchk pngtopam
+		pngtopam -mix -background="#FFF" "$IMG" > "$PPM"
 		mv "$IMG" trash
 		;;
-	*webp* )
+	*webp* ) cmdchk dwebp 
 		dwebp "$IMG" -ppm -o "$PPM"
 		mv "$IMG" trash
 		;;
-	*ppm* )
-		echo It is already a PPM file.
+	*ppm*|*pgm*|*pbm* )
 		;;
-	* )
+	* ) cmdchk convert
 		convert "$IMG" "$PPM"
 		mv "$IMG" trash
-esac
+esac && echo 'done.' || echo 'failed.'
 
-$MKBMP -f${F:-128} -t${T:-.4} -o "$PBM" "$PPM"
+echo -n 'PPM -> PBM...'
+$MKBMP -f${F:-128} -t${T:-.4} -o "$PBM" "$PPM" && echo 'done.' || echo 'failed.'
 
-[[ "$TXT" ]] && mogrify -pointsize ${FS:-22} -font ${FN:-Noto-Sans-CJK-SC} -annotate ${XY:-+300+30} "$TXT" "$PBM"
+[[ "$TXT" ]] && {
+	cmdchk mogrify
+	echo -n 'Annotating the PBM file...'
+	mogrify -pointsize ${FS:-22} -font ${FN:-Noto-Sans-CJK-SC} -annotate ${XY:-+300+30} "$TXT" "$PBM" && echo 'done.' || echo 'failed.'
+}
 
 [[ "$TRACE" ]] && {
-	potrace --tight -bpdf "$PBM"
+	cmdchk potrace
+	echo -n 'Run potrace on the PBM file...'
+	potrace --tight -bpdf "$PBM" && echo 'done.' || echo 'failed.'
 } || {
-	ppm2tiff -c none "$PBM" "$TIF"
-	tiff2pdf -zFo "$PDF" "$TIF"
+	cmdchk ppm2tiff
+	echo -n 'PBM -> Tiff -> PDF...'
+	ppm2tiff -c none "$PBM" "$TIF" && \
+		tiff2pdf -zFo "$PDF" "$TIF" && \
+		echo 'done.' || echo 'failed.'
 }
 

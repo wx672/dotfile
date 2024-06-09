@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cmdchk convert identify || exit 127
 usage() {
 	cat <<EOF
 ${0##*/} - draw grid on a picture

@@ -1,7 +1,6 @@
 #!/bin/bash
 
-command -v xsel &>/dev/null || { echo xsel is not found; exit 1; }
-command -v yq &>/dev/null || { echo yq is not found; exit 1; }
+cmdchk xsel yq || exit 127
 
 cfgDir="$HOME/.config/mihomo"
 SELFYML="$cfgDir/wx672.yaml"

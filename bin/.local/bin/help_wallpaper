@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# this script is supposed to be invoked by hitting on a dwm hotkey (S-F1)
+# this script is supposed to be invoked by a dwm hotkey (S-F1)
 # this script is needed because dwm can only accept absolute path
 # USAGE:
 #   help_wallpaper dwm|stumpwm|sawfish
@@ -21,5 +21,4 @@ case $1 in
 	   exit		
 esac
 
-#timeout 2m nsxiv -qbsf $IMG
 timeout 2m $IV $IMG

@@ -13,7 +13,10 @@ Usage: ${0##*/} [-h -e] [-t -p -D <pattern string>]
 EOF
 }
 
-MUPDF="$(command -v mupdf-gl) -C FDF6E3" || MUPDF="$(command -v mupdf) -C FDF6E3"
+cmdchk mupdf || exit 127
+MUPDF="$(command -v mupdf-gl) -C FDF6E3" || \
+	MUPDF="$(command -v mupdf) -C FDF6E3"
+
 V="setsid -f $MUPDF"
 PDFHIST="$HOME/.pdf_history"
 DEBUG=""
@@ -23,7 +26,7 @@ DEBUG=""
 while getopts :Dhtep OPT; do
 	case $OPT in
 		t) V="less" ;;
-		e) vim "$PDFHIST"; exit 0 ;;
+		e) vi "$PDFHIST"; exit 0 ;;
 		p) V="realpath" ;;
 		D) DEBUG="YES" ;;
 		h) usage; exit 0 ;;
@@ -40,13 +43,16 @@ chkPATTERN(){
 	[[ "$PATTERN" ]] || return 0;
 
 	# valid file, e.g. /tmp/tmp.pdf or tmp.pdf
-	[[ $(file --mime-type -b "$PATTERN") == application/pdf ]] && return 1;
+	[[ $(file --mime-type -b "$PATTERN") == "application/pdf" ]] && return 1;
 
 	# any string
 	return 2;
 }
 
-searchPDF(){ # when $PATTERN is a random string
+searchPDF(){ # when $PATTERN is a random string, i.e. chkPATTERN returns 2.
+
+	cmdchk sk fd rg || exit 127
+
 	PDFFILE=$(sk < <(fd --no-ignore \
 						--max-depth 3 \
 						--fixed-strings \
@@ -105,15 +111,17 @@ searchPDF(){ # when $PATTERN is a random string
 chkPATTERN
 
 case $? in
-	0) sk < $PDFHIST \
-		  --bind "enter:execute($V {})+abort" \
-		  --exact --select-1 --exit-0 \
-		  --ansi --color=always \
-		  --no-multi \
-		  --keep-right
-	   exit 0
-	   ;; 
-	1) $V "$PATTERN"; exit 0
-	   ;;
+	0) #empty $PATTERN
+		sk < $PDFHIST \
+		   --bind "enter:execute($V {})+abort" \
+		   --exact --select-1 --exit-0 \
+		   --ansi --color=always \
+		   --no-multi \
+		   --keep-right
+		exit 0
+		;; 
+	1) #file found in $CWD
+		$V "$PATTERN"; exit 0
+		;;
 	*) searchPDF; exit 0		
 esac

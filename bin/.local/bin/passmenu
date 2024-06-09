@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cmdchk sk pass || exit 127
+
 shopt -s nullglob globstar
 
 prefix=${PASSWORD_STORE_DIR-~/.password-store}
