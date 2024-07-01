@@ -1,6 +1,6 @@
 ---
 # The editor to use with 'cheat -e <sheet>'. Defaults to $EDITOR or $VISUAL.
-editor: vim
+editor: vi
 
 # Should 'cheat' always colorize output?
 colorize: true
@@ -15,7 +15,8 @@ style: monokai
 formatter: terminal16m
 
 # Through which pager should output be piped? (Unset this key for no pager.)
-pager: less -FRX
+# pager: less -FRX
+pager: batcat
 
 # The paths at which cheatsheets are available. Tags associated with a cheatpath
 # are automatically attached to all cheatsheets residing on that path.

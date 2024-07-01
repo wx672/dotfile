@@ -1,6 +1,11 @@
-# man youtube-dl
+# man yt-dlp
 
---proxy "socks5://127.0.0.1:7891"
+# aria2c/ffmpeg doesn't support socks proxy
+--proxy "127.0.0.1:7890"
+
+--downloader aria2c
+
+--retries infinite
 
 --mark-watched
 

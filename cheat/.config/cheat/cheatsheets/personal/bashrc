@@ -1,7 +1,0 @@
-# for login shell (either interactive or non)
-/etc/profile -> /etc/profile.d/* -> ~/.bash_profile 
-
-# for non-login shell
-/etc/bash.bashrc -> ~/.bashrc
-
-# https://www.stefaanlippens.net/bashrc_and_others/

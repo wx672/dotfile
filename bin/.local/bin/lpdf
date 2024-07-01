@@ -1,127 +1,141 @@
 #!/bin/bash
 
-usage(){
-	cat <<EOF
+cmdchk sk fd rg mupdf zathura || exit 127
+
+SKOPTS="--exact --select-1 --exit-0 --no-multi --keep-right"
+FDOPTS="--fixed-strings"
+RGOPTS="--no-line-number --fixed-strings --max-columns=0"
+MUOPTS="-C FDF6E3"
+ 
+MUPDF="$(command -v mupdf-gl) $MUOPTS" || {
+   MUPDF="$(command -v mupdf) $MUOPTS"
+}
+MUPDF="setsid -f $MUPDF"
+
+unset TXT PTH DEBUG
+
+PDFHIST="$HOME/.pdf_history"
+[[ -e $PDFHIST ]] || touch $PDFHIST
+
+usage() {
+  cat <<EOF
 ${0##*/} - A lazy PDF viewer.
 
-Usage: ${0##*/} [-h -e] [-t -p -D <pattern string>] 
-	   -h  help
-	   -e  edit $HOME/.pdf_history file
-	   -t  text mode
-	   -p  output full path to the file
-	   -D  enable debug mode
+Usage: ${0##*/} [-e] [-t -p -D <pattern string>] 
+  -e  edit $PDFHIST file
+  -t  text mode (open pdf with 'less')
+  -p  output full path to the file
+  -D  enable debug mode
 EOF
+
+  exit ${1:-0}
 }
 
-cmdchk mupdf || exit 127
-MUPDF="$(command -v mupdf-gl) -C FDF6E3" || \
-	MUPDF="$(command -v mupdf) -C FDF6E3"
+chkPATTERN() {
 
-V="setsid -f $MUPDF"
-PDFHIST="$HOME/.pdf_history"
-DEBUG=""
+  [[ $DEBUG ]] && {
+	  echo '[chkPATTERN] $1' is: ${1:-empty}
+  }
 
-[ -e "$PDFHIST" ] || touch "$PDFHIST"
+  [[ "$1" ]] || return 0 #if $1 is empty
 
-while getopts :Dhtep OPT; do
-	case $OPT in
-		t) V="less" ;;
-		e) vi "$PDFHIST"; exit 0 ;;
-		p) V="realpath" ;;
-		D) DEBUG="YES" ;;
-		h) usage; exit 0 ;;
-		?) usage; exit 1 ;;
-	esac
+  # valid file, e.g. /tmp/tmp.pdf or tmp.pdf
+  [[ $(file --mime-type -b "$1") == "application/pdf" ]] && return 1
+  
+  return 2 #if $1 is a random string
+}
+
+openPDF() {
+
+  [[ "$DEBUG" ]] && {
+	  echo '[openPDF] $1 is:' ${1:-empty}
+  }
+
+  [[ $1 ]] || exit 0
+
+  local PDF="$1"  
+
+  [[ $TXT || $SSH_TTY ]] && { less $PDF; exit 0; }
+
+  [[ $PTH ]] && { realpath $PDF; exit 0; }
+
+  [[ "$PDF" == *gz ]] && {
+    gzip -cd "$PDF" | zathura -
+	  exit 0
+  } || {
+    $MUPDF "$PDF" &>/dev/null
+	  exit 0
+  }
+}
+
+searchPDF() { # when $PATTERN is a random string, i.e. chkPATTERN returns 2.
+
+  [[ "$DEBUG" ]] && {
+	  echo '[searchPDF] $1 is:' ${1:-empty}
+  }
+
+  local PATTERN="$1"
+
+  #Searching in $CWD
+  local PDFFILE=$(sk $SKOPTS < <(fd $FDOPTS -e pdf.gz -e pdf \
+                                    "${PATTERN##*/}") )
+
+  [[ $DEBUG ]] && echo '[searchPDF] $PDFFILE in $CWD is:' ${PDFFILE:-empty}
+  
+  [[ "$PDFFILE" ]] || { # if no matching found in CWD 
+    # Searching in $PDFHIST
+    local HIST=$(sk $SKOPTS < <(rg $RGOPTS "${PATTERN##*/}" $PDFHIST) )
+
+    [[ "$HIST" ]] || { # not found in $PDFHIST
+        [[ $DEBUG ]] && echo '[searchPDF]' $PATTERN: No match found in neither $PWD nor $PDFHIST.
+        exit 0
+      }
+
+    openPDF "$HIST" # found in $PDFHIST
+  }
+
+  # if Found in CWD
+  [ $DEBUG ] && echo '[searchPDF] $PATTERN is found in' $PWD
+
+  # if not in PDFHIST, add it
+  local FULLPTH="$(realpath "$PDFFILE")"
+  rg -qF "$FULLPTH" "$PDFHIST" || {
+      echo "$FULLPTH" >> "$PDFHIST"
+      echo "$FULLPTH" is added into $PDFHIST
+    }
+
+  [ $DEBUG ] && tail $PDFHIST
+
+  openPDF "$PDFFILE"
+}
+
+while getopts :Dtep OPT; do
+  case $OPT in
+    t) TXT="Y" ;;
+    e) vi "$PDFHIST"; exit 0 ;;
+    p) PTH="Y" ;;
+    D) DEBUG="Y" ;;
+    *) usage ;;
+  esac
 done
-shift $(( OPTIND - 1 ))
+shift $((OPTIND - 1))
 OPTIND=1
 
-PATTERN="$*"
+[[ "$DEBUG" ]] && echo '[DEBUG] After getopts, $* is:' ${*:-empty}
 
-chkPATTERN(){
-	# empty?
-	[[ "$PATTERN" ]] || return 0;
-
-	# valid file, e.g. /tmp/tmp.pdf or tmp.pdf
-	[[ $(file --mime-type -b "$PATTERN") == "application/pdf" ]] && return 1;
-
-	# any string
-	return 2;
-}
-
-searchPDF(){ # when $PATTERN is a random string, i.e. chkPATTERN returns 2.
-
-	cmdchk sk fd rg || exit 127
-
-	PDFFILE=$(sk < <(fd --no-ignore \
-						--max-depth 3 \
-						--fixed-strings \
-						--extension pdf.gz \
-						--extension pdf \
-						"${PATTERN##*/}") \
-				 --exact --select-1 --exit-0 \
-				 --ansi --color=always \
-				 --no-multi \
-				 --keep-right)
-
-	[ $DEBUG ] && echo "[DEBUG]: PDFFILE=$PDFFILE"
-	
-	# if no matching found in CWD
-	[[ "$PDFFILE" ]] || { # check in $PDFHIST
-		HIST=$(sk < <(rg --no-line-number \
-						 --fixed-strings \
-						 --max-columns=0 \
-						 "$PATTERN" $PDFHIST) \
-				  --exact --select-1 --exit-0 \
-				  --ansi --color=always \
-				  --no-multi \
-				  --keep-right)
-
-		[[ "$HIST" ]] || { # not found in $PDFHIST
-			echo "$PATTERN": No match found in neither $PWD nor $PDFHIST.
-			exit 1
-		}
-
-		if [[ "$HIST" == *gz ]] && [[ "$V" != "less" ]]; then
-			gzip -cd "$HIST" | zathura -
-			exit 0
-		else
-			$V "$HIST" 2>/dev/null
-			exit 0
-		fi
-	}
-
-	# Found in CWD
-	[ $DEBUG ] && echo "[DEBUG]: found in $PWD"
-	# if not in PDFHIST, add it
-	rg -qF "$(realpath "$PDFFILE")" "$PDFHIST" || \
-		realpath "$PDFFILE" >> "$PDFHIST"
-
-	[ $DEBUG ] && tail $PDFHIST
-	
-	if [[ "$PDFFILE" == *gz ]] && [[ "$V" != "less" ]]; then
-		gzip -cd "$PDFFILE" | zathura -
-		exit 0
-	else
-		$V "$PDFFILE" 2>/dev/null
-		exit 0
-	fi
-}
-
-chkPATTERN
+chkPATTERN "$*"
 
 case $? in
-	0) #empty $PATTERN
-		sk < $PDFHIST \
-		   --bind "enter:execute($V {})+abort" \
-		   --exact --select-1 --exit-0 \
-		   --ansi --color=always \
-		   --no-multi \
-		   --keep-right
+	0) #empty $*, choose a PDF in $PDFHIST
+		openPDF $(sk <$PDFHIST $SKOPTS)
 		exit 0
-		;; 
-	1) #file found in $CWD
-		$V "$PATTERN"; exit 0
 		;;
-	*) searchPDF; exit 0		
+	1) #file found in $CWD
+		openPDF "$*"
+		exit 0
+		;;
+	2)
+		searchPDF "$*"
+		exit 0
+		;;
 esac

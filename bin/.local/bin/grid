@@ -2,7 +2,7 @@
 
 cmdchk convert identify || exit 127
 usage() {
-	cat <<EOF
+  cat <<EOF
 ${0##*/} - draw grid on a picture
 
 USAGE: ${0##*/} [-h] [-s 'x,y'] [-c color] [-o opacity] [-O outfile] infile
@@ -14,6 +14,8 @@ OPTIONS:
  -w width      stroke width. Default to 1
  -O outfile    default to '/tmp/grid.png'
 EOF
+
+exit ${1:-0}
 }
 
 #######color code########
@@ -22,26 +24,28 @@ SUCCESS="32m" # green
 WARN="33m"    # yellow
 INFO="36m"    # blue
 
-colorEcho(){
-    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+colorEcho() {
+  echo -e "\033[${1}${@:2}\033[0m" 1>&2
 }
 
-while getopts :hc:s:w:o:O: OPT; do
-	case $OPT in
-		h) usage; exit 0 ;;
-		s) SPACING="$OPTARG" ;; 
-		c) COLOR="$OPTARG" ;; 
-		o) OPACITY="$OPTARG" ;;
-		w) WIDTH="$OPTARG" ;;
-		O) OUTFILE="$OPTARG" ;;
-		?) usage; exit 2
-	esac
+while getopts :c:s:w:o:O: OPT; do
+  case $OPT in
+    s) SPACING="$OPTARG" ;;
+    c) COLOR="$OPTARG" ;;
+    o) OPACITY="$OPTARG" ;;
+    w) WIDTH="$OPTARG" ;;
+    O) OUTFILE="$OPTARG" ;;
+    *) usage ;;
+  esac
 done
-shift $(( OPTIND - 1 ))
+shift $((OPTIND - 1))
 OPTIND=1
 
 INFILE="$@"
-[[ -f "$INFILE" ]] || { colorEcho $ERR 'ERROR: NO INPUT FILE SPECIFIED!'; usage; exit 1; }
+[[ -f "$INFILE" ]] || {
+  colorEcho $ERR 'ERROR: NO INPUT FILE SPECIFIED!'
+  usage 1
+}
 
 # get image dimensions
 W=$(identify -format "%w" "$INFILE")
@@ -54,17 +58,15 @@ yinc=${SPACING#*,}
 
 # get string for drawing grid lines
 DRAWSTR=""
-for ((i=0; i<=$H; i+=yinc)); do
-	DRAWSTR="$DRAWSTR M 0,$i L $W,$i"
+for ((i = 0; i <= $H; i += yinc)); do
+  DRAWSTR="$DRAWSTR M 0,$i L $W,$i"
 done
 
-for ((i=0; i<=$W; i+=xinc)); do
-	DRAWSTR="$DRAWSTR M $i,0 L $i,$H"
+for ((i = 0; i <= $W; i += xinc)); do
+  DRAWSTR="$DRAWSTR M $i,0 L $i,$H"
 done
 
 # process image
 convert $INFILE -flatten -fill none -stroke ${COLOR:-red} -strokewidth ${WIDTH:-1} \
-		-draw "stroke-opacity ${OPACITY:-1} path '$DRAWSTR'" \
-		${OUTFILE:-/tmp/grid.png}
-
-
+  -draw "stroke-opacity ${OPACITY:-1} path '$DRAWSTR'" \
+  ${OUTFILE:-/tmp/grid.png}

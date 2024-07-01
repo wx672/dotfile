@@ -1,0 +1,22 @@
+---
+syntax: markdown
+tags: [ rem2html, rem2ics, remind, rem2pdf ]
+---
+
+# rem2html, rem2ics, rem2pdf
+
+```sh
+remind -pp -mb1 -c6 -@2 weekly.rem | rem2html --title "2024-2025-01, WANG Xiaolin" > weekly.html 
+remind -pp -mb1 -c3 -@2 weekly.rem | rem2pdf > out.pdf
+remind -s+22 weekly.rem | rem2ics -do > weekly.ics 
+rem2html --man
+rem2pdf --help
+rem2ics -man
+```
+
+# remind
+
+```sh
+remind -b1 -wt -mcu+20 -@2 weekly.rem 
+remind -b1 -ga -s6 weekly.rem | choose 0 8:
+```

@@ -17,13 +17,13 @@
   <property name="mainWndWidth" value="1920"/>
   <property name="mainWndHeight" value="1080"/>
   <property name="maximized" value="false"/>
-  <property name="showToolbar" value="true"/>
+  <property name="showToolbar" value="false"/>
   <property name="showSidebar" value="false"/>
-  <property name="sidebarWidth" value="50"/>
+  <property name="sidebarWidth" value="141"/>
   <property name="sidebarNumberingStyle" value="1"/>
   <property name="sidebarOnRight" value="false"/>
   <property name="scrollbarOnLeft" value="false"/>
-  <property name="menubarVisible" value="false"/>
+  <property name="menubarVisible" value="true"/>
   <property name="filepathShownInTitlebar" value="false"/>
   <property name="numColumns" value="1"/>
   <property name="numRows" value="1"/>
@@ -224,7 +224,7 @@
     </data>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="eraser"/>
+    <attribute name="current" type="string" value="highlighter"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>

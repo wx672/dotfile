@@ -1,4 +1,16 @@
-- Primary: the "middle mouse clipboard" for when the user has highlighted or selected something (e.g., dragging the mouse over some text.)
-- Secondary: Virtually unused these days.
-- Clipboard: the "Ctrl-C clipboard" for when the user has explicitly copied something (e.g., the ``Edit/Copy'' menu item.)
-- Cut Buffers:	Obsolete. Never, ever, ever use them. Ever.
+---
+syntax: markdown
+tags: [ clipboard, primary, secondary, cut buffer ]
+---
+
+Primary
+: the `middle mouse clipboard` for when the user has highlighted or selected something (e.g., dragging the mouse over some text.)
+
+Secondary
+: Virtually unused these days.
+
+Clipboard
+: the `Ctrl-C clipboard` for when the user has explicitly copied something (e.g., the `Edit/Copy` menu item.)
+
+Cut Buffers
+: Obsolete. Never, ever, ever use them. Ever.

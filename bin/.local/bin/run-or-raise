@@ -7,7 +7,7 @@
 #
 # $1 should be a string indicating window name or window class (xprop),
 # such as emacs, browser, xterm, nsxiv.
-# 
+#
 # $2 should be the command name, such as emacsclient, x-www-browser,
 # x-terminal-emulator, nsxiv
 #
@@ -23,4 +23,7 @@
 #command -v wmctrl || { notify-send "Missing wmctrl"; exit 1; }
 cmdchk wmctrl || exit 127
 
-wmctrl -xa $1 || { shift; "$@"; }
+wmctrl -xa $1 || {
+  shift
+  "$@"
+}

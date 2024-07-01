@@ -1,0 +1,38 @@
+---
+syntax: markdown
+tags: [kmscon]
+---
+
+# /etc/kmscon/kmscon.conf
+
+```
+font-name=FiraCode Nerd Font, Noto Sans Mono CJK SC
+font-size=22
+font-engine=pango
+palette=solarized
+xkb-layout=us
+xkb-options=ctrl:nocaps
+grab-zoom-in=<Ctrl>equal
+drm
+hwaccel
+```
+
+# systemd
+
+After installing kmscon, do:
+
+```sh
+cd /etc/systemd/system
+mv autovt@{,tty2}.service # only on tty2
+
+cd getty.target.wants
+mv kmsconvt@tty{1,2}.service # leave tty1 alone
+
+# check status
+systemctl status autovt@tty1
+systemctl status autovt@tty2
+systemctl status kmsconvt@tty2
+
+systemctl disable kmsconvt@tty1
+```
+

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ -z "$1" ] && echo "Usage: ${0##*/} [dhb]<number>" && exit 0;
+[ "$1" ] || { echo "Usage: ${0##*/} [dhb]<number>"; exit 0; }
 
 case "$1" in
 	[hH]*) 

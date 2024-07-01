@@ -6,22 +6,33 @@ import subprocess
 import os
 from qutebrowser.api import interceptor
 
+import catppuccin
+
+# load your autoconfig, use this, if the rest of your config is empty!
+# config.load_autoconfig()
+
+# set the flavor you'd like to use
+# valid options are 'mocha', 'macchiato', 'frappe', and 'latte'
+# last argument (optional, default is False): enable the plain look for the menu rows
+catppuccin.setup(c, 'mocha', True)
+
 # general settings
 c.auto_save.session = True
 c.changelog_after_upgrade = 'never'
 c.completion.height = "30%"
-c.completion.web_history.max_items = 1000
+c.completion.web_history.max_items = 10000
 c.content.cache.size = 52428800
 c.content.default_encoding = 'utf-8'
 c.content.blocking.enabled = True
 c.content.fullscreen.overlay_timeout = 0
 c.content.fullscreen.window = True
-c.content.javascript.can_access_clipboard = True
 c.content.javascript.can_open_tabs_automatically = True
 c.content.javascript.log = {'unknown': 'none', 'info': 'none', 'warning': 'none', 'error': 'none'}
 c.content.plugins = True
 c.content.proxy = "socks://localhost:7891"
 #c.content.proxy = "none"
+# c.content.user_stylesheets = ["~/.config/qutebrowser/dark.css"]
+# c.content.user_stylesheets = []
 c.content.webgl = True
 c.downloads.location.directory = '/tmp/'
 c.downloads.location.prompt = True
@@ -29,13 +40,12 @@ c.downloads.location.remember = False
 c.downloads.location.suggestion = 'path'
 c.downloads.open_dispatcher = None
 c.downloads.position = 'top'
-c.editor.command = ["emacsclient", "-c", "{}"]
-c.fileselect.folder.command = ["st", "-e", "sh", "-c", "lf -selection-path {}"]
-#c.fileselect.folder.command = ["st", "-e", "sh", "-c", "file-chooser-sk.sh", "{}"]
-#c.fileselect.folder.command = ["rofi","-show","fb","-modi","fb:rofi-file-browser.sh","{}"]
-c.fileselect.multiple_files.command = c.fileselect.folder.command
-c.fileselect.single_file.command = c.fileselect.folder.command
+c.editor.command = ["st","-e","vi", "{}"]
 c.fileselect.handler = "external"
+c.fileselect.single_file.command = ["st", "-e", "lf -selection-path {}"]
+c.fileselect.multiple_files.command = c.fileselect.folder.command
+c.fileselect.folder.command = c.fileselect.single_file.command
+# c.fileselect.folder.command = ["st", "-e", "sh", "-c", "xplr > {}"]
 c.hints.auto_follow = 'always'
 c.hints.auto_follow_timeout = 0
 c.hints.border = "1px solid #CCCCCC"
@@ -51,24 +61,27 @@ c.scrolling.smooth = False
 c.session.default_name = None
 c.session.lazy_restore = True
 c.statusbar.show = "always"
+c.tabs.show = "multiple"
 c.tabs.background = False
 c.tabs.favicons.show = "always"
 c.tabs.last_close = "close"
-c.tabs.show = "always"
 c.tabs.show_switching_delay = 3000
-c.url.default_page = 'https://google.com'
+c.url.default_page = 'https://duckduckgo.com'
 c.url.open_base_url = True
-c.url.start_pages = 'https://google.com'
+c.url.start_pages = 'https://duckduckgo.com'
 c.zoom.default = "150%"
 c.zoom.levels = ["100%","125%","150%","175%","200%","225%","250%","275%","300%"]
 
 # searches
 # example: :open d hello
 c.url.searchengines = {
-    'DEFAULT':'http://www.google.com/search?q={}',
-    'a':'https://wiki.archlinux.org/?search={}',
-    'b':'https://search.bilibili.com/all?keyword={}',
+    'DEFAULT':'https://duckduckgo.com/?q={}',
     'd':'https://duckduckgo.com/?q={}',
+    'ddg':'https://duckduckgo.com/?q={}',
+    'g':'https://www.google.com/search?q={}',
+    'gg':'https://www.google.com/search?q={}',
+    'arch':'https://wiki.archlinux.org/?search={}',
+    'b':'https://search.bilibili.com/all?keyword={}',
     'e':'https://earth.google.com/web/search/{}',
     'm':'https://www.google.com/maps/search/{}',
     'en':'https://ludwig.guru/s/{}',
@@ -81,7 +94,7 @@ c.url.searchengines = {
     'r':'https://reddit.com/r/{}',
     's':'https://stackexchange.com/search?q={}',
     'w':'https://en.wikipedia.org/?search={}',
-    'x':'https://www.1377x.to/search/{}/1/',
+    'x':'https://www.1337xx.to/search/{}/1/',
     'xda':'https://www.xda-developers.com/search/?query={}',
     'ximalaya':'https://www.ximalaya.com/search/{}',
     'y':'https://www.youtube.com/results?search_query={}',
@@ -92,18 +105,14 @@ c.url.searchengines = {
 ## Type: Dict
 c.aliases = {
     'proxy':'set content.proxy',
-    'chatgpt':'open -t https://poe.com/ChatGPT',
-    'gpt':'open -t https://poe.com/ChatGPT',
-    'yacd':'open -t http://yacd.haishan.me/#/proxies',
+    'gpt':'open -t https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1',
+    'poe':'open -t https://poe.com/ChatGPT',
     'dashboard':'open -t http://yacd.haishan.me/#/proxies',
     'calibre':'open -t https://cs6.swfu.edu.cn/calibre',
     'cs6':'open -t https://cs6.swfu.edu.cn/moodle',
-    'cs6lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
     'lecture':'open -t https://cs6.swfu.edu.cn/~wx672/lecture_notes',
     'gmail':'open -t https://mail.google.com',
-    'wechat':'open -t https://web.wechat.com/',
-    'elixir':'open -t https://downloads.projectelixiros.com/thirteen/ginkgo/',
-    'projectelixir':'open -t https://downloads.projectelixiros.com/thirteen/ginkgo/'
+    'wechat':'open -t https://web.wechat.com/'
 }
 
 # keybinds
@@ -125,7 +134,7 @@ config.bind('<Ctrl-Tab>', 'tab-next', mode='normal')
 config.bind('<Ctrl-Shift-Tab>', 'tab-prev', mode='normal')
 config.bind('<Ctrl-a>n', 'tab-next', mode='normal')
 config.bind('<Ctrl-a>p', 'tab-prev', mode='normal')
-config.bind('<Ctrl-l>', 'set-cmd-text -s :open -t')
+config.bind('<Ctrl-l>', 'cmd-set-text -s :open -t')
 config.bind('<Ctrl-Shift-p>', 'tab-pin', mode='normal')
 config.bind('<Escape>', 'mode-leave', mode='passthrough')
 config.bind('<Ctrl-i>', 'mode-enter passthrough', mode='normal')
@@ -133,9 +142,13 @@ config.bind('<Ctrl-/>', 'undo', mode='normal')
 config.unbind('=', mode='normal')
 config.bind('=', 'zoom-in', mode='normal')
 config.unbind('d', mode='normal')
-config.bind('d','scroll-page 0 0.5', mode='normal')
+config.unbind('j', mode='normal')
 config.unbind('u', mode='normal')
-config.bind('u','scroll-page 0 -0.5', mode='normal')
+config.unbind('k', mode='normal')
+config.bind('d','scroll-page 0 0.7', mode='normal')
+config.bind('j','scroll-page 0 0.1', mode='normal')
+config.bind('u','scroll-page 0 -0.7', mode='normal')
+config.bind('k','scroll-page 0 -0.1', mode='normal')
 config.bind('<Backspace>','scroll-page 0 -1', mode='normal')
 config.bind('<Ctrl-Shift-r>', 'restart', mode='normal')
 config.bind('<Ctrl-r>', 'reload', mode='normal')
@@ -145,11 +158,14 @@ config.bind('<Ctrl-a><Ctrl-p>', 'config-cycle content.pdfjs True False', mode='n
 config.bind('<Ctrl-a>0', 'set content.proxy none', mode='normal')
 config.bind('<Ctrl-a>7', 'set content.proxy socks://localhost:7891', mode='normal')
 config.bind('<Ctrl-a><Ctrl-s>', 'config-cycle content.proxy none socks://localhost:7891 socks://127.0.0.1:1080', mode='normal')
-config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show never always')
+config.bind('<Shift-i>', 'config-cycle statusbar.show never always;; config-cycle tabs.show never multiple')
 config.unbind('b', mode='normal')
 config.bind('<Shift-b>', 'open -t qute://bookmarks', mode='normal')
 config.bind(';d', 'hint links spawn aria2c --no-conf --check-certificate=false -x6 {hint-url}')
 config.bind(';a', 'hint links spawn -u clipappend {hint-url}')
+config.unbind('<Shift-d>', mode='normal')
+# config.bind('<Shift-d>', 'config-cycle content.user_stylesheets ~/.config/qutebrowser/dark.css ""')
+config.bind('<Shift-d>', 'config-cycle colors.webpage.darkmode.enabled True False')
 # config.bind(';m', 'hint links spawn mpv --profile=ypv {hint-url}')
 # config.bind(';b', 'hint links spawn mpv --profile=noproxy {hint-url}')
 config.bind('rr', 'spawn -u readability')
@@ -192,24 +208,24 @@ config.bind("<Ctrl-h>", "fake-key <Backspace>", "insert")
 config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
 
 ## colors
-c.colors.tabs.even.fg                 = "white"
-c.colors.tabs.even.bg                 = "black"
-c.colors.tabs.odd.fg                  = "white"
-c.colors.tabs.odd.bg                  = "black"
-c.colors.tabs.selected.even.fg        = "black"
-c.colors.tabs.selected.even.bg        = "yellow"
-c.colors.tabs.selected.odd.fg         = "black"
-c.colors.tabs.selected.odd.bg         = "yellow"
-c.colors.tabs.pinned.even.fg          = "white"
-c.colors.tabs.pinned.even.bg          = "black"
-c.colors.tabs.pinned.odd.fg           = "white"
-c.colors.tabs.pinned.odd.bg           = "black"
-c.colors.tabs.pinned.selected.even.fg = "black"
-c.colors.tabs.pinned.selected.even.bg = "yellow"
-c.colors.tabs.pinned.selected.odd.fg  = "black"
-c.colors.tabs.pinned.selected.odd.bg  = "yellow"
-c.colors.hints.bg                     = "#cccccc"
-c.colors.webpage.bg                   = "#eeeeee"
+c.colors.webpage.preferred_color_scheme = "dark"
+c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
+# c.colors.webpage.darkmode.enabled = True
+# c.colors.webpage.darkmode.policy.images = 'never'
+# c.colors.webpage.darkmode.policy.page = 'smart'
+# c.colors.webpage.darkmode.threshold.background = 0
+# c.colors.webpage.darkmode.threshold.foreground = 256
+
+# c.colors.tabs.even.bg                 = "#002849"
+# c.colors.tabs.odd.bg                  = "#002849"
+# c.colors.tabs.selected.even.bg        = "darkgreen"
+# c.colors.tabs.selected.odd.bg         = "darkgreen"
+# c.colors.tabs.pinned.even.bg          = "#002849"
+# c.colors.tabs.pinned.odd.bg           = "#002849"
+# c.colors.tabs.pinned.selected.even.bg = "darkgreen"
+# c.colors.tabs.pinned.selected.odd.bg  = "darkgreen"
+# c.colors.hints.bg                     = "#cccccc"
+# c.colors.webpage.bg                   = "#eeeeee"
 
 # fonts
 c.fonts.default_family      = ["Noto Sans Mono"]

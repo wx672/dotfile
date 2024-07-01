@@ -1,0 +1,71 @@
+\documentclass{swfulabreport}
+
+\addbibresource{$bibfile$}
+
+\swfusetup{%
+  Title     ={$title$}, % 
+  Title*    ={$etitleEN$}, % 论文标题（英文）
+  Author    ={$author$}, % 作者姓名
+  Author*   ={$authorEN$}, % 作者姓名（英文）
+  Signature ={$signature$}, % 作者签名（用于原创声明页）
+  ID        ={$id$}, % 学号
+  Year      ={$year$},%
+  Month     ={$month$},%
+  Date      ={$date$},%
+  Major     ={$major$},%计算机科学与技术
+  Advisor   ={$advisor$}, %指导教师甲（职称），指导教师乙（职称）
+  Reviewer  ={$reviewer$}, % 评阅人
+}
+
+\begin{document}
+
+\maketitle % 封面
+
+\frontmatter
+
+\begin{abstract} % 摘要
+  $abstract$
+\end{abstract}
+
+\begin{keyword} % 关键词
+  $keyword$
+\end{keyword}
+
+\begin{EAbstract} % 英文摘要
+  $abstractEN$
+\end{EAbstract}
+
+\begin{EKeyword} % 英文关键词
+  $keywordEN$
+\end{EKeyword}
+
+\tableofcontents % 目录
+% \clearpage
+% \listoffigures % 图片目录，可以没有
+% \clearpage
+% \listoftables  % 表格目录，可以没有
+
+\mainmatter
+
+$body$
+
+\appendix % 参考文献、指导教师简介、鸣谢、附录
+\makebib % 参考文献
+
+\begin{advisorInfo} % 指导教师简介
+  $advisorInfo$
+\end{advisorInfo}
+
+\begin{Thanks} % 致谢
+  $thanks$
+\end{Thanks}
+
+%%%%% 附录章节
+\singlespacing
+
+$include-after$
+
+\end{document} % 此行后面不要有任何文字。
+%%% Local Variables:
+%%% mode: LaTeX
+%%% End:

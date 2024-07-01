@@ -2,73 +2,33 @@
 
 case "$1" in
 	*.iso)
-		command -v isoinfo || {
-			isoinfo not found. You need to install genisoimage.
-			exit 1
-		}
 		isoinfo -l -i "$1"
 		;;
 	*.sqfs)
-		command -v unsquashfs || {
-			unsquashfs not found. You need to install squashfs-tools.
-			exit 1
-		}
 		unsquashfs -l "$1"
 		;;
-	# *.rtf | *.RTF)
-	# 	command -v unrtf || {
-	# 		unrtf not found.
-	# 		exit 1
-	# 	}
-	# 	unrtf --quiet --text "$1"
-	# 	;;
 	*.docx | *.DOCX)
-		command -v docx2txt || {
-			docx2txt is not found.
-			exit 1
-		}
 		docx2txt "$1" -
 		;;
 	*.xlsx | *.XLSX)
-		command -v xlsx2csv || {
-			xlsx2csv is not found.
-			exit 1
-		}
 		xlsx2csv "$1"
 		;;
   *.pdf | *.PDF)
-    command -v pdftotext || {
-  		pdftotext is not found.
-  		exit 1
-  	}
 		pdftotext -nopgbrk -layout -eol unix "$1" -
 		;;
+	*.ps | *.PS)
+		ps2ascii "$1"
+		;;
 	*.md | *.MD)
-		command -v mdcat || {
-			mdcat is not found.
-			exit 1
-		}
-		mdcat "$1"
+		mdless "$1"
 		;;
 	*.md.gz | *.MD.gz | *.MD.GZ)
-		command -v mdcat || {
-			mdcat is not found.
-			exit 1
-		}
-		gzip -cd "$1" | mdcat -
+		gzip -cd "$1" | mdless -
 		;;
 	*.tpxz)
-		command -v pixz || {
-			pixz is not found.
-			exit 1
-		}
 		pixz -l "$1"
 		;;
 	*.org)
-		command -v pandoc || {
-			pandoc is not found.
-			exit 1
-		}
 		pandoc -t markdown "$1" | mdless
 		;;
 	*.html | *.HTML)
@@ -82,7 +42,7 @@ case "$1" in
 		;;
 	*)
 		# We don't handle this format.
-		exit 1
+		exit 127
 		;;
 esac
 

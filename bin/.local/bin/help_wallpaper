@@ -8,17 +8,19 @@
 IV="$(command -v nsxiv) -qbsf" || IV=$(command -v iv) || IV=$(command -v open) || exit 1
 
 case $1 in
-	dwm)
-		IMG=$(realpath ~/.local/share/wallpapers/keys-dwm.png)
-		;;
-	stumpwm)
-		IMG=$(realpath ~/.local/share/wallpapers/keys-stumpwm.png)
-		;;
-	sawfish)
-		IMG=$(realpath ~/.local/share/wallpapers/keys-sawfish.png)		
-		;;
-	*) echo USAGE: ${0##*/} 'dwm|stumpwm|sawfish'
-	   exit		
+  dwm)
+    IMG=$(realpath ~/.local/share/wallpapers/keys-dwm.png)
+    ;;
+  stumpwm)
+    IMG=$(realpath ~/.local/share/wallpapers/keys-stumpwm.png)
+    ;;
+  sawfish)
+    IMG=$(realpath ~/.local/share/wallpapers/keys-sawfish.png)
+    ;;
+  *)
+    echo USAGE: ${0##*/} 'dwm|stumpwm|sawfish'
+    exit
+    ;;
 esac
 
 timeout 2m $IV $IMG

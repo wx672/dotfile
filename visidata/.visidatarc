@@ -11,3 +11,4 @@ bindkey('a','addcol-incr')
 options.disp_menu=False
 options.disp_sidebar=False
 options.quitguard=True
+options.color_current_cell="bold yellow"

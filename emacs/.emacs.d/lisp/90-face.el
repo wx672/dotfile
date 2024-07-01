@@ -18,9 +18,12 @@
 
 ;; == Load Custom Theme ==
 
+(setq catppuccin-flavor 'mocha) ; or 'latte, 'macchiato, or 'mocha
+(load-theme 'catppuccin t)
+
 (use-package doom-themes
-  ;; :disabled
-  :ensure t
+  :disabled
+  ;;  :ensure t
   :defer t
   :init (load-theme 'doom-palenight t) ;doom-one, doom-nord, doom-snazzy, doom-vibrant
   :config

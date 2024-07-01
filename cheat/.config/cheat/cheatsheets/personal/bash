@@ -1,20 +1,55 @@
-# file:///usr/share/doc/abs-guide/html/variables2.html
-$# --- Number of command-line arguments or positional parameters
-$* --- All of the positional parameters, seen as a single word. "$*" must be quoted.
-$@ --- Same as $*, but each parameter is a quoted string, that is, the parameters are passed on intact, without interpretation or expansion. This means, among other things, that each parameter in the argument list is seen as a separate word. Of course, "$@" should be quoted.
+---
+syntax: markdown
+tags: [ socket, variables, parameters, basename, dirname ]
+---
+
+- for login shell (either interactive or non)
+
+    /etc/profile -> /etc/profile.d/* -> ~/.bash_profile
+
+- for non-login shell
+
+    /etc/bash.bashrc -> ~/.bashrc
+
+- https://www.stefaanlippens.net/bashrc_and_others/
+- file:///usr/share/doc/abs-guide/html/variables2.html
+
++ $# #Number of command-line arguments or positional parameters
++ $* #All of the positional parameters, seen as a single word. "$*" must be quoted.
++ $@ #Same as $*, but each parameter is a quoted string, that is, the parameters are passed on intact, without interpretation or expansion. This means, among other things, that each parameter in the argument list is seen as a separate word. Of course, "$@" should be quoted.
 
 # basename and dirname
+
+```sh
 BASE="${IMG%.*}" # remove .suffix
 
 path=/the/path/of/foo.txt
 echo "${path##*/}" # basename  ${parameter##[pattern]}
 echo "${path%/*}"  #  dirname  ${parameter%[pattern]}
+```
+
+# process substitution
+
+```sh
+# to send the output of `ls` to 4 processes (2x`rg` and 2x`wc`)
+ls | tee >(rg 'txt$') >(wc -l) >(wc -c) >(rg pdf)
+
+# Suppose you have two sorted files, file1.txt and file2.txt, 
+# and you want to merge them into a new sorted file, merged.txt. 
+sort -m <(sort file1.txt) <(sort file2.txt) > merged.txt 
+
+# compare the directory structure of two directories using 'tree' and 'diff'
+diff -y <(tree -fi dir1) <(tree -fi dir2) 
+```
 
 # mapfile with process substitution
+```sh
 # https://www.computerhope.com/unix/bash/mapfile.htm
 mapfile < <(echo hello world)
+```
 
 # To implement a case command:
+```sh
 case "$1"
 in
     0) echo "zero found";;
@@ -22,14 +57,63 @@ in
     2) echo "two found";;
     3*) echo "something beginning with 3 found";;
 esac
+```
 
+# set
 
+```sh
 set -x # Turn on debugging
 set +x # Turn off debugging
+```
 
 # Retrieve N-th piped command exit status
+
+```sh
 printf 'foo' | fgrep 'foo' | sed 's/foo/bar/'
 echo ${PIPESTATUS[0]}  # replace 0 with N
+```
 
-# Lock file:
+# Lock file
+
+```sh
 ( set -o noclobber; echo > my.lock ) || echo 'Failed to create lock file'
+```
+
+# Socket (file downloading)
+
+```sh
+exec 3<>/dev/tcp/cs6.swfu.edu.cn/80
+cat http-req.txt >&3
+cat <&3
+```
+
+Example `http-req.txt`:
+```
+GET /~wx672/debian-install/install.sh HTTP/1.1
+Host: cs6.swfu.edu.cn
+Connection: close
+<empty line!>
+```
+
+# Array
+
+```sh
+a=( $(pdftotext -tsv os-marks-1.pdf - | sk -e10 | choose 6 7) )
+
+echo ${a[0]}  #got 96.00
+echo ${a[1]}  #got 809.77
+echo ${a[@]}  #got 96.00 809.77
+echo ${a[*]}  #got 96.00 809.77
+echo ${#a[@]} #got 2
+echo ${#a[*]} #got 2
+echo ${#a[0]} #got 5, length of 1st element of array
+echo ${#a[1]} #got 6
+echo ${a[0]:0}
+echo ${a[0]:1}
+echo ${a[0]:2}
+echo ${a[1]:0:2}
+echo ${a[1]:1:4}
+
+(( ${#a[@]} == 2 )) || echo wrong
+
+```

@@ -1,48 +1,47 @@
 #!/bin/bash
 
-cmdchk xsel yq || exit 127
+cmdchk yq || exit 127
 
 cfgDir="$HOME/.config/mihomo"
 SELFYML="$cfgDir/wx672.yaml"
 DEFAULTYML="$cfgDir/config.yaml"
 ymlDir="$cfgDir/yml"
-CLIPBOARD="$(xsel -bo)"
-PROXY_ENTRY=""
-PROXY_NAME="$CLIPBOARD"
+unset PROXY_NAME PROXY_ENTRY OUTFILE
 
-usage(){
-	cat <<EOF
+usage() {
+  cat <<EOF
 ${0##*/} - Tweaking clash config file.
 
 USAGE: 
-    ${0##*/} -h  # help
+    ${0##*/} -i [file.yaml] # insert a proxy entry into $SELFYML
 			    
-    ${0##*/} -i  # insert into $SELFYML
+    ${0##*/} -r [file.yaml] # remove a proxy entry from a yml file (default to $DEFAULTYML)
 			    
-    ${0##*/} -r  # remove from $DEFAULTYML
-			    
-    ${0##*/} -s  # search by proxy name
+    ${0##*/} -s [file.yaml] # search by proxy name
 
-    ${0##*/} [-o output.yaml] -t <newly downloaded yaml file>  # tweak newly downloaded yaml file
+    ${0##*/} [-o output.yaml] -t [newlydownloaded.yaml]  # tweak newly downloaded yaml file
 
-    - Before insert/remove an entry, you need to put its proxy name onto the clipboard first. To list all the proxy names, you can use yq:
-
-        \$ yq '.proxies[].name' config.yaml
-
-    - Prerequiesite: xsel, yq
+    - Prerequiesite: yq
 EOF
-	return
+  exit ${1:-0}
 }
 
-[ "$1" ] || { usage; exit; }
+    # - Before insert/remove an entry, you need to put its proxy name onto the clipboard first. To list all the proxy names, you can use yq:
 
-doublecheck(){
-	local YML="$1"
-	local MSG="$2"
-	
-	PROXY_ENTRY=$(NAME="$PROXY_NAME" yq '.proxies[] | select(.name == strenv(NAME))' "$YML")
+        # \$ yq '.proxies[].name' config.yaml
 
-	cat <<EOF
+[ "$1" ] || usage
+
+# doublecheck <SRC.yml> <DST.yml>
+# populate PROXY_NAME and PROXY_ENTRY
+doublecheck() {
+  local SRC="$1"
+  local DST="$2"
+  PROXY_NAME="$(yq '.proxies[].name' $SRC | sk -e10)"
+
+  PROXY_ENTRY=$(NAME="$PROXY_NAME" yq '.proxies[] | select(.name == strenv(NAME))' "$SRC")
+
+  cat <<EOF
 ---
 Name: $(echo $PROXY_NAME)
 Proxy entry:
@@ -50,137 +49,154 @@ $(echo $PROXY_ENTRY)
 ---
 EOF
 
-	[ -z "$PROXY_ENTRY" ] && { echo "yq: Proxy entry not found in ${YML}!"; exit 1; }
+  [ "$PROXY_ENTRY" ] || {
+    echo "[doublecheck] yq: Proxy entry not found in $SRC!"
+    exit
+  }
 
-	cat <<EOF
-$2
+  cat <<EOF
+$DST
 --- q to quit, any other key to continue ---
 EOF
 
-	while read -s -n1
-	do
-		case $REPLY in
-			q) exit ;;
-			*) break ;;
-		esac
-	done
+  while read -s -n1; do
+    case $REPLY in
+      q) exit ;;
+      *) break ;;
+    esac
+  done
 
-	return
+  return
 }
 
-insert(){
-	doublecheck "$DEFAULTYML" "Insert the above entry into ${SELFYML##*/}?"
-	
-	sed -i "/^proxies:$/a\  - $PROXY_ENTRY" $SELFYML || { echo 'sed: Failed appending!'; exit 1; }
-	yq '.proxies[0]' $SELFYML || { echo 'yq: Failed updating .proxies[0]!'; exit 1; }
+insert() {
+  local SRC=${1:-$DEFAULTYML}
+  local DST=${2:-$SELFYML}
 
-	yq -i '.proxy-groups[1].proxies = [.proxies[0].name] + .proxy-groups[1].proxies' \
-	   $SELFYML || {
-		echo 'yq: Failed updating .proxy-groups[1].proxies!';
-		exit 1;
-	}
+  doublecheck "$SRC" "Insert the above entry into ${DST##*/}?"
 
-	yq '.proxy-groups[1].proxies' $SELFYML || exit 1
+  sed -i "/^proxies:$/a\  - $PROXY_ENTRY" $DST || {
+    echo '[insert] sed: Failed appending!'
+    exit 1
+  }
+  yq '.proxies[0]' $DST || {
+    echo '[insert] yq: Failed updating .proxies[0]!'
+    exit 1
+  }
 
-	exit
+  yq -i '.proxy-groups[1].proxies = [.proxies[0].name] + .proxy-groups[1].proxies' \
+    $DST || {
+      echo '[insert] yq: Failed updating .proxy-groups[1].proxies!'
+      exit 1
+    }
+
+  yq '.proxy-groups[1].proxies' $DST || exit 1
+
+  exit
 }
 
-remove()
-{
-	local YML="$1"
-	
-	doublecheck "$YML" "Remove the above entry from ${YML##*/}?"
-	
-	NAME="$PROXY_NAME" \
-		yq -i 'del(.proxy-groups[].proxies[] | select(. == strenv(NAME)))' $YML || {
-		cat<<EOF
-yq failed:
+# remove <SRC.yaml>
+remove() {
+  local SRC="${1:-$DEFAULTYML}"
+
+  doublecheck "$SRC" "Remove the above entry from ${SRC##*/}?"
+
+  NAME="$PROXY_NAME" \
+    yq -i 'del(.proxy-groups[].proxies[] | select(. == strenv(NAME)))' $SRC || {
+      cat <<ERR
+[remove] yq.del() failed:
 
 NAME="$PROXY_NAME" \
-		yq -i 'del(.proxy-groups[].proxies[] | select(. == strenv(NAME)))' $YML
-EOF
-		exit 1
-	}
+		yq -i 'del(.proxy-groups[].proxies[] | select(. == strenv(NAME)))' $SRC
+ERR
+      exit 1
+    }
 
-	NAME="$PROXY_NAME" \
-		yq -i 'del(.proxies[] | select(.name == strenv(NAME)))' $YML || {
-		cat<<EOF
-yq failed:
+  NAME="$PROXY_NAME" \
+    yq -i 'del(.proxies[] | select(.name == strenv(NAME)))' $SRC || {
+      cat <<ERR
+[remove] yq.del() failed:
 
 NAME="$PROXY_NAME" \
-		yq -i 'del(.proxies[] | select(.name == strenv(NAME)))' $YML
-EOF
-		exit 1
-	}
+		yq -i 'del(.proxies[] | select(.name == strenv(NAME)))' $SRC
+ERR
+      exit 1
+  }
 
-	echo $YML is updated.
-	
-	tmux send-keys -t{top-right} C-c
+  echo $SRC is updated.
 
-	exit
+  # tmux send-keys -t{top-right} C-c
+
+  exit
 }
 
-tweak(){
-	local YML=${OUTFILE:="$(date +%m%d).yml"}
+# clashy [-o OUTFILE.yml] -t [/tmp/newlydownloaded.yaml]
+tweak() {
+  local SRC=${1:-$(/bin/ls /tmp/*.yaml | sk -e10)}
+  local DST=${OUTFILE:-"$ymlDir/$(date +%m%d).yml"}
 
-	if [ -f "$1" ]; then
-		mv "$1" "$ymlDir/$YML"
-		YML="$ymlDir/$YML"
-	else
-		echo File "$1" does not exist.
-		exit 1
-	fi
+  [[ -f "$SRC" ]] && mv "$SRC" "$DST" || {
+    echo File "$SRC" does not exist.
+    exit 1  
+  }
 
-	sed -i '/^#/d' $YML
+  sed -i '/^#/d' $DST
 
-	sed -i '1,/^proxies:/d' $YML
+  sed -i '1,/^proxies:/d' $DST
 
-	sed -i '1i port: 7890\nsocks-port: 7891\nallow-lan: true\nmode: Rule\nlog-level: info\nexternal-controller: 0.0.0.0:9090\nexternal-ui: /home/wx672/.config/mihomo/ui\ndns:\n  enabled: true\n  ipv6: true\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 114.114.114.114\n    - 119.29.29.29\n    - 1.0.0.1\n  nameserver:\n    - https://doh.pub/dns-query\n    - https://dns.alidns.com/dns-query\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback-filter:\n    geoip: false\n    ipcidr:\n      - 240.0.0.0/4\n      - 0.0.0.0/32\nproxies:' $YML
+  sed -i '1i port: 7890\nsocks-port: 7891\nallow-lan: true\nmode: Rule\nlog-level: info\nexternal-controller: 0.0.0.0:9090\nexternal-ui: /home/wx672/.config/mihomo/ui\ndns:\n  enabled: true\n  ipv6: true\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 114.114.114.114\n    - 119.29.29.29\n    - 1.0.0.1\n  nameserver:\n    - https://doh.pub/dns-query\n    - https://dns.alidns.com/dns-query\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback-filter:\n    geoip: false\n    ipcidr:\n      - 240.0.0.0/4\n      - 0.0.0.0/32\nproxies:' $DST
 
-	yq -i '.rules = ["DOMAIN-SUFFIX,debian.org,DIRECT", "DOMAIN-SUFFIX,fai-project.org,DIRECT", "DOMAIN-SUFFIX,qemu.org,DIRECT", "DOMAIN-SUFFIX,gnu.org,DIRECT", "DOMAIN-SUFFIX,winegame.net,DIRECT", "DOMAIN-SUFFIX,www.kmwatersupply.com,DIRECT", "DOMAIN-SUFFIX,www.playonlinux.com,DIRECT", "DOMAIN-SUFFIX,sketchviz.com,DIRECT", "DOMAIN-SUFFIX,deepinos.org,DIRECT", "DOMAIN-SUFFIX,overleaf.com,DIRECT", "DOMAIN-SUFFIX,moodle.org,DIRECT", "DOMAIN-SUFFIX,grammarly.com,DIRECT", "DOMAIN-SUFFIX,ixigua.com,DIRECT", "DOMAIN-SUFFIX,gitee.com,DIRECT", "DOMAIN-SUFFIX,wiki.archlinux.org,DIRECT", "DOMAIN-SUFFIX,www.gnupg.org,DIRECT"] + .rules' $YML
+  yq -i '.rules = ["DOMAIN-SUFFIX,debian.org,DIRECT", "DOMAIN-SUFFIX,fai-project.org,DIRECT", "DOMAIN-SUFFIX,qemu.org,DIRECT", "DOMAIN-SUFFIX,gnu.org,DIRECT", "DOMAIN-SUFFIX,winegame.net,DIRECT", "DOMAIN-SUFFIX,www.kmwatersupply.com,DIRECT", "DOMAIN-SUFFIX,www.playonlinux.com,DIRECT", "DOMAIN-SUFFIX,sketchviz.com,DIRECT", "DOMAIN-SUFFIX,deepinos.org,DIRECT", "DOMAIN-SUFFIX,overleaf.com,DIRECT", "DOMAIN-SUFFIX,moodle.org,DIRECT", "DOMAIN-SUFFIX,grammarly.com,DIRECT", "DOMAIN-SUFFIX,ixigua.com,DIRECT", "DOMAIN-SUFFIX,gitee.com,DIRECT", "DOMAIN-SUFFIX,wiki.archlinux.org,DIRECT", "DOMAIN-SUFFIX,www.gnupg.org,DIRECT"] + .rules' $DST
 
-	yq '.rules' $YML | head -15
+  yq '.rules' $DST | head -15
 
-	sed -i '/中国/d' $YML
+  sed -i '/中国/d' $DST
+  sed -i '/CN/d' $DST
 
-	ln -sf $YML $DEFAULTYML
+  ln -sf $DST $DEFAULTYML
 
-	ls -l $DEFAULTYML
+  ls -l $DEFAULTYML
 
-	exit	
+  exit
 }
 
-search(){
-	echo Searching for '['${PROXY_NAME}']' ...
-	local YML="$1"
-	local ENTRY=$(NAME="$PROXY_NAME" yq '.proxies[] | select(.name == strenv(NAME))' $YML)
+search() {
+  local SRC=${1:-"$DEFAULTYML"}
+  PROXY_NAME="$(yq '.proxies[].name' $SRC | sk -e10)"
+  local ENTRY=$(NAME="$PROXY_NAME" yq '.proxies[] | select(.name == strenv(NAME))' $SRC)
+  echo Searching for '['${PROXY_NAME}']' ...
 
-	[ "$ENTRY" ] && { echo $ENTRY | yq;	} || {
-		echo "yq: Proxy entry not found in ${YML}!";
-		exit 1;
-	}
+  [ "$ENTRY" ] && { echo $ENTRY | yq; } || {
+    echo '[search] yq: Proxy entry not found in' $SRC!
+    exit
+  }
 }
 
-while getopts :hirst:o: OPT; do
-	case $OPT in
-		i) insert
-		   ;;
-		r) shift $(( OPTIND - 1 ))
-		   OPTIND=1
-		   remove ${1:-"$DEFAULTYML"}
-		   ;;
-		s) shift $(( OPTIND - 1 ))
-		   OPTIND=1
-		   search ${1:-"$SELFYML"}
-		   ;;
-		t) tweak "$OPTARG"
-		   ;;
-		o) OUTFILE="$OPTARG"
-		   ;;
-		h) usage; exit
-		   ;;
-		*) usage; exit
-	esac
+while getopts :irsto: OPT; do
+  case $OPT in
+    i)
+      shift $((OPTIND - 1))
+      OPTIND=1
+      insert
+      ;;
+    r)
+      shift $((OPTIND - 1))
+      OPTIND=1
+      remove
+      ;;
+    s)
+      shift $((OPTIND - 1))
+      OPTIND=1
+      search
+      ;;
+    t)
+      shift $((OPTIND - 1))
+      OPTIND=1
+      tweak 
+      ;;
+    o)
+      OUTFILE="$OPTARG"
+      ;;
+    *) usage ;;
+  esac
 done
-# 
-# 

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+usage() {
+  cat <<EOF
+USAGE: ${0##*/} [-c, -m] [number]
+
+Example:
+  - ${0##*/} 3     # output reminders for the next 3 weeks in simple format
+  - ${0##*/} -cm 3 # output next 3 months in fancy format
+EOF
+
+  exit ${1:-0}
+}
+
+W='+' # default to week-based output
+unset FANCY
+
+while getopts :cm OPT; do
+  case $OPT in
+    c) FANCY='y'
+      ;;
+    m) unset W
+      ;;
+    *) usage ;;
+  esac
+done
+shift $((OPTIND - 1))
+OPTIND=1
+
+[[ $1 ]] && { [[ $1 =~ ^[0-9]+$ ]] || usage 1; } 
+
+[[ $FANCY ]] && {
+  /usr/bin/rem -mcu$W${1:-1} -@2
+} || {
+  ncal -bMw3
+  /usr/bin/rem -s$W${1:-4} | choose 0 8: | column -t 
+}
+
+echo Academic week: $(tput setaf 3)"$(($(date +%W) - 34))"$(tput sgr0)

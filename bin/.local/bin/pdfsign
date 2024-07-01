@@ -2,40 +2,39 @@
 
 usage(){
     cat <<EOF
-USAGE: ${0##*/} [-hD] [-p pattern] [-c xshift,yshift] [-d ysep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background>
+USAGE: ${0##*/} [-D] [-C] [-c xshift,yshift] [-d ysep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background>
 
 EXAMPLES:
-1. ${0##*/} -p'签.*章' -t'2024,6,7' -S'mysig.pdf'  pg_0001.pdf
-   ${0##*/} -p'签.*章' -t'2024,6,7' -S'\sig 王晓林' pg_0002.pdf
+1. ${0##*/} -C -t'2024,6,7' -S'mysig.pdf'  pg_0001.pdf
+   ${0##*/} -C -t'2024,6,7' -S'\sig 王晓林' pg_0002.pdf
   
-2. ${0##*/} -p'考核方式' -S'开卷机试' -c'60,-2' -s .9 pg_0001-signed.pdf
+2. ${0##*/} -C -S'机试' -c'60,2' -s .9 pg_0001-signed.pdf
 
 3. ${0##*/} -w10cm -c'-20,-50' -S'../analysis-improve.pdf' os-analysis.pdf
-   ${0##*/} -p'考试形式' -S'开卷机试' -c'50,25' -d'110' -t'2023/,12/,25' os-analysis-signed.pdf
+   ${0##*/} -S'机试' -c'50,25' -d'110' -t'2023/,12/,25' os-analysis-signed.pdf
 
 
 background - paper to sign
-        -h - help
-		-D - Enable debugging outputs and grid
-		-p - search pattern
-
+				-D - Enable debugging outputs and grid
+				-C - Invoke getCoordinate
         -S - signature picture or text
-		   	 Default='{.,..}/wangxiaolin.pdf' if found
+				   	 Default='{.,..}/wangxiaolin.pdf' if found
 
         -c - 'xshift,yshift' 
-		   	 Default to '28,-18' in pt if signed with picture
-			 Default to '28,-25' in pt if signed with \sig font text
+				   	 Default to '28,-18' in pt if signed with picture
+						 Default to '28,-25' in pt if signed with \sig font text
 
-		-d - ysep, shift of the "date field". Default to 180pt
+				-d - ysep, shift of the "date field". Default to 180pt
 
         -t - timestamp, e.g. '2020,5,8'
         -w - width of signature picture. Default to '1cm'
         -s - scale of signature text. Default to '1'
 EOF
+	exit ${1:-0}
 }
 
 cleanup(){
-	[[ "$DEBUG" ]] || { rm -f "$AUX" "$LOG" "$TEXFILE" "$DEBUGFILE"; }
+	[[ "$DEBUG" ]] || { rm -f "$AUX" "$LOG" "$TEX" "$DBG"; }
 }
 
 #######color code########
@@ -50,25 +49,34 @@ colorEcho(){
 
 # pdftotext -tsv os-marks.pdf - | rg -N "签.*章" | head -1 | choose -o ',' 6 7
 # pdftotext -tsv os-marks.pdf - | rg -N "考试.*日" | head -1 | choose -o ',' 6 7
+
+# XY=$(pdftotext -tsv "$BG" - | \
+# 		 rg -N "$PATN" | head -1 | \
+# 		 choose -o ',' 6 7)
+# [[ "$XY" ]] || { colorEcho $ERR 'Failed to get coordinate (XY)!'; exit 1; }
+# X=${XY%,*}pt
+# Y=${XY##*,}pt
+# XY=( $(pdftotext -tsv $BG - | rg -N "$PATN" | choose 6 7) )
+
 getCoordinate(){
-	XY=$(pdftotext -tsv "$BG" - | \
-			 rg -N "$PATN" | head -1 | \
-			 choose -o ',' 6 7)
+	XY=( $(pdftotext -tsv $BG - | sk -e10 | choose 6 7) )
 
-	[[ -z "$XY" ]] && { colorEcho $ERR 'Failed to get coordinate (XY)!'; exit -1; }
+	(( ${#XY[@]} == 2 )) || return
 
-	X=${XY%,*}pt
-	Y=${XY##*,}pt
+	X=${XY[0]}pt
+	Y=${XY[1]}pt
 
 	[[ "$DEBUG" ]] && {
-		echo "XY = $XY" > $DEBUGFILE
-		echo "X = $X" >> $DEBUGFILE
-		echo "Y = $Y" >> $DEBUGFILE
-	}	
+		echo '[getCoordinate] XY:' $XY > $DBG
+		echo '[getCoordinate]  X:' $X >> $DBG
+		echo '[getCoordinate]  Y:' $Y >> $DBG
+	}
+
+	return
 }
 
 signit(){
-	cat <<EOF > "$TEXFILE"
+	cat <<EOF > "$TEX"
 \documentclass[tikz]{standalone}
 \usetikzlibrary{backgrounds,positioning}
 \usepackage[scheme=plain]{ctex}
@@ -82,10 +90,10 @@ signit(){
 	\begin{scope}
 EOF
 
-	[[ "$DEBUG" ]] && {
-		echo "Draw grid for debugging..." >> $DEBUGFILE
+	[[ $DEBUG ]] && {
+		echo '[signit] grid for debugging...' >> $DBG
 
-		cat <<EOF >> "$TEXFILE"
+		cat <<EOF >> "$TEX"
 		%%% grid
 		\draw[help lines,red,step=25pt] (0,0) grid (600pt,850pt);
 		\draw[thin] (0,0) rectangle (595pt,842pt); % a4: 595x842
@@ -95,52 +103,51 @@ EOF
 	}
 	
 	if [[ -f "$SIG" ]]
-	then # sign with the picture. $XY is from getCoordinate()
-		cat <<EOF >> "$TEXFILE"
-		\node (sig) at (${X:-550pt},${Y:-800pt}) [%
+	then # sign with picture. $XY is from getCoordinate()
+		cat <<EOF >> "$TEX"
+		\node (sig) at (${X:-96pt},${Y:-809.77pt}) [%
 			  xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt] {%
 			  \includegraphics[width=${WIDTH:-1cm}]{$SIG}};
 EOF
 	else # sign with text
-		cat <<EOF >> "$TEXFILE"
-		\node (sig) at (${X:-550pt},${Y:-800pt}) [%
+		cat <<EOF >> "$TEX"
+		\node (sig) at (${X:-96pt},${Y:-809.77pt}) [%
 			  xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--25}pt,%
 			  scale=${SIGSCALE:-1}] {$SIG};
 EOF
 	fi
 	[[ "$DEBUG" ]] && {
-		cat <<EOF >> $DEBUGFILE
-Signed with <$SIG>
-	   at (${X:-550pt},${Y:-800pt})
+		cat <<EOF >> $DBG
+[signit] Signed with $SIG
+	   (X,Y) = (${X:-96pt},${Y:-809.77pt})
 	   [xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt, scale=${SIGSCALE:-1}]
+													    yshift=${YSHIFT:--25}pt if signed with text
 	   Picture width=${WIDTH:-1cm} if signed with a picture
-
-	   yshift=${YSHIFT:--25}pt if signed with text
 EOF
 	}
 
 	[[ "$Year" ]] && {
-		cat<<EOF >> "$TEXFILE";
+		cat<<EOF >> "$TEX";
 		\node [right=${YSEP:-183}pt of sig, yshift=-3pt, font=\purisa] {%
 		  $Year\hspace{1.5em}%
 		  \makebox[1em][c]{$Month}\quad%
 		  \makebox[1em][c]{$Day}};%
 EOF
 		[[ "$DEBUG" ]] && {
-			cat <<EOF >> $DEBUGFILE
-<$Year,$Month,$Day> is added at offset: (${YSEP:-180}pt)
+			cat <<EOF >> $DBG
+[signit] <$Year,$Month,$Day> is added at offset: (${YSEP:-180}pt)
 EOF
 		}
 	}
 
-	cat <<EOF >> "$TEXFILE"
+	cat <<EOF >> "$TEX"
     \end{scope}
 	\end{tikzpicture}
 \end{document}
 EOF
 	[[ "$DEBUG" ]] && {
-		cat "$DEBUGFILE"
-		cat "$TEXFILE"
+		cat "$DBG"
+		cat "$TEX"
 	}
 }
 
@@ -150,17 +157,17 @@ trap cleanup EXIT
 [[ -e wangxiaolin.pdf ]] && SIG='wangxiaolin.pdf'
 [[ -e ../wangxiaolin.pdf ]] && SIG='../wangxiaolin.pdf'
 
-unset X Y XY XSHIFT YSHIFT YSEP MSEP DSEP DEBUG SCALE WIDTH PATN
+unset X Y XY XSHIFT YSHIFT YSEP MSEP DSEP DEBUG SCALE WIDTH
 
-while getopts :hDc:d:p:s:w:t:S: OPT; do
+while getopts :DCc:d:s:w:t:S: OPT; do
 	case $OPT in
-		h) usage; exit 0 ;;
-		D) DEBUG='YES' ;;
+		D) DEBUG='Y' ;;
+		C) GETCOORDINATE='Y' ;;
 		c) XSHIFT=${OPTARG%,*}
 		   YSHIFT=${OPTARG#*,}
 		   ;;
 		d) YSEP="$OPTARG" ;;
-		p) PATN="$OPTARG" ;;
+		# p) PATN="$OPTARG" ;;
 		s) SIGSCALE="$OPTARG" ;;
 		w) WIDTH="$OPTARG" ;;
 		t) Year=${OPTARG%%,*}
@@ -168,7 +175,7 @@ while getopts :hDc:d:p:s:w:t:S: OPT; do
 		   Day=${OPTARG##*,}
 		   ;;
 		S) SIG="$OPTARG" ;;
-		?) usage; exit 2
+		?) usage 1 ;;
 	esac
 done
 shift $(( OPTIND - 1 ))
@@ -176,22 +183,23 @@ OPTIND=1
 
 BG="$*"
 
-[[ -f "$BG" ]] || { colorEcho $ERR "ERROR: <${BG:-BACKGROUND}> NOT FOUND."; usage; exit 1; }
+[[ -f "$BG" ]] || { colorEcho $ERR "ERROR: <${BG:-BACKGROUND}> NOT FOUND."; usage 2; }
 
-DEBUGFILE="__DEBUG__"; > $DEBUGFILE
-TEXFILE="${BG%.pdf}-signed.tex"; > $TEXFILE
-PDF="${TEXFILE%.tex}.pdf"
-LOG="${TEXFILE%.tex}.log"
-AUX="${TEXFILE%.tex}.aux"
+DBG="__DEBUG__"; > $DBG
+TEX="${BG%.pdf}-signed.tex"; > $TEX
+PDF="${TEX%.tex}.pdf"
+LOG="${TEX%.tex}.log"
+AUX="${TEX%.tex}.aux"
 
-[[ "$PATN" ]] && getCoordinate
+[[ $GETCOORDINATE ]] && getCoordinate
+# otherwise sign with default coordinate
 
 signit
 
-[[ "$DEBUG" ]] && echo "Signing <$BG>..." >> $DEBUGFILE
+[[ "$DEBUG" ]] && echo '[DEBUG] Signing '$BG'...' >> $DBG
 
-colorEcho $INFO "lualatex $TEXFILE..."
-lualatex "$TEXFILE" 1>/dev/null
+colorEcho $INFO "lualatex $TEX..."
+lualatex "$TEX" 1>/dev/null
 
 [[ -f "$PDF" ]] || { colorEcho $ERR "Failed generating PDF file. Please check <$LOG> file for details"; exit 5;}
 

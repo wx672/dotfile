@@ -1,0 +1,22 @@
+# mksquashfs
+
+```sh
+mksquashfs dir{,.sqfs} -b 1M -comp zstd
+```
+# tar2sqfs
+
+```sh
+cat 2022.tar | tar2sqfs -r 2022{,.sqfs} 
+```
+# squashfs-mount
+
+```sh 
+squashfs-mount 2223.sqfs:tmp -- bash
+```
+
+# squashfuse
+
+```sh 
+squashfuse 2022{.sqfs,}
+```
+

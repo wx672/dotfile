@@ -2,13 +2,15 @@
 
 cmdchk xsel yt-dlp x-www-browser
 
-YDL="$(command -v yt-dlp)"
-BROWSER="$(command -v x-www-browser)"
+YDL="yt-dlp --verbose"
+BROWSER="x-www-browser"
+# YPV="mpv --msg-level=all=warn,ytdl_hook=trace --no-resume-playback --profile=ypv"
+YPV="mpv --msg-level=all=warn,ytdl_hook=trace --profile=noproxy"
 
 [[ "$1" ]] || {
-	echo youtube...
-	$BROWSER https://www.youtube.com &>/dev/null &
-	exit 0
+  echo youtube...
+  $BROWSER https://www.youtube.com &>/dev/null &
+  exit 0
 }
 
 # TMPCLIP="/tmp/tmpclip"
@@ -19,96 +21,111 @@ BROWSER="$(command -v x-www-browser)"
 urls="$(xsel -bo)"
 # fi
 
-[[ "$urls" ]] || { echo Clipboard is empty.; exit 1; }
+[[ "$urls" ]] || {
+  echo Clipboard is empty.
+  exit 1
+}
 
-usage()
-{
-	# in qutebrowser,
-	# ';y' to overwrite the clipboard with selected url.
-	# ';a' to append an url into clipbroad.
+usage() {
+  # in qutebrowser,
+  # ';y' to overwrite the clipboard with selected url.
+  # ';a' to append an url into clipbroad.
 
-	cat<<EOF
+  cat <<EOF
 ${0##*/} - play or download youtube videos with yt-dlp.
     If invoked without any arguments, visit youtube.com in x-www-browser.
 
-         ${0##*/} [-f format] [-p port] [-s] [da|dv|p]
+         ${0##*/} [-s] [-f format] [-p port] [-o out.mp4] [da|dv|pa|pv|f]
 
 Examples:
-    ${0##*/}         # open youtube.com in x-www-browser
-    ${0##*/} dv      # download youtube (best video and audio)
-	${0##*/} -f "248+251" dv # specify video+audio to download
-    ${0##*/} da      # download youtube (best audio)
-    ${0##*/} -fba p  # play youtube (best audio)
+  ${0##*/}     # open youtube.com in x-www-browser
+  ${0##*/} pa  # play youtube (best audio)
+  ${0##*/} pv  # play youtube (best)
+	${0##*/} f   # list formats
+  ${0##*/} dv  # download youtube (best v and a)
+  ${0##*/} da  # download youtube (best audio)
+	${0##*/} -sf "248+251" dv             # specify v+a to download with subtitle
+	${0##*/} -f  "248+251" -o out.webm dv # specify output file name
 
 Sub commands:
-    dv|da - download video|audio;  p - play
+  dv|da - download video|audio
+	pv|pa - play video|audio
+	f - list available media formats
 
 Options:
    -f - video format. 'ba' for best audio; 'bv' for best video; 'b' for best both.
-        'yt-dlp -F <URL>' to list all formats. Format can be 'bilibili' if play video.      
+        'yt-dlp -F <URL>' to list all formats. 
+   -o - output file
    -p - proxy port, default to 7890
    -s - download subtitle
    -h - help
 EOF
+
+  exit ${1:-0}
 }
 
-unset fmt port
+unset DEBUG
 
-while getopts :f:p:sh OPT; do
-	case $OPT in
-		f) fmt=$OPTARG ;;
-		p) port=$OPTARG
-		   pon ${port:-7890}
-		   ;;
-		s) YDL="$YDL --write-subs --write-auto-subs" ;;
-		h) usage; exit 0 ;;
-	esac
+while getopts :o:f:sD OPT; do
+  case $OPT in
+    f)
+      FMT="$OPTARG"
+      ;;
+    o)
+      YDL="$YDL -o $OPTARG"
+      ;;
+    s)
+      YDL="$YDL --write-subs"
+      ;;
+    D)
+      DEBUG=1
+      ;;
+    ?)
+      usage
+      ;;
+  esac
 done
-shift $(( OPTIND - 1 ))
+shift $((OPTIND - 1))
 OPTIND=1
 
-# echo '$YDL' is $YDL
-# echo '$urls' is $urls
-# echo '$@' is $@
-# echo '$fmt' is $fmt
-# echo '$port' is $port
-# echo 'xsel -bo is' < <(xsel -bo)
+[[ $DEBUG ]] && {
+  echo '[DEBUG] $YDL is:' $YDL
+  echo '[DEBUG] $urls is:' $urls
+  echo '[DEBUG] $@ is:' $@
+  echo '[DEBUG] xsel -bo is:' $(xsel -bo)
+}
+
+VFMT="bestvideo[height>=?720]+bestaudio/best"
 
 case "$*" in
-	da*)
-		while ! $YDL -f"${fmt:-ba}" "$urls"
-		do
-			echo try again... # in case of Ctrl-c
-		done
-		;;
-	dv*)
-		while ! $YDL -f"${fmt:-b}" --write-subs "$urls"
-		do
-			echo try again... # in case of Ctrl-c
-		done
-		;;
-	p*)
-		if [ "$fmt" != "bilibili" ]; then
-			while read url
-			do
-				echo playing "$url" '('"${fmt:-best audio}"')'
-				while ! $YDL -f"${fmt:-ba}" \
-						-o - "$url" | mpv --profile=noproxy --no-resume-playback -
-				do					
-					echo try again... # in case of Ctrl-c
-				done
-			done <<<"$urls"
-		else
-			while read url
-			do
-				echo playing "$url"
-				mpv --profile=noproxy "$url"
-			done <<<"$urls"
-		fi
-		;;
-	*)
-		usage; exit
+  f)
+    $YDL -F "$urls"
+    ;;
+  da*)
+    while ! $YDL -fba "$urls"; do :; done
+    ;;
+  dv* | '')
+    while ! $YDL -f "${FMT:-$VFMT}" "$urls"; do :; done
+    ;;
+  *mp4 | *webm) # in case the '-o' is missing
+    while ! $YDL -f "${FMT:-$VFMT}" -o $* "$urls"; do :; done
+    ;;
+  pv)
+    while read url; do
+      echo Streaming "$url"
+      # 'b' seems the only working format
+      while ! $YDL -fb -o - $url | $YPV -; do :; done
+    done <<<"$urls"
+    ;;
+  pa)
+    while read url; do
+      $YDL -fba -o - $url | $YPV -
+    done <<<"$urls"
+    ;;
+  ?)
+    usage
+    ;;
 esac
 
 # pgrep -f sway && wl-copy -c ||
-xsel -bc
+#xsel -bc

@@ -1,0 +1,7 @@
+* {
+    background-color:            transparent;
+}
+textbox {
+    font: "Symbols Nerd Font 96";
+    text-color: #ff706d;
+}

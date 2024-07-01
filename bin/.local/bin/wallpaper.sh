@@ -1,9 +1,10 @@
 #!/bin/bash
 
-#"$HOME/Pics/2009Summer/wallpapers/2009summer-1280x768"
-IMGDIR="$HOME/.local/share/wallpapers/2k"
+shopt -s nullglob globstar
 
-files=($IMGDIR/*.webp)
+IMGDIR="$HOME/.local/share/wallpapers"
+
+files=($IMGDIR/**/*.webp)
 
 # get the length of array ${files[@]}
 n=${#files[@]}

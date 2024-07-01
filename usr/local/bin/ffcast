@@ -3,64 +3,52 @@
 # screencast streaming
 #
 
+URL="udp://224.0.0.1:2000"
+
 server(){ 
-	cmdchk screenkey picom ffmpeg || exit 127
+	cmdchk screenkey picom ffmpeg || return 127
 
-    trap 'pkill screenkey' INT EXIT TERM ERR
+  trap 'pkill screenkey' INT EXIT TERM ERR
 
-	pgrep picom &>/dev/null || picom -b
+	pidof -q picom || picom -b
 
-    (screenkey --no-systray \
-			   --opacity 0.0 \
-			   --font-color red \
-			   --font "monospace" \
-			   --font-size small &)
+  (screenkey --no-systray \
+					   --opacity 0.0 \
+					   --font-color red \
+					   --font "monospace" \
+					   --font-size small &)
     
-    ffmpeg -f x11grab \
-		   -video_size 1366x768 \
-		   -r 15 \
-		   -i :0.0 \
-           -c:v libx264 \
-		   -tune zerolatency \
-           -vf "format=yuv420p" \
-		   -g 30 \
-           -preset ultrafast \
-           -f mpegts \
-		   udp://224.0.0.1:2000
+  ffmpeg -f x11grab \
+			   -video_size 1366x768 \
+			   -r 15 \
+			   -i :0.0 \
+         -c:v libx264 \
+			   -tune zerolatency \
+         -vf "format=yuv420p" \
+			   -g 30 \
+         -preset ultrafast \
+         -f mpegts \
+			   $URL 
 }
 
 client(){ # multicast client side
 
-	cmdchk mpv || rofi -e "mpv is missing!"
+	local MPVOPTS="--no-resume-playback --no-audio --profile=low-latency --no-cache --untimed --no-demuxer-thread --vd-lavc-threads=1"
 
-	if pgrep -f 'mpv'; then
-		cmdchk dzen2 \
-			&& dzen2 -p 3 -fg darkred -bg grey80 <<<"mpv is running already." \
-				|| rofi -e "mpv is running already."
+	cmdchk mpv || {
+		timeout 2 rofi -theme alert -e "mpv is missing!"
+		return 127
+	}
+
+	if pidof -q 'mpv'; then
+		timeout 2 rofi -theme alert -e "mpv is running already."
 	else
 		[ $DISPLAY ] && {
-			cmdchk dzen2 \
-			&& dzen2 -p 2 -fg darkred -bg grey80 <<<"Starting mpv..." \
-				|| rofi -e "Starting mpv..."
-			#ffplay -probesize 32 -sync ext udp:224.0.0.1:2000
-			mpv udp://224.0.0.1:2000 \
-				--no-resume-playback \
-				--no-audio \
-				--profile=low-latency \
-				--no-cache \
-				--untimed \
-				--no-demuxer-thread \
-				--vd-lavc-threads=1
+			timeout 1 rofi -theme alert -e "Starting mpv..."
+	
+			mpv $URL $MPVOPTS
 		} || {
-			mpv udp://224.0.0.1:2000 \
-				--no-resume-playback \
-				--vo=drm --profile=sw-fast \
-				--no-audio \
-				--profile=low-latency \
-				--no-cache \
-				--untimed \
-				--no-demuxer-thread \
-				--vd-lavc-threads=1
+			mpv $URL $MPVOPTS --vo=drm --profile=sw-fast 
 		}
 	fi
 }

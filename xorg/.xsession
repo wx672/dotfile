@@ -60,6 +60,7 @@ xset s off -dpms
 
 # have to sleep 1 otherwise xterm doesn't start. don't know why.
 sleep 1
-command x-terminal-emulator -e tmux &
+# command x-terminal-emulator -e tmux &
+command x-terminal-emulator &
 
 exec /usr/bin/x-window-manager

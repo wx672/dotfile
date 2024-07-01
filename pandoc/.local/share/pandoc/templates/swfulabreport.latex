@@ -1,0 +1,33 @@
+\documentclass{swfulabreport}
+
+\swfusetup{%
+  Title     ={$title$}, % 课程名称
+  Author    ={$author$}, % 
+  ID        ={$id$}, % 学号
+  Class     ={$class$},%
+  Tutor     ={$tutor$}, %指导教师
+  Year      ={$year$},%
+  Month     ={$month$},%
+  Date      ={$day$},%
+  Reviewer  ={$reviewer$},%
+  ReviewDate={$reviewdate$},%
+  Mark      =,%
+  LabDate   ={$labdate$},%
+  LabDays   ={$labdays$},%
+  Lab       ={$lab$},%经管楼219
+  Heads     ={$heads$},%
+  Grouping  ={$grouping$},%
+  Why   ={$why$},%实验目的
+  Req   ={$req$},%实验要求
+  What  ={$what$},%实验内容
+  Sched ={$sched$},%课程实习安排
+  Sumup ={$sumup$},%实习总结
+}
+
+\begin{document}
+
+\maketitle
+
+$body$
+
+\end{document}

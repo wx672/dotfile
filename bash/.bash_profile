@@ -18,9 +18,12 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_DIRS="$XDG_DATA_HOME:/usr/local/share:/usr/share"
 
-[ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
+# [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
 
-# make sure libpam-systemd is installed, otherwise XDG_VTNR will be NULL.
-[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- vt1 -keeptty
-#[[ -z $DISPLAY && $XDG_VTNR -eq 2 ]] && exec fbterm
-#[ -z $DISPLAY && "$(tty)" = "/dev/tty3" ]] && exec sway
+[[ "$SSH_TTY" ]] && {
+  [[ "$TMUX" ]] || { tmux a || tmux; }
+} || {
+  # make sure libpam-systemd is installed, otherwise XDG_VTNR will be NULL.
+  [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx -- vt1 -keeptty
+  #[ -z $DISPLAY && "$(tty)" = "/dev/tty3" ]] && exec sway
+}

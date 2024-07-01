@@ -2,13 +2,17 @@
 
 cmdchk mihomo || exit 127
 
-clash_fy="mihomo -f $HOME/.config/mihomo/fy-55549.yaml"
-clash_free="mihomo -f $HOME/.config/mihomo/config.yaml"
+CFG_DIR="$XDG_CONFIG_HOME/mihomo"
+FY="$CFG_DIR/fy-55549.yaml"
+FREE="$CFG_DIR/config.yaml"
+ERR="INT TERM EXIT"
 
-[[ $1 ]] && {
-	$clash_fy
-	trap "$clash_fy" INT TERM EXIT
+clash() { mihomo -f "${1:-$FREE}"; }
+
+[[ "$1" ]] && { # whatever $1 is
+  clash $FY
+  trap "clash $FY" $ERR
 } || {
-	$clash_free
-	trap "$clash_free" INT TERM EXIT
+  clash
+  trap "clash" $ERR
 }

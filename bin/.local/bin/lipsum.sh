@@ -1,27 +1,41 @@
 #!/bin/sh
 
-while getopts ":n:wpbls" opt; do
+usage(){
+  cat <<EOF
+  ${0##*/} - Fetch Lorem Ipsum from https://lipsum.com/feed/json
+
+  ${0##*/} [-n amount] [-w what] [-s true|false]
+
+  Example usage:
+    ${0##*/} # default amount(n) = 5, what(w) = paras, start(s) = false
+
+    ${0##*/} -n 3     \ # AMOUNT=3 (default 5)
+             -w paras \ # WHAT=paras (one of 'bytes, words, lines, paras', default paras)
+             -s true    # START=true (default false)
+
+  The above command will issue the following 'curl' command:
+  
+    curl -X POST https://lipsum.com/feed/json \
+         -d "amount=5" \
+         -d "what=paras" \
+         -d "start=true"
+EOF
+  exit ${1:-0}
+}
+
+while getopts ":n:w:s:" opt; do
   case $opt in
     n)
       AMOUNT=$OPTARG
       ;;
     w)
-      WHAT=words
-      ;;
-    p)
-      WHAT=paras
-      ;;
-    b)
-      WHAT=bytes
-      ;;
-    l)
-      WHAT=lines
+      WHAT=$OPTARG
       ;;
     s)
-      START=true
+      START=$OPTARG
       ;;
     *)
-      echo "Invalid option: -$OPTARG" >&2
+      usage
       ;;
   esac
 done

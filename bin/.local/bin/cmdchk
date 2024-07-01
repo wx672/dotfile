@@ -1,57 +1,74 @@
 #!/bin/bash
 
-err(){
-	echo "$1" is missing.
-	case "$1" in
-		amixer ) echo '(sudo apt install alsa-utils)'
-				 ;;
-		aria2c ) echo '(sudo apt install aria2)'
-				 ;;
-		choose ) echo '(https://github.com/theryangeary/choose)'
-				 ;;
-		convert|identify|mogrify) echo '(sudo apt install imagemagick)'
-								  ;;
-		fc-* ) echo '(sudo apt install fontconfig)'
-			   ;;
-		fd ) echo '(sudo apt install fd-find)'
-			 ;;
-		jless ) echo '(https://github.com/PaulJuliusMartinez/jless)'
-				;;
-		mdless|mdcat ) echo '(https://github.com/swsnr/mdcat)'
-					   ;;
-		nc ) echo '(sudo apt install netcat-openbsd)'
-			 ;;
-		pdfto* ) echo '(sudo apt install poppler-utils)'
-				 ;;
-		potrace|mkbitmap ) echo '(sudo apt install potrace)'
-						   ;;
-		p[pnba]mto*|*top[nabp]m) echo '(sudo apt install netpbm)'
-								 ;;
-		tiff2*|*2tiff) echo '(sudo apt install libtiff-tools)'
-					   ;;
-		*webp*) echo '(sudo apt install webp)'
-				;;
-		rg ) echo '(sudo apt install ripgrep)'
-			 ;;
-		sk ) echo '(https://github.com/lotabout/skim)'
-			 ;;
-		st ) echo '(aptitude show stterm)'
-			 ;;
-		uni ) echo '(https://github.com/arp242/uni)'
-			  ;;
-		x-www-browser ) 
-				  ;;
-		bat|blight|calibre|curl|dict|dzen2|emacs|espeak-ng|ffmpeg|ffplay|libreoffice|lloconv|mihomo|mosh|mpv|mupdf|picom|rofi|rsync|screenkey|sm|squashfuse|w3m|wmctrl|xdotool|xinput|xprop|xsel|yq|yt-dlp|zathura )
-			echo "(sudo apt install $1)"
-			;;
-		*) echo  "(apt-file search bin/$1)".
-			;;
-	esac
+err() {
+  echo "$1" is missing.
+  case "$1" in
+    amixer)
+      echo '(sudo apt install alsa-utils)'
+      ;;
+    aria2c)
+      echo '(sudo apt install aria2)'
+      ;;
+    choose)
+      echo '(https://github.com/theryangeary/choose)'
+      ;;
+    convert | identify | mogrify)
+      echo '(sudo apt install imagemagick)'
+      ;;
+    fc-*)
+      echo '(sudo apt install fontconfig)'
+      ;;
+    fd)
+      echo '(sudo apt install fd-find)'
+      ;;
+    jless)
+      echo '(https://github.com/PaulJuliusMartinez/jless)'
+      ;;
+    mdless | mdcat)
+      echo '(https://github.com/swsnr/mdcat)'
+      ;;
+    nc)
+      echo '(sudo apt install netcat-openbsd)'
+      ;;
+    pdfto*)
+      echo '(sudo apt install poppler-utils)'
+      ;;
+    potrace | mkbitmap)
+      echo '(sudo apt install potrace)'
+      ;;
+    p[pnba]mto* | *top[nabp]m)
+      echo '(sudo apt install netpbm)'
+      ;;
+    tiff2* | *2tiff)
+      echo '(sudo apt install libtiff-tools)'
+      ;;
+    *webp*)
+      echo '(sudo apt install webp)'
+      ;;
+    rg)
+      echo '(sudo apt install ripgrep)'
+      ;;
+    sk)
+      echo '(https://github.com/lotabout/skim)'
+      ;;
+    st)
+      echo '(aptitude show stterm)'
+      ;;
+    uni)
+      echo '(https://github.com/arp242/uni)'
+      ;;
+    x-www-browser) ;;
+    bat | blight | calibre | curl | dict | dzen2 | emacs | espeak-ng | ffmpeg | ffplay | libreoffice | lloconv | mihomo | mosh | mpv | mupdf | picom | rofi | rsync | screenkey | sm | squashfuse | w3m | wmctrl | xdotool | xinput | xprop | xsel | yq | yt-dlp | zathura)
+      echo "(sudo apt install $1)"
+      ;;
+    *)
+      echo "(apt-file search bin/$1)".
+      ;;
+  esac
 
-	return 127
+  exit 127
 }
 
 for app in "$@"; do
-	command -v $app &>/dev/null && exit 0 || { err $app; exit 127; }
+  command -v $app &>/dev/null && exit 0 || err $app
 done
-

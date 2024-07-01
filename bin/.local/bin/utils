@@ -1,334 +1,395 @@
 #!/bin/bash
 
-skemoji()
+skcht() 
 {
-	cmdchk uni sk xsel choose || return 1
+	CHTDIR="$HOME/.config/cheat/cheatsheets/personal"
+	SKOPTS="-e10 --preview-window=right:90%" 
 
-	[[ "$2" ]] || { echo usage: "skemoji <search|emoji> <search string>"; return 1; }
-
-	CMD="$1"
-	case $CMD in
-		s*) chosen=$(uni -quiet \
-						 -f "%(char l:3)%(wide_padding)%(cpoint l:8)%(name t)(%(block t))" \
-						 search "$2" | sk --exact \
-										  --select-1 \
-										  --exit-0 | choose 0)
-			;;
-		e*) chosen=$(uni -quiet emoji ${2:-all} | sort --random-sort | sk -e10 | choose 0)
-			;;
-		*) echo usage: "$0 <search|emoji> <search string>"; return 1
-		   ;;
-	esac
-
-	[ "$chosen" ] || return
-
-	printf "$chosen\n" && { xsel -bi <<<$chosen; }
-	# xdotool type "$chosen"
-	# notify-send "'$chosen' copied to clipboard."
-}
-
-skplay(){
-	cmdchk sk fd || return 1
-
-	sk < <(fd -d 1 -e mp4 -e mkv -e webm -e m4a -e mp3 -e rmvb -e avi -e flv "$1") \
-	   --exact --bind "enter:execute(mpv {})+abort"
-	
-	return 0
-}
-
-gmaps(){
-	QUERY=""
-	for WORD in "$@"; do
-		QUERY="$QUERY%20$WORD"
-	done
-	(x-www-browser https://www.google.com/maps/search/$QUERY 2>/dev/null &)
-}
-
-ffshot(){ # screenshot
-	cmdchk ffmpeg || return 1
-
-	ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i "$DISPLAY" -vframes 1 /tmp/"$(date +%Y%m%d%H%M)".jpg &>/dev/null
-}
-
-ffrec(){ # screen recording lossy
-	cmdchk ffmpeg screenkey || return 1
-
-    trap 'pkill screenkey' INT EXIT TERM ERR
-
-
-    (screenkey --no-systray --opacity .3 --font-color red --font "Fira Code SemiBold" &)
-    
-	ffmpeg -f x11grab -s 1920x1080 -r 25 -i :0.0 \
-		   -c:v libx264 -preset superfast \
-		   "$(date +%Y%m%d%H%M)".mp4
-}
-
-ffrec_lossless(){ # screen recording losslessly (very large file!)
-	cmdchk ffmpeg || return 1
-
-	ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 \
-		   -c:v libx264rgb -crf 0 -preset superfast \
-		   "$(date +%Y%m%d%H%M)".mkv
-}
-
-mp4(){ # convert $1 to mp4
-	cmdchk ffmpeg || return 1
-
-	#  -preset ultrafast
-	ffmpeg -i "$1" -an -c:v libx265 "$1".mp4
-}
-
-ffrec_overlay(){ # recording screen and webcam
-	cmdchk ffmpeg || return 1
-
-	# man ffmpeg-filters
-	# use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
-	# 1280x720 960x540 848x480 640x480 640x360
-
-	ffmpeg \
-		-f x11grab -framerate 30 \
-		-s "$(xdpyinfo | awk '/dimensions/ {print $2;}')" \
-		-i "$DISPLAY" \
-		-f alsa -i pulse \
-		-f v4l2 -s 640x360 -framerate 30 -i /dev/video0 \
-		-filter_complex "overlay=W-w:H-h" \
-		-c:v libx264 -crf 0 -preset ultrafast -c:a aac -b:a 48k \
-		"$(date +%Y%m%d%H%M)".mp4
-}
-
-ffcam(){ # capture webcam
-	cmdchk ffmpeg || return 1
-
-	# use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
-	#  -preset superfast
-	ffmpeg -f v4l2 -s 640x480 -r 30 -i /dev/video0 \
-		   -f alsa -i hw:1 \
-		   -c:v libx264 -qp 0 -c:a aac -b:a 48k \
-		   "$(date +%Y%m%d%H%M)".mp4
-}
-
-dict () {
-	cmdchk dict bat || return 1
-	
-	(/usr/bin/dict "$@" 2>&1 | bat;)
-}
-
-e(){
-	cmdchk wmctrl emacs || return 1
-	# if emacsclient -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t; then
-	if wmctrl -xa emacs; then
-		[ "$1" ] && emacsclient -n "$@" || emacsclient -ne "(recentf-open-files)"
-	else
-		[ "$1" ] && emacsclient -nc "$@" || emacsclient -nce "(recentf-open-files)"
-	fi
-}
-
-emacs() { 
-	e "$@"; 
-}
-
-say(){
-	cmdchk espeak-ng || return 1
-
-	while getopts :v: OPT; do
-		case $OPT in
-			v) voice="$OPTARG" ;;
-			*) echo "Usage: espeak-ng [-h] [-v <voice>] words"; return 0 ;;
+	[[ $2 ]] && {
+		chosen=$(sk < <(/bin/ls $CHTDIR | rg $2) $SKOPTS \
+					--preview='cheat {} | mdless' )
+	} || {
+		case $1 in
+			-* | '')     
+				chosen=$(sk < <(/bin/ls $CHTDIR) $SKOPTS \
+					--preview='cheat {} | mdless' )
+				;;
+			*)
+				chosen=$(sk < <(/bin/ls $CHTDIR | rg $1) $SKOPTS \
+					--preview='cheat {} | mdless' )
+				;;
 		esac
-	done
-	shift $(( OPTIND - 1 ))
-	OPTIND=1
+	}
 	
-	($SAY -s140 -p70 -v${voice:="en-gb"}  "$*";)
+	[ $chosen ] || return
+
+	[[ $1 = -* ]] && cheat $1 $chosen || mdless <(cheat $chosen)
 }
 
-propstring () {
-	cmdchk xprop || return 1
+# skhst() {
+# 	sk < <(history) --tac --no-sort -m \
+# 	   --header='Select one or more entries:' \
+# 	   --prompt='DELETE: ' | choose 0 | xargs sh -c 'history -d'
+# }
 
-	echo -n 'Property '
-	xprop WM_CLASS | sed 's/.*"\(.*\)", "\(.*\)".*/= "\1,\2" {/g'
-	echo '}'
+skemj() {
+  cmdchk uni sk choose || return 127
+
+  [[ "$2" ]] || {
+    echo usage: "skemoji <search|emoji> <search string>"
+    return 1
+  }
+
+  case "$1" in
+    s*)
+      chosen=$(uni -quiet \
+        -f "%(char l:3)%(wide_padding)%(cpoint l:8)%(name t)(%(block t))" \
+        search "$2" | sk -e10 | choose 0)
+      ;;
+    e*)
+      chosen=$(uni -quiet emoji ${2:-all} | sort --random-sort | sk -e10 | choose 0)
+      ;;
+    *)
+      echo usage: "$0 <search|emoji> <search string>"
+      return 1
+      ;;
+  esac
+
+  [ "$chosen" ] || {
+    echo No match found.
+    return
+  }
+
+  tmux set-buffer -w "$chosen" && {
+    echo "$chosen is on clipboard."
+  }
 }
 
-booksearch () {
-	cmdchk calibre || return 1
+skplay() {
+  cmdchk sk fd || return 127
 
-	LIBPATH=$HOME/Calibre
+  sk < <(fd -d 1 --size +50m $1) \
+      --exact --bind "enter:execute(mpv {})+abort"
 
-	[[ "$1" ]] || { echo Usage: 'booksearch <keywords>'; return 1; }
-	calibredb list -s "$@" --with-library="$LIBPATH"/Calibre1
-	calibredb list -s "$@" --with-library="$LIBPATH"/Calibre2
-	calibredb list -s "$@" --with-library="$LIBPATH"/Calibre3
+  return
 }
 
-searchbook () {
-    (booksearch "$1")
+skpath() {
+  tmux set-buffer -w $(fd -a $1 | sk -e10)
+  echo '['$(tmux showb)']' is on clipboard.
 }
 
-pdf () {
-	cmdchk lloconv || return 1
-	local F="$1"
-    lloconv -f pdf "$F" "${F%.*}.pdf"
+realp() { 
+  skpath $1 
 }
 
-loconvert () {
-	cmdchk libreoffice || return 1
-	[ $1 ] || { echo 'Usage: locovert <to format> <source file>'; return 1; }
-	[ -f $2 ] || {
-		cat <<EOF
+gmaps() {
+  local QUERY=""
+  for WORD in "$@"; do
+    QUERY="$QUERY%20$WORD"
+  done
+  setsid -f x-www-browser https://www.google.com/maps/search/$QUERY 2>/dev/null
+}
+
+ffshot() { # screenshot
+  cmdchk ffmpeg || return 127
+
+  ffmpeg -y -f x11grab -s 1920x1080 -r 1 -i "$DISPLAY" -vframes 1 /tmp/"$(date +%Y%m%d%H%M)".jpg &>/dev/null
+}
+
+ffrec() { # screen recording lossy
+  cmdchk ffmpeg screenkey || return 127
+
+  trap 'pkill screenkey' INT EXIT TERM ERR
+
+  (screenkey --no-systray --opacity .3 --font-color red --font "Fira Code SemiBold" &)
+
+  ffmpeg -f x11grab -s 1920x1080 -r 25 -i :0.0 \
+    -c:v libx264 -preset superfast \
+    "$(date +%Y%m%d%H%M)".mp4
+}
+
+ffrec_lossless() { # screen recording losslessly (very large file!)
+  cmdchk ffmpeg || return 127
+
+  ffmpeg -f x11grab -s 1920x1080 -r 30 -i :0.0 \
+    -c:v libx264rgb -crf 0 -preset superfast \
+    "$(date +%Y%m%d%H%M)".mkv
+}
+
+mp4() { # convert $1 to mp4
+  cmdchk ffmpeg || return 127
+
+  #  -preset ultrafast
+  ffmpeg -i "$1" -an -c:v libx265 "$1".mp4
+}
+
+ffrec_overlay() { # recording screen and webcam
+  cmdchk ffmpeg || return 127
+
+  # man ffmpeg-filters
+  # use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
+  # 1280x720 960x540 848x480 640x480 640x360
+
+  ffmpeg \
+    -f x11grab -framerate 30 \
+    -s "$(xdpyinfo | awk '/dimensions/ {print $2;}')" \
+    -i "$DISPLAY" \
+    -f alsa -i pulse \
+    -f v4l2 -s 640x360 -framerate 30 -i /dev/video0 \
+    -filter_complex "overlay=W-w:H-h" \
+    -c:v libx264 -crf 0 -preset ultrafast -c:a aac -b:a 48k \
+    "$(date +%Y%m%d%H%M)".mp4
+}
+
+ffcam() { # capture webcam
+  cmdchk ffmpeg || return 127
+
+  # use 'ffplay -f v4l2 -list_formats all /dev/video0' to check for available video_size
+  #  -preset superfast
+  ffmpeg -f v4l2 -s 640x480 -r 30 -i /dev/video0 \
+    -f alsa -i hw:1 \
+    -c:v libx264 -qp 0 -c:a aac -b:a 48k \
+    "$(date +%Y%m%d%H%M)".mp4
+}
+
+dict() {
+  cmdchk dict bat || return 127
+
+  batcat <(/usr/bin/dict "$@")
+}
+
+e() {
+  cmdchk wmctrl emacs || return 127
+  # if emacsclient -e "(if (> (length (frame-list)) 1) 't)" | /bin/grep -q t; then
+  if wmctrl -xa emacs; then
+    [ "$1" ] && emacsclient -n "$@" || emacsclient -ne "(recentf-open-files)"
+  else
+    [ "$1" ] && emacsclient -nc "$@" || emacsclient -nce "(recentf-open-files)"
+  fi
+}
+
+emacs() {
+  e "$@"
+}
+
+say() {
+  cmdchk espeak-ng || return 127
+
+  while getopts :v: OPT; do
+    case $OPT in
+      v) voice="$OPTARG" ;;
+      *)
+        echo "Usage: espeak-ng [-h] [-v <voice>] words"
+        return 0
+        ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+  OPTIND=1
+
+  ($SAY -s140 -p70 -v${voice:="en-gb"} "$*")
+}
+
+propstring() {
+  cmdchk xprop || return 127
+
+  echo -n 'Property '
+  xprop WM_CLASS | sed 's/.*"\(.*\)", "\(.*\)".*/= "\1,\2" {/g'
+  echo '}'
+}
+
+booksearch() {
+  cmdchk calibre || return 127
+
+  LIBPATH=$HOME/Calibre
+
+  [[ "$1" ]] || {
+    echo Usage: 'booksearch <keywords>'
+    return 1
+  }
+  calibredb list -s "$@" --with-library="$LIBPATH"/Calibre1
+  calibredb list -s "$@" --with-library="$LIBPATH"/Calibre2
+  calibredb list -s "$@" --with-library="$LIBPATH"/Calibre3
+}
+
+searchbook() {
+  (booksearch "$1")
+}
+
+pdf() {
+  cmdchk lloconv || return 127
+  local F="$1"
+  lloconv -f pdf "$F" "${F%.*}.pdf"
+}
+
+loconvert() {
+  cmdchk libreoffice || return 127
+  [ $1 ] || {
+    echo 'Usage: locovert <to format> <source file>'
+    return 1
+  }
+  [ -f $2 ] || {
+    cat <<EOF
 File not found.
 Usage: locovert <to format> <source file>
 EOF
-		return 1
-	}
-	libreoffice --headless --convert-to "$*"
+    return 1
+  }
+  libreoffice --headless --convert-to "$*"
 }
 
-ppt () {
-	cmdchk libreoffice || return 1
-	libreoffice --show "$*"
+ppt() {
+  cmdchk libreoffice || return 127
+  libreoffice --show "$*"
 }
 
-xls2x () { # xls -> xlsx
-	cmdchk libreoffice || return 1
-	libreoffice --convert-to xlsx "$1"
+xls2x() { # xls -> xlsx
+  cmdchk libreoffice || return 127
+  libreoffice --convert-to xlsx "$1"
 }
 
-sssh(){
-	cmdchk mosh || return 1
-	local KEY=""
-	local USR=""
-	local REMOTE=""
-	
-	while getopts :k:u:r: OPT; do
-		case $OPT in
-			k) KEY="--ssh=\"ssh -i $OPTARG\"" ;;
-			u) USR="$OPTARG" ;;
-			r) REMOTE="$OPTARG" ;;
-			h)
-				echo "Usage: sssh [-k key] [-u user] [-r remote-host]";
-				return 0 ;;
-			*)
-				echo "Usage: sssh [-k key] [-u user] [-r remote-host]";
-				return 1 ;;
-		esac
-	done
-	shift $(( OPTIND - 1 ))
-	OPTIND=1
+sssh() {
+  cmdchk mosh || return 127
+  local KEY=""
+  local USR=""
+  local REMOTE=""
 
-	[[ $1 = syk* ]] && REMOTE="sykp100.duckdns.org"
-	
-	[ $DISPLAY ] && {
-		cmdchk st || return 1
-		(st -e mosh ${KEY} ${USR:-wx672}@${REMOTE:-cs6.swfu.edu.cn} &)
-	} || {
-		mosh ${KEY} ${USR:-wx672}@${REMOTE:-cs6.swfu.edu.cn}
-	}
+  while getopts :k:u:r: OPT; do
+    case $OPT in
+      k) KEY="--ssh=\"ssh -i $OPTARG\"" ;;
+      u) USR="$OPTARG" ;;
+      r) REMOTE="$OPTARG" ;;
+      *)
+        echo "Usage: sssh [-k key] [-u user] [-r remote-host]"
+        return
+        ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+  OPTIND=1
+
+  [[ $1 = syk* ]] && REMOTE="sykp100.duckdns.org"
+
+  [ $DISPLAY ] && {
+    cmdchk st || return 127
+    setsid -f st -e mosh ${KEY} ${USR:-wx672}@${REMOTE:-cs6.swfu.edu.cn}
+  } || {
+    mosh ${KEY} ${USR:-wx672}@${REMOTE:-cs6.swfu.edu.cn}
+  }
 }
 
-rcb () { # remote clipboard
-    cmdchk nc xsel || return 1
+rcb() { # remote clipboard
+  cmdchk nc || return 127
 
-    local PORT=${1:-33333}
+  local PORT=${1:-33333}
 
-    echo fetching from port "$PORT" ...
+  echo fetching from port $PORT ...
 
-    # at remote side (cs6) do, for example, 'ls *.mkv | nc -4l 33333'
-    { nc -4 cs6 "$PORT" || echo nc failed.; } | xsel -bi
-
-    xsel -bo
+  # at remote side (cs6) do, for example, 'ls *.mkv | nc -4l 33333'
+  tmux set-buffer -w $(nc -4 cs6 $PORT) || echo copy from nc failed.
+  tmux showb
 }
 
-cs6v(){
-	cmdchk aria2c xsel || return 1
-    url="https://cs6.swfu.edu.cn/~wx672"
-    base=${1:-tmp}
-    movies=$(xsel -bo)
+cs6v() {
+  cmdchk aria2c || return 127
 
-	[[ "$movies" ]] || { echo "Empty clipboard. Quit..."; return 1;	}
-	
-    cat <<EOF
+  local PORT=${1:-33333}
+  local url="https://cs6.swfu.edu.cn/~wx672"
+  local base=${1:-tmp}
+  local movies=$(nc -4 -w 1 cs6 $PORT)
+
+  [[ "$movies" ]] || {
+    echo "Movies are missing!"
+    return 1
+  }
+
+  cat <<EOF
 Files to be downloaded:
 
 $movies
 
 EOF
 
-    for m in $movies; do
-        echo Downloading "$url"/"$base"/"$m" ...
-        aria2c --no-conf --check-certificate=false -x16 "$url"/"$base"/"$m"
-    done    
+  for m in $movies; do
+    echo Downloading "$url"/"$base"/"$m" ...
+    aria2c --no-conf --check-certificate=false -x16 "$url"/"$base"/"$m"
+  done
 }
 
-cs6r(){
-	cmdchk rsync || return 1
-	rsync -avLP --inplace --append cs6:public_html/"$1" .
+cs6r() {
+  cmdchk rsync || return 127
+  rsync -avLP --inplace --append cs6:public_html/"$1" .
 }
 
-mdcheat(){
-	cmdchk mdless || return 1
-	mdless <(cheat $1)
+mdcht() {
+  cmdchk mdless || return 127
+  [[ $1 = -* ]] && cheat $@ || mdless <(cheat $@)
 }
 
-mount.sqfs(){
-	cmdchk squashfuse || return 1
-	mkdir -p "$1" && squashfuse "$1".sqfs "$1" && cd "$1"
+
+# mount.sqfs() {
+#   cmdchk squashfuse || return 127
+#   mkdir -p "$1" && squashfuse "$1".sqfs "$1" && cd "$1"
+# }
+
+mount.sqfs() {
+  cmdchk squashfs-mount || return 127
+  squashfs-mount ${1}:/mnt -- bash -c "cd /mnt && bash"
 }
 
 # https://stackoverflow.com/questions/660613/how-do-you-hide-the-mouse-pointer-under-linux-x11
-setmouse () {
-	cmdchk xinput || return 1
+setmouse() {
+  cmdchk xinput || return 127
 
-	for i in $(DISPLAY=":0" xinput | grep Mouse | cut -d"=" -f2 | cut -b-2)
-	do
-		DISPLAY=":0" xinput --"$1" "$i"
-	done
+  for i in $(DISPLAY=":0" xinput | grep Mouse | cut -d"=" -f2 | cut -b-2); do
+    DISPLAY=":0" xinput --"$1" "$i"
+  done
 }
 
-moff () {
-	cmdchk xdotool || return 1
-	DISPLAY=":0" xdotool mousemove 3840 2160 # use xrandr to find out
-	setmouse disable
+moff() {
+  cmdchk xdotool || return 127
+  DISPLAY=":0" xdotool mousemove 3840 2160 # use xrandr to find out
+  setmouse disable
 }
 
-mon () {
-	cmdchk xdotool || return 1
-	DISPLAY=":0" xdotool mousemove 1366 768 # use xrandr to find out
-	setmouse enable
+mon() {
+  cmdchk xdotool || return 127
+  DISPLAY=":0" xdotool mousemove 1366 768 # use xrandr to find out
+  setmouse enable
 }
 
 settouchpad() {
-	cmdchk xinput || return 1
+  cmdchk xinput || return 127
 
-	for i in $(DISPLAY=":0" xinput | grep Touchpad | cut -d"=" -f2 | cut -b-2)
-	do
-		DISPLAY=":0" xinput --"$1" "$i"
-	done
+  for i in $(DISPLAY=":0" xinput | grep Touchpad | cut -d"=" -f2 | cut -b-2); do
+    DISPLAY=":0" xinput --"$1" "$i"
+  done
 }
 
-toff () { # touchpad
-	cmdchk xdotool || return 1
-	DISPLAY=":0" xdotool mousemove 3840 2160 # use xrandr to find out
-	settouchpad disable
+toff() { # touchpad
+  cmdchk xdotool || return 127
+  DISPLAY=":0" xdotool mousemove 3840 2160 # use xrandr to find out
+  settouchpad disable
 }
 
-ton () {
-	cmdchk xdotool || return 1
-	DISPLAY=":0" xdotool mousemove 1366 768 # use xrandr to find out
-	settouchpad enable
+ton() {
+  cmdchk xdotool || return 127
+  DISPLAY=":0" xdotool mousemove 1366 768 # use xrandr to find out
+  settouchpad enable
 }
 
-loremipsum () {
-	cmdchk curl || return 1
-	if [ "${1}" = "" ] || [ "${2}" = "" ]; then
-		echo "Usage: loremipsum <paragraphs|sentences> <integer>"
-	else
-		curl -s http://metaphorpsum.com/"${1}"/"${2}" && printf "\n"
-	fi
+loremipsum() {
+  cmdchk curl || return 127
+  if [ "${1}" = "" ] || [ "${2}" = "" ]; then
+    echo "Usage: loremipsum <paragraphs|sentences> <integer>"
+  else
+    curl -s http://metaphorpsum.com/"${1}"/"${2}" && printf "\n"
+  fi
 }
 
-proxy () {
-	cat <<EOF
+proxy() {
+  cat <<EOF
 	pon/poff - Switch on/off proxy
 
 	Current settings:
@@ -337,22 +398,20 @@ proxy () {
 EOF
 }
 
-poff ()
-{
-	echo -n 'unset http_proxy HTTP_PROXY https_proxy HTTPs_PROXY... '
-    unset http_proxy HTTP_PROXY https_proxy HTTPs_PROXY
-	echo done.
+poff() {
+  echo -n 'unset http_proxy HTTP_PROXY https_proxy HTTPs_PROXY... '
+  unset http_proxy HTTP_PROXY https_proxy HTTPs_PROXY
+  echo done.
 }
 
-pon ()
-{
-	echo Turn on proxy...
-    http_proxy=http://127.0.0.1:${1:-1081}/
-    HTTP_PROXY=$http_proxy
-    https_proxy=$http_proxy
-    HTTPS_PROXY=$https_proxy
-    export http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
-	cat <<EOF
+pon() {
+  echo Turn on proxy...
+  http_proxy=http://127.0.0.1:${1:-7890}/
+  HTTP_PROXY=$http_proxy
+  https_proxy=$http_proxy
+  HTTPS_PROXY=$https_proxy
+  export http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
+  cat <<EOF
 	http_proxy=$http_proxy
 	HTTP_PROXY=$http_proxy
 	https_proxy=$http_proxy

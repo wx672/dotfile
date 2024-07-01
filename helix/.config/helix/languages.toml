@@ -1,0 +1,19 @@
+[[language]]
+name = "remind"
+scope = "source.rem"
+injection-regex = "remind"
+file-types = ["rem"]
+comment-tokens = ["#", ";"]
+indent = { tab-width = 2, unit = "  " }
+auto-format = false
+
+[[language]]
+name = "rofi"
+scope = "source.rasi"
+injection-regex = "rofi"
+file-types = ["rasi"]
+comment-tokens = ["//"]
+block-comment-tokens = { start = "/*", end = "*/" }
+indent = { tab-width = 2, unit = "  " }
+auto-format = false
+

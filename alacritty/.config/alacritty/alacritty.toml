@@ -1,0 +1,180 @@
+live_config_reload = true
+
+[bell]
+animation = "EaseOutExpo"
+color = "0xffffff"
+duration = 0
+
+[colors]
+draw_bold_text_with_bright_colors = false
+
+[colors.bright]
+black = "0x737d87"
+blue = "0x59c2ff"
+cyan = "0x5ccfe6"
+green = "0xc2d94c"
+magenta = "0xb77ee0"
+red = "0xff3333"
+white = "0xffffff"
+yellow = "0xe7c547"
+
+[colors.normal]
+black = "0x000000"
+blue = "0x73d0ff"
+cyan = "0x83CEC6"
+green = "0xbae67e"
+magenta = "0xd4bfff"
+red = "0xf34a4a"
+white = "0xf2f2f2"
+yellow = "0xffee99"
+
+[colors.primary]
+background = "0x000000"
+foreground = "0xe6e1cf"
+
+[cursor]
+style = "Block"
+unfocused_hollow = true
+
+[debug]
+log_level = "OFF"
+persistent_logging = false
+print_events = false
+render_timer = false
+
+[env]
+TERM = "screen-256color"
+
+[font]
+size = 16.0
+
+[font.bold]
+family = "Monospace"
+style = "Bold"
+
+[font.italic]
+family = "Monospace"
+style = "Italic"
+
+[font.normal]
+family = "Monospace"
+style = "Retina"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "Insert"
+mods = "Shift"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[Z"
+key = "Tab"
+mods = "Shift"
+
+[[keyboard.bindings]]
+chars = "\u001BOP"
+key = "F1"
+
+[[keyboard.bindings]]
+chars = "\u001BOQ"
+key = "F2"
+
+[[keyboard.bindings]]
+chars = "\u001BOR"
+key = "F3"
+
+[[keyboard.bindings]]
+chars = "\u001BOS"
+key = "F4"
+
+[[keyboard.bindings]]
+chars = "\u001B[15~"
+key = "F5"
+
+[[keyboard.bindings]]
+chars = "\u001B[17~"
+key = "F6"
+
+[[keyboard.bindings]]
+chars = "\u001B[18~"
+key = "F7"
+
+[[keyboard.bindings]]
+chars = "\u001B[19~"
+key = "F8"
+
+[[keyboard.bindings]]
+chars = "\u001B[20~"
+key = "F9"
+
+[[keyboard.bindings]]
+chars = "\u001B[21~"
+key = "F10"
+
+[[keyboard.bindings]]
+chars = "\u001B[23~"
+key = "F11"
+
+[[keyboard.bindings]]
+chars = "\u001B[24~"
+key = "F12"
+
+[[keyboard.bindings]]
+chars = "\u007F"
+key = "Back"
+
+[[keyboard.bindings]]
+chars = "\u001B\u007F"
+key = "Back"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001B\u007F"
+key = "Back"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[2~"
+key = "Insert"
+
+[[keyboard.bindings]]
+chars = "\u001B[3~"
+key = "Delete"
+
+[mouse]
+hide_when_typing = true
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mouse = "Middle"
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>"
+
+[shell]
+program = "/bin/bash"
+
+[window]
+opacity = 1.0
+
+[window.class]
+general = "Xterm"
+instance = "Alacritty"
+
+[window.dimensions]
+columns = 106
+lines = 27
+
+[window.padding]
+x = 0
+y = 0
