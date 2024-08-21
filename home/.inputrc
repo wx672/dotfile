@@ -1,4 +1,10 @@
-set meta-flag on
-set convert-meta off
-set output-meta on
 set bell-style none
+set colored-completion-prefix On # Color the common prefix
+set colored-stats On # Color files by types
+set convert-meta off
+set mark-symlinked-directories On # Mark symlinked directories
+set menu-complete-display-prefix On # Color the common prefix in menu-complete
+set meta-flag on
+set output-meta on
+set show-all-if-ambiguous on # Reduce tab completion key presses and show suggestions
+set visible-stats On # Append char to indicate type

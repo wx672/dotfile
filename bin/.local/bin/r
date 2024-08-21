@@ -1,7 +1,11 @@
 #!/bin/bash
 
+cmdchk rem || exit 127
+
 usage() {
   cat <<EOF
+    ${0##*/} -- School calendar based on remind(1)
+
 USAGE: ${0##*/} [-c, -m] [number]
 
 Example:
@@ -30,10 +34,17 @@ OPTIND=1
 [[ $1 ]] && { [[ $1 =~ ^[0-9]+$ ]] || usage 1; } 
 
 [[ $FANCY ]] && {
-  /usr/bin/rem -mcu$W${1:-1} -@2
+  rem -mcu$W${1:-1} -@2
 } || {
-  ncal -bMw3
-  /usr/bin/rem -s$W${1:-4} | choose 0 8: | column -t 
+  echo
+  ncal -bMwA2
+  echo
+  [[ $1 ]] && {
+    rem -s$W$1 | choose 0 8: | column -t 
+  } || {
+    rem -n | sort | column -t 
+  }
 }
 
-echo Academic week: $(tput setaf 3)"$(($(date +%W) - 34))"$(tput sgr0)
+. ~/.wkoffset && \
+    echo -e "\n$(date +'%A, %b %d')", $(tput setaf 3)"week $(($(date +%W) - $WKOFFSET))" $(tput sgr0)

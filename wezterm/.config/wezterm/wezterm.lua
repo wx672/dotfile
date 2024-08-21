@@ -11,7 +11,7 @@ config.color_scheme = 'Catppuccin Flappe'
 
 config.font = wezterm.font_with_fallback {
 	'JetBrainsMono Nerd Font',
-	{ family = 'LXGW Bright GB', scale = 1.1 },
+	{ family = 'LXGW WenKai GB', scale = 1.1 },
 	-- 'Noto Sans Mono CJK SC',
 }
 config.font_size = 24
@@ -67,7 +67,7 @@ config.keys = {
   --   mods = "LEADER", key = "Enter",
   --   action = wezterm.action.SpawnTab "CurrentPaneDomain",},
   {
-    mods = "LEADER|CTRL", key = "c",
+    mods = "LEADER", key = "0",
     action = wezterm.action.CloseCurrentPane { confirm = true } },
 }
 

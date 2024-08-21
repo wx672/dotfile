@@ -42,10 +42,9 @@ c.downloads.open_dispatcher = None
 c.downloads.position = 'top'
 c.editor.command = ["st","-e","vi", "{}"]
 c.fileselect.handler = "external"
-c.fileselect.single_file.command = ["st", "-e", "lf -selection-path {}"]
-c.fileselect.multiple_files.command = c.fileselect.folder.command
-c.fileselect.folder.command = c.fileselect.single_file.command
-# c.fileselect.folder.command = ["st", "-e", "sh", "-c", "xplr > {}"]
+c.fileselect.single_file.command = ["st", "-e", "lf", "-command", "set nohidden", "-selection-path={}",]
+c.fileselect.multiple_files.command = c.fileselect.single_file.command
+# c.fileselect.folder.command = c.fileselect.single_file.command
 c.hints.auto_follow = 'always'
 c.hints.auto_follow_timeout = 0
 c.hints.border = "1px solid #CCCCCC"
@@ -91,6 +90,7 @@ c.url.searchengines = {
     'l':'https://www.latexstudio.net/index/lists/barSearch/text/{}',
     'p':'http://thepiratebay.org/search/{}',
     'pb':'https://pirate-bays.net/search?q={}',
+    'pdf':'https://www.pdfdrive.com/search?q={}',
     'r':'https://reddit.com/r/{}',
     's':'https://stackexchange.com/search?q={}',
     'w':'https://en.wikipedia.org/?search={}',
@@ -210,11 +210,13 @@ config.bind("<Ctrl-d>", "fake-key <Delete>", "insert")
 ## colors
 c.colors.webpage.preferred_color_scheme = "dark"
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
-# c.colors.webpage.darkmode.enabled = True
-# c.colors.webpage.darkmode.policy.images = 'never'
-# c.colors.webpage.darkmode.policy.page = 'smart'
-# c.colors.webpage.darkmode.threshold.background = 0
-# c.colors.webpage.darkmode.threshold.foreground = 256
+c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.policy.images = 'smart-simple'
+c.colors.webpage.darkmode.policy.page = 'always'
+# set to 0 means always invert bg color
+c.colors.webpage.darkmode.threshold.background = 128
+# set to 256 means always invert fg color
+c.colors.webpage.darkmode.threshold.foreground = 128
 
 # c.colors.tabs.even.bg                 = "#002849"
 # c.colors.tabs.odd.bg                  = "#002849"

@@ -1,0 +1,13 @@
+[Unit]
+Description=automounter for removable media
+Documentation=man:udiskie(8)
+After=udisks2.service
+
+[Service]
+ExecStart=/usr/bin/udiskie -F
+Restart=always
+# Restart in 5 second intervals
+RestartSec=5
+
+[Install]
+WantedBy=default.target

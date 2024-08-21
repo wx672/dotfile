@@ -4,7 +4,7 @@
 #     BATLOW="/home/wx672/.bin/batlow-notify.sh"
 #     */10 * * * * $BATLOW
 
-battery_level=$(cat /sys/class/power_supply/BAT?/capacity)
+battery_level=$(< /sys/class/power_supply/BAT?/capacity)
 
 (( $battery_level < 15 )) && rofi -theme batlow || exit 0
 

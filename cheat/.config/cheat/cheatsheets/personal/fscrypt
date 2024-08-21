@@ -1,0 +1,28 @@
+---
+syntax: markdown
+tags: [ fscrypt, encryption ]
+---
+
+# Steps for encrypting a dir or a file
+
+1. Make a FS for containing the file/dir
+
+   ```sh
+   dd if=/dev/zero of=ext4.img bs=1M count=4096
+   mkfs.ext4 ext4.img
+   mkdir mnt
+   mount -t ext4 ext4.img mnt
+   ```
+2. Prepare a filesystem for use with fscrypt
+   
+   ```sh
+   fscrypt setup mnt
+   fscrypt encrypt mnt  #Enable FS encryption for mnt
+   ```
+
+3. Use it
+
+   ```sh
+   cp -a secrete.dir mnt
+   fscrypt lock/unlock mnt/secrete.dir 
+   ```

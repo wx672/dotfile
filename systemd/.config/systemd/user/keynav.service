@@ -1,0 +1,20 @@
+[Unit]
+Description=keyboard navigation tool
+Documentation=man:keynav(1)
+#PartOf=graphical.target
+# Try to restart up to 3 times
+#StartLimitBurst=3
+# Don't try to restart after 60 seconds
+#StartLimitIntervalSec=60
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/keynav
+#ExecReload=/usr/bin/kill -SIGUSR1 $MAINPID
+# Try to restart no matter how the process ended
+Restart=on-failure
+# Restart in 5 second intervals
+RestartSec=5
+
+[Install]
+WantedBy=default.target

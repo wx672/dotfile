@@ -1,14 +1,25 @@
-nmcli d w l
-nmcli d w c OpenWrt
+---
+syntax: markdown
+tags: [ nmcli, wireless, networking, wifi ]
+---
 
-nmcli d w rescan
-nmcli d w c <ssid> password <pass> iface <wiface>
-nmcli d w disconnect iface <wiface>
-nmcli radio wifi # Get WiFi status (enabled/disabled)
+```sh
+man nmcli-examples
+
+nmcli dev wifi list  #Show all available WiFi access points
+nmcli dev wifi conn <ssid> password <pass> iface <wiface>  #Connect
+nmcli dev wifi conn wx672alioth
+nmcli dev wifi rescan
+nmcli dev wifi show  #Show WiFi password and QR code
+nmcli dev status  #Review the available devices
+nmcli dev show wlp1s0
+nmcli dev disconnect wlp1s0
+
+nmcli radio wifi          # Get WiFi status (enabled/disabled)
 nmcli radio wifi <on|off> # Enable/Disable WiFi
-nmcli con # Show all available connections
+
+nmcli con               # Show all available connections
 nmcli con show --active # Show only active connections
-nmcli dev status # Review the available devices
 
 # Add a dynamic ethernet connection - parameters:
 #	<name> -- the name of the connection
@@ -20,3 +31,4 @@ nmcli con up <name>
 
 # Import OpenVPN connection settings from file:
 nmcli con import type openvpn file <path_to_ovpn_file>
+```

@@ -1,0 +1,24 @@
+---
+syntax: markdown
+tags: [ qemu, kvm, debian, netinst, windows ]
+---
+
+# Debian
+
+- https://wiki.debian.org/KVM
+
+```sh
+virt-install --virt-type kvm --name bookworm-amd64 \
+    		 --cdrom ~/iso/debian-12.7.0-amd64-netinst.iso \
+    		 --os-variant debian12 \
+    		 --disk size=20 --memory 4096
+```
+
+# Windows 11 (Tiny11-2409)
+
+- Download: https://archive.org/search?query=tiny11
+- [virtio-win driver installation](https://github.com/virtio-win/kvm-guest-drivers-windows/wiki/Driver-installation)
+
+  After installing virtio-win driver, the screen resolution can be upgraded to 2k.
+
+- Since it's really *tiny* even without a browser so you have to install it with an USB thumb drive. After you get a browser installed, you can download and install anything you like directly over the Internet.

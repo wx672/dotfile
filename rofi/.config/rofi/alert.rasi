@@ -2,6 +2,6 @@
     background-color:            transparent;
 }
 textbox {
-    font: "Symbols Nerd Font 96";
+    font: "Symbols Nerd Font 48";
     text-color: #ff706d;
 }
