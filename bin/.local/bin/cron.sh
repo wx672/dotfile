@@ -11,6 +11,6 @@ for D in $PUB/{dotfile,lecture_notes,texmf}; do
   }
 done
 
-cd "$PUB/debian-install/misc/yml" && {
-  ln -sf "$(/bin/ls -t *yml | head -1)" config.yaml
-}
+# doesn't work?
+# YML="$HOME/yml"
+# ln -sf $(/bin/ls -t1 $YML/*yml | head -1) $YML/config.yaml

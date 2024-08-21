@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cmdchk convert identify || exit 127
 usage() {
   cat <<EOF
 ${0##*/} - draw grid on a picture
@@ -56,7 +55,7 @@ SPACING=${SPACING:-200,200}
 xinc=${SPACING%,*}
 yinc=${SPACING#*,}
 
-# get string for drawing grid lines
+# grid lines
 DRAWSTR=""
 for ((i = 0; i <= $H; i += yinc)); do
   DRAWSTR="$DRAWSTR M 0,$i L $W,$i"
@@ -69,4 +68,4 @@ done
 # process image
 convert $INFILE -flatten -fill none -stroke ${COLOR:-red} -strokewidth ${WIDTH:-1} \
   -draw "stroke-opacity ${OPACITY:-1} path '$DRAWSTR'" \
-  ${OUTFILE:-/tmp/grid.png}
+  ${OUTFILE:-/tmp/grid.webp}

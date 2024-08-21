@@ -45,6 +45,9 @@ err() {
     *webp*)
       echo '(sudo apt install webp)'
       ;;
+    rem)
+      echo '(sudo apt install remind)'
+      ;;
     rg)
       echo '(sudo apt install ripgrep)'
       ;;

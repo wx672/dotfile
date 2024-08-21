@@ -3,9 +3,7 @@
 # This script is supposed to be invoked via hotkeys defined in dwm
 
 gdbar() {
-  awk -F"[][]" '/Left:/ { print $2 }' <(amixer get Master) |
-    dzen2-gdbar -h '30' |
-    dzen2 -p 1 -h '40' -w '90' -x '1820'
+  awk -F"[][]" '/Left:/ { print $2 }' <(amixer get Master) | dzen2-gdbar -h '30' | dzen2 -p 1 -h '40' -w '90' -x '1820'
 }
 
 case $1 in

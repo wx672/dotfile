@@ -65,7 +65,7 @@
  vc-follow-symlinks t
  version-control 'never
  view-read-only t
- ;;	visible-bell t
+ visible-bell t
 )
 
 (add-to-list 'recentf-exclude no-littering-var-directory)
