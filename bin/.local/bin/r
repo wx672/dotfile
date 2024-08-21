@@ -1,0 +1,50 @@
+#!/bin/bash
+
+cmdchk rem || exit 127
+
+usage() {
+  cat <<EOF
+    ${0##*/} -- School calendar based on remind(1)
+
+USAGE: ${0##*/} [-c, -m] [number]
+
+Example:
+  - ${0##*/} 3     # output reminders for the next 3 weeks in simple format
+  - ${0##*/} -cm 3 # output next 3 months in fancy format
+EOF
+
+  exit ${1:-0}
+}
+
+W='+' # default to week-based output
+unset FANCY
+
+while getopts :cm OPT; do
+  case $OPT in
+    c) FANCY='y'
+      ;;
+    m) unset W
+      ;;
+    *) usage ;;
+  esac
+done
+shift $((OPTIND - 1))
+OPTIND=1
+
+[[ $1 ]] && { [[ $1 =~ ^[0-9]+$ ]] || usage 1; } 
+
+[[ $FANCY ]] && {
+  rem -mcu$W${1:-1} -@2
+} || {
+  echo
+  ncal -bMwA2
+  echo
+  [[ $1 ]] && {
+    rem -s$W$1 | choose 0 8: | column -t 
+  } || {
+    rem -n | sort | column -t 
+  }
+}
+
+. ~/.wkoffset && \
+    echo -e "\n$(date +'%A, %b %d')", $(tput setaf 3)"week $(($(date +%W) - $WKOFFSET))" $(tput sgr0)

@@ -1,3 +1,9 @@
+---
+syntax: markdown
+tags: [ font, fc-list, unicode ]
+---
+
+```sh
 # print out the fixed width fonts that are available with their family name
 fc-list :scalable=true:spacing=mono: family
 
@@ -6,4 +12,4 @@ fc-list :charset='2713 2717':spacing=mono: family
 
 # sort and page through the available fonts - not only fixed width fonts
 fc-list | cut -f2 -d: | sort -u | less
-
+```

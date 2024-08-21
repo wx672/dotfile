@@ -1,10 +1,16 @@
 [Unit]
 Description=Fcitx as a systemd service
+After=dbus.service
 
 [Service]
+# Type=dbus
+# BusName=org.fcitx.Fcitx5
 Type=forking
+ExecStartPre=/usr/bin/sleep 10
 ExecStart=/usr/bin/fcitx5 -d --replace
+Restart=always
+RestartSec=5
 Environment=GTK_IM_MODULE=fcitx XMODIFIERS="@im=fcitx" QT_IM_MODULE=fcitx
 
 [Install]
-WantedBy=graphical.target
+WantedBy=default.target

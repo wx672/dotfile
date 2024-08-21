@@ -1,27 +1,33 @@
 ---
 syntax: markdown
-tags: [gpg]
+tags: [ gpg, keys ]
 ---
+
 - public key is for encryption
 - private key is for decryption
-- in order to send an encrypted message to someone, you have to ask him for his public key first.
-- then you encrypt the message with his pub key
+- in order to send an encrypted message to someone, you have to ask him for his public key first, and then
+  you encrypt the message with his pub key
 
-```sh
+
 # Encrypt `filename` for sending to someone@somewhere.com
+```sh
 gpg -r someone -e filename
 gpg --recipient 'user@emailaddress.com' --encrypt example.txt
 
 gpg -d filename    # Decrypt `filename`
 gpg --output example.txt --decrypt example.txt.gpg
+```
 
+```sh
 gpg --full-gen-key # Create a key
 gpg --list-keys    # List a summary of all keys 
 gpg --armor --export     # To show your public key
 gpg --fingerprint KEY_ID # To show the fingerprint for a key
 gpg --search-keys 'user@emailaddress.com' # Search for keys
+```
 
 # Export keys
+```sh
 gpg --output ~/public_key.txt --armor --export KEY_ID
 gpg --output ~/private_key.txt --armor --export-secret-key KEY_ID
 # Where KEY_ID is the 8 character GPG key ID.
@@ -29,16 +35,20 @@ gpg --output ~/private_key.txt --armor --export-secret-key KEY_ID
 # Store these files to a safe location, such as a USB drive, then
 # remove the private key file.
 shred -zu ~/private_key.txt
+```
 
 # Import keys
+```sh
 # Retrieve the key files which you previously exported.
 gpg --import ~/public_key.txt
 gpg --allow-secret-key-import --import ~/private_key.txt
 
 # Then delete the private key file.
 shred -zu ~/private_key.txt
+```
 
 # Revoke a key
+```sh
 # Create a revocation certificate.
 gpg --output ~/revoke.asc --gen-revoke KEY_ID
 # Where KEY_ID is the 8 character GPG key ID.
@@ -48,8 +58,10 @@ gpg --import ~/revoke.asc
 
 # Then ensure that key servers know about the revokation.
 gpg --send-keys KEY_ID
+```
 
 # Signing and Verifying files
+```sh
 # If you are uploading files to launchpad you may also want to include
 # a GPG signature file.
 gpg -ba filename
@@ -76,8 +88,10 @@ gpg --sign-key <Key_ID>
 
 # Upload the signed key to a server.
 gpg --keyserver <keyserver> --send-key <Key_ID>
+```
 
 # Change the email address associated with a GPG key
+```sh
 gpg --edit-key <key ID>
 # At the prompt type:
 # > adduid
@@ -91,8 +105,10 @@ gpg --edit-key <key ID>
 # > save
 # Publish the key to a server:
 # > gpg --send-keys <key ID>
+```
 
 # Creating Subkeys
+```sh
 # Subkeys can be useful if you don't wish to have your main GPG key
 # installed on multiple machines. In this way you can keep your
 # master key safe and have subkeys with expiry periods or which may be
@@ -121,8 +137,10 @@ gpg --import pubkeys subkeys
 # Verify the import.
 gpg -K
 # Should show sec# instead of just sec.
+```
   
 # High-quality options for gpg for symmetric (secret key) encryption
+```sh
 # This is what knowledgable people consider a good set of options for 
 # symmetric encryption with gpg to give you a high-quality result.
   
@@ -148,7 +166,7 @@ gpg \
   --armor \
   --output somefile.gpg \
   somefile # to decrypt
-```	
+```
 
 # apt-key is deprecated
 

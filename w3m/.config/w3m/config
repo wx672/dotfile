@@ -83,8 +83,6 @@ mailer xdg-open mailto:%s
 extbrowser sensible-browser
 extbrowser2 qutebrowser %s &
 extbrowser3 chromium %s &
-extbrowser4 epiphany %s &
-extbrowser5 konqueror %s &
 extbrowser6 curl -L -O -C - %s &
 extbrowser7 wget -c
 extbrowser8 url=%s && printf %s "$url" | xsel && printf %s "$url" | xsel -b &

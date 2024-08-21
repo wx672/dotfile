@@ -1,6 +1,32 @@
+---
+syntax: markdown
+tags: [ moodle ]
+---
+
+# Moodle is no longer in Debian repo
+
+If you installed Moodle with a (whereever you got) deb package, be careful:
+
+**Upon purging moodle deb package, `/etc/moodle` and `/var/lib/moodle` will be removed!**
+
+# Installing Moodle from its own git repo is recommended
+ 
+- https://docs.moodle.org/32/en/Installation_quick_guide
+- `/var/www/moodle/` is from git repo
+- `/var/lib/moodledata/` is used instead of the debian default one (`/var/lib/moodle/`)
+- `/etc/moodle/` is the debian default moodle config dir. it's not used for this git moodle installation. 
+- We use `/var/www/moodle/config.conf` and `/etc/nginx/sites-enabled/cs6.swfu.edu.cn`.
+
+## update from git
+
+```sh
+sudo git pull
+# and then checkout the new version
+```
+
 # batch uploading Users
 
-1. export a xlsx file from jw.swfu.edu.cn:8089 with only name and studid in it
+1. export a xlsx file from `jw.swfu.edu.cn:8089` with only name and studid in it
 	
 	> id,name
 
@@ -15,25 +41,15 @@
 
 3. add a new cohort (232401-net) in moodle -> site admin -> users -> cohorts
 
-	https://cs6.swfu.edu.cn/moodle/cohort/edit.php?contextid=1
+   - https://cs6.swfu.edu.cn/moodle/cohort/edit.php?contextid=1
 
 4. site admin -> users -> upload users (csv file)
 
 5. Course -> Participants -> enrolment methods -> cohort sync
 
-
 # Enroll a cohort into a course
 
 In course page: Administration -> Course Administration -> Users -> Enrolment methods -> Add method -> Cohort sync
-
-# update from git
-
-```sh
-sudo git pull
-# and then checkout the new version
-```
-
-# plugin install
 
 # site backup
 

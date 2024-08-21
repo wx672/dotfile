@@ -1,0 +1,17 @@
+---
+syntax: markdown
+tags: [ virsh, qemu, kvm, virt-manager, libvert ]
+---
+
+```sh
+virsh list --all  # list domains associated with ~/.local/share/images/
+
+sudo virsh list --all  # list domains associated with /var/lib/libvirt/images/
+
+virsh undefine domain_name --remove-all-storage  # remove a domain completely
+
+virsh start domain_name
+
+virsh shutdown domain_name
+```
+

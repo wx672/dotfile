@@ -33,37 +33,49 @@ EOF
 
 chkPATTERN() {
 
-  [[ $DEBUG ]] && {
-	  echo '[chkPATTERN] $1' is: ${1:-empty}
-  }
-
   [[ "$1" ]] || return 0 #if $1 is empty
 
+  [[ $DEBUG ]] && {
+	  echo '[chkPATTERN] $*' is: ${*:-empty}
+  }
+
   # valid file, e.g. /tmp/tmp.pdf or tmp.pdf
-  [[ $(file --mime-type -b "$1") == "application/pdf" ]] && return 1
+  [[ $(file --mime-type -b "$*") == "application/pdf" ]] && return 1
   
   return 2 #if $1 is a random string
 }
 
 openPDF() {
 
-  [[ "$DEBUG" ]] && {
-	  echo '[openPDF] $1 is:' ${1:-empty}
-  }
-
   [[ $1 ]] || exit 0
 
-  local PDF="$1"  
+  [[ $DEBUG ]] && {
+	  echo '[openPDF] $* is:' ${*:-empty}
+  }
 
-  [[ $TXT || $SSH_TTY ]] && { less $PDF; exit 0; }
+  # if not in PDFHIST, add it
+  local FULLPTH="$(realpath "$*")"
+  rg -qF "$FULLPTH" "$PDFHIST" || {
+      echo "$FULLPTH" >> "$PDFHIST"
+      echo "$FULLPTH" is added into $PDFHIST
+    }
 
-  [[ $PTH ]] && { realpath $PDF; exit 0; }
+  [[ $DEBUG ]] && {
+    echo '[openPDF] $* is ' $*
+    echo '===== tail $PDFHIST ====='
+    tail $PDFHIST
+    echo '========================='
+  }
+  
+  [[ $TXT || $SSH_TTY ]] && { less "$*"; exit 0; }
 
-  [[ "$PDF" == *gz ]] && {
-    gzip -cd "$PDF" | zathura -
+  [[ $PTH ]] && { realpath "$*"; exit 0; }
+
+  [[ "$*" == *gz ]] && {
+    gzip -cd "$*" | zathura -
 	  exit 0
   } || {
-    $MUPDF "$PDF" &>/dev/null
+    $MUPDF "$*" &>/dev/null
 	  exit 0
   }
 }
@@ -74,7 +86,7 @@ searchPDF() { # when $PATTERN is a random string, i.e. chkPATTERN returns 2.
 	  echo '[searchPDF] $1 is:' ${1:-empty}
   }
 
-  local PATTERN="$1"
+  local PATTERN="$*"
 
   #Searching in $CWD
   local PDFFILE=$(sk $SKOPTS < <(fd $FDOPTS -e pdf.gz -e pdf \
@@ -98,13 +110,13 @@ searchPDF() { # when $PATTERN is a random string, i.e. chkPATTERN returns 2.
   [ $DEBUG ] && echo '[searchPDF] $PATTERN is found in' $PWD
 
   # if not in PDFHIST, add it
-  local FULLPTH="$(realpath "$PDFFILE")"
-  rg -qF "$FULLPTH" "$PDFHIST" || {
-      echo "$FULLPTH" >> "$PDFHIST"
-      echo "$FULLPTH" is added into $PDFHIST
-    }
+  # local FULLPTH="$(realpath "$PDFFILE")"
+  # rg -qF "$FULLPTH" "$PDFHIST" || {
+  #     echo "$FULLPTH" >> "$PDFHIST"
+  #     echo "$FULLPTH" is added into $PDFHIST
+  #   }
 
-  [ $DEBUG ] && tail $PDFHIST
+  # [ $DEBUG ] && tail $PDFHIST
 
   openPDF "$PDFFILE"
 }
@@ -127,7 +139,7 @@ chkPATTERN "$*"
 
 case $? in
 	0) #empty $*, choose a PDF in $PDFHIST
-		openPDF $(sk <$PDFHIST $SKOPTS)
+		openPDF "$(sk <$PDFHIST $SKOPTS)"
 		exit 0
 		;;
 	1) #file found in $CWD

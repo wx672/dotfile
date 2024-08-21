@@ -1,0 +1,20 @@
+[Unit]
+Description=A modal keyboard driven pointer manipulation program
+Documentation=man:warpd(1)
+#PartOf=graphical.target
+# Try to restart up to 3 times
+#StartLimitBurst=3
+# Don't try to restart after 60 seconds
+#StartLimitIntervalSec=60
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/warpd
+#ExecReload=/usr/bin/kill -SIGUSR1 $MAINPID
+# Try to restart no matter how the process ended
+Restart=always
+# Restart in 5 second intervals
+RestartSec=2
+
+[Install]
+WantedBy=default.target

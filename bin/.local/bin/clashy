@@ -10,18 +10,20 @@ unset PROXY_NAME PROXY_ENTRY OUTFILE
 
 usage() {
   cat <<EOF
-${0##*/} - Tweaking clash config file.
+${0##*/} - Tweaking mihomo config file.
 
 USAGE: 
     ${0##*/} -i [file.yaml] # insert a proxy entry into $SELFYML
 			    
-    ${0##*/} -r [file.yaml] # remove a proxy entry from a yml file (default to $DEFAULTYML)
+    ${0##*/} -r [file.yaml] # remove a proxy entry from a yml file (default $DEFAULTYML)
 			    
     ${0##*/} -s [file.yaml] # search by proxy name
 
     ${0##*/} [-o output.yaml] -t [newlydownloaded.yaml]  # tweak newly downloaded yaml file
 
-    - Prerequiesite: yq
+    ${0##*/}  # without any options, works as 'clashy -t'
+
+    - Prerequisite: yq
 EOF
   exit ${1:-0}
 }
@@ -30,7 +32,6 @@ EOF
 
         # \$ yq '.proxies[].name' config.yaml
 
-[ "$1" ] || usage
 
 # doublecheck <SRC.yml> <DST.yml>
 # populate PROXY_NAME and PROXY_ENTRY
@@ -146,12 +147,14 @@ tweak() {
 
   sed -i '1i port: 7890\nsocks-port: 7891\nallow-lan: true\nmode: Rule\nlog-level: info\nexternal-controller: 0.0.0.0:9090\nexternal-ui: /home/wx672/.config/mihomo/ui\ndns:\n  enabled: true\n  ipv6: true\n  listen: 127.0.0.1:8854\n  default-nameserver:\n    - 223.5.5.5\n    - 114.114.114.114\n    - 119.29.29.29\n    - 1.0.0.1\n  nameserver:\n    - https://doh.pub/dns-query\n    - https://dns.alidns.com/dns-query\n    - https://223.6.6.6/dns-query\n    - https://rubyfish.cn/dns-query\n    - https://dns.pub/dns-query\n  fallback-filter:\n    geoip: false\n    ipcidr:\n      - 240.0.0.0/4\n      - 0.0.0.0/32\nproxies:' $DST
 
-  yq -i '.rules = ["DOMAIN-SUFFIX,debian.org,DIRECT", "DOMAIN-SUFFIX,fai-project.org,DIRECT", "DOMAIN-SUFFIX,qemu.org,DIRECT", "DOMAIN-SUFFIX,gnu.org,DIRECT", "DOMAIN-SUFFIX,winegame.net,DIRECT", "DOMAIN-SUFFIX,www.kmwatersupply.com,DIRECT", "DOMAIN-SUFFIX,www.playonlinux.com,DIRECT", "DOMAIN-SUFFIX,sketchviz.com,DIRECT", "DOMAIN-SUFFIX,deepinos.org,DIRECT", "DOMAIN-SUFFIX,overleaf.com,DIRECT", "DOMAIN-SUFFIX,moodle.org,DIRECT", "DOMAIN-SUFFIX,grammarly.com,DIRECT", "DOMAIN-SUFFIX,ixigua.com,DIRECT", "DOMAIN-SUFFIX,gitee.com,DIRECT", "DOMAIN-SUFFIX,wiki.archlinux.org,DIRECT", "DOMAIN-SUFFIX,www.gnupg.org,DIRECT"] + .rules' $DST
+  yq -i '.rules = ["DOMAIN-SUFFIX,www.pearson.com,DIRECT", "DOMAIN-SUFFIX,stackoverflow.com,DIRECT", "DOMAIN-SUFFIX,stackexchange.com,DIRECT", "DOMAIN-SUFFIX,debian.org,DIRECT", "DOMAIN-SUFFIX,fai-project.org,DIRECT", "DOMAIN-SUFFIX,qemu.org,DIRECT", "DOMAIN-SUFFIX,gnu.org,DIRECT", "DOMAIN-SUFFIX,winegame.net,DIRECT", "DOMAIN-SUFFIX,www.kmwatersupply.com,DIRECT", "DOMAIN-SUFFIX,www.playonlinux.com,DIRECT", "DOMAIN-SUFFIX,sketchviz.com,DIRECT", "DOMAIN-SUFFIX,deepinos.org,DIRECT", "DOMAIN-SUFFIX,overleaf.com,DIRECT", "DOMAIN-SUFFIX,moodle.org,DIRECT", "DOMAIN-SUFFIX,grammarly.com,DIRECT", "DOMAIN-SUFFIX,ixigua.com,DIRECT", "DOMAIN-SUFFIX,gitee.com,DIRECT", "DOMAIN-SUFFIX,wiki.archlinux.org,DIRECT", "DOMAIN-SUFFIX,www.gnupg.org,DIRECT", "DOMAIN-SUFFIX,www.opensubtitles.com,DIRECT"] + .rules' $DST
 
-  yq '.rules' $DST | head -15
+  yq '.rules' $DST | rg "DOMAIN.*DIRECT"
 
-  sed -i '/中国/d' $DST
   sed -i '/CN/d' $DST
+  sed -i '/中国/d' $DST
+  sed -i '/乌克兰/d' $DST
+  sed -i '/南非/d' $DST
 
   ln -sf $DST $DEFAULTYML
 
@@ -171,6 +174,8 @@ search() {
     exit
   }
 }
+
+[[ $1 ]] || tweak
 
 while getopts :irsto: OPT; do
   case $OPT in
