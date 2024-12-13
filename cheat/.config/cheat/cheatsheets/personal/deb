@@ -1,3 +1,13 @@
+---
+syntax: markdown
+tags: [ deb, dpkg-deb, debuild, dh_make, ppa, repo, fpm ]
+---
+
+- [How to create a simple Debian package?](https://www.baeldung.com/linux/create-debian-package)  
+- [deb-package-tutorial](https://github.com/flavienbwk/deb-package-tutorial)  
+- [How do I do Debian packaging of a Python package?](https://stackoverflow.com/questions/1382569/how-do-i-do-debian-packaging-of-a-python-package/25275227#25275227)  
+- [FPM](https://fpm.readthedocs.io/en/latest/getting-started.html)  
+
 # Hello world example for packing a binary Package
 
 - https://ubuntuforums.org/showthread.php?t=910717

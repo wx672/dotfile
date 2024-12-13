@@ -1,5 +1,4 @@
-theme = "catppuccin_mocha_trans"
-# theme = "lilac_trans"
+theme = "catppuccin_macchiato_trans"
 
 [editor]
 true-color = true
