@@ -1,7 +1,7 @@
 #!/bin/sh
 
 SRC="/usr/local/share/texmf/"
-DST="/usr/local/src/wx672texmf-1.0/usr/local/share/texmf"
+DST="/usr/local/src/wx672texmf/usr/local/share/texmf"
 
 EX1=".git/"
 

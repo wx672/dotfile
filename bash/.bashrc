@@ -65,6 +65,8 @@ export GPG_TTY=$(tty)
 command -v starship &>/dev/null && eval "$(starship init bash)"
 command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
 command -v vivid &>/dev/null && export LS_COLORS="$(vivid generate catppuccin-macchiato)"
-command -v sk &>/dev/null && export SKIM_DEFAULT_COMMAND='fd . --hidden --exclude ".git"'
-
+command -v sk &>/dev/null && { 
+	export SKIM_DEFAULT_COMMAND='fd . --hidden --exclude ".git"';
+	export SKIM_TMUX_HEIGHT='90%';
+}
 stty -ixon # disable Ctrl-s
