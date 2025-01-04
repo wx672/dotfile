@@ -10,22 +10,17 @@
 [ -f $HOME/.bash_aliases ] && . $HOME/.bash_aliases
 
 # Use bash-completion, if available
-[[ -f /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
-
-# should be automatically done. See the FAQ in:
-# /usr/share/doc/bash-completion/README.md.gz
-# but it's not :(
-compdir="$XDG_DATA_HOME/bash-completion/completions"
-[[ -d "$compdir" ]] && {
-	for f in "$compdir"/*; do	. "$f"; done
-	unset f compdir
+[[ -f /usr/share/bash-completion/bash_completion ]] && {
+	. /usr/share/bash-completion/bash_completion;
+	# . /usr/share/bash-completion/completions/*;
+	. /usr/share/bash-completion/completions/sk-bindings;
 }
 
 eval "$(lesspipe)"
 export PROMPT_DIRTRIM=1
 shopt -s histappend
 unset HISTFILESIZE
-export HISTIGNORE="&:exit:history:q *:touch *:type *:command *"
+export HISTIGNORE="&:exit:history:q *"
 export HISTSIZE=90000
 export HISTCONTROL=erasedups:ignorespace
 export LESSHISTFILE=-
@@ -42,6 +37,7 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
 #export MPD_HOST="cs6.swfu.edu.cn"
 export W3M_DIR="$XDG_CONFIG_HOME/w3m"
 # export CHEAT_USE_SKIM=true
+export GOPATH="/usr/local/go"
 
 tabs -2 &>/dev/null
 

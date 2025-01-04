@@ -1,0 +1,1 @@
+- All the completion scripts are wrapped into wx672exe/usr/share/bash-completion/completions/

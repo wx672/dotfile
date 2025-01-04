@@ -120,6 +120,8 @@
 	:config
 	(add-to-list 'consult-buffer-sources 'consult-notmuch-buffer-source)
 	)
+
+  ;; (use-package consult-lsp)
   )
 
 (provide '20-consult)

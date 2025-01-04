@@ -1,4 +1,4 @@
-theme = "catppuccin_macchiato_trans"
+theme = "catppuccin_mocha"
 
 [editor]
 true-color = true
@@ -21,6 +21,9 @@ render = true
 
 [editor.file-picker]
 hidden = false
+
+[editor.soft-wrap]
+enable = true
 
 [keys.normal]
 # C-g = ":toggle-option indent-guides.render"
@@ -77,6 +80,9 @@ C-g = ["collapse_selection", "keep_primary_selection"]
 # Search for word under cursor
 "*" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_next"]
 "#" = ["move_char_right", "move_prev_word_start", "move_next_word_end", "search_selection", "search_prev"]
+
+[keys.normal.space]
+W = [":toggle soft-wrap.enable", ":redraw"]
 
 [keys.normal.d]
 d = ["extend_to_line_bounds", "yank_main_selection_to_clipboard", "delete_selection"]

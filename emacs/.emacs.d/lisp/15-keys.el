@@ -21,7 +21,7 @@
     "<f5>"       #'shell-other-window
 	"C-o"        #'other-window
     "M-o"        #'switch-to-other-buffer
-	"C-M-k"      #'kill-this-buffer
+	"C-M-k"      #'kill-current-buffer
 	"C-<backspace>" #'backward-kill-word
 	"M-<backspace>" #'backward-kill-word
 	"M-j"        #'next-user-buffer
@@ -148,11 +148,6 @@ http://ergoemacs.org/emacs/elisp_next_prev_user_buffer.html"
   "Switch to last buffer."
   (interactive)
   (switch-to-buffer (other-buffer)))
-
-(defun kill-current-buffer ()
-  "Kill the current buffer (prompting if it is modified)."
-  (interactive)
-  (kill-buffer (current-buffer)))
 
 ;; provide some dired goodies and dired-jump at C-x C-j
 (load "dired-x")

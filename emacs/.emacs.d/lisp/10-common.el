@@ -73,8 +73,8 @@
 
 (setq-default
  tab-width 4
- ;;cursor-type '(bar . 4)
- cursor-type 'box
+ cursor-type '(bar . 4)
+ ;; cursor-type 'box
  )
 
 (provide '10-common)

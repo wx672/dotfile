@@ -147,14 +147,17 @@
     (beacon-mode 1)))
 
 ;; https://github.com/Fuco1/smartparens
-;; https://ebzzry.com/en/emacs-pairs/
-(use-package smartparens-config
-  :disabled
-  :ensure smartparens
+;; https://github.com/Fuco1/smartparens/issues/1088
+(use-package smartparens
+  :diminish smartparens-mode ;; Do not show in modeline
+  :init
+  (require 'smartparens-config)
   :config
-  (progn (show-smartparens-global-mode t))
-  (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
-  (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode)
+  (smartparens-global-mode t) ;; These options can be t or nil.
+  (show-smartparens-global-mode t)
+  (setq sp-show-pair-from-inside t)
+  :custom-face
+  (sp-show-pair-match-face ((t (:foreground "White" :background "Grey")))) ;; Could also have :background "Grey" for example.
   )
 
 (use-package which-key

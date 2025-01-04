@@ -60,6 +60,21 @@
 
 (load custom-file t)
 
+;; https://emacs-lsp.github.io/lsp-mode/page/installation/
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook 
+  (
+   (sh-mode . lsp)
+   (tex-mode . lsp)
+   (latex-mode . lsp)
+   (LaTeX-mode . lsp)
+   )
+  :commands lsp
+)
+
 ;; Add my library path to load-path
 ;;(push (expand-file-name "lisp" startup--xdg-config-home-emacs) load-path)
 (push "~/.emacs.d/lisp" load-path)
@@ -83,5 +98,6 @@
 (require '40-print)
 (require '50-company)
 (require '50-pdftools)
+
 (provide 'init)
 ;;; init.el ends here

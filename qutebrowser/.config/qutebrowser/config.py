@@ -120,6 +120,7 @@ c.aliases = {
 # config.unbind('f', mode='normal')
 # config.bind('f', 'hint all tab', mode='normal')
 # config.bind('F', 'hint', mode='normal')
+config.unbind('q', mode='normal')
 config.unbind('<F11>', mode='normal')
 config.unbind('<Ctrl-n>', mode='normal')
 config.unbind('<Ctrl-p>', mode='normal')

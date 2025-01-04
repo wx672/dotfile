@@ -106,13 +106,13 @@ lipsum(){
   curl -s http://metaphorpsum.com/"$1"/"$2" && printf "\n"
 }
 
-alias ..='cd ..'  ...='cd ../..'  ....='cd ../../..'
+alias ..='z ..'  ...='z ../..'  ....='z ../../..'
 alias t='tmux a || tmux'
 alias wk='echo $(($(date +%W) - 34))'  Date='date +%Y%m%d%H%M'
 alias cal='ncal -bMw'
 alias less='less -r'
 alias mu='mupdf -C FDF6E3'
-alias la='eza --icons --group-directories-first' lat='la --sort=modified' las='la --sort=size' lad='la -ad .*'
+alias la='eza --icons --group-directories-first' lat='eza --icons --sort=modified' las='la --sort=size' lad='la -ad .*'
 alias ls='ls --classify=auto --color=auto -G' lsd='ls -ad .*' lst='ls -tr'
 alias xo='xdg-open'
 alias ip='ip --color=auto'

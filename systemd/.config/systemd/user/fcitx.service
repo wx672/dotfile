@@ -6,10 +6,10 @@ After=dbus.service
 # Type=dbus
 # BusName=org.fcitx.Fcitx5
 Type=forking
-ExecStartPre=/usr/bin/sleep 10
+ExecStartPre=/usr/bin/sleep 3
 ExecStart=/usr/bin/fcitx5 -d --replace
 Restart=always
-RestartSec=5
+RestartSec=3
 Environment=GTK_IM_MODULE=fcitx XMODIFIERS="@im=fcitx" QT_IM_MODULE=fcitx
 
 [Install]
