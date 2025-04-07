@@ -98,6 +98,7 @@
 (require '40-print)
 (require '50-company)
 (require '50-pdftools)
+(require '70-flycheck)
 
 (provide 'init)
 ;;; init.el ends here

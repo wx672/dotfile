@@ -44,7 +44,7 @@ SUCCESS="36m" # green
 INFO="34m" # blue
 
 colorEcho() {
-	echo -e "\033[${1}${@:2}\033[0m" 1>&2
+	echo -e "\033[$1 ${*:2} \033[0m" 1>&2
 }
 
 # pdftotext -tsv os-marks.pdf - | rg -N "签.*章" | head -1 | choose -o ',' 6 7

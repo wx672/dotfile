@@ -1,0 +1,94 @@
+#!/bin/bash
+
+usage() {
+    cat <<EOF
+Batch generating courseworks in current directory.
+
+Usage: ${0##*/} [-h] <semester> <course> [-c csvdir] [-d template_dir] [-p name_pattern]
+
+course - course name ($TEMPLATE_DIR/{os,linux,net})
+semester - School term (e.g. 242501)
+
+-c csvdir (default $CSVDIR)
+-d template_dir (default $TEMPLATE_DIR)
+-p filename pattern (default "^20", e.g. 20241152001.org)
+-h help
+EOF
+
+exit "${1:-0}"
+}
+
+# defaults
+CSVDIR="/home/wx672/Documents/rsync/swfu/yearly/moodle-import"
+TEMPLATE_DIR="/home/wx672/Documents/rsync/swfu/coursework-template"
+PATN="^20"
+unset SEMESTER COURSE
+
+while getopts :hc:d:p: OPT; do
+    case $OPT in
+        h) usage 0 ;;
+		c) CSVDIR="$OPTARG" ;;
+		d) TEMPLATE_DIR="$OPTARG" ;;
+        p) PATN="$OPTARG" ;;
+        ?) usage 2
+    esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+SEMESTER="$1"
+COURSE="$2"
+
+[[ ${#SEMESTER} = 6 ]] || {
+	echo "SEMESTER=$SEMESTER"
+	echo "SEMESTER should be like e.g. 242501."
+	usage 1
+}
+
+[[ "$COURSE" ]] || {
+	echo "COURSE cannot be empty. It should be one of linux, net, os."
+	usage 1
+}
+
+TEMPLATE_DIR="$TEMPLATE_DIR/$COURSE"
+
+CSV=$(sk -e10 --no-multi --query="$SEMESTER $COURSE" < \
+		 <(fd -e csv "$COURSE" --and "$SEMESTER" "$CSVDIR") \
+   ) || {
+	echo "CSV=$CSV"
+	echo "Failed getting CSV file!"
+	exit 1
+}
+echo "CSV=$CSV"
+
+case "$COURSE" in
+    linux ) COURSE="Linux应用" ;;
+    net ) COURSE="计算机网络" ;;
+	os ) COURSE="操作系统原理" ;;
+	* ) echo 'COURSE should be one of os, net, linux!'; usage 1 ;;
+esac
+
+year1="20${SEMESTER:0:2}" # ${variable:start:offset}
+year2="20${SEMESTER:2:2}"
+term="${SEMESTER:4:2}"
+SEMESTER="${year1}-${year2}-${term}"
+
+# copy $TEMPLATE_DIR/20*.org to current directory
+paste \
+  <(fd -e org -d 1 "$PATN" "$TEMPLATE_DIR" | head -"$(qsv count $CSV)") \
+  <(qsv select username,lastname,firstname "$CSV" | qsv behead | \
+		sed -e 's/,//g' -e 's/$/.org/') | sed 's/^/cp /' | bash
+
+# change TITLE, AUTHOR, DATE
+for f in 20*.org
+do
+	IDNAME="${f%.*}"
+      ID="${IDNAME:0:11}"
+	  NAME="${IDNAME:11}"
+
+	sed -i \
+		-e "/#+TITLE:/  s/:.*$/: 《${COURSE}》实验报告/" \
+		-e "/#+AUTHOR:/ s/:.*$/: $NAME ($ID)/" \
+		-e "/#+DATE:/   s/:.*$/: $SEMESTER/" \
+		"$f"
+done    

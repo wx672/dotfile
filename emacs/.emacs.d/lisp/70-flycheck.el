@@ -7,12 +7,14 @@
 ;;; Code:
 
 (use-package flycheck
-  :disabled
+  ;; :disabled
   :init
   (setq
    flycheck-check-syntax-automatically '(save idle-change mode-enabled)
    flycheck-idle-change-delay 0.8
-   flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list))
+   flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list)
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+)
 
 (provide '70-flycheck)
 

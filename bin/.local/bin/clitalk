@@ -1,0 +1,24 @@
+#!/bin/sh
+
+TALK="${1:-'/home/wx672/lectures/linux/cli-talk/cli-talk.md'}"
+
+[[ -f "$TALK" ]] || {
+  YN=yes
+  printf "File ($TALK) is not found. There is one at\n
+  - https://cs6.swfu.edu.cn/~wx672/lecture_notes/linux/cli-talk/cli-talk.md\n
+  Do you want to download and play it?[%s]" "$YN"
+  read -r YN
+  : "${YN:=yes}"
+  case $YN in
+  	[nN]|[nN][oO])
+      echo "Then you have to write one yourself. Read mdp(1) for more info."
+      exit 0
+      ;;
+  	*) 
+      TMP="/tmp/cli-talk.md"
+      curl -o "$TMP" https://cs6.swfu.edu.cn/~wx672/lecture_notes/linux/cli-talk/cli-talk.md && { TALK="$TMP"; echo Saved as "$TMP"; }
+      ;;
+  esac
+}
+
+MDP_LIST_HEAD='    - ' mdp "$TALK"
