@@ -4,15 +4,19 @@ usage() {
     cat <<EOF
 Batch generating courseworks in current directory.
 
-Usage: ${0##*/} [-h] <semester> <course> [-c csvdir] [-d template_dir] [-p name_pattern]
+NOTE: Make sure you have plenty of .org/.md files in ${TEMPLATE_DIR}!
+
+Usage: ${0##*/} [-hv] [-f format] [-C csvdir] [-D template_dir] [-P name_pattern] <semester> <course>
 
 course - course name ($TEMPLATE_DIR/{os,linux,net})
 semester - School term (e.g. 242501)
 
--c csvdir (default $CSVDIR)
--d template_dir (default $TEMPLATE_DIR)
--p filename pattern (default "^20", e.g. 20241152001.org)
+-f format, org or md
+-C csvdir (default $CSVDIR)
+-D template_dir (default $TEMPLATE_DIR)
+-P filename pattern (default "^20", e.g. 20241152001.{org,md})
 -h help
+-v debug mode
 EOF
 
 exit "${1:-0}"
@@ -22,14 +26,18 @@ exit "${1:-0}"
 CSVDIR="/home/wx672/Documents/rsync/swfu/yearly/moodle-import"
 TEMPLATE_DIR="/home/wx672/Documents/rsync/swfu/coursework-template"
 PATN="^20"
-unset SEMESTER COURSE
+FMT="md"
 
-while getopts :hc:d:p: OPT; do
+unset SEMESTER COURSE DEBUG
+
+while getopts :hvf:C:D:P: OPT; do
     case $OPT in
         h) usage 0 ;;
-		c) CSVDIR="$OPTARG" ;;
-		d) TEMPLATE_DIR="$OPTARG" ;;
-        p) PATN="$OPTARG" ;;
+		v) DEBUG=1 ;;
+		f) FMT="$OPTARG" ;;
+		C) CSVDIR="$OPTARG" ;;
+		D) TEMPLATE_DIR="$OPTARG" ;;
+        P) PATN="$OPTARG" ;;
         ?) usage 2
     esac
 done
@@ -63,32 +71,225 @@ echo "CSV=$CSV"
 
 case "$COURSE" in
     linux ) COURSE="Linux应用" ;;
-    net ) COURSE="计算机网络" ;;
-	os ) COURSE="操作系统原理" ;;
-	* ) echo 'COURSE should be one of os, net, linux!'; usage 1 ;;
+    net   ) COURSE="计算机网络" ;;
+	os    ) COURSE="操作系统原理" ;;
+	*     ) echo 'COURSE should be one of os, net, linux!'; usage 1 ;;
 esac
 
 year1="20${SEMESTER:0:2}" # ${variable:start:offset}
 year2="20${SEMESTER:2:2}"
-term="${SEMESTER:4:2}"
+term="${SEMESTER:5}"
 SEMESTER="${year1}-${year2}-${term}"
 
-# copy $TEMPLATE_DIR/20*.org to current directory
-paste \
-  <(fd -e org -d 1 "$PATN" "$TEMPLATE_DIR" | head -"$(qsv count $CSV)") \
-  <(qsv select username,lastname,firstname "$CSV" | qsv behead | \
-		sed -e 's/,//g' -e 's/$/.org/') | sed 's/^/cp /' | bash
+org(){
+	# copy $TEMPLATE_DIR/20*.org to current directory
+	paste \
+		<(fd -e org -d 1 "$PATN" "$TEMPLATE_DIR" | head -"$(qsv count $CSV)") \
+		<(qsv select username,lastname,firstname "$CSV" | qsv behead | \
+			  sed -e 's/,//g' -e 's/$/.org/') | sed 's/^/cp /' | bash
 
-# change TITLE, AUTHOR, DATE
-for f in 20*.org
-do
-	IDNAME="${f%.*}"
-      ID="${IDNAME:0:11}"
-	  NAME="${IDNAME:11}"
+	# change TITLE, AUTHOR, DATE
+	for f in 20*.org
+	do
+		IDNAME="${f%.*}"
+		ID="${IDNAME:0:11}"
+		NAME="${IDNAME:11}"
 
-	sed -i \
-		-e "/#+TITLE:/  s/:.*$/: 《${COURSE}》实验报告/" \
-		-e "/#+AUTHOR:/ s/:.*$/: $NAME ($ID)/" \
-		-e "/#+DATE:/   s/:.*$/: $SEMESTER/" \
-		"$f"
-done    
+		sed -i \
+			-e "/#+TITLE:/  s/:.*$/: 《${COURSE}》实验报告/" \
+			-e "/#+AUTHOR:/ s/:.*$/: $NAME ($ID)/" \
+			-e "/#+DATE:/   s/:.*$/: $SEMESTER/" \
+			"$f"
+	done
+}
+
+md(){
+	unset A B C CHUNK CLASS MARK COMMENT
+	LIST="$(mktemp --suffix ".list")"
+	#1. split the source csv into 3 chunks ({a,b,c}.csv)
+	qsv split . -c 3 --filename chunk_{}.csv "$CSV"
+	mapfile -t CHUNK < <(fd -e csv -d 1 "^chunk_")
+	# [[ "$DEBUG" ]] && { echo 'CHUNK[@]'="${CHUNK[@]}"; }
+	#2. have {a,b,c}.md and 000.yaml in $TEMPLATE_DIR
+	#3. cp {a,b,c}.md and 000.yaml for everyone listed in {a,b,c}.csv
+	
+	# save full path of template md files into arrays
+	mapfile -t A < <(fd -e md -d 1 "^a" "$TEMPLATE_DIR")
+	mapfile -t B < <(fd -e md -d 1 "^b" "$TEMPLATE_DIR")
+	mapfile -t C < <(fd -e md -d 1 "^c" "$TEMPLATE_DIR")
+	# 	[[ "$DEBUG" ]] && {
+	# 		cat <<EOF
+	# 		'A[@]'="${A[@]}"
+	# 		'B[@]'="${B[@]}"
+	# 		'C[@]'="${C[@]}"
+	# EOF
+	# }
+	
+	case ${#A[@]} in
+		0 ) echo "No template file found in ${TEMPLATE_DIR}."; usage 1
+			;;
+		1 )
+			YAML="$(fd -e yaml -d 1 "^0" "$TEMPLATE_DIR")" # full path of yaml file
+
+			[[ "$DEBUG" ]] && { echo "A[0]=${A[0]}"; echo "[A] YAML: $YAML"; }
+
+			sed -i \
+				-e "/mark:/ s/:.*$/: A/" \
+				-e "/comments:/ s/:.*$/: \'Well done\!\'/" \
+				"$YAML"
+
+			[[ "$DEBUG" ]] && { cat "$YAML"; }
+
+			# prepare the dest list
+			qsv select username,lastname,firstname "${CHUNK[0]}" | \
+				qsv behead | sed -e 's/,//g' > "$LIST"
+			
+			[[ "$DEBUG" ]] && {
+				echo '[A] LIST:'
+				/bin/cat "$LIST"
+				echo '[A] md:'
+				sed -e 's/$/.md/' -e "s|^|cp ${A[0]} |" "$LIST"
+				echo '[A] yaml:'
+				sed -e 's/$/.yaml/' -e "s|^|cp $YAML |" "$LIST"
+			}
+			# do the copy (from $TEMPLATE_DIR to ./)
+			sed -e 's/$/.md/'   -e "s|^|cp ${A[0]} |" "$LIST" | sh
+			sed -e 's/$/.yaml/' -e "s|^|cp $YAML |"   "$LIST" | sh
+			;;
+		* ) # todo
+			# paste \
+			# 	<(fd -e md -d 1 "^a" "$TEMPLATE_DIR" | head -"$(qsv count $CSV)") \
+			# 	<(qsv select username,lastname,firstname "$CSV" | qsv behead | \
+			# 		  sed -e 's/,//g' -e 's/$/.md/') | sed 's/^/cp /' | sh
+			true
+			;;
+	esac
+
+	case ${#B[@]} in
+		0 ) echo "No template file found in ${TEMPLATE_DIR}."; usage 1
+			;;
+		1 )
+			YAML="$(fd -e yaml -d 1 "^0" "$TEMPLATE_DIR")"
+
+			[[ "$DEBUG" ]] && { echo "B[0]=${B[0]}"; echo "[B] YAML: $YAML"; }
+
+			sed -i \
+				-e "/mark:/ s/:.*$/: B/" \
+				-e "/comments:/ s/:.*$/: \'Good\!\'/" \
+				"$YAML"
+
+			[[ "$DEBUG" ]] && { cat "$YAML"; }
+
+			qsv select username,lastname,firstname "${CHUNK[1]}" | \
+				qsv behead | sed -e 's/,//g' > "$LIST"
+			
+			[[ "$DEBUG" ]] && {
+				echo '[B] LIST:'
+				/bin/cat "$LIST"
+				echo '[B] md:'
+				sed -e 's/$/.md/'   -e "s|^|cp ${B[0]} |" "$LIST"
+				echo '[B] yaml:'
+				sed -e 's/$/.yaml/' -e "s|^|cp $YAML |"   "$LIST"
+			}
+			sed -e 's/$/.md/'   -e "s|^|cp ${B[0]} |" "$LIST" | sh
+			sed -e 's/$/.yaml/' -e "s|^|cp $YAML |"   "$LIST" | sh
+			;;
+		* ) # todo
+			# paste \
+			# 	<(fd -e md -d 1 "^a" "$TEMPLATE_DIR" | head -"$(qsv count $CSV)") \
+			# 	<(qsv select username,lastname,firstname "$CSV" | qsv behead | \
+			# 		  sed -e 's/,//g' -e 's/$/.md/') | sed 's/^/cp /' | sh
+			true
+			;;
+	esac
+
+	case ${#C[@]} in
+		0 ) echo "No template file found in ${TEMPLATE_DIR}."; usage 1
+			;;
+		1 )
+			YAML=$(fd -e yaml -d 1 "^0" "$TEMPLATE_DIR")
+
+			[[ "$DEBUG" ]] && { echo "C[0]=${C[0]}"; echo "[C] YAML: $YAML"; }
+
+			sed -i \
+				-e "/mark:/     s/:.*$/: C/" \
+				-e "/comments:/ s/:.*$/: \'Not bad\!\'/" \
+				"$YAML"
+
+			[[ "$DEBUG" ]] && { cat "$YAML"; }
+
+			qsv select username,lastname,firstname "${CHUNK[2]}" | \
+				qsv behead | sed -e 's/,//g' > "$LIST"
+			
+			[[ "$DEBUG" ]] && {
+				echo '[C] LIST:'
+				/bin/cat "$LIST"
+				echo '[C] md:'
+				sed -e 's/$/.md/'   -e "s|^|cp ${C[0]} |" "$LIST"
+				echo '[C] yaml:'
+				sed -e 's/$/.yaml/' -e "s|^|cp $YAML |"   "$LIST"
+			}
+
+			sed -e 's/$/.md/'   -e "s|^|cp ${C[0]} |" "$LIST" | sh
+			sed -e 's/$/.yaml/' -e "s|^|cp $YAML |"   "$LIST" | sh
+			;;
+		* ) # todo
+			# paste \
+			# 	<(fd -e md -d 1 "^a" "$TEMPLATE_DIR" | head -"$(qsv count $CSV)") \
+			# 	<(qsv select username,lastname,firstname "$CSV" | qsv behead | \
+			# 		  sed -e 's/,//g' -e 's/$/.md/') | sed 's/^/cp /' | sh
+			true
+			;;
+	esac
+	# By now, the dest dir should be populated with all the MDs and YAMLs.
+
+	# # copy yaml files
+	# paste \
+	# 	<(fd -e yaml -d 1 "$PATN" "$TEMPLATE_DIR" | head -"$(qsv count $CSV)") \
+	# 	<(qsv select username,lastname,firstname "$CSV" | qsv behead | \
+	# 		  sed -e 's/,//g' -e 's/$/.yaml/') | sed 's/^/cp /' | bash
+
+	# modify CLASS in yaml files
+	cat <<EOF
+Which CLASS? e.g. 计算机科学与技术2025班
+EOF
+	read -r CLASS
+	echo "CLASS is $CLASS."
+
+	MKFILE="$TEMPLATE_DIR/Makefile"
+
+	# change TITLE, AUTHOR, DATE
+	for f in 20*.yaml
+	do
+		IDNAME="${f%.*}"
+		ID="${IDNAME:0:11}"
+		NAME="${IDNAME:11}"
+		
+		sed -i \
+			-e "/title:/  s/:.*$/: \'${COURSE}\'/"   \
+			-e "/author:/ s/:.*$/: \'${NAME}\'/"     \
+			-e "/id:/     s/:.*$/: \'${ID}\'/"       \
+			-e "/class:/  s/:.*$/: \'${CLASS}\'/"    \
+			-e "/term:/   s/:.*$/: \'${SEMESTER}\'/" \
+			"$f"
+		
+		mkdir -p "$IDNAME" && mv "$IDNAME".* "$IDNAME"
+
+		sed -i "1s/=.*$/= ${IDNAME}/" "$MKFILE"
+		cp "$MKFILE" "$IDNAME"
+	done
+	
+	YN=yes
+	printf "It will take long time to generate PDFs. Do you want to continue?[%s]" "$YN"
+	read -r YN
+	: "${YN:=yes}"
+	case $YN in
+		[nN]|[nN][oO]) true
+					   ;;
+		*) fd --type d -0 | xargs -I{} -0 -n1 -P 6 sh -c 'cd {} && make pdf && make clean'
+		   ;;
+	esac
+}
+
+[[ "$FMT" = org ]] && org
+[[ "$FMT" = md ]] && md

@@ -1,0 +1,33 @@
+#!/bin/bash
+ 
+usage(){
+	cat <<EOF
+Generating an empty rank list of students.
+
+Usage: ${0##*/} [-h] 
+EOF
+exit "${1:-0}"
+}
+
+CSVDIR="/home/wx672/Documents/rsync/swfu/yearly/moodle-import"
+
+while getopts :h OPT; do
+    case $OPT in
+      h) usage 0 ;;
+			*) usage 1
+    esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
+CSV=$(sk -e10 --no-multi < <(fd -e csv "$*" "$CSVDIR") ) || {
+	echo "CSV=$CSV"
+	echo "Failed getting CSV file."
+	exit 1
+}
+
+qsv apply dynfmt --formatstr '{lastname}{firstname}' -c 'name' "$CSV" | \
+	qsv apply dynfmt --formatstr '' -c 'rank' | \
+	qsv select username,name,rank | \
+	qsv rename 'id,name,rank' > ranks.csv
+

@@ -8,14 +8,16 @@ usage() {
     cat <<EOF
 Generating exam attendance file.
 
-Usage: ${0##*/} [-h] <-t semester> [-c csvdir] [-d date] [-o outdir] <course>
+Usage: ${0##*/} [-h] <-t semester> <-r room> <-s subject> <-d date> [-c csvdir] [-o outdir] <course>
 
-course - must be one of linux,net,os
+course - must be one of linux, net, os.
 -t school term, e.g. 242501
--h help
+-r 教室 (default 经管楼219)
+-s 专业 (default 计算机科学与技术)
+-d 考试时间, e.g. 2024年12月16日
 -c csvdir, where the csv files kept (defaut $CSVDIR)
 -o outdir (default ./)
--d date (default empty)
+-h help
 EOF
 
 exit "${1:-0}"
@@ -36,13 +38,19 @@ cleanup(){
 
 trap 'cleanup' EXIT
 
-while getopts :hc:o:t:d: OPT; do
+ROOM='经管楼219'
+SUBJECT='计算机科学与技术'
+DATE='\qquad{}年\qquad{}月\qquad{}日'
+
+while getopts :ht:r:s:d:c:o: OPT; do
     case $OPT in
         h) usage 0 ;;
+		t) SEMESTER="$OPTARG" ;;
+		r) ROOM="$OPTARG" ;;
+		s) SUBJECT="$OPTARG" ;;
+		d) DATE="$OPTARG" ;;
 		c) CSVDIR="$OPTARG" ;;
 		o) OUTDIR="$OPTARG" ;;
-		t) SEMESTER="$OPTARG" ;;
-		d) DATE="$OPTARG" ;;
 		*) usage 1
     esac
 done
@@ -93,16 +101,30 @@ csv2latex --longtable -l 0 < <(paste -d, chunk_*.csv) | \
 	sed -e '1,/\\begin{longtable}{|l|l|l|l|l|l|l|l|}/d' > "$TAIL"
 
 HEAD=$(cat <<EOF
-\documentclass{ctexart}
-\usepackage[hmargin=2cm,vmargin=2cm]{geometry}
+\documentclass[scheme=chinese,zihao=-4]{ctexart}
+\usepackage[hmargin=15mm,vmargin=2cm]{geometry}
 \setCJKmainfont{Noto Serif CJK SC}
+\usepackage{enumitem}
 \usepackage{longtable}
-\title{${SEMESTER}学期《${COURSE}》考试签到表}
-\date{${DATE}}
 \begin{document}
-\maketitle
-\noindent%
-\begin{longtable}{|l|l|l|p{2cm}|l|l|l|p{2cm}|}
+\begin{center}
+{\LARGE 西南林业大学学生考试承诺}
+\end{center}
+\noindent{}对本场考试，我承诺如下：
+\begin{enumerate}[nosep]
+\item 服从监考教师对座位的重新安排。
+\item 在规定的位置上正确、真实地书写自己的姓名、学号等有关信息。
+\item 草稿书写在专用草稿纸上。
+\item 不随意撕开考卷的装订。
+\item 不将与考试无关的任何材料带入考场内。
+\item 交卷时将考卷、答题纸、草搞纸等所有规定上交的材料一并交给监考教师，绝不将这些材料带出考场。
+\item 保证遵守考试、考纪律，如违反考试、考场纪律，愿意根据有关规定接受学校的纪律处分。
+\end{enumerate}
+\begin{center}
+教室：\underline{$ROOM}\qquad{}专业：\underline{$SUBJECT}\qquad{}考试时间：\underline{$DATE}
+\end{center}
+\vspace*{-7mm}
+\begin{longtable}{|l|l|l|p{25mm}|l|l|l|p{25mm}|}
 EOF
 	)
 
