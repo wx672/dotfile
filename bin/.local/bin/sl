@@ -21,10 +21,11 @@ shift $(( OPTIND - 1 ))
 OPTIND=1
 
 CSV=$(sk -e10 --no-multi < <(fd -e csv "$*" "$CSVDIR") ) || {
-	echo "CSV=$CSV"
 	echo "Failed getting CSV file."
 	exit 1
 }
+
+[[ -f ranks.csv ]] && { mv ranks.csv ranks.bak; }
 
 qsv apply dynfmt --formatstr '{lastname}{firstname}' -c 'name' "$CSV" | \
 	qsv apply dynfmt --formatstr '' -c 'rank' | \

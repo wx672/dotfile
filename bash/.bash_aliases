@@ -1,5 +1,8 @@
 nalafetch(){
-  sudo nala fetch -c CN --debian ${1:-testing} --auto --non-free
+  local fetched="/etc/apt/sources.list.d/fetch.sources"
+  sudo nala fetch -c CN --debian testing --auto --non-free
+  sudo sed -i '/^Suites:/ s/$/ sid/' $fetched
+  cat $fetched
 }
 
 bman(){ # man with colors

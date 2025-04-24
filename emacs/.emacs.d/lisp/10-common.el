@@ -72,9 +72,9 @@
 (add-to-list 'recentf-exclude no-littering-etc-directory)
 
 (setq-default
- tab-width 4
- cursor-type '(bar . 4)
- ;; cursor-type 'box
+ tab-width 2
+ ;;cursor-type '(bar . 4)
+ cursor-type 'box
  )
 
 (provide '10-common)

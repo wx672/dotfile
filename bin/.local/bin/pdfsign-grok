@@ -1,0 +1,280 @@
+#!/bin/bash
+
+# Improved PDF signing script with enhanced error handling, security, and temporary file management
+
+usage() {
+    cat <<EOF
+USAGE: ${0##*/} [-D] [-C] [-c xshift,yshift] [-d ysep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background>
+
+EXAMPLES:
+1. ${0##*/} -C -t'2024,6,7' -S'mysig.pdf' pg_0001.pdf
+   ${0##*/} -C -t{Hz
+t'2024,6,7' -S'\sig 王晓林' pg_0002.pdf
+  
+2. ${0##*/} -C -S'机试' -c'60,2' -s .9 pg_0001-signed.pdf
+
+3. ${0##*/} -w10cm -c'0,500' -S'../../../analysis-improve.pdf' os-analysis.pdf
+   ${0##*/} -C -S'机试' -c'100,0' -d'110' -t'2024,12,16' os-analysis-signed.pdf
+
+background - Paper to sign
+-D - Enable debugging outputs and grid
+-C - Invoke interactive coordinate selection
+-S - Signature picture or text
+     Default='wangxiaolin.pdf' if found
+-c - 'xshift,yshift' in pt
+     Default='28,-18' for picture, '28,-25' for text
+-d - ysep, date field offset in pt
+     Default='180'
+-t - Timestamp, e.g., '2020,5,8'
+-w - Width of signature picture
+     Default='1cm'
+-s - Scale of signature text
+     Default='1'
+EOF
+    exit "${1:-0}"
+}
+
+cleanup() {
+    [[ "$DEBUG" ]] || { rm -f "$AUX" "$LOG" "$TEX" 2>/dev/null; }
+}
+
+# Color-coded logging
+SUCCESS=$(tput setaf 2) # Green
+ERROR=$(tput setaf 1)   # Red
+DEBUG=$(tput setaf 3)   # Yellow
+INFO=$(tput setaf 6)    # Cyan
+colorEcho() {
+    echo -e "$(tput bold) $1 $2 $(tput sgr0)"
+}
+
+# Logging to file and terminal
+LOG_FILE=$(mktemp /tmp/pdfsign-XXXXXX.log)
+log_message() {
+    local level=$1
+    local message=$2
+    echo -n "$(date '+%Y-%m-%d %H:%M:%S')"
+    colorEcho "${!level}" "[$level] $message" | tee -a "$LOG_FILE"
+}
+
+# Check dependencies
+check_dependencies() {
+    local deps=("lualatex" "pdftotext" "sk" "rg" "xdg-open")
+    for cmd in "${deps[@]}"; do
+        command -v "$cmd" >/dev/null || {
+            log_message "ERROR" "Required command '$cmd' not found"
+            exit 1
+        }
+    done
+}
+
+# Sanitize input to prevent command injection
+sanitize_input() {
+    local input=$1
+    # Remove dangerous characters
+    echo "${input//[^a-zA-Z0-9_,.\/-]/}"
+}
+
+# Validate coordinates
+validate_coordinates() {
+    local x=$1 y=$2
+    if ! [[ "$x" =~ ^[0-9]+(\.[0-9]+)?$ && "$y" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+        log_message "ERROR" "Invalid coordinates: X=$x, Y=$y"
+        return 1
+    fi
+    if (( $(echo "$x < 0 || $x > 595" | bc -l) )) || (( $(echo "$y < 0 || $y > 842" | bc -l) )); then
+        log_message "ERROR" "Coordinates out of A4 bounds (0-595, 0-842): X=$x, Y=$y"
+        return 1
+    }
+    return 0
+}
+
+# Get coordinates interactively
+getCoordinate() {
+    local pdf=$1
+    if ! [[ -f "$pdf" ]]; then
+        log_message "ERROR" "PDF file $pdf not found"
+        return 1
+    fi
+    read -ra XY < <(pdftotext -tsv "$pdf" - 2>/dev/null | rg -v "###.*###" | sk -e10 | choose 6 7)
+    ((${#XY[@]} == 2)) || {
+        log_message "ERROR" "Wrong coordinate! XY: ${XY[*]}"
+        return 1
+    }
+    X=${XY[0]}pt
+    Y=${XY[1]}pt
+    validate_coordinates "${XY[0]}" "${XY[1]}" || return 1
+    log_message "DEBUG" "[getCoordinate] XY: ${XY[*]}; X: $X; Y: $Y"
+    return 0
+}
+
+# Sign the PDF
+signit() {
+    local bg_pdf=$1
+    cat <<EOF >"$TEX"
+\documentclass[tikz]{standalone}
+\usetikzlibrary{backgrounds,positioning}
+\usepackage[scheme=plain]{ctex}
+\IfFileExists{signature.sty}{\newCJKfontfamily\sig{signature}}{\newCJKfontfamily\sig{Noto Serif CJK SC}}
+\IfFileExists{Purisa.ttf}{\newfontfamily\purisa{Purisa}}{\newfontfamily\purisa{Noto Serif}}
+
+\begin{document}
+\begin{tikzpicture}[inner sep=0,anchor=north west,yscale=-1]
+    \node (bg) at (0,0) {\includegraphics[width=\paperwidth]{$bg_pdf}};
+
+    \begin{scope}
+EOF
+
+    [[ $DEBUG ]] && {
+        log_message "DEBUG" "[signit] Drawing grid..."
+        cat <<EOF >>"$TEX"
+        %%% Drawing grid
+        \draw[help lines,red,step=25pt] (0,0) grid (600pt,850pt);
+        \draw[thin] (0,0) rectangle (595pt,842pt); % A4: 595x842
+        \foreach \x in {0,50,100,...,600} { \node at (\x pt,0) {\x}; }
+        \foreach \y in {0,50,100,...,850} { \node at (0,\y pt) {\y}; }
+EOF
+    }
+
+    if [[ -f "$SIG" ]]; then
+        cat <<EOF >>"$TEX"
+        \node (sig) at (${X:-96pt},${Y:-809.77pt}) [xshift=${XSHIFT:-28}pt,yshift=${YSHIFT:--18}pt] {\includegraphics[width=${WIDTH:-1cm}]{$SIG}};
+EOF
+    else
+        cat <<EOF >>"$TEX"
+        \node (sig) at (${X:-96pt},${Y:-809.77pt}) [xshift=${XSHIFT:-28}pt,yshift=${YSHIFT:--25}pt,scale=${SIGSCALE:-1},font=\sig]{$SIG};
+EOF
+    }
+
+    local MSG=$(cat <<EOF
+[signit] Signed with $SIG
+     (X,Y) = (${X:-96pt},${Y:-809.77pt})
+     [xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt, scale=${SIGSCALE:-1}]
+     if signed with text, yshift=${YSHIFT:--25}pt
+     if signed with a picture, Picture width=${WIDTH:-1cm}
+EOF
+    )
+    log_message "DEBUG" "$MSG"
+
+    [[ "$Year" ]] && {
+        cat <<EOF >>"$TEX"
+        \node [right=${YSEP:-183}pt of sig,yshift=-3pt,font=\purisa]{$Year\hspace{1.5em}\makebox[1em][c]{$Month}\quad\makebox[1em][c]{$Day}};
+EOF
+        local MSG=$(cat <<EOF
+[signit] $Year,$Month,$Day at offset: ${YSEP:-183}pt
+EOF
+        )
+        log_message "DEBUG" "$MSG"
+    }
+
+    cat <<EOF >>"$TEX"
+    \end{scope}
+    \end{tikzpicture}
+\end{document}
+EOF
+}
+
+# Trap cleanup on exit
+trap cleanup EXIT
+
+# Check dependencies
+check_dependencies
+
+# Defaults
+[[ -e wangxiaolin.pdf ]] && SIG='wangxiaolin.pdf'
+[[ -e ../wangxiaolin.pdf ]] && SIG='../wangxiaolin.pdf'
+
+# Parse options
+while getopts :DCc:d:s:w:t:S: OPT; do
+    case $OPT in
+        D) DEBUG='Y' ;;
+        C) GETCOORDINATE='Y' ;;
+        c)
+            XSHIFT=${OPTARG%,*}
+            YSHIFT=${OPTARG#*,}
+            XSHIFT=$(sanitize_input "$XSHIFT")
+            YSHIFT=$(sanitize_input "$YSHIFT")
+            [[ "$XSHIFT" =~ ^-?[0-9]+(\.[0-9]+)?$ && "$YSHIFT" =~ ^-?[0-9]+(\.[0-9]+)?$ ]] || {
+                log_message "ERROR" "Invalid shift values: xshift=$XSHIFT, yshift=$YSHIFT"
+                usage 1
+            }
+            ;;
+        d)
+            YSEP=$(sanitize_input "$OPTARG")
+            [[ "$YSEP" =~ ^[0-9]+(\.[0-9]+)?$ ]] || {
+                log_message "ERROR" "Invalid ysep value: $YSEP"
+                usage 1
+            }
+            ;;
+        s)
+            SIGSCALE=$(sanitize_input "$OPTARG")
+            [[ "$SIGSCALE" =~ ^[0-9]+(\.[0-9]+)?$ ]] || {
+                log_message "ERROR" "Invalid scale value: $SIGSCALE"
+                usage 1
+            }
+            ;;
+        w)
+            WIDTH=$(sanitize_input "$OPTARG")
+            [[ "$WIDTH" =~ ^[0-9]+(cm|mm|pt)?$ ]] || {
+                log_message "ERROR" "Invalid width value: $WIDTH"
+                usage 1
+            }
+            ;;
+        t)
+            DATE=$(sanitize_input "$OPTARG")
+            IFS=',' read -ra date <<< "$DATE"
+            Year=${date[0]}; Month=${date[1]}; Day=${date[2]}
+            [[ "${#date[@]}" -eq 3 && "$Year" =~ ^[0-9]{4}$ && "$Month" =~ ^[0-9]{1,2}$ && "$Day" =~ ^[0-9]{1,2}$ ]] || {
+                log_message "ERROR" "Invalid date format: $DATE"
+                usage 1
+            }
+            ;;
+        S)
+            SIG=$(sanitize_input "$OPTARG")
+            ;;
+        ?)
+            usage 1
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+OPTIND=1
+
+# Validate background PDF
+BG_PDF=$(sanitize_input "$*")
+[[ -f "$BG_PDF" ]] || {
+    log_message "ERROR" "Background PDF '$BG_PDF' not found"
+    usage 1
+}
+
+# Validate signature file
+[[ "$SIG" && -f "$SIG" || ! -f "$SIG" ]] || {
+    log_message "ERROR" "Signature file '$SIG' not found"
+    usage 1
+}
+
+# Create temporary files
+TEX=$(mktemp /tmp/pdfsign-XXXXXX.tex)
+PDF="${TEX%.tex}.pdf"
+LOG="${TEX%.tex}.log"
+AUX="${TEX%.tex}.aux"
+
+# Get coordinates if requested
+[[ $GETCOORDINATE ]] && getCoordinate "$BG_PDF" || true
+
+# Sign the PDF
+signit "$BG_PDF"
+
+# Compile LaTeX
+log_message "DEBUG" "Signing $BG_PDF..."
+log_message "INFO" "lualatex $TEX..."
+lualatex --interaction=nonstopmode "$TEX" >/dev/null 2>&1
+
+[[ -f "$PDF" ]] || {
+    log_message "ERROR" "Failed generating PDF file. Check $LOG for details"
+    exit 1
+}
+
+# Output success
+log_message "SUCCESS" "DONE! Output: $PDF"
+ls -l "$PDF"
+xdg-open "$PDF" 2>/dev/null

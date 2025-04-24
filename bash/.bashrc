@@ -1,28 +1,38 @@
 #!/bin/bash
 
-# shellcheck source=/dev/null
-
-# If not running interactively, don't do anything
+# Exit if non-interactive
 [[ $- != *i* ]] && return
 
-[[ "$TMUX" ]] || { tmux a || tmux; }
+# TMUX
+if [[ -z "$TMUX" ]] && command -v tmux; then
+  if tmux has-session; then
+      tmux attach-session
+  else
+      tmux new-session
+  fi
+fi
 
-[ -f $HOME/.bash_aliases ] && . $HOME/.bash_aliases
+# Source aliases
+[[ -f "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
-# Use bash-completion, if available
-[[ -f /usr/share/bash-completion/bash_completion ]] && {
-	. /usr/share/bash-completion/bash_completion;
-	# . /usr/share/bash-completion/completions/*;
-	. /usr/share/bash-completion/completions/sk-bindings;
-}
+# Bash completion
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+    . /usr/share/bash-completion/bash_completion
+		# shellcheck disable=SC1090
+    . /usr/share/bash-completion/completions/*
+fi
 
 eval "$(lesspipe)"
+shopt -s histappend cmdhist
+
+# Environment variables
 export PROMPT_DIRTRIM=1
-shopt -s histappend
 unset HISTFILESIZE
 export HISTIGNORE="&:exit:history:q *"
 export HISTSIZE=90000
 export HISTCONTROL=erasedups:ignorespace
+export HISTTIMEFORMAT='%F %T '
 export LESSHISTFILE=-
 export BROWSER='x-www-browser'
 export PDFVIEWER='mupdf -C FDF6E3'
@@ -37,32 +47,28 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/ripgreprc"
 #export MPD_HOST="cs6.swfu.edu.cn"
 export W3M_DIR="$XDG_CONFIG_HOME/w3m"
 # export CHEAT_USE_SKIM=true
-export GOPATH="/usr/local/go"
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:/usr/local/go/bin:$HOME/.local/bin:$PATH"
 
-tabs -2 &>/dev/null
+export LESS='-R --use-color'
+[[ -f "$HOME/.LESS_TERMCAP" ]] && . "$HOME/.LESS_TERMCAP"
 
-# Use colors for less, man, etc.
-# [[ -f "$HOME/.LESS_TERMCAP" ]] && tty -s && . $HOME/.LESS_TERMCAP
-
-# info gpg-agent
-export GPG_TTY=$(tty)
-# unset SSH_AGENT_PID
-# if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-# 	export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-# fi
-
-# [ -f "$HOME/.cargo/env" ] && . $HOME/.cargo/env
-
-# command -v fzf &>/dev/null && { 
-# 	eval "$(fzf --bash)"
-# 	export  FZF_DEFAULT_COMMAND='fd . --hidden --exclude ".git"'
-# }
-
+# Tool initializations
+command -v vivid &>/dev/null && LS_COLORS="$(vivid generate catppuccin-macchiato)"
+export LS_COLORS
 command -v starship &>/dev/null && eval "$(starship init bash)"
 command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
-command -v vivid &>/dev/null && export LS_COLORS="$(vivid generate catppuccin-macchiato)"
-command -v sk &>/dev/null && { 
-	export SKIM_DEFAULT_COMMAND='fd . --hidden --exclude ".git"';
-	export SKIM_TMUX_HEIGHT='90%';
+command -v fzf &>/dev/null && {
+    eval "$(fzf --bash)"
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_DEFAULT_OPTS='--height 90% --exact'
 }
-stty -ixon # disable Ctrl-s
+command -v sk &>/dev/null && { 
+  [[ -f "/usr/share/bash-completion/completions/sk-bindings" ]] && {
+      . /usr/share/bash-completion/completions/sk-bindings; }
+
+	export SKIM_DEFAULT_COMMAND='fd . --type f --hidden --exclude ".git"'
+	export SKIM_TMUX_HEIGHT='90%'
+	export SKIM_DEFAULT_OPTIONS='--exact --no-multi --select-1 --exit-0'
+}
+stty -ixon # disable Ctrl-s/Ctrl-q

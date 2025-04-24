@@ -1,0 +1,217 @@
+#!/bin/bash
+#
+# ffcast - Screencast streaming script
+#
+# Version: 1.0.0
+# Author: WANG Xiaolin (wx672ster@gmail.com)
+# Improved by: grok.com
+# License: MIT
+#
+# Streams screen capture to a multicast UDP address using ffmpeg (server)
+# or plays the stream using mpv (client).
+#
+# Dependencies: ffmpeg, mpv, screenkey, picom (optional for server)
+# Usage: ffcast [-h] <client|server> [options]
+#
+
+# Default configuration
+URL=${FFCAST_URL:-"udp://224.0.0.1:2000"}
+RESOLUTION=${FFCAST_RESOLUTION:-"1366x768"}
+FRAMERATE=${FFCAST_FRAMERATE:-15}
+PRESET=${FFCAST_PRESET:-"ultrafast"}
+GOP_SIZE=${FFCAST_GOP_SIZE:-30}
+LOG_LEVEL="info" # Options: quiet, error, warning, info, debug
+
+# Check if a command is available
+cmdchk() {
+  for cmd in "$@"; do
+    command -v "$cmd" || {
+        echo "Error: Required command '$cmd' is not installed." >&2
+        return 1
+      }
+  done
+  return 0
+}
+
+# Log messages with different levels
+log() {
+  local level=$1
+  shift
+  case $level in
+    error)   echo "[ERROR] $*" >&2 ;;
+    warning) [ "$LOG_LEVEL" != "quiet" ] && echo "[WARNING] $*" >&2 ;;
+    info)    [ "$LOG_LEVEL" != "quiet" ] && [ "$LOG_LEVEL" != "error" ] && echo "[INFO] $*" ;;
+    debug)   [ "$LOG_LEVEL" = "debug" ] && echo "[DEBUG] $*" ;;
+  esac
+}
+
+# Server function: Capture and stream screen
+server() {
+  log info "Starting server with URL: $URL, Resolution: $RESOLUTION, Framerate: $FRAMERATE"
+
+  # Check dependencies
+  cmdchk ffmpeg || return 1
+  if cmdchk screenkey picom; then
+    HAS_OPTIONAL_DEPS=1
+  else
+    log warning "Optional dependencies (screenkey, picom) missing."
+  fi
+
+  # Start picom if not running and available
+  if [ "$HAS_OPTIONAL_DEPS" = 1 ] && ! pidof -q picom; then
+    log debug "Starting picom in background"
+    picom -b || log warning "Failed to start picom"
+  fi
+
+  # Start screenkey if available
+  if command -v screenkey; then
+    log debug "Starting screenkey"
+    screenkey --no-systray \
+              --opacity 0.0 \
+              --font-color red \
+              --font "monospace" \
+              --font-size small &
+    SCREENKEY_PID=$!
+  fi
+
+  # Trap to clean up background processes
+  trap 'log info "Cleaning up..."; [ -n "$SCREENKEY_PID" ] && kill "$SCREENKEY_PID" 2>/dev/null; exit' INT TERM EXIT
+
+  # Detect display server (X11 or Wayland)
+  if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    log warning "Wayland detected. Using wf-recorder instead of x11grab."
+    cmdchk wf-recorder || return 1
+    wf-recorder -g "$(slurp)" \
+                -c libx264 \
+                -f "$URL" \
+                --codec-param preset="$PRESET" \
+                --codec-param tune=zerolatency \
+                --muxer mpegts || return 1
+  else
+    # Check for hardware acceleration
+    if ffmpeg -hide_banner -hwaccels | grep -q vaapi; then
+      log info "VAAPI hardware acceleration available, enabling it."
+      HWACCEL=( "-hwaccel vaapi" "-hwaccel_output_format vaapi" )
+    else
+      HWACCEL=()
+      log debug "No hardware acceleration detected."
+    fi
+
+    ffmpeg ${HWACCEL[@]} \
+           -f x11grab \
+           -video_size "$RESOLUTION" \
+           -r "$FRAMERATE" \
+           -i "${DISPLAY:-:0.0}" \
+           -c:v libx264 \
+           -tune zerolatency \
+           -vf "format=yuv420p" \
+           -g "$GOP_SIZE" \
+           -preset "$PRESET" \
+           -f mpegts \
+           "$URL" || return 1
+  fi
+}
+
+# Client function: Play the multicast stream
+client() {
+  log info "Starting client with URL: $URL"
+
+  cmdchk mpv || {
+    log error "mpv is required for client mode."
+    [ -n "$DISPLAY" ] && {
+      timeout 2 notify-send -u critical "ffcast" "mpv is missing!"; }
+    return 1
+  }
+
+  # Check if mpv is already running
+  if pidof -q mpv; then
+    log warning "mpv is already running."
+    [ -n "$DISPLAY" ] && {
+      timeout 2 notify-send -u critical "ffcast" "mpv is already running."; }
+    return 1
+  fi
+
+  local MPVOPTS=(
+    "--no-resume-playback"
+    "--no-audio"
+    "--profile=low-latency"
+    "--no-cache"
+    "--untimed"
+    "--no-demuxer-thread"
+    "--vd-lavc-threads=1"
+    )
+
+  # Start mpv
+  log info "Starting mpv..."
+  [ -n "$DISPLAY" ] && {
+    timeout 1 notify-send -u normal "ffcast" "Starting mpv..."; }
+
+  if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    log debug "Using Wayland-compatible mpv options"
+    MPVOPTS+=( "--vo=wlshm" )
+  else
+    [ -n "$DISPLAY" ] || MPVOPTS+=( "--vo=drm" "--profile=sw-fast" )
+  fi
+  mpv "$URL" ${MPVOPTS[@]} || return 1
+}
+
+# Display usage information
+usage() {
+  cat <<EOF
+Usage: $0 [-h] <client|server> [options]
+
+Stream your screen (server) or view a stream (client) over UDP multicast.
+
+Options:
+  -h, --help        Show this help message and exit
+  -u, --url URL     Set the multicast URL (default: $URL)
+  -r, --resolution  Set the resolution (default: $RESOLUTION)
+  -f, --framerate   Set the framerate (default: $FRAMERATE)
+  -p, --preset      Set ffmpeg preset (default: $PRESET)
+  -g, --gop         Set GOP size (default: $GOP_SIZE)
+  -l, --log-level   Set log level (quiet, error, warning, info, debug; default: $LOG_LEVEL)
+
+Environment Variables:
+  FFCAST_URL        Multicast URL
+  FFCAST_RESOLUTION Screen resolution
+  FFCAST_FRAMERATE  Framerate
+  FFCAST_PRESET     FFmpeg preset
+  FFCAST_GOP_SIZE   GOP size
+
+Example:
+  $0 server --resolution 1920x1080 --framerate 30
+  $0 client --url udp://224.0.0.1:2000
+EOF
+  exit 0
+}
+
+# Parse command-line arguments
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -h|--help) usage ;;
+    -u|--url) URL="$2"; shift 2 ;;
+    -r|--resolution) RESOLUTION="$2"; shift 2 ;;
+    -f|--framerate) FRAMERATE="$2"; shift 2 ;;
+    -p|--preset) PRESET="$2"; shift 2 ;;
+    -g|--gop) GOP_SIZE="$2"; shift 2 ;;
+    -l|--log-level) LOG_LEVEL="$2"; shift 2 ;;
+    client|server) MODE="$1"; shift ;;
+    *)
+      log error "Unknown option: $1"
+      usage
+      ;;
+  esac
+done
+
+# Validate mode
+[ -z "$MODE" ] && { log error "Mode not specified."; usage; }
+
+# Execute mode
+case "$MODE" in
+  client) client ;;
+  server) server ;;
+  *)
+    log error "Invalid mode: $MODE"
+    usage
+    ;;
+esac

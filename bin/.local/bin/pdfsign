@@ -2,7 +2,7 @@
 
 usage() {
 	cat <<EOF
-USAGE: ${0##*/} [-D] [-C] [-c xshift,yshift] [-d ysep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background>
+USAGE: ${0##*/} [-D] [-C] [-c xshift,yshift] [-d ysep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background PDF>
 
 EXAMPLES:
 1. ${0##*/} -C -t'2024,6,7' -S'mysig.pdf'  pg_0001.pdf
@@ -13,7 +13,6 @@ EXAMPLES:
 3. ${0##*/} -w10cm -c'0,500' -S'../../../analysis-improve.pdf' os-analysis.pdf
    ${0##*/} -C -S'机试' -c'100,0' -d'110' -t'2024,12,16' os-analysis-signed.pdf
 
-
 background - paper to sign
 				-D - Enable debugging outputs and grid
 				-C - Invoke getCoordinate
@@ -21,62 +20,63 @@ background - paper to sign
 				   	 Default='{.,..}/wangxiaolin.pdf' if found
 
         -c - 'xshift,yshift' 
-				   	 Default to '28,-18' in pt if signed with picture
-						 Default to '28,-25' in pt if signed with \sig font text
+				   	 Default '28,-18' in pt if signed with picture
+						 Default '28,-25' in pt if signed with \sig font text
 
-				-d - ysep, shift of the "date field". Default to 180pt
+				-d - ysep, shift of the "date field". Default 180pt
 
         -t - timestamp, e.g. '2020,5,8'
-        -w - width of signature picture. Default to '1cm'
-        -s - scale of signature text. Default to '1'
+        -w - width of signature picture. Default 1cm
+        -s - scale of signature text. Default 1
 EOF
-	exit ${1:-0}
+	exit "${1:-0}"
 }
 
 cleanup() {
-	[[ "$DEBUG" ]] || { rm -f "$AUX" "$LOG" "$TEX" "$DBG"; }
+	[[ "$DEBUG" ]] || { rm -f "$AUX" "$LOG" "$TEX"; }
 }
 
 #######color code########
-ERR="31m"     # red
-SUCCESS="36m" # green
-#WARN="32m"    # yellow
-INFO="34m" # blue
-
+SUCCESS=$(tput setaf 2) # Green
+ERROR=$(tput setaf 1)   # Red
+DEBUG=$(tput setaf 3)   # Yellow
+INFO=$(tput setaf 6)    # Cyan
 colorEcho() {
-	echo -e "\033[$1 ${*:2} \033[0m" 1>&2
+		echo -e "$(tput bold) $1 $2 $(tput sgr0)"
 }
 
-# pdftotext -tsv os-marks.pdf - | rg -N "签.*章" | head -1 | choose -o ',' 6 7
-# pdftotext -tsv os-marks.pdf - | rg -N "考试.*日" | head -1 | choose -o ',' 6 7
+# === Logging ===
+LOG_FILE="/tmp/pdfsign.log"
+true > "$LOG_FILE"
+log_message() {
+		local level=$1
+		local message=$2
+		echo -n "$(date '+%Y-%m-%d %H:%M:%S')"
+		colorEcho "${!level}" "[$level] $message" | tee -a "$LOG_FILE"
+}
 
-# XY=$(pdftotext -tsv "$BG" - | \
-# 		 rg -N "$PATN" | head -1 | \
-# 		 choose -o ',' 6 7)
-# [[ "$XY" ]] || { colorEcho $ERR 'Failed to get coordinate (XY)!'; exit 1; }
-# X=${XY%,*}pt
-# Y=${XY##*,}pt
-# XY=( $(pdftotext -tsv $BG - | rg -N "$PATN" | choose 6 7) )
-
+# === Getting Coordinate ===
 getCoordinate() {
-	XY=($(pdftotext -tsv $BG - | sk -e10 | choose 6 7))
+		log_message "DEBUG" "Running getCoordinate $1 ..."
+		read -ra XY < <(pdftotext -tsv "$1" - | rg -v "###.*###" | sk -e10 | choose 6 7)
 
-	((${#XY[@]} == 2)) || return
+		((${#XY[@]} == 2)) || {
+				log_message "ERROR" "Wrong coordinate! XY: ${XY[*]}"
+				return 1
+		}
 
-	X=${XY[0]}pt
-	Y=${XY[1]}pt
+	X=${XY[0]}pt;	Y=${XY[1]}pt
 
-	[[ "$DEBUG" ]] && {
-		echo '[getCoordinate] XY:' $XY >$DBG
-		echo '[getCoordinate]  X:' $X >>$DBG
-		echo '[getCoordinate]  Y:' $Y >>$DBG
-	}
-
+	log_message "DEBUG" "[getCoordinate] XY: ${XY[*]}; X: $X; Y: $Y"
 	return
 }
 
+# === Signing the background PDF page ===
 signit() {
-	cat <<EOF >"$TEX"
+		log_message "DEBUG" "Signing $BG_PDF..."
+		local MSG
+
+		cat <<EOF >"$TEX"
 \documentclass[tikz]{standalone}
 \usetikzlibrary{backgrounds,positioning}
 \usepackage[scheme=plain]{ctex}
@@ -85,69 +85,58 @@ signit() {
 
 \begin{document}
 \begin{tikzpicture}[inner sep=0,anchor=north west,yscale=-1]
-    \node (bg) at (0,0) {\includegraphics[width=\paperwidth]{$BG}};
-
-	\begin{scope}
+\node (bg) at (0,0) {\includegraphics[width=\paperwidth]{$1}};
+\begin{scope}
 EOF
-
 	[[ $DEBUG ]] && {
-		echo '[signit] grid for debugging...' >>$DBG
+			log_message "DEBUG" "[signit] Generating debug grid..."
 
 		cat <<EOF >>"$TEX"
-		%%% grid
-		\draw[help lines,red,step=25pt] (0,0) grid (600pt,850pt);
-		\draw[thin] (0,0) rectangle (595pt,842pt); % a4: 595x842
-		\foreach \x in {0,50,100,...,600} { \node at (\x pt,0) {\x}; }%
-		\foreach \y in {0,50,100,...,850} { \node at (0,\y pt) {\y}; }%
+%%% Drawing grid
+\draw[help lines,red,step=25pt] (0,0) grid (600pt,850pt);
+\draw[thin] (0,0) rectangle (595pt,842pt); % a4: 595x842
+\foreach \x in {0,50,100,...,600} { \node at (\x pt,0) {\x}; }%
+\foreach \y in {0,50,100,...,850} { \node at (0,\y pt) {\y}; }%
 EOF
 	}
 
-	if [[ -f "$SIG" ]]; then # sign with picture. $XY is from getCoordinate()
+	if [[ -f "$SIG" ]]; then # sign with a PDF picture. $XY is from getCoordinate()
 		cat <<EOF >>"$TEX"
-		\node (sig) at (${X:-96pt},${Y:-809.77pt}) [%
-			  xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt] {%
-			  \includegraphics[width=${WIDTH:-1cm}]{$SIG}};
+\node (sig) at (${X:-96pt},${Y:-809.77pt}) [%
+xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt] {%
+\includegraphics[width=${WIDTH:-1cm}]{$SIG}};
 EOF
-	else # sign with text
+		log_message "DEBUG" "Signing with $SIG, width=${WIDTH:-1cm}"
+	else # sign with font
 		cat <<EOF >>"$TEX"
-		\node (sig) at (${X:-96pt},${Y:-809.77pt}) [%
-			  xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--25}pt,%
-			  scale=${SIGSCALE:-1}] {$SIG};
+\node (sig) at (${X:-96pt},${Y:-809.77pt}) [%
+xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--25}pt,%
+scale=${SIGSCALE:-1}] {$SIG};
 EOF
+		log_message "DEBUG" "[signit] Signing with text font, yshift=${YSHIFT:--25}pt"
 	fi
-	[[ "$DEBUG" ]] && {
-		cat <<EOF >>$DBG
-[signit] Signed with $SIG
-	   (X,Y) = (${X:-96pt},${Y:-809.77pt})
-	   [xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt, scale=${SIGSCALE:-1}]
-													    yshift=${YSHIFT:--25}pt if signed with text
-	   Picture width=${WIDTH:-1cm} if signed with a picture
+	
+	MSG=$(cat <<EOF
+[signit] (X,Y) = (${X:-96pt},${Y:-809.77pt})
+[xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt, scale=${SIGSCALE:-1}]
 EOF
-	}
+		 )
+	log_message "DEBUG" "$MSG"
 
 	[[ "$Year" ]] && {
 		cat <<EOF >>"$TEX"
-		\node [right=${YSEP:-183}pt of sig, yshift=-3pt, font=\purisa] {%
-		  $Year\hspace{1.5em}%
-		  \makebox[1em][c]{$Month}\quad%
-		  \makebox[1em][c]{$Day}};%
+\node [right=${YSEP:-183}pt of sig, yshift=-3pt, font=\purisa] {%
+$Year\hspace{1.5em}%
+\makebox[1em][c]{$Month}\quad%
+\makebox[1em][c]{$Day}};%
 EOF
-		[[ "$DEBUG" ]] && {
-			cat <<EOF >>$DBG
-[signit] <$Year,$Month,$Day> is added at offset: (${YSEP:-180}pt)
-EOF
-		}
+		log_message "DEBUG" "[signit] $Year,$Month,$Day at offset: ${YSEP:-183}pt"
 	}
-
 	cat <<EOF >>"$TEX"
-    \end{scope}
-	\end{tikzpicture}
+\end{scope}
+\end{tikzpicture}
 \end{document}
 EOF
-	[[ "$DEBUG" ]] && {
-		cat "$DBG"
-		cat "$TEX"
-	}
 }
 
 trap cleanup EXIT
@@ -162,19 +151,14 @@ while getopts :DCc:d:s:w:t:S: OPT; do
 	case $OPT in
 	D) DEBUG='Y' ;;
 	C) GETCOORDINATE='Y' ;;
-	c)
-		XSHIFT=${OPTARG%,*}
-		YSHIFT=${OPTARG#*,}
-		;;
+	c) XSHIFT=${OPTARG%,*}; YSHIFT=${OPTARG#*,} ;;
 	d) YSEP="$OPTARG" ;;
-	# p) PATN="$OPTARG" ;;
 	s) SIGSCALE="$OPTARG" ;;
 	w) WIDTH="$OPTARG" ;;
-	t)
-		Year=${OPTARG%%,*}
-		Month=${OPTARG#*,} && Month=${Month%,*}
-		Day=${OPTARG##*,}
-		;;
+	t) DATE="$OPTARG"
+		 IFS=',' read -ra date <<< "$DATE"
+		 Year=${date[0]}; Month=${date[1]}; Day=${date[2]}
+		 ;;
 	S) SIG="$OPTARG" ;;
 	?) usage 1 ;;
 	esac
@@ -182,38 +166,32 @@ done
 shift $((OPTIND - 1))
 OPTIND=1
 
-BG="$*"
+BG_PDF="$*"
 
-[[ -f "$BG" ]] || {
-	colorEcho $ERR "ERROR: <${BG:-BACKGROUND}> NOT FOUND."
-	usage 2
+[[ $(file --brief --mime-type "$BG_PDF") == "application/pdf" ]] || {
+	log_message "$ERROR" "Background $BG_PDF is not a valid PDF file."
+	exit 1
 }
 
-DBG="__DEBUG__"
->$DBG
-TEX="${BG%.pdf}-signed.tex"
->$TEX
+TEX="${BG_PDF%.pdf}-signed.tex"
+true > $TEX
 PDF="${TEX%.tex}.pdf"
 LOG="${TEX%.tex}.log"
 AUX="${TEX%.tex}.aux"
 
-[[ $GETCOORDINATE ]] && getCoordinate
+[[ $GETCOORDINATE ]] && getCoordinate "$BG_PDF"
 # otherwise sign with default coordinate
 
-signit
+signit "$BG_PDF"
 
-[[ "$DEBUG" ]] && echo '[DEBUG] Signing '$BG'...' >>$DBG
-
-colorEcho $INFO "lualatex $TEX..."
+log_message "INFO" "lualatex $TEX..."
 lualatex "$TEX" 1>/dev/null
 
 [[ -f "$PDF" ]] || {
-	colorEcho $ERR "Failed generating PDF file. Please check <$LOG> file for details"
-	exit 5
+		log_message "ERROR" "Failed generating PDF file. Please check <$LOG> file for details."
+		exit 1
 }
 
-{
-	colorEcho $SUCCESS 'DONE!'
-	ls -l "$PDF"
-	xdg-open "$PDF"
-}
+log_message "SUCCESS" 'DONE!'
+ls -l "$PDF"
+xdg-open "$PDF" &>/dev/null

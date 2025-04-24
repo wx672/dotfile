@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# Script: rsync-wx672texmf
+# Purpose: Synchronize texmf directory using rsync, with optional dry run.
+# Excludes .git/ and files listed in .gitignore.
+
+# Default paths
+SRC="${SRC:-/usr/local/share/texmf/}"
+DST="${DST:-/usr/local/src/wx672texmf/usr/local/share/texmf}"
+EXFROM="${SRC}.gitignore"
+
+# Display usage information
+usage() {
+    echo "Usage: $0 [-h]"
+    echo "Synchronizes $SRC to $DST using rsync."
+    echo "Options:"
+    echo "  -h  Show this help message"
+    echo "Environment variables:"
+    echo "  SRC  Source directory (default: $SRC)"
+    echo "  DST  Destination directory (default: $DST)"
+    exit 0
+}
+
+# Check for help option
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    usage
+fi
+
+# Validate source and destination directories
+if [[ ! -d "$SRC" ]]; then
+    echo "Error: Source directory '$SRC' does not exist."
+    exit 1
+fi
+
+if [[ ! -d "$(dirname "$DST")" ]]; then
+    echo "Error: Parent directory of destination '$DST' does not exist."
+    exit 1
+fi
+
+# Validate exclude-from file
+if [[ ! -f "$EXFROM" ]]; then
+    echo "Error: Exclude file '$EXFROM' does not exist."
+    exit 1
+fi
+
+# Prompt for dry run with timeout
+DRY_RUN="yes"
+echo -n "Dry run? [$DRY_RUN] (yes/no, 5s timeout): "
+if ! read -t 5 DRY_RUN; then
+    echo "Timeout, defaulting to dry run."
+fi
+DRY_RUN="${DRY_RUN:-yes}"
+
+rsync_cmd=(rsync -avlh --delete "--filter=- .git/" "--exclude-from=$EXFROM")
+
+[[ "$DRY_RUN" == "yes" ]] && { rsync_cmd=("${rsync_cmd[@]}" --dry-run); }
+
+echo "Synchronizing '$SRC' to '$DST'..."
+if ! "${rsync_cmd[@]}" "$SRC" "$DST"; then
+	echo "Error: rsync failed."
+	exit 1
+fi
+
+echo "Synchronization complete."
+exit 0

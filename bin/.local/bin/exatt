@@ -1,21 +1,23 @@
 #!/bin/bash
 
-CSVDIR="/home/wx672/Documents/rsync/swfu/yearly/moodle-import"
-OUTDIR='.'
-unset SEMESTER COURSE DATE
+csv_dir="/home/wx672/Documents/rsync/swfu/yearly/moodle-import"
+out_dir='.'
 
 usage() {
     cat <<EOF
-Generating exam attendance file.
+${0##*/} - Generating exam attendance file.
 
-Usage: ${0##*/} [-h] <-t semester> <-r room> <-s subject> <-d date> [-c csvdir] [-o outdir] <course>
+Example:
+      ${0##*/} -c linux -t 242501 -r '园林楼318' -s '计算机科学与技术' -d '2024年10月28日'
 
-course - must be one of linux, net, os.
+Usage: ${0##*/} [-h] <-c course> <-t semester> <-r room> <-s subject> <-d date> [-C csvdir] [-o outdir]
+
+-c course, must be one of linux, net, os.
 -t school term, e.g. 242501
 -r 教室 (default 经管楼219)
 -s 专业 (default 计算机科学与技术)
 -d 考试时间, e.g. 2024年12月16日
--c csvdir, where the csv files kept (defaut $CSVDIR)
+-C csvdir, where the csv files kept (defaut $csv_dir)
 -o outdir (default ./)
 -h help
 EOF
@@ -24,83 +26,89 @@ exit "${1:-0}"
 }
 
 cleanup(){
-	[[ -f "$TEX" ]] && {
+	[[ -f "$tex_file" ]] && {
 		latexmk -c &>/dev/null
-		rm chunk_*.csv "$TEX" "$TAIL" "$TMPCSV" || exit 1
+		rm chunk_*.csv "$tex_file" "$tex_tail" "$tmp_csv_file" || exit 1
 	}
 	
-	TMPPDF="${TEX%.*}.pdf"
-	[[ -f "$TMPPDF" ]] && {
-		mv "$TMPPDF" "$PDF" || exit 1
-		mupdf -C FDF6E3 "$PDF" &>/dev/null
+	tmp_pdf="${tex_file%.*}.pdf"
+	[[ -f "$tmp_pdf" ]] && {
+		mv "$tmp_pdf" "$final_pdf" || exit 1
+		mupdf -C FDF6E3 "$final_pdf" &>/dev/null
 	}
 }
 
 trap 'cleanup' EXIT
 
-ROOM='经管楼219'
-SUBJECT='计算机科学与技术'
-DATE='\qquad{}年\qquad{}月\qquad{}日'
+course=''
+room='经管楼219'
+subject='计算机科学与技术'
+date='\qquad{}年\qquad{}月\qquad{}日'
 
-while getopts :ht:r:s:d:c:o: OPT; do
+while getopts :hc:t:r:s:d:C:o: OPT; do
     case $OPT in
         h) usage 0 ;;
-		t) SEMESTER="$OPTARG" ;;
-		r) ROOM="$OPTARG" ;;
-		s) SUBJECT="$OPTARG" ;;
-		d) DATE="$OPTARG" ;;
-		c) CSVDIR="$OPTARG" ;;
-		o) OUTDIR="$OPTARG" ;;
+		c) course="$OPTARG" ;;
+		t) semester="$OPTARG" ;;
+		r) room="$OPTARG" ;;
+		s) subject="$OPTARG" ;;
+		d) date="$OPTARG" ;;
+		C) csv_dir="$OPTARG" ;;
+		o) out_dir="$OPTARG" ;;
 		*) usage 1
     esac
 done
 shift $(( OPTIND - 1 ))
 OPTIND=1
 
-[[ ${#SEMESTER} = 6 ]] || {
-	echo "SEMESTER=$SEMESTER. SEMESTER should be like e.g. 242501."
+[[ "$course" ]] || {
+	echo "course cannot be empty. It should be one of linux, net, os."
 	usage 1
 }
-echo "SEMESTER=$SEMESTER"
 
-CSV=$(sk -e10 --no-multi --query="$SEMESTER $COURSE" < <(fd -e csv "$*" "$CSVDIR") ) || {
-	echo "CSV=$CSV"
-	echo "Failed getting CSV file."
+[[ ${#semester} = 6 ]] || {
+	echo "Invalid semester. semester should be like e.g. 242501."
+	usage 1
+}
+
+src_csv=$(sk --exact --select-1 --exit-0 --no-multi --query="$semester $course" \
+		 < <(fd -e csv . "$csv_dir") ) || {
+	echo "Failed getting src_csv file. src_csv=$src_csv"
 	exit 1
 }
 
-case "$1" in
-    linux ) COURSE="Linux应用" ;;
-    net ) COURSE="计算机网络" ;;
-	os ) COURSE="操作系统原理" ;;
-	* ) echo "COURSE=$COURSE. COURSE should be one of os, net, linux!"; usage 1 ;;
+case "${course,,}" in
+    linux ) course="Linux应用" ;;
+    net ) course="计算机网络" ;;
+	os ) course="操作系统原理" ;;
+	* ) echo "course=$course. course should be one of os, net, linux!"; usage 1 ;;
 esac
 
-PDF="$SEMESTER-$COURSE-考生签到表.pdf" # Don't move this line
-echo "PDF=$PDF"
+final_pdf="$semester-$course-考生签到表.pdf" # Don't move this line
+echo "final_pdf=$final_pdf"
 
-year1="20${SEMESTER:0:2}"
-year2="20${SEMESTER:2:2}"
-term="${SEMESTER:4:2}"
-SEMESTER="${year1}--${year2}--${term}"
+year1="20${semester:0:2}"
+year2="20${semester:2:2}"
+term="${semester:4:2}"
+semester="${year1}--${year2}--${term}"
 
-TMPCSV=$(mktemp --suffix ".csv")
-TEX=$(mktemp --tmpdir="." --suffix=".tex")
-TAIL=$(mktemp --suffix ".tex")
+tmp_csv_file=$(mktemp --suffix ".csv")
+tex_file=$(mktemp --tmpdir="." --suffix=".tex")
+tex_tail=$(mktemp --suffix ".tex")
 
-qsv enum --start 1 "$CSV" | \
+qsv enum --start 1 "$src_csv" | \
 	qsv apply dynfmt --formatstr '{lastname}{firstname}' -c 'Name' | \
 	qsv select index,username,Name | \
 	qsv rename '序号,学号,姓名' | \
-	qsv apply dynfmt --formatstr '' -c '签名' > "$TMPCSV"
+	qsv apply dynfmt --formatstr '' -c '签名' > "$tmp_csv_file"
 
 # qsv crashes if append this at the end of the above pipeline
-qsv split "$OUTDIR" -c 2 --filename chunk_{}.csv "$TMPCSV"
+qsv split "$out_dir" -c 2 --filename chunk_{}.csv "$tmp_csv_file"
 
 csv2latex --longtable -l 0 < <(paste -d, chunk_*.csv) | \
-	sed -e '1,/\\begin{longtable}{|l|l|l|l|l|l|l|l|}/d' > "$TAIL"
+	sed -e '1,/\\begin{longtable}{|l|l|l|l|l|l|l|l|}/d' > "$tex_tail"
 
-HEAD=$(cat <<EOF
+tex_head=$(cat <<EOF
 \documentclass[scheme=chinese,zihao=-4]{ctexart}
 \usepackage[hmargin=15mm,vmargin=2cm]{geometry}
 \setCJKmainfont{Noto Serif CJK SC}
@@ -121,22 +129,20 @@ HEAD=$(cat <<EOF
 \item 保证遵守考试、考纪律，如违反考试、考场纪律，愿意根据有关规定接受学校的纪律处分。
 \end{enumerate}
 \begin{center}
-教室：\underline{$ROOM}\qquad{}专业：\underline{$SUBJECT}\qquad{}考试时间：\underline{$DATE}
+教室：\underline{$room}\qquad{}专业：\underline{$subject}\qquad{}考试时间：\underline{$date}
 \end{center}
 \vspace*{-7mm}
 \begin{longtable}{|l|l|l|p{25mm}|l|l|l|p{25mm}|}
 EOF
 	)
 
-cat <(echo "$HEAD") "$TAIL" > "$TEX"
+cat <(echo "$tex_head") "$tex_tail" > "$tex_file"
 
-cat "$TEX"
+cat "$tex_file"
 
-YN=yes
-printf "Compile it?[%s]" "$YN"
-read -r YN
-: "${YN:=yes}"
-case $YN in
-	[nN]|[nN][oO]) true ;;
-	*) latexmk "$TEX" ;;
-esac
+compile=yes
+printf "Compile it?[%s]" "$compile"
+read -t 5 -r compile
+: "${compile:=yes}"
+
+[[ "$compile" == "yes" ]] && latexmk "$tex_file"

@@ -5,8 +5,8 @@
   <property name="minimumPressure" value="0.05"/>
   <property name="pressureMultiplier" value="1"/>
   <property name="zoomGesturesEnabled" value="false"/>
-  <property name="selectedToolbar" value="Minimal Left"/>
-  <property name="lastSavePath" value="/home/wx672"/>
+  <property name="selectedToolbar" value="Xournal++"/>
+  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/yearly/2425/2/net"/>
   <property name="lastOpenPath" value="/home/wx672"/>
   <property name="lastImagePath" value="/tmp"/>
   <property name="edgePanSpeed" value="20"/>
@@ -17,13 +17,13 @@
   <property name="mainWndWidth" value="1920"/>
   <property name="mainWndHeight" value="1080"/>
   <property name="maximized" value="false"/>
-  <property name="showToolbar" value="false"/>
+  <property name="showToolbar" value="true"/>
   <property name="showSidebar" value="false"/>
-  <property name="sidebarWidth" value="141"/>
+  <property name="sidebarWidth" value="50"/>
   <property name="sidebarNumberingStyle" value="1"/>
   <property name="sidebarOnRight" value="false"/>
   <property name="scrollbarOnLeft" value="false"/>
-  <property name="menubarVisible" value="false"/>
+  <property name="menubarVisible" value="true"/>
   <property name="filepathShownInTitlebar" value="false"/>
   <property name="numColumns" value="1"/>
   <property name="numRows" value="1"/>
@@ -227,9 +227,13 @@
       <attribute name="deviceClass" type="int" value="1"/>
       <attribute name="deviceSource" type="int" value="0"/>
     </data>
+    <data name="keyd virtual pointer">
+      <attribute name="deviceClass" type="int" value="1"/>
+      <attribute name="deviceSource" type="int" value="0"/>
+    </data>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="highlighter"/>
+    <attribute name="current" type="string" value="image"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
@@ -250,28 +254,28 @@
     </data>
     <data name="eraser">
       <attribute name="drawingType" type="string" value="default"/>
-      <attribute name="size" type="string" value="BIG"/>
+      <attribute name="size" type="string" value="THIN"/>
       <attribute name="type" type="string" value="whiteout"/>
     </data>
     <data name="hand">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="highlighter">
-      <attribute name="color" type="hex" value="ff0000"/>
+      <attribute name="color" type="hex" value="ffff7800"/>
       <attribute name="drawingType" type="string" value="rectangle"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
-      <attribute name="size" type="string" value="MEDIUM"/>
+      <attribute name="size" type="string" value="BIG"/>
     </data>
     <data name="image">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="pen">
-      <attribute name="color" type="hex" value="ff0000"/>
-      <attribute name="drawingType" type="string" value="default"/>
+      <attribute name="color" type="hex" value="000000"/>
+      <attribute name="drawingType" type="string" value="line"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
-      <attribute name="size" type="string" value="BIG"/>
+      <attribute name="size" type="string" value="MEDIUM"/>
       <attribute name="style" type="string" value="plain"/>
     </data>
     <data name="playObject">

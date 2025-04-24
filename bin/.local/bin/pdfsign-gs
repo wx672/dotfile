@@ -1,0 +1,275 @@
+#!/bin/bash
+
+# PDF signing script using Ghostscript for overlaying signature and date
+
+usage() {
+    cat <<EOF
+USAGE: ${0##*/} [-D] [-C] [-c xshift,yshift] [-d ysep] [-w width] [-s scale] [-t y,m,d] [-S picture|text] <background>
+
+EXAMPLES:
+1. ${0##*/} -C -t'2024,6,7' -S'mysig.pdf' pg_0001.pdf
+   ${0##*/} -C -t'2024,6,7' -S'王晓林' pg_0002.pdf
+  
+2. ${0##*/} -C -S'机试' -c'60,2' -s .9 pg_0001-signed.pdf
+
+3. ${0##*/} -w10cm -c'0,500' -S'../../../analysis-improve.pdf' os-analysis.pdf
+   ${0##*/} -C -S'机试' -c'100,0' -d'110' -t'2024,12,16' os-analysis-signed.pdf
+
+background - Paper to sign
+-D - Enable debugging outputs and grid
+-C - Invoke interactive coordinate selection
+-S - Signature picture or text
+     Default='wangxiaolin.pdf' if found
+-c - 'xshift,yshift' in pt
+     Default='28,-18' for picture, '28,-25' for text
+-d - ysep, date field offset in pt
+     Default='180'
+-t - Timestamp, e.g., '2020,5,8'
+-w - Width of signature picture
+     Default='1cm'
+-s - Scale of signature text
+     Default='1'
+EOF
+    exit "${1:-0}"
+}
+
+cleanup() {
+    [[ "$DEBUG" ]] || { rm -f "$LOG" "$TEMP_SIG" "$TEMP_PDF"; }
+}
+
+# Color-coded logging
+SUCCESS=$(tput setaf 2) # Green
+ERROR=$(tput setaf 1)   # Red
+DEBUG=$(tput setaf 3)   # Yellow
+INFO=$(tput setaf 6)    # Cyan
+colorEcho() {
+    echo -e "$(tput bold) $1 $2 $(tput sgr0)"
+}
+
+# Logging to file and terminal
+LOG_FILE=$(mktemp /tmp/pdfsign-XXXXXX.log)
+log_message() {
+    local level=$1
+    local message=$2
+    echo -n "$(date '+%Y-%m-%d %H:%M:%S')"
+    colorEcho "${!level}" "[$level] $message" | tee -a "$LOG_FILE"
+}
+
+# Check dependencies
+check_dependencies() {
+    local deps=("gs" "pdftotext" "sk" "rg" "choose" "xdg-open" "magick")
+    for cmd in "${deps[@]}"; do
+        command -v "$cmd" >/dev/null || {
+            log_message "ERROR" "Required command '$cmd' not found"
+            exit 1
+        }
+    done
+}
+
+# Sanitize input to prevent command injection
+sanitize_input() {
+    local input=$1
+    echo "${input//[^a-zA-Z0-9_,.\/-]/}"
+}
+
+# Validate coordinates
+validate_coordinates() {
+    local x=$1 y=$2
+    if ! [[ "$x" =~ ^[0-9]+(\.[0-9]+)?$ && "$y" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+        log_message "ERROR" "Invalid coordinates: X=$x, Y=$y"
+        return 1
+    fi
+    if (( $(echo "$x < 0 || $x > 595" | bc -l) )) || (( $(echo "$y < 0 || $y > 842" | bc -l) )); then
+        log_message "ERROR" "Coordinates out of A4 bounds (0-595, 0-842): X=$x, Y=$y"
+        return 1
+		fi
+    return 0
+}
+
+# Get coordinates interactively
+getCoordinate() {
+    local pdf=$1
+    if ! [[ -f "$pdf" ]]; then
+        log_message "ERROR" "PDF file $pdf not found"
+        return 1
+    fi
+    read -ra XY < <(pdftotext -tsv "$pdf" - | rg -v "###.*###" | sk -e10 | choose 6 7)
+    ((${#XY[@]} == 2)) || {
+        log_message "ERROR" "Wrong coordinate! XY: ${XY[*]}"
+        return 1
+    }
+    X=${XY[0]}pt
+    Y=${XY[1]}pt
+    validate_coordinates "${XY[0]}" "${XY[1]}" || return 1
+    log_message "DEBUG" "[getCoordinate] XY: ${XY[*]}; X: $X; Y: $Y"
+    return 0
+}
+
+# Sign the PDF using Ghostscript
+signit() {
+    local bg_pdf=$1
+    PDF="${bg_pdf%.pdf}-signed.pdf"
+    TEMP_PDF=$(mktemp /tmp/pdfsign-temp-XXXXXX.pdf)
+    TEMP_SIG=$(mktemp /tmp/pdfsign-sig-XXXXXX.pdf)
+    local y_pos
+    y_pos=$(echo "842 + (${YSHIFT:--18})" | bc) # Adjust for PDF coordinate system
+
+    # If debug mode, create a grid using ImageMagick
+    if [[ "$DEBUG" ]]; then
+        log_message "DEBUG" "[signit] Generating debug grid..."
+        magick -size 595x842 xc:white -fill none -stroke red \
+							 -draw "path 'M 0,0 l 595,0 l 0,842 l -595,0 z'" \
+							 -draw "path 'M 0,0 l 0,842 M 25,0 l 0,842 M 50,0 l 0,842 M 75,0 l 0,842 M 100,0 l 0,842 M 125,0 l 0,842 M 150,0 l 0,842 M 175,0 l 0,842 M 200,0 l 0,842 M 225,0 l 0,842 M 250,0 l 0,842 M 275,0 l 0,842 M 300,0 l 0,842 M 325,0 l 0,842 M 350,0 l 0,842 M 375,0 l 0,842 M 400,0 l 0,842 M 425,0 l 0,842 M 450,0 l 0,842 M 475,0 l 0,842 M 500,0 l 0,842 M 525,0 l 0,842 M 550,0 l 0,842 M 575,0 l 0,842'" \
+							 -draw "path 'M 0,0 l 595,0 M 0,25 l 595,25 M 0,50 l 595,50 M 0,75 l 595,75 M 0,100 l 595,100 M 0,125 l 595,125 M 0,150 l 595,150 M 0,175 l 595,175 M 0,200 l 595,200 M 0,225 l 595,225 M 0,250 l 595,250 M 0,275 l 595,275 M 0,300 l 595,300 M 0,325 l 595,325 M 0,350 l 595,350 M 0,375 l 595,375 M 0,400 l 595,400 M 0,425 l 595,425 M 0,450 l 595,450 M 0,475 l 595,475 M 0,500 l 595,500 M 0,525 l 595,525 M 0,550 l 595,550 M 0,575 l 595,575 M 0,600 l 595,600 M 0,625 l 595,625 M 0,650 l 595,650 M 0,675 l 595,675 M 0,700 l 595,700 M 0,725 l 595,725 M 0,750 l 595,750 M 0,775 l 595,775 M 0,800 l 595,800 M 0,825 l 595,825'" \
+							 -font DejaVu-Sans -pointsize 10 -fill black \
+							 -annotate +5+10 '0' -annotate +55+10 '50' -annotate +105+10 '100' -annotate +155+10 '150' -annotate +205+10 '200' -annotate +255+10 '250' -annotate +305+10 '300' -annotate +355+10 '350' -annotate +405+10 '400' -annotate +455+10 '450' -annotate +505+10 '500' -annotate +555+10 '550' \
+            -annotate +5+25 '0' -annotate +5+75 '50' -annotate +5+125 '100' -annotate +5+175 '150' -annotate +5+225 '200' -annotate +5+275 '250' -annotate +5+325 '300' -annotate +5+375 '350' -annotate +5+425 '400' -annotate +5+475 '450' -annotate +5+525 '500' -annotate +5+575 '550' -annotate +5+625 '600' -annotate +5+675 '650' -annotate +5+725 '700' -annotate +5+775 '750' -annotate +5+825 '800' \
+            "$TEMP_PDF" || {
+                log_message "ERROR" "Failed to generate debug grid"
+                return 1
+            }
+        gs -sDEVICE=pdfwrite -o "$PDF" -sPAPERSIZE=a4 -dBATCH -dNOPAUSE -f "$bg_pdf" \
+					 "$TEMP_PDF" || {
+            log_message "ERROR" "Ghostscript failed to merge debug grid"
+            return 1
+        }
+    else
+        cp "$bg_pdf" "$TEMP_PDF"
+    fi
+
+    local cmd="gs -sDEVICE=pdfwrite -o \"$PDF\" -sPAPERSIZE=a4 -dBATCH -dNOPAUSE"
+
+
+
+		if [[ -f $SIG ]]; then
+				case $(file --brief --mime-type $SIG) in
+						"application/pdf" ) TEMP_SIG="$SIG" ;;
+						* )
+								# Convert signature image to PDF with specified width
+								# 38pt ≅ 1cm
+								magick "$SIG" -scale "${WIDTH:-38}x" "$TEMP_SIG" || {
+										log_message "ERROR" "Failed to convert signature image to PDF"
+										return 1
+								} ;;								
+				esac
+        cmd+=" -c \"[${XSHIFT:-28} ${y_pos} translate 0 0 moveto ($TEMP_SIG) run] pdfmark\""
+				log_message "DEBUG" "[signit] Signing with $TEMP_SIG. Width=${WIDTH:-1cm}"
+    else
+        cmd+=" -c \"gsave /NotoSerif-Regular findfont ${SIGSCALE:-1} 12 mul scalefont setfont ${XSHIFT:-28} ${y_pos} moveto (${SIG}) show grestore\""
+				log_message "DEBUG" "[signit] Signing with text font. Yshift=${YSHIFT:--25}pt"
+    fi
+		
+    [[ "$Year" ]] && {
+				cmd+=" -c \"gsave /NotoSerif-Regular findfont 12 scalefont setfont $(echo "${XSHIFT:-28} + ${YSEP:-183}" | bc) ${y_pos} moveto ($Year $Month $Day) show grestore\""
+				cmd+=" -f \"$TEMP_PDF\""
+
+				log_message "DEBUG" "[signit] $Year,$Month,$Day at offset: ${YSEP:-183}pt"
+		}
+		
+    local MSG; MSG=$(cat <<EOF
+[signit] Signed with $TEMP_SIG
+     (X,Y) = (${X:-96pt},${Y:-809.77pt})
+     [xshift=${XSHIFT:-28}pt, yshift=${YSHIFT:--18}pt, scale=${SIGSCALE:-1}]
+EOF
+    )
+    log_message "DEBUG" "$MSG"
+    log_message "DEBUG" "Running: $cmd"
+    eval "$cmd" || {
+        log_message "ERROR" "Ghostscript failed"
+        return 1
+    }
+}
+
+# Trap cleanup on exit
+trap cleanup EXIT
+
+# Check dependencies
+check_dependencies
+
+# Defaults
+[[ -e wangxiaolin.pdf ]] && SIG='wangxiaolin.pdf'
+[[ -e ../wangxiaolin.pdf ]] && SIG='../wangxiaolin.pdf'
+
+# Parse options
+while getopts :DCc:d:s:w:t:S: OPT; do
+    case $OPT in
+        D) DEBUG='Y' ;;
+        C) GETCOORDINATE='Y' ;;
+        c)
+            XSHIFT=${OPTARG%,*}
+            YSHIFT=${OPTARG#*,}
+            XSHIFT=$(sanitize_input "$XSHIFT")
+            YSHIFT=$(sanitize_input "$YSHIFT")
+            [[ "$XSHIFT" =~ ^-?[0-9]+(\.[0-9]+)?$ && "$YSHIFT" =~ ^-?[0-9]+(\.[0-9]+)?$ ]] || {
+                log_message "ERROR" "Invalid shift values: xshift=$XSHIFT, yshift=$YSHIFT"
+                usage 1
+            }
+            ;;
+        d)
+            YSEP=$(sanitize_input "$OPTARG")
+            [[ "$YSEP" =~ ^[0-9]+(\.[0-9]+)?$ ]] || {
+                log_message "ERROR" "Invalid ysep value: $YSEP"
+                usage 1
+            }
+            ;;
+        s)
+            SIGSCALE=$(sanitize_input "$OPTARG")
+            [[ "$SIGSCALE" =~ ^[0-9]+(\.[0-9]+)?$ ]] || {
+                log_message "ERROR" "Invalid scale value: $SIGSCALE"
+                usage 1
+            }
+            ;;
+        w)
+            WIDTH=$(sanitize_input "$OPTARG")
+            [[ "$WIDTH" =~ ^[0-9]+(cm|mm|pt)?$ ]] || {
+                log_message "ERROR" "Invalid width value: $WIDTH"
+                usage 1
+            }
+            ;;
+        t)
+            DATE=$(sanitize_input "$OPTARG")
+            IFS=',' read -ra date <<< "$DATE"
+            Year=${date[0]}; Month=${date[1]}; Day=${date[2]}
+            [[ "${#date[@]}" -eq 3 && "$Year" =~ ^[0-9]{4}$ && "$Month" =~ ^[0-9]{1,2}$ && "$Day" =~ ^[0-9]{1,2}$ ]] || {
+                log_message "ERROR" "Invalid date format: $DATE"
+                usage 1
+            }
+            ;;
+        S)
+            SIG=$(sanitize_input "$OPTARG")
+            ;;
+        ?)
+            usage 1
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+OPTIND=1
+
+# Validate background PDF
+BG_PDF=$(sanitize_input "$*")
+[[ -f "$BG_PDF" ]] || {
+    log_message "ERROR" "Background PDF '$BG_PDF' not found"
+    usage 1
+}
+
+# Validate signature file
+[[ "$SIG" && -f "$SIG" || ! -f "$SIG" ]] || {
+    log_message "ERROR" "Signature file '$SIG' not found"
+    usage 1
+}
+
+# Get coordinates if requested
+[[ $GETCOORDINATE ]] && getCoordinate "$BG_PDF" || true
+
+# Sign the PDF
+signit "$BG_PDF"
+
+# Output success
+[[ -f "$PDF" ]] || {
+    log_message "ERROR" "Failed generating PDF file. Check $LOG_FILE for details"
+    exit 1
+}
+log_message "SUCCESS" "DONE! Output: $PDF"
+ls -l "$PDF"
+xdg-open "$PDF" 2>/dev/null

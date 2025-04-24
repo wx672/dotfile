@@ -13,7 +13,7 @@
  '(default ((t (:height 240 :family "JetBrainsMonoNL Nerd Font"))))
  ;; '(cursor ((t (:background "violet"))));indian red
  '(mode-line ((t (:height 0.7))))
- ;; '(org-table ((t (:height 240 :family "Noto Sans Mono CJK SC Regular"))))
+ '(org-table ((t (:family "Noto Sans Mono CJK SC"))))
 )
 
 ;; == Load Custom Theme ==
