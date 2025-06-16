@@ -6,9 +6,9 @@
   <property name="pressureMultiplier" value="1"/>
   <property name="zoomGesturesEnabled" value="false"/>
   <property name="selectedToolbar" value="Xournal++"/>
-  <property name="lastSavePath" value="/home/wx672/Documents/rsync/swfu/yearly/2425/2/net"/>
-  <property name="lastOpenPath" value="/home/wx672"/>
-  <property name="lastImagePath" value="/tmp"/>
+  <property name="lastSavePath" value="/home/wx672/Downloads/科目三"/>
+  <property name="lastOpenPath" value="/home/wx672/Downloads/科目三"/>
+  <property name="lastImagePath" value="/home/wx672/Downloads/科目三/icons"/>
   <property name="edgePanSpeed" value="20"/>
   <property name="edgePanMaxMult" value="5"/>
   <property name="zoomStep" value="10"/>
@@ -18,8 +18,8 @@
   <property name="mainWndHeight" value="1080"/>
   <property name="maximized" value="false"/>
   <property name="showToolbar" value="true"/>
-  <property name="showSidebar" value="false"/>
-  <property name="sidebarWidth" value="50"/>
+  <property name="showSidebar" value="true"/>
+  <property name="sidebarWidth" value="141"/>
   <property name="sidebarNumberingStyle" value="1"/>
   <property name="sidebarOnRight" value="false"/>
   <property name="scrollbarOnLeft" value="false"/>
@@ -74,7 +74,7 @@
   <property name="drawDirModsRadius" value="50"/>
   <property name="snapRotation" value="true"/>
   <property name="snapRotationTolerance" value="0.1"/>
-  <property name="snapGrid" value="true"/>
+  <property name="snapGrid" value="false"/>
   <property name="snapGridTolerance" value="0.5"/>
   <property name="snapGridSize" value="14.17"/>
   <property name="strokeRecognizerMinSize" value="40"/>
@@ -93,7 +93,7 @@
   <property name="eagerPageCleanup" value="true"/>
   <!--Config for new pages-->
   <property name="pageTemplate" value="xoj/template&#10;copyLastPageSettings=true&#10;size=595.275591x841.889764&#10;backgroundType=lined&#10;backgroundColor=#ffffff&#10;"/>
-  <property name="sizeUnit" value=""/>
+  <property name="sizeUnit" value="cm"/>
   <property name="audioFolder" value=""/>
   <property name="audioInputDevice" value="4"/>
   <property name="audioOutputDevice" value="4"/>
@@ -233,7 +233,7 @@
     </data>
   </data>
   <data name="tools">
-    <attribute name="current" type="string" value="image"/>
+    <attribute name="current" type="string" value="selectObject"/>
     <data name="drawArrow">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
@@ -254,16 +254,16 @@
     </data>
     <data name="eraser">
       <attribute name="drawingType" type="string" value="default"/>
-      <attribute name="size" type="string" value="THIN"/>
+      <attribute name="size" type="string" value="BIG"/>
       <attribute name="type" type="string" value="whiteout"/>
     </data>
     <data name="hand">
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="highlighter">
-      <attribute name="color" type="hex" value="ffff7800"/>
-      <attribute name="drawingType" type="string" value="rectangle"/>
-      <attribute name="fill" type="int" value="0"/>
+      <attribute name="color" type="hex" value="ffffff"/>
+      <attribute name="drawingType" type="string" value="spline"/>
+      <attribute name="fill" type="int" value="1"/>
       <attribute name="fillAlpha" type="int" value="128"/>
       <attribute name="size" type="string" value="BIG"/>
     </data>
@@ -271,11 +271,11 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="pen">
-      <attribute name="color" type="hex" value="000000"/>
-      <attribute name="drawingType" type="string" value="line"/>
+      <attribute name="color" type="hex" value="ffff00"/>
+      <attribute name="drawingType" type="string" value="spline"/>
       <attribute name="fill" type="int" value="0"/>
       <attribute name="fillAlpha" type="int" value="128"/>
-      <attribute name="size" type="string" value="MEDIUM"/>
+      <attribute name="size" type="string" value="BIG"/>
       <attribute name="style" type="string" value="plain"/>
     </data>
     <data name="playObject">
@@ -308,7 +308,7 @@
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="text">
-      <attribute name="color" type="hex" value="ff0000"/>
+      <attribute name="color" type="hex" value="000000"/>
       <attribute name="drawingType" type="string" value="default"/>
     </data>
     <data name="verticalSpace">

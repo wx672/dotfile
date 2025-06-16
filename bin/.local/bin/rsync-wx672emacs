@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Script: rsync-wx672emacs
+# Purpose: Synchronize ~/.emacs.d/ directory using rsync, with optional dry run.
+# Excludes files listed in .rsync_ex.
+
+conf_src="$HOME/.emacs.d/"
+conf_dst="/usr/local/src/wx672emacs/tmp/dot.emacs.d"
+conf_ex="${conf_src}.rsync_ex"
+
+# cache_src="$HOME/.cache/emacs/"
+# cache_dst="/usr/local/src/wx672emacs/tmp/dot.cache/emacs"
+# cache_ex="${cache_src}.rsync_ex"
+
+# Display usage information
+usage() {
+    echo "Usage: $0 [-h]"
+    echo "Synchronizes $conf_src to $conf_dst using rsync."
+    echo "Options:"
+    echo "  -h  Show this help message"
+    exit 0
+}
+
+# Check for help option
+[[ "$1" == "-h" || "$1" == "--help" ]] && usage
+
+# Validate source and destination directories
+dirs=( "$conf_src" "$conf_dst" )
+for d in "${dirs[@]}"; do
+    [[ -d "$d" ]] || { echo "Error: Directory $d does not exist."; exit 1; }
+done
+
+# Validate exclude-from file
+ex_files=( "$conf_ex" )
+for f in "${ex_files[@]}"; do
+    [[ -f "$f" ]] || { echo "Error: Exclude file '$f' does not exist."; exit 1; }
+done
+
+rsync_conf_cmd=(rsync -avlh --delete "--exclude-from=$conf_ex")
+# rsync_cache=(rsync -avlh --delete "--exclude-from=$cache_ex")
+
+# Prompt for dry run with timeout
+DRY_RUN="yes"
+echo -n "Dry run? [$DRY_RUN] (yes/no, 5s timeout): "
+if ! read -rt 5 DRY_RUN; then
+    echo "Timeout, defaulting to dry run."
+fi
+DRY_RUN="${DRY_RUN:-yes}"
+
+[[ "$DRY_RUN" == "yes" ]] && {
+    rsync_conf_cmd=("${rsync_conf_cmd[@]}" --dry-run);
+    # rsync_cache=("${rsync_cache[@]}" --dry-run);
+}
+
+echo "Synchronizing '$conf_src' to '$conf_dst'..."
+"${rsync_conf_cmd[@]}"  "$conf_src"  "$conf_dst"  || { echo "Failed syncing $conf_src.";  exit 1; }
+# "${rsync_cache[@]}" "$cache_src" "$cache_dst" || { echo "Failed syncing $cache_src."; exit 1; }
+
+echo "Synchronization complete."
+exit 0

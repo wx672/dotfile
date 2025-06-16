@@ -26,13 +26,16 @@ export XDG_DATA_DIRS="${XDG_DATA_HOME:-$HOME/.local/share}:/usr/local/share:/usr
 if [[ -z "$SSH_TTY" ]]; then
   # NOTE: libpam-systemd is required for XDG_VTNR
   if [[ -z "$DISPLAY" && -n "$XDG_VTNR" && "$XDG_VTNR" -eq 1 ]] && command -v startx; then
-    exec startx -- vt1 -keeptty
+    exec startx -- vt1
+  # -keeptty
   fi
 
-  # Start sway on tty3 (if used)
-  if [[ -z "$DISPLAY" && "$(tty)" == "/dev/tty3" ]] && command -v sway; then
-      exec sway
-  fi
+  # Start niri (wayland) on tty1 instead of Xorg
+  # if [[ -z "$DISPLAY" && "$(tty)" == "/dev/tty1" ]] && command -v niri; then
+  #   export XDG_SESSION_TYPE=wayland
+  #   export QT_QPA_PLATFORM=wayland
+  #   dbus-run-session niri --session
+  # fi
 fi
 
 # Source .bashrc for interactive settings

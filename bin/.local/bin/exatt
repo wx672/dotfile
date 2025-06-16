@@ -77,6 +77,7 @@ src_csv=$(sk --exact --select-1 --exit-0 --no-multi --query="$semester $course" 
 	exit 1
 }
 
+# The syntax ${var,,} is to convert the contents of a var to lowercase.
 case "${course,,}" in
     linux ) course="Linux应用" ;;
     net ) course="计算机网络" ;;

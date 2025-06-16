@@ -1,0 +1,8 @@
+[Unit]
+Description=X11 based Graphical Interface
+Documentation=man:systemd.special(7)
+Requires=multi-user.target
+Wants=picom.service warpd.service xbanish.service
+Conflicts=rescue.service rescue.target
+After=multi-user.target rescue.service rescue.target
+AllowIsolate=yes
